@@ -69,6 +69,14 @@
             background-color: #fff5f5;
         }
 
+        /* Bloc de points positifs (Ligne verte et cadre) */
+        .positifs-container {
+            border: 1.5px solid #a7f3d0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            background-color: #f0fdf4;
+        }
+
         /* Transitions fluides */
         .fade-in {
             animation: fadeIn 0.3s ease-in-out;
@@ -238,7 +246,7 @@
          MOTEURS DE BASES DE DONNÉES ET FONCTIONNALITÉS INTERACTIVES
          ------------------------------------------------------------- -->
     <script>
-        // base de données par défaut d'origine
+        // base de données par défaut d'origine (10 secteurs réels ST-ELOI)
         const DEFAULT_DATABASE = {
             odyl1: {
                 name: "ODYL 1",
@@ -253,10 +261,11 @@
                     ],
                     prep: ["Plan de prod", "Gantt", "Fichier présence"],
                     routine: ["Feuille de match", "Tandem"],
-                    irr: ""
+                    irr: "Ce n'est pas une routine PPC daily, trop de préparatrion",
+                    pos: ""
                 },
                 weekly: {
-                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
                     part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité, leader support tech, pro",
                     pts: [
                         { status: "v", text: "Performance" },
@@ -264,43 +273,46 @@
                         { status: "x", text: "Plan d'action" }
                     ],
                     prep: ["MES"],
-                    routine: ["KPI (Perfo, Top aleas)", "SHEET"],
-                    irr: ""
+                    routine: ["KPI (Perfo", "Top aleas)", "SHEET"],
+                    irr: "Les top aleas sont utilisées pour justifier la performance, on ne cherche pas à trouver les causes pour mettre des actions en place",
+                    pos: ""
                 }
             },
             odyl2: {
                 name: "ODYL 2",
                 title: "Routines PPC – ODYL 2 (2 VAC)",
                 daily: {
-                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
                     part: "TL, Ordo, Qualité, Support tech, RDZ",
                     pts: [
                         { status: "v", text: "Suivre l'avance retard" },
-                        { status: "v", text: "Remonter les aleas" },
+                        { status: "x", text: "Remonter les aleas (se fait durant la journée)" },
                         { status: "v", text: "Prendre des décision (points ouverts)" }
                     ],
                     prep: ["Fichier présence", "Feuille de match", "Gantt"],
                     routine: ["IOBEYA"],
-                    irr: ""
+                    irr: "La non utilisation de l'outil Skywise PPC (besoin de modification)",
+                    pos: ""
                 },
                 weekly: {
-                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
-                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité, leader support tech",
+                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
+                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
                     pts: [
                         { status: "v", text: "Performance" },
                         { status: "v", text: "Pareto des aleas" },
                         { status: "v", text: "Plan d'action" }
                     ],
-                    prep: [],
-                    routine: ["KPI (Perfo, Top aleas)", "Sheet"],
-                    irr: ""
+                    prep: ["MES", "Fichier présence"],
+                    routine: ["KPI (Perfo et Top aleas)", "Sheet"],
+                    irr: "",
+                    pos: ""
                 }
             },
             odyl3: {
                 name: "ODYL 3",
                 title: "Routines PPC – ODYL 3 (2 VAC)",
                 daily: {
-                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
                     part: "TL, Ordo, Qualité, Support tech, RDZ",
                     pts: [
                         { status: "v", text: "Avance retard" },
@@ -309,10 +321,11 @@
                     ],
                     prep: [],
                     routine: [],
-                    irr: ""
+                    irr: "",
+                    pos: ""
                 },
                 weekly: {
-                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
                     part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
                     pts: [
                         { status: "v", text: "Performance" },
@@ -321,26 +334,28 @@
                     ],
                     prep: [],
                     routine: [],
-                    irr: ""
+                    irr: "",
+                    pos: ""
                 }
             },
             odys1: {
                 name: "ODYS 1",
                 title: "Routines PPC – ODYS 1 (2 VAC)",
                 daily: {
-                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
                     part: "Ordo, Qualité, Support tech, RDZ P67, toa, RDZ P68",
                     pts: [
                         { status: "v", text: "Suivre l'avance retard" },
                         { status: "x", text: "Remonter les aleas (se fait durant la journée)" },
                         { status: "v", text: "Prendre des décision (points ouverts)" }
                     ],
-                    prep: ["Fichier présence", "Frise zone", "Abaque", "SAP", "MES"],
+                    prep: ["Fichier présence", "Frise zone", "Abaque", "SAP", "MES", "SIC"],
                     routine: ["SHEET"],
-                    irr: ""
+                    irr: "Double saisie. Tl n'est pas present dans la routine",
+                    pos: ""
                 },
                 weekly: {
-                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
                     part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
                     pts: [
                         { status: "v", text: "Performance" },
@@ -348,15 +363,16 @@
                         { status: "v", text: "Plan d'action" }
                     ],
                     prep: ["Fichier présence", "MES", "IBM"],
-                    routine: ["SHEET"],
-                    irr: ""
+                    routine: ["SHEET", "KPI (Perfo et Top pareto)", "Adhérence charge/capa"],
+                    irr: "",
+                    pos: ""
                 }
             },
             odys2: {
                 name: "ODYS 2",
                 title: "Routines PPC – ODYS 2 (2 VAC)",
                 daily: {
-                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
                     part: "TL, Ordo, Qualité, Support tech, RDZ",
                     pts: [
                         { status: "v", text: "Avance retard" },
@@ -365,10 +381,11 @@
                     ],
                     prep: [],
                     routine: [],
-                    irr: ""
+                    irr: "",
+                    pos: ""
                 },
                 weekly: {
-                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
                     part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
                     pts: [
                         { status: "v", text: "Performance" },
@@ -377,14 +394,15 @@
                     ],
                     prep: [],
                     routine: [],
-                    irr: ""
+                    irr: "",
+                    pos: ""
                 }
             },
             odys3: {
                 name: "ODYS 3",
                 title: "Routines PPC – ODYS 3 (2 VAC)",
                 daily: {
-                    name: "PPC Daily", timeInfo: "2 fois par vac, 30 min",
+                    name: "PPC DAILY", timeInfo: "2 fois par vac, 30 min",
                     part: "TL, Ordo, Qualité, Support tech, RDZ, ONET, TOA",
                     pts: [
                         { status: "x", text: "Suivre l'avance retard (se fait durant la vac sur le tableau visuel)" },
@@ -393,10 +411,11 @@
                     ],
                     prep: ["Fichier présence", "Feuille de match", "Tandem", "MYHR", "MES"],
                     routine: ["SHEET"],
-                    irr: ""
+                    irr: "Double saisie",
+                    pos: ""
                 },
                 weekly: {
-                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
                     part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
                     pts: [
                         { status: "v", text: "Performance" },
@@ -404,55 +423,59 @@
                         { status: "v", text: "Plan d'action" }
                     ],
                     prep: ["Igea", "Fichier présence", "MES"],
-                    routine: ["SHEET", "KPI (Perfo, Top aleas)"],
-                    irr: ""
+                    routine: ["SHEET", "KPI (Perfo et Top aleas)"],
+                    irr: "",
+                    pos: ""
                 }
             },
             odys41: {
                 name: "ODYS 41",
                 title: "Routines PPC – ODYS 41 (2 VAC, non takte)",
                 daily: {
-                    name: "PPC Daily", timeInfo: "1 fois par vac, 60 min",
+                    name: "PPC DAILY", timeInfo: "1 fois par vac, 60 min",
                     part: "TL, Ordo, Qualité, Support tech, RDZ, prepa, TOA, QLS exterieur",
                     pts: [
                         { status: "v", text: "Suivre l'avance retard" },
-                        { status: "x", text: "Remonter les aleas (hors routine)" },
+                        { status: "x", text: "Remonter les aleas (se fait durant la journée)" },
                         { status: "v", text: "Prendre des décision (points ouverts)" }
                     ],
                     prep: ["Fichier présence"],
                     routine: ["Tandem", "MES", "SAP", "SHEET"],
-                    irr: ""
+                    irr: "Mise à jour du fichier sheet durant la routine.",
+                    pos: ""
                 },
                 weekly: {
-                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
                     part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
                     pts: [
                         { status: "v", text: "Performance" },
                         { status: "v", text: "Pareto des aleas" },
                         { status: "v", text: "Plan d'action" }
                     ],
-                    prep: ["Fichier présence", "PPC sheet"],
-                    routine: ["PPC sheet", "KPI (Perfo, Top aleas)"],
-                    irr: ""
+                    prep: ["Fichier présence"],
+                    routine: ["PPC sheet", "KPI (Perfo et Top aleas)"],
+                    irr: "Le plan d'action n'est pas trop pris en compte",
+                    pos: ""
                 }
             },
             odys42: {
                 name: "ODYS 42",
                 title: "Routines PPC – ODYS 42 (2 VAC)",
                 daily: {
-                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
                     part: "TL, Ordo, Qualité, Support tech, RDZ",
                     pts: [
                         { status: "v", text: "Suivre l'avance retard" },
                         { status: "v", text: "Remonter les aleas" },
-                        { status: "v", text: "Prendre des décision (points ouverts)" }
+                        { status: "x", text: "Prendre des décision (points ouverts)" }
                     ],
                     prep: ["Sheet poste (A/R)", "Tandem", "MES", "Fichier consigne"],
                     routine: ["PPC sheet"],
-                    irr: ""
+                    irr: "La prise de décision est orale.",
+                    pos: ""
                 },
                 weekly: {
-                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
                     part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
                     pts: [
                         { status: "v", text: "Performance" },
@@ -460,15 +483,16 @@
                         { status: "v", text: "Plan d'action" }
                     ],
                     prep: ["Sheet", "Fichier présence", "Sheet aleas", "MES"],
-                    routine: ["PPC slide", "KPI (Perfo, Top aleas)"],
-                    irr: ""
+                    routine: ["PPC slide", "KPI (Perfo", "Top aleas)"],
+                    irr: "Trop de préparation",
+                    pos: ""
                 }
             },
             odye1: {
                 name: "ODYE 1",
                 title: "Routines PPC – ODYE 1 (2 VAC, non takter)",
                 daily: {
-                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
                     part: "TL, Ordo, Qualité, Support tech, RDZ, prepa",
                     pts: [
                         { status: "v", text: "Suivre l'avance retard" },
@@ -477,7 +501,8 @@
                     ],
                     prep: ["Mes (partiel)", "ppc digit (partiel)", "Scoot"],
                     routine: ["Sheet"],
-                    irr: ""
+                    irr: "Fiabilité des données. Traitement des aleas oralement.",
+                    pos: ""
                 },
                 weekly: {
                     name: "DPS", timeInfo: "1 fois par semaine, 90 min",
@@ -488,36 +513,39 @@
                         { status: "x", text: "Plan d'action" }
                     ],
                     prep: ["Sheet ppc daily", "sheet charge/cap", "Skywise"],
-                    routine: ["ppc weekly Slide", "KPI (Perfo, Top aleas)"],
-                    irr: "Adhérence charge/capa et non pas adhérence avec le contrat"
+                    routine: ["ppc weekly Slide", "KPI (Perfo", "Top aleas)"],
+                    irr: "PPC weekly n'existe pas, on fait un résumé de s-1 durant cette réunion Adhérence charge/capa et non pas adhérence avec le contrat.",
+                    pos: ""
                 }
             },
             odye2: {
                 name: "ODYE 2",
                 title: "Routines PPC – ODYE 2 (2 VAC, non takter)",
                 daily: {
-                    name: "Passage d'info", timeInfo: "1 fois par vac, 30 min",
+                    name: "PASSAGE D'INFO", timeInfo: "1 fois par vac, 30 min",
                     part: "TL, opérateurs, referent",
                     pts: [
                         { status: "x", text: "Suivre l'avance retard" },
                         { status: "v", text: "Remonter les aleas" },
                         { status: "x", text: "Prendre des décision (points ouverts)" }
                     ],
-                    prep: [],
+                    prep: ["Fichier présence"],
                     routine: ["Sheet"],
-                    irr: ""
+                    irr: "Ce n'est pas un PPC daily.",
+                    pos: ""
                 },
                 weekly: {
-                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 120 min",
+                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 120 min",
                     part: "tl, rl, coach perfo, ordo, rdz, qualité, support tech et maintenance",
                     pts: [
                         { status: "v", text: "Performance" },
                         { status: "v", text: "Pareto des aleas" },
                         { status: "v", text: "Plan d'action" }
                     ],
-                    prep: ["MES", "Aveva", "Fichier perfo", "PPC digit"],
-                    routine: ["Fichier PPC", "KPI (Perfo, Top aleas)"],
-                    irr: ""
+                    prep: ["MES", "Aveva", "Sheet aléas", "Fichier perfo", "PPC digit"],
+                    routine: ["Fichier PPC", "KPI (Perfo", "Top aleas)"],
+                    irr: "Double saisie des aléas.",
+                    pos: ""
                 }
             }
         };
@@ -535,7 +563,7 @@
 
         // Charge les données
         function initApp() {
-            const savedDb = localStorage.getItem('ppc_sectors_db_custom');
+            const savedDb = localStorage.getItem('ppc_sectors_db_custom_v3');
             if (savedDb) {
                 try {
                     db = JSON.parse(savedDb);
@@ -557,12 +585,12 @@
 
         // Sauvegarde locale
         function saveDbToLocalStorage() {
-            localStorage.setItem('ppc_sectors_db_custom', JSON.stringify(db));
+            localStorage.setItem('ppc_sectors_db_custom_v3', JSON.stringify(db));
         }
 
         // Réinitialise vers l'origine
         function resetToDefaults() {
-            localStorage.removeItem('ppc_sectors_db_custom');
+            localStorage.removeItem('ppc_sectors_db_custom_v3');
             activeLeftKey = "odyl1";
             activeRightKey = "odyl2";
             editModes.left = false;
@@ -619,7 +647,7 @@
             renderDashboard();
         }
 
-        // Rendu global des deux fiches
+        // Rendu global des deux fiches (Avec mode plein écran automatique s'ils sont identiques)
         function renderDashboard() {
             const leftContainer = document.getElementById('panel-zoom1');
             const rightContainer = document.getElementById('panel-zoom2');
@@ -686,15 +714,30 @@
 
             const renderIrritantsBox = (irr) => {
                 if (!irr) return `
-                    <div class="irritants-container mt-auto border-dashed border-slate-200 bg-slate-50/20">
+                    <div class="irritants-container w-full border-dashed border-slate-200 bg-slate-50/20">
                         <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Irritants:</span>
                         <p class="text-xs text-slate-400 italic mt-1">Aucun irritant identifié</p>
                     </div>
                 `;
                 return `
-                    <div class="irritants-container mt-auto">
+                    <div class="irritants-container w-full">
                         <span class="text-rose-500 text-xs font-bold uppercase tracking-wider">Irritants:</span>
                         <p class="text-slate-700 text-xs font-medium leading-normal mt-1">${irr}</p>
+                    </div>
+                `;
+            };
+
+            const renderPositifsBox = (pos) => {
+                if (!pos) return `
+                    <div class="positifs-container w-full border-dashed border-slate-200 bg-slate-50/20">
+                        <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Points Positifs:</span>
+                        <p class="text-xs text-slate-400 italic mt-1">Aucun point positif identifié</p>
+                    </div>
+                `;
+                return `
+                    <div class="positifs-container w-full">
+                        <span class="text-emerald-600 text-xs font-bold uppercase tracking-wider">Points Positifs:</span>
+                        <p class="text-slate-700 text-xs font-medium leading-normal mt-1">${pos}</p>
                     </div>
                 `;
             };
@@ -744,7 +787,11 @@
                             </div>
                         </div>
 
-                        ${renderIrritantsBox(data.daily.irr)}
+                        <!-- Boîtes empilées verticalement -->
+                        <div class="flex flex-col gap-3 mt-auto">
+                            ${renderPositifsBox(data.daily.pos)}
+                            ${renderIrritantsBox(data.daily.irr)}
+                        </div>
                     </div>
 
                     <!-- ENCART WEEKLY -->
@@ -778,7 +825,11 @@
                             </div>
                         </div>
 
-                        ${renderIrritantsBox(data.weekly.irr)}
+                        <!-- Boîtes empilées verticalement -->
+                        <div class="flex flex-col gap-3 mt-auto">
+                            ${renderPositifsBox(data.weekly.pos)}
+                            ${renderIrritantsBox(data.weekly.irr)}
+                        </div>
                     </div>
                 </div>
             `;
@@ -871,10 +922,16 @@
                             </div>
                         </div>
 
-                        <!-- Irritants -->
-                        <div>
-                            <label class="section-label mb-1 block">Irritants</label>
-                            <textarea id="edit-daily-irr-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.daily.irr || ''}</textarea>
+                        <!-- Boîtes empilées verticalement en mode édition -->
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <label class="section-label mb-1 block">Points Positifs</label>
+                                <textarea id="edit-daily-pos-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.daily.pos || ''}</textarea>
+                            </div>
+                            <div>
+                                <label class="section-label mb-1 block">Irritants</label>
+                                <textarea id="edit-daily-irr-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.daily.irr || ''}</textarea>
+                            </div>
                         </div>
                     </div>
 
@@ -918,10 +975,16 @@
                             </div>
                         </div>
 
-                        <!-- Irritants -->
-                        <div>
-                            <label class="section-label mb-1 block">Irritants</label>
-                            <textarea id="edit-weekly-irr-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.weekly.irr || ''}</textarea>
+                        <!-- Boîtes empilées verticalement en mode édition -->
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <label class="section-label mb-1 block">Points Positifs</label>
+                                <textarea id="edit-weekly-pos-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.weekly.pos || ''}</textarea>
+                            </div>
+                            <div>
+                                <label class="section-label mb-1 block">Irritants</label>
+                                <textarea id="edit-weekly-irr-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.weekly.irr || ''}</textarea>
+                            </div>
                         </div>
                     </div>
 
@@ -977,6 +1040,7 @@
             const dPrep = document.getElementById(`edit-daily-prep-${side}`);
             const dRoutine = document.getElementById(`edit-daily-routine-${side}`);
             const dIrr = document.getElementById(`edit-daily-irr-${side}`);
+            const dPos = document.getElementById(`edit-daily-pos-${side}`);
 
             if(dName) data.daily.name = dName.value;
             if(dTime) data.daily.timeInfo = dTime.value;
@@ -984,6 +1048,7 @@
             if(dPrep) data.daily.prep = dPrep.value.split(',').map(s => s.trim()).filter(s => s !== "");
             if(dRoutine) data.daily.routine = dRoutine.value.split(',').map(s => s.trim()).filter(s => s !== "");
             if(dIrr) data.daily.irr = dIrr.value;
+            if(dPos) data.daily.pos = dPos.value;
 
             // --- Enregistrement Weekly ---
             const wName = document.getElementById(`edit-weekly-name-${side}`);
@@ -992,6 +1057,7 @@
             const wPrep = document.getElementById(`edit-weekly-prep-${side}`);
             const wRoutine = document.getElementById(`edit-weekly-routine-${side}`);
             const wIrr = document.getElementById(`edit-weekly-irr-${side}`);
+            const wPos = document.getElementById(`edit-weekly-pos-${side}`);
 
             if(wName) data.weekly.name = wName.value;
             if(wTime) data.weekly.timeInfo = wTime.value;
@@ -999,6 +1065,7 @@
             if(wPrep) data.weekly.prep = wPrep.value.split(',').map(s => s.trim()).filter(s => s !== "");
             if(wRoutine) data.weekly.routine = wRoutine.value.split(',').map(s => s.trim()).filter(s => s !== "");
             if(wIrr) data.weekly.irr = wIrr.value;
+            if(wPos) data.weekly.pos = wPos.value;
 
             // Sauvegarde dans localStorage
             saveDbToLocalStorage();
@@ -1050,7 +1117,8 @@
                     ],
                     prep: ["Gantt", "Fichier présence"],
                     routine: ["Sheet"],
-                    irr: ""
+                    irr: "",
+                    pos: ""
                 },
                 weekly: {
                     name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
@@ -1062,7 +1130,8 @@
                     ],
                     prep: ["MES"],
                     routine: ["KPI", "Sheet"],
-                    irr: ""
+                    irr: "",
+                    pos: ""
                 }
             };
 
