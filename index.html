@@ -158,7 +158,7 @@
             </div>
 
             <!-- SEPARATEUR VISUEL VERTICAL -->
-            <div class="w-px bg-slate-200 shrink-0 self-stretch my-2"></div>
+            <div id="panel-divider" class="w-px bg-slate-200 shrink-0 self-stretch my-2"></div>
 
             <!-- PANEL ZOOM 2 (DROITE) -->
             <div id="panel-zoom2" class="flex-1 flex flex-col gap-4 fade-in">
@@ -623,9 +623,25 @@
         function renderDashboard() {
             const leftContainer = document.getElementById('panel-zoom1');
             const rightContainer = document.getElementById('panel-zoom2');
+            const divider = document.getElementById('panel-divider');
 
-            leftContainer.innerHTML = createCardHTML('left', activeLeftKey);
-            rightContainer.innerHTML = createCardHTML('right', activeRightKey);
+            // DOUBLE CHECK COCHÉ => MODE PLEIN ÉCRAN PANORAMIQUE AUTOMATIQUE
+            if (activeLeftKey === activeRightKey) {
+                if (divider) divider.classList.add('hidden');
+                if (rightContainer) rightContainer.classList.add('hidden');
+                
+                leftContainer.className = "flex-grow w-full flex flex-col gap-4 fade-in";
+                leftContainer.innerHTML = createCardHTML('left', activeLeftKey);
+            } else {
+                if (divider) divider.classList.remove('hidden');
+                if (rightContainer) rightContainer.classList.remove('hidden');
+                
+                leftContainer.className = "flex-1 flex flex-col gap-4 fade-in";
+                rightContainer.className = "flex-1 flex flex-col gap-4 fade-in";
+                
+                leftContainer.innerHTML = createCardHTML('left', activeLeftKey);
+                rightContainer.innerHTML = createCardHTML('right', activeRightKey);
+            }
         }
 
         // Crée le bloc HTML complet d'une fiche (Read-Only ou Edit-Mode)
@@ -691,7 +707,7 @@
                             <i class="fa-solid fa-pencil text-base"></i>
                         </button>
                         <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full border border-slate-200">
-                            ${side === 'left' ? 'Zoom 1' : 'Zoom 2'}
+                            ${activeLeftKey === activeRightKey ? 'Plein Écran' : (side === 'left' ? 'Zoom 1' : 'Zoom 2')}
                         </span>
                     </div>
                 </div>
@@ -1080,7 +1096,7 @@
             if (db[key]) {
                 delete db[key];
                 saveDbToLocalStorage();
-
+                
                 // Ré-alloue les clefs actives pour éviter les bugs si on a supprimé une fiche ouverte
                 const remainingKeys = Object.keys(db);
                 if (activeLeftKey === key) activeLeftKey = remainingKeys[0] || "";
