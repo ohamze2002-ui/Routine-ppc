@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilotage de Performance PPC - Dashboard Professionnel</title>
+    <!-- Tailwind CSS pour un design moderne et réactif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome pour les icônes professionnelles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        /* Personnalisation des boutons de sélection radio style Google Sheets */
+        .sheets-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            display: inline-grid;
+            place-content: center;
+            background: white;
+        }
+        .sheets-checkbox:checked {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+        .sheets-checkbox:checked::before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: white;
+            font-size: 11px;
+        }
+
+        /* Cadres d'outils */
+        .tool-pill {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #475569;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        /* Bloc d'irritant (Ligne rouge et cadre) */
+        .irritants-container {
+            border: 1.5px solid #fecaca;
+            border-radius: 8px;
+            padding: 8px 12px;
+            background-color: #fff5f5;
+        }
+
+        /* Transitions fluides */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scrollbars élégantes */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col overflow-hidden bg-slate-50 text-slate-800">
+
+    <!-- BARRE DE TITRE SUPERIEURE -->
+    <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between z-10 shrink-0 shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 text-white p-2.5 rounded-xl flex items-center justify-center shadow-md shadow-blue-100">
+                <i class="fa-solid fa-square-poll-vertical text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Dashboard routines PPC _ Usine ST-ELOI </h1>
+                <p class="text-xs text-slate-500">Visualisez, modifiez et comparez vos secteurs opérationnels en temps réel </p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <!-- Bouton Ajouter Secteur -->
+            <button onclick="openAddSectorModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
+                <i class="fa-solid fa-plus text-xs"></i> Ajouter un secteur
+            </button>
+            
+            <!-- Bouton Reset -->
+            <button onclick="openResetConfirmModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-800 px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+                <i class="fa-solid fa-arrow-rotate-left text-xs"></i> Réinitialiser les données
+            </button>
+        </div>
+    </header>
+
+    <!-- ZONE PRINCIPALE DE L'APPLICATION -->
+    <main class="flex-grow flex overflow-hidden w-full">
+        
+        <!-- SIDEBAR DE SELECTION (STYLE GOOGLE SHEETS INTERACTIF) -->
+        <aside class="w-80 bg-white border-r border-slate-200 flex flex-col shrink-0 overflow-hidden shadow-sm">
+            <div class="p-4 border-b border-slate-100 bg-slate-50/50">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Matrice des Secteurs</h2>
+                <p class="text-xs text-slate-500">Cochez un secteur pour l'assigner à la colonne de gauche (Zoom 1) ou droite (Zoom 2).</p>
+            </div>
+            
+            <div class="flex-grow overflow-y-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100 sticky top-0 z-10">
+                            <th class="py-3 px-4">Élément</th>
+                            <th class="py-3 px-2 text-center">Zoom 1</th>
+                            <th class="py-3 px-2 text-center">Zoom 2</th>
+                            <th class="py-3 pr-4 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectors-table-body" class="divide-y divide-slate-100">
+                        <!-- Généré de manière dynamique par le script JS -->
+                    </tbody>
+                </table>
+            </div>
+        </aside>
+
+        <!-- ZONE D'AFFICHAGE DU DUAL VIEW (ZOOM 1 & ZOOM 2) -->
+        <section class="flex-grow p-6 flex gap-6 overflow-y-auto bg-slate-50">
+            
+            <!-- PANEL ZOOM 1 (GAUCHE) -->
+            <div id="panel-zoom1" class="flex-1 flex flex-col gap-4 fade-in">
+                <!-- Injecté dynamiquement par JS -->
+            </div>
+
+            <!-- SEPARATEUR VISUEL VERTICAL -->
+            <div class="w-px bg-slate-200 shrink-0 self-stretch my-2"></div>
+
+            <!-- PANEL ZOOM 2 (DROITE) -->
+            <div id="panel-zoom2" class="flex-1 flex flex-col gap-4 fade-in">
+                <!-- Injecté dynamiquement par JS -->
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ==========================================
+         MODALS ET BOITES DE CONFIRMATION CUSTOMS 
+         ========================================== -->
+
+    <!-- MODAL : AJOUTER UN SECTEUR -->
+    <div id="add-sector-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-circle-plus text-blue-600"></i> Ajouter un secteur
+                </h3>
+                <button onclick="closeAddSectorModal()" class="text-slate-400 hover:text-slate-600 transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-5 flex flex-col gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Identifiant du Secteur (ex: ODYL 4)</label>
+                    <input type="text" id="new-sector-id" placeholder="ex: ODYL 4" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition font-semibold text-slate-800">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Titre complet de la routine</label>
+                    <input type="text" id="new-sector-title" placeholder="ex: Routines PPC – ODYL 4 (2 VAC)" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition text-slate-800">
+                </div>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50/50">
+                <button onclick="closeAddSectorModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
+                <button onclick="submitNewSector()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Créer le secteur</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL : CONFIRMATION REINITIALISATION -->
+    <div id="reset-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <div class="p-5 flex flex-col items-center text-center gap-3">
+                <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center text-xl shadow-sm border border-amber-100">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 class="font-bold text-slate-800 text-lg">Réinitialiser les données ?</h3>
+                <p class="text-sm text-slate-500">Cette action écrasera toutes vos modifications pour restaurer les 10 fiches PPC d'origine. Cette action est irréversible.</p>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
+                <button onclick="closeResetConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Conserver</button>
+                <button onclick="resetToDefaults()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition text-sm font-semibold shadow-sm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL : CONFIRMATION SUPPRESSION SECTEUR -->
+    <div id="delete-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <input type="hidden" id="sector-to-delete">
+            <div class="p-5 flex flex-col items-center text-center gap-3">
+                <div class="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center text-xl shadow-sm border border-rose-100">
+                    <i class="fa-solid fa-trash-can"></i>
+                </div>
+                <h3 class="font-bold text-slate-800 text-lg">Supprimer ce secteur ?</h3>
+                <p class="text-sm text-slate-500">Êtes-vous sûr de vouloir supprimer définitivement le secteur <span id="delete-sector-name" class="font-bold text-slate-800"></span> ?</p>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
+                <button onclick="closeDeleteConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
+                <button onclick="deleteSector()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- -------------------------------------------------------------
+         MOTEURS DE BASES DE DONNÉES ET FONCTIONNALITÉS INTERACTIVES
+         ------------------------------------------------------------- -->
+    <script>
+        // base de données par défaut d'origine
+        const DEFAULT_DATABASE = {
+            odyl1: {
+                name: "ODYL 1",
+                title: "Routines PPC – ODYL 1 (2 VAC)",
+                daily: {
+                    name: "ROP", timeInfo: "1 fois par vac, 55 min",
+                    part: "TL, Ordo, Qualité, Support tech, RDZ",
+                    pts: [
+                        { status: "x", text: "Suivre l'avance retard" },
+                        { status: "x", text: "Remonter les aleas" },
+                        { status: "v", text: "Prendre des décision (points ouverts)" }
+                    ],
+                    prep: ["Plan de prod", "Gantt", "Fichier présence"],
+                    routine: ["Feuille de match", "Tandem"],
+                    irr: ""
+                },
+                weekly: {
+                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité, leader support tech, pro",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "x", text: "Plan d'action" }
+                    ],
+                    prep: ["MES"],
+                    routine: ["KPI (Perfo, Top aleas)", "SHEET"],
+                    irr: ""
+                }
+            },
+            odyl2: {
+                name: "ODYL 2",
+                title: "Routines PPC – ODYL 2 (2 VAC)",
+                daily: {
+                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    part: "TL, Ordo, Qualité, Support tech, RDZ",
+                    pts: [
+                        { status: "v", text: "Suivre l'avance retard" },
+                        { status: "v", text: "Remonter les aleas" },
+                        { status: "v", text: "Prendre des décision (points ouverts)" }
+                    ],
+                    prep: ["Fichier présence", "Feuille de match", "Gantt"],
+                    routine: ["IOBEYA"],
+                    irr: ""
+                },
+                weekly: {
+                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité, leader support tech",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "v", text: "Plan d'action" }
+                    ],
+                    prep: [],
+                    routine: ["KPI (Perfo, Top aleas)", "Sheet"],
+                    irr: ""
+                }
+            },
+            odyl3: {
+                name: "ODYL 3",
+                title: "Routines PPC – ODYL 3 (2 VAC)",
+                daily: {
+                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    part: "TL, Ordo, Qualité, Support tech, RDZ",
+                    pts: [
+                        { status: "v", text: "Avance retard" },
+                        { status: "v", text: "Aleas" },
+                        { status: "v", text: "Points ouverts" }
+                    ],
+                    prep: [],
+                    routine: [],
+                    irr: ""
+                },
+                weekly: {
+                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "v", text: "Plan d'action" }
+                    ],
+                    prep: [],
+                    routine: [],
+                    irr: ""
+                }
+            },
+            odys1: {
+                name: "ODYS 1",
+                title: "Routines PPC – ODYS 1 (2 VAC)",
+                daily: {
+                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    part: "Ordo, Qualité, Support tech, RDZ P67, toa, RDZ P68",
+                    pts: [
+                        { status: "v", text: "Suivre l'avance retard" },
+                        { status: "x", text: "Remonter les aleas (se fait durant la journée)" },
+                        { status: "v", text: "Prendre des décision (points ouverts)" }
+                    ],
+                    prep: ["Fichier présence", "Frise zone", "Abaque", "SAP", "MES"],
+                    routine: ["SHEET"],
+                    irr: ""
+                },
+                weekly: {
+                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "v", text: "Plan d'action" }
+                    ],
+                    prep: ["Fichier présence", "MES", "IBM"],
+                    routine: ["SHEET"],
+                    irr: ""
+                }
+            },
+            odys2: {
+                name: "ODYS 2",
+                title: "Routines PPC – ODYS 2 (2 VAC)",
+                daily: {
+                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    part: "TL, Ordo, Qualité, Support tech, RDZ",
+                    pts: [
+                        { status: "v", text: "Avance retard" },
+                        { status: "v", text: "Aleas" },
+                        { status: "v", text: "Points ouverts" }
+                    ],
+                    prep: [],
+                    routine: [],
+                    irr: ""
+                },
+                weekly: {
+                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "v", text: "Plan d'action" }
+                    ],
+                    prep: [],
+                    routine: [],
+                    irr: ""
+                }
+            },
+            odys3: {
+                name: "ODYS 3",
+                title: "Routines PPC – ODYS 3 (2 VAC)",
+                daily: {
+                    name: "PPC Daily", timeInfo: "2 fois par vac, 30 min",
+                    part: "TL, Ordo, Qualité, Support tech, RDZ, ONET, TOA",
+                    pts: [
+                        { status: "x", text: "Suivre l'avance retard (se fait durant la vac sur le tableau visuel)" },
+                        { status: "v", text: "Remonter les aleas" },
+                        { status: "v", text: "Prendre des décision (points ouverts)" }
+                    ],
+                    prep: ["Fichier présence", "Feuille de match", "Tandem", "MYHR", "MES"],
+                    routine: ["SHEET"],
+                    irr: ""
+                },
+                weekly: {
+                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "v", text: "Plan d'action" }
+                    ],
+                    prep: ["Igea", "Fichier présence", "MES"],
+                    routine: ["SHEET", "KPI (Perfo, Top aleas)"],
+                    irr: ""
+                }
+            },
+            odys41: {
+                name: "ODYS 41",
+                title: "Routines PPC – ODYS 41 (2 VAC, non takte)",
+                daily: {
+                    name: "PPC Daily", timeInfo: "1 fois par vac, 60 min",
+                    part: "TL, Ordo, Qualité, Support tech, RDZ, prepa, TOA, QLS exterieur",
+                    pts: [
+                        { status: "v", text: "Suivre l'avance retard" },
+                        { status: "x", text: "Remonter les aleas (hors routine)" },
+                        { status: "v", text: "Prendre des décision (points ouverts)" }
+                    ],
+                    prep: ["Fichier présence"],
+                    routine: ["Tandem", "MES", "SAP", "SHEET"],
+                    irr: ""
+                },
+                weekly: {
+                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "v", text: "Plan d'action" }
+                    ],
+                    prep: ["Fichier présence", "PPC sheet"],
+                    routine: ["PPC sheet", "KPI (Perfo, Top aleas)"],
+                    irr: ""
+                }
+            },
+            odys42: {
+                name: "ODYS 42",
+                title: "Routines PPC – ODYS 42 (2 VAC)",
+                daily: {
+                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    part: "TL, Ordo, Qualité, Support tech, RDZ",
+                    pts: [
+                        { status: "v", text: "Suivre l'avance retard" },
+                        { status: "v", text: "Remonter les aleas" },
+                        { status: "v", text: "Prendre des décision (points ouverts)" }
+                    ],
+                    prep: ["Sheet poste (A/R)", "Tandem", "MES", "Fichier consigne"],
+                    routine: ["PPC sheet"],
+                    irr: ""
+                },
+                weekly: {
+                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "v", text: "Plan d'action" }
+                    ],
+                    prep: ["Sheet", "Fichier présence", "Sheet aleas", "MES"],
+                    routine: ["PPC slide", "KPI (Perfo, Top aleas)"],
+                    irr: ""
+                }
+            },
+            odye1: {
+                name: "ODYE 1",
+                title: "Routines PPC – ODYE 1 (2 VAC, non takter)",
+                daily: {
+                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    part: "TL, Ordo, Qualité, Support tech, RDZ, prepa",
+                    pts: [
+                        { status: "v", text: "Suivre l'avance retard" },
+                        { status: "v", text: "Remonter les aleas" },
+                        { status: "v", text: "Prendre des décision (points ouverts)" }
+                    ],
+                    prep: ["Mes (partiel)", "ppc digit (partiel)", "Scoot"],
+                    routine: ["Sheet"],
+                    irr: ""
+                },
+                weekly: {
+                    name: "DPS", timeInfo: "1 fois par semaine, 90 min",
+                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "x", text: "Plan d'action" }
+                    ],
+                    prep: ["Sheet ppc daily", "sheet charge/cap", "Skywise"],
+                    routine: ["ppc weekly Slide", "KPI (Perfo, Top aleas)"],
+                    irr: "Adhérence charge/capa et non pas adhérence avec le contrat"
+                }
+            },
+            odye2: {
+                name: "ODYE 2",
+                title: "Routines PPC – ODYE 2 (2 VAC, non takter)",
+                daily: {
+                    name: "Passage d'info", timeInfo: "1 fois par vac, 30 min",
+                    part: "TL, opérateurs, referent",
+                    pts: [
+                        { status: "x", text: "Suivre l'avance retard" },
+                        { status: "v", text: "Remonter les aleas" },
+                        { status: "x", text: "Prendre des décision (points ouverts)" }
+                    ],
+                    prep: [],
+                    routine: ["Sheet"],
+                    irr: ""
+                },
+                weekly: {
+                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 120 min",
+                    part: "tl, rl, coach perfo, ordo, rdz, qualité, support tech et maintenance",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "v", text: "Plan d'action" }
+                    ],
+                    prep: ["MES", "Aveva", "Fichier perfo", "PPC digit"],
+                    routine: ["Fichier PPC", "KPI (Perfo, Top aleas)"],
+                    irr: ""
+                }
+            }
+        };
+
+        // État de l'application chargée depuis localStorage ou défaut
+        let db = {};
+        let activeLeftKey = "odyl1";
+        let activeRightKey = "odyl2";
+
+        // Gère si un panel est en mode édition
+        let editModes = {
+            left: false,
+            right: false
+        };
+
+        // Charge les données
+        function initApp() {
+            const savedDb = localStorage.getItem('ppc_sectors_db_custom');
+            if (savedDb) {
+                try {
+                    db = JSON.parse(savedDb);
+                } catch(e) {
+                    db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
+                }
+            } else {
+                db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
+            }
+
+            // Vérifie que les clés actives existent bien
+            const keys = Object.keys(db);
+            if (!keys.includes(activeLeftKey)) activeLeftKey = keys[0] || "";
+            if (!keys.includes(activeRightKey)) activeRightKey = keys[1] || keys[0] || "";
+
+            renderSidebar();
+            renderDashboard();
+        }
+
+        // Sauvegarde locale
+        function saveDbToLocalStorage() {
+            localStorage.setItem('ppc_sectors_db_custom', JSON.stringify(db));
+        }
+
+        // Réinitialise vers l'origine
+        function resetToDefaults() {
+            localStorage.removeItem('ppc_sectors_db_custom');
+            activeLeftKey = "odyl1";
+            activeRightKey = "odyl2";
+            editModes.left = false;
+            editModes.right = false;
+            initApp();
+            closeResetConfirmModal();
+        }
+
+        // Rendu de la barre latérale gauche
+        function renderSidebar() {
+            const tbody = document.getElementById('sectors-table-body');
+            tbody.innerHTML = '';
+
+            Object.keys(db).forEach(key => {
+                const item = db[key];
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors group";
+                
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-bold text-slate-800 text-sm tracking-tight truncate max-w-[120px]" title="${item.name}">
+                        ${item.name}
+                    </td>
+                    <td class="py-3 px-2 text-center">
+                        <input type="radio" name="zoom1" value="${key}" class="sheets-checkbox" ${key === activeLeftKey ? 'checked' : ''} onchange="selectSector('left', '${key}')">
+                    </td>
+                    <td class="py-3 px-2 text-center">
+                        <input type="radio" name="zoom2" value="${key}" class="sheets-checkbox" ${key === activeRightKey ? 'checked' : ''} onchange="selectSector('right', '${key}')">
+                    </td>
+                    <td class="py-3 pr-4 text-right">
+                        <button onclick="confirmDeleteSector('${key}')" class="text-slate-300 hover:text-rose-500 p-1 rounded transition opacity-0 group-hover:opacity-100 focus:opacity-100" title="Supprimer ce secteur">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Gère la sélection d'un secteur
+        function selectSector(side, key) {
+            if (side === 'left') {
+                activeLeftKey = key;
+                editModes.left = false; // Ferme l'édition en cours
+            } else {
+                activeRightKey = key;
+                editModes.right = false; // Ferme l'édition en cours
+            }
+            renderDashboard();
+        }
+
+        // Toggle édition
+        function toggleEditMode(side) {
+            editModes[side] = !editModes[side];
+            renderDashboard();
+        }
+
+        // Rendu global des deux fiches
+        function renderDashboard() {
+            const leftContainer = document.getElementById('panel-zoom1');
+            const rightContainer = document.getElementById('panel-zoom2');
+
+            leftContainer.innerHTML = createCardHTML('left', activeLeftKey);
+            rightContainer.innerHTML = createCardHTML('right', activeRightKey);
+        }
+
+        // Crée le bloc HTML complet d'une fiche (Read-Only ou Edit-Mode)
+        function createCardHTML(side, key) {
+            const data = db[key];
+            if (!data) {
+                return `
+                    <div class="flex-grow flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-200 rounded-xl p-8 bg-white">
+                        <i class="fa-solid fa-folder-open text-4xl mb-3 text-slate-300"></i>
+                        <p class="text-sm font-semibold">Aucun secteur sélectionné ou disponible</p>
+                    </div>
+                `;
+            }
+
+            const isEditing = editModes[side];
+
+            if (isEditing) {
+                // =============== MODE EDITION ===============
+                return renderEditModeCard(side, key, data);
+            } else {
+                // =============== MODE LECTURE (PROPRE) ===============
+                return renderReadOnlyCard(side, key, data);
+            }
+        }
+
+        // RENDU : LECTURE SEULE (Ultra-propre)
+        function renderReadOnlyCard(side, key, data) {
+            const renderPointsList = (pts) => {
+                if (!pts || pts.length === 0) return '<li class="text-xs text-slate-400 italic">Aucun point défini</li>';
+                return pts.map(pt => `
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-[15px] mt-0.5 shrink-0 transition-all"></i>
+                        <span class="text-slate-700 text-sm font-medium leading-relaxed">${pt.text}</span>
+                    </li>
+                `).join('');
+            };
+
+            const renderToolsGroup = (tools, colorClass) => {
+                if (!tools || tools.length === 0) return '<span class="text-xs text-slate-400 italic">Aucun</span>';
+                return tools.map(t => `<span class="tool-pill" ${colorClass ? `style="border-color:${colorClass};color:${colorClass};"` : ''}>${t}</span>`).join('');
+            };
+
+            const renderIrritantsBox = (irr) => {
+                if (!irr) return `
+                    <div class="irritants-container mt-auto border-dashed border-slate-200 bg-slate-50/20">
+                        <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Irritants:</span>
+                        <p class="text-xs text-slate-400 italic mt-1">Aucun irritant identifié</p>
+                    </div>
+                `;
+                return `
+                    <div class="irritants-container mt-auto">
+                        <span class="text-rose-500 text-xs font-bold uppercase tracking-wider">Irritants:</span>
+                        <p class="text-slate-700 text-xs font-medium leading-normal mt-1">${irr}</p>
+                    </div>
+                `;
+            };
+
+            return `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
+                    <h2 class="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">${data.title}</h2>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 hover:bg-slate-100 p-1.5 rounded-lg transition" title="Modifier cette fiche">
+                            <i class="fa-solid fa-pencil text-base"></i>
+                        </button>
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full border border-slate-200">
+                            ${side === 'left' ? 'Zoom 1' : 'Zoom 2'}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 flex-grow min-h-0">
+                    <!-- ENCART DAILY -->
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm hover:shadow-md transition-all duration-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-clock text-blue-600 bg-blue-50 p-2 rounded-lg text-base"></i>
+                                <h3 class="font-bold text-slate-800 text-sm tracking-wide uppercase">${data.daily.name}</h3>
+                            </div>
+                            <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.daily.timeInfo}</span>
+                        </div>
+                        
+                        <div class="meta-box">
+                            <i class="fa-solid fa-users text-blue-500 shrink-0 text-sm"></i>
+                            <span class="text-xs"><strong>Participant:</strong> ${data.daily.part || 'Non spécifié'}</span>
+                        </div>
+
+                        <div class="flex flex-col gap-2.5 flex-grow">
+                            <span class="section-label">Points Traités</span>
+                            <ul class="points-list flex flex-col gap-2">${renderPointsList(data.daily.pts)}</ul>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-auto border-t border-slate-100 pt-3">
+                            <div class="flex flex-col gap-1.5">
+                                <span class="section-label">Préparation</span>
+                                <div class="tags-container flex flex-wrap gap-1.5">${renderToolsGroup(data.daily.prep)}</div>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <span class="section-label">Routine</span>
+                                <div class="tags-container flex flex-wrap gap-1.5">${renderToolsGroup(data.daily.routine, "#2563eb")}</div>
+                            </div>
+                        </div>
+
+                        ${renderIrritantsBox(data.daily.irr)}
+                    </div>
+
+                    <!-- ENCART WEEKLY -->
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm hover:shadow-md transition-all duration-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-calendar-week text-emerald-600 bg-emerald-50 p-2 rounded-lg text-base"></i>
+                                <h3 class="font-bold text-slate-800 text-sm tracking-wide uppercase">${data.weekly.name}</h3>
+                            </div>
+                            <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.weekly.timeInfo}</span>
+                        </div>
+                        
+                        <div class="meta-box">
+                            <i class="fa-solid fa-users text-emerald-500 shrink-0 text-sm"></i>
+                            <span class="text-xs"><strong>Participant:</strong> ${data.weekly.part || 'Non spécifié'}</span>
+                        </div>
+
+                        <div class="flex flex-col gap-2.5 flex-grow">
+                            <span class="section-label">Points Traités</span>
+                            <ul class="points-list flex flex-col gap-2">${renderPointsList(data.weekly.pts)}</ul>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-auto border-t border-slate-100 pt-3">
+                            <div class="flex flex-col gap-1.5">
+                                <span class="section-label">Préparation</span>
+                                <div class="tags-container flex flex-wrap gap-1.5">${renderToolsGroup(data.weekly.prep)}</div>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <span class="section-label">Routine</span>
+                                <div class="tags-container flex flex-wrap gap-1.5">${renderToolsGroup(data.weekly.routine, "#0d9488")}</div>
+                            </div>
+                        </div>
+
+                        ${renderIrritantsBox(data.weekly.irr)}
+                    </div>
+                </div>
+            `;
+        }
+
+        // RENDU : MODE EDITION INTEGRAL
+        function renderEditModeCard(side, key, data) {
+            
+            // Construit la liste dynamique de points éditables
+            const makeEditablePtsHTML = (routineType, pts) => {
+                const list = pts || [];
+                let html = '';
+                list.forEach((pt, idx) => {
+                    html += `
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <button onclick="togglePtStatus('${side}', '${key}', '${routineType}', ${idx})" class="p-1 rounded hover:bg-slate-100 transition shrink-0" title="Changer l'état (Valide/Erreur)">
+                                <i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg"></i>
+                            </button>
+                            <input type="text" value="${pt.text.replace(/"/g, '&quot;')}" onchange="editPtText('${side}', '${key}', '${routineType}', ${idx}, this.value)" class="w-full border border-slate-200 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-blue-500">
+                            <button onclick="deletePt('${side}', '${key}', '${routineType}', ${idx})" class="text-slate-300 hover:text-rose-500 p-1 rounded transition shrink-0" title="Supprimer ce point">
+                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+                // Ajouter point bouton
+                html += `
+                    <button onclick="addPt('${side}', '${key}', '${routineType}')" class="mt-2 text-blue-600 hover:text-blue-700 text-xs font-bold flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-circle-plus"></i> Ajouter un point
+                    </button>
+                `;
+                return html;
+            };
+
+            return `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
+                    <div class="flex items-center gap-2 flex-grow mr-4">
+                        <span class="text-xs font-extrabold text-blue-600 uppercase">TITRE FICHE :</span>
+                        <input type="text" id="edit-title-${side}" value="${data.title.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2.5 py-1 text-sm font-bold text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20">
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button onclick="saveSectorEdits('${side}', '${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-sm" title="Sauvegarder">
+                            <i class="fa-solid fa-floppy-disk"></i> Enregistrer
+                        </button>
+                        <button onclick="toggleEditMode('${side}')" class="border border-slate-200 text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition" title="Annuler">
+                            <i class="fa-solid fa-xmark"></i> Annuler
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 flex-grow min-h-0 overflow-y-auto pr-1">
+                    
+                    <!-- FORMULAIRE DAILY -->
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 flex flex-col gap-4">
+                        <!-- Nom Routine et Horaires -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="section-label mb-1 block">Nom de la Routine</label>
+                                <input type="text" id="edit-daily-name-${side}" value="${data.daily.name.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-bold text-slate-800 outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="section-label mb-1 block">Fréquence & Durée</label>
+                                <input type="text" id="edit-daily-time-${side}" value="${data.daily.timeInfo.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-600 outline-none focus:border-blue-500">
+                            </div>
+                        </div>
+
+                        <!-- Participants -->
+                        <div>
+                            <label class="section-label mb-1 block">Participants</label>
+                            <input type="text" id="edit-daily-part-${side}" value="${data.daily.part.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-800 outline-none focus:border-blue-500">
+                        </div>
+
+                        <!-- Points Traités -->
+                        <div class="flex flex-col">
+                            <span class="section-label mb-2 block">Points Traités (cliquer sur l'icône pour modifier le statut)</span>
+                            <div class="bg-white rounded-lg p-3 border border-slate-200 max-h-56 overflow-y-auto">
+                                ${makeEditablePtsHTML('daily', data.daily.pts)}
+                            </div>
+                        </div>
+
+                        <!-- Outils -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="section-label mb-1 block">Préparation (séparés par des virgules)</label>
+                                <input type="text" id="edit-daily-prep-${side}" value="${data.daily.prep.join(', ').replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 outline-none focus:border-blue-500" placeholder="ex: Gantt, MES">
+                            </div>
+                            <div>
+                                <label class="section-label mb-1 block">Routine (séparés par des virgules)</label>
+                                <input type="text" id="edit-daily-routine-${side}" value="${data.daily.routine.join(', ').replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 outline-none focus:border-blue-500" placeholder="ex: Iobeya, Sheet">
+                            </div>
+                        </div>
+
+                        <!-- Irritants -->
+                        <div>
+                            <label class="section-label mb-1 block">Irritants</label>
+                            <textarea id="edit-daily-irr-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.daily.irr || ''}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- FORMULAIRE WEEKLY -->
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 flex flex-col gap-4">
+                        <!-- Nom Routine et Horaires -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="section-label mb-1 block">Nom de la Routine</label>
+                                <input type="text" id="edit-weekly-name-${side}" value="${data.weekly.name.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-bold text-slate-800 outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="section-label mb-1 block">Fréquence & Durée</label>
+                                <input type="text" id="edit-weekly-time-${side}" value="${data.weekly.timeInfo.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-600 outline-none focus:border-blue-500">
+                            </div>
+                        </div>
+
+                        <!-- Participants -->
+                        <div>
+                            <label class="section-label mb-1 block">Participants</label>
+                            <input type="text" id="edit-weekly-part-${side}" value="${data.weekly.part.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-800 outline-none focus:border-blue-500">
+                        </div>
+
+                        <!-- Points Traités -->
+                        <div class="flex flex-col">
+                            <span class="section-label mb-2 block">Points Traités (cliquer sur l'icône pour modifier le statut)</span>
+                            <div class="bg-white rounded-lg p-3 border border-slate-200 max-h-56 overflow-y-auto">
+                                ${makeEditablePtsHTML('weekly', data.weekly.pts)}
+                            </div>
+                        </div>
+
+                        <!-- Outils -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="section-label mb-1 block">Préparation (séparés par des virgules)</label>
+                                <input type="text" id="edit-weekly-prep-${side}" value="${data.weekly.prep.join(', ').replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 outline-none focus:border-blue-500" placeholder="ex: Gantt, MES">
+                            </div>
+                            <div>
+                                <label class="section-label mb-1 block">Routine (séparés par des virgules)</label>
+                                <input type="text" id="edit-weekly-routine-${side}" value="${data.weekly.routine.join(', ').replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 outline-none focus:border-blue-500" placeholder="ex: Iobeya, Sheet">
+                            </div>
+                        </div>
+
+                        <!-- Irritants -->
+                        <div>
+                            <label class="section-label mb-1 block">Irritants</label>
+                            <textarea id="edit-weekly-irr-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.weekly.irr || ''}</textarea>
+                        </div>
+                    </div>
+
+                </div>
+            `;
+        }
+
+        // Action : Basculer coche / croix rouge
+        function togglePtStatus(side, key, routineType, idx) {
+            const list = db[key][routineType].pts;
+            if(list[idx]) {
+                list[idx].status = (list[idx].status === 'v') ? 'x' : 'v';
+                renderDashboard();
+            }
+        }
+
+        // Action : Éditer le texte d'un point traité en direct
+        function editPtText(side, key, routineType, idx, value) {
+            const list = db[key][routineType].pts;
+            if(list[idx]) {
+                list[idx].text = value;
+            }
+        }
+
+        // Action : Ajouter un nouveau point de routine
+        function addPt(side, key, routineType) {
+            if(!db[key][routineType].pts) {
+                db[key][routineType].pts = [];
+            }
+            db[key][routineType].pts.push({ status: "v", text: "Nouveau point de routine" });
+            renderDashboard();
+        }
+
+        // Action : Supprimer un point de routine
+        function deletePt(side, key, routineType, idx) {
+            db[key][routineType].pts.splice(idx, 1);
+            renderDashboard();
+        }
+
+        // Action : Sauvegarder les modifications d'une fiche
+        function saveSectorEdits(side, key) {
+            const data = db[key];
+            if (!data) return;
+
+            // Titre fiche
+            const titleInput = document.getElementById(`edit-title-${side}`);
+            if(titleInput) data.title = titleInput.value;
+
+            // --- Enregistrement Daily ---
+            const dName = document.getElementById(`edit-daily-name-${side}`);
+            const dTime = document.getElementById(`edit-daily-time-${side}`);
+            const dPart = document.getElementById(`edit-daily-part-${side}`);
+            const dPrep = document.getElementById(`edit-daily-prep-${side}`);
+            const dRoutine = document.getElementById(`edit-daily-routine-${side}`);
+            const dIrr = document.getElementById(`edit-daily-irr-${side}`);
+
+            if(dName) data.daily.name = dName.value;
+            if(dTime) data.daily.timeInfo = dTime.value;
+            if(dPart) data.daily.part = dPart.value;
+            if(dPrep) data.daily.prep = dPrep.value.split(',').map(s => s.trim()).filter(s => s !== "");
+            if(dRoutine) data.daily.routine = dRoutine.value.split(',').map(s => s.trim()).filter(s => s !== "");
+            if(dIrr) data.daily.irr = dIrr.value;
+
+            // --- Enregistrement Weekly ---
+            const wName = document.getElementById(`edit-weekly-name-${side}`);
+            const wTime = document.getElementById(`edit-weekly-time-${side}`);
+            const wPart = document.getElementById(`edit-weekly-part-${side}`);
+            const wPrep = document.getElementById(`edit-weekly-prep-${side}`);
+            const wRoutine = document.getElementById(`edit-weekly-routine-${side}`);
+            const wIrr = document.getElementById(`edit-weekly-irr-${side}`);
+
+            if(wName) data.weekly.name = wName.value;
+            if(wTime) data.weekly.timeInfo = wTime.value;
+            if(wPart) data.weekly.part = wPart.value;
+            if(wPrep) data.weekly.prep = wPrep.value.split(',').map(s => s.trim()).filter(s => s !== "");
+            if(wRoutine) data.weekly.routine = wRoutine.value.split(',').map(s => s.trim()).filter(s => s !== "");
+            if(wIrr) data.weekly.irr = wIrr.value;
+
+            // Sauvegarde dans localStorage
+            saveDbToLocalStorage();
+            
+            // Fermer le mode d'édition
+            editModes[side] = false;
+
+            // Ré-initialiser le rendu de la table et des fiches
+            renderSidebar();
+            renderDashboard();
+        }
+
+        // ==========================================
+        // GESTION DU MODAL AJOUT DE SECTEUR
+        // ==========================================
+        function openAddSectorModal() {
+            document.getElementById('new-sector-id').value = '';
+            document.getElementById('new-sector-title').value = '';
+            document.getElementById('add-sector-modal').classList.remove('hidden');
+        }
+
+        function closeAddSectorModal() {
+            document.getElementById('add-sector-modal').classList.add('hidden');
+        }
+
+        function submitNewSector() {
+            const rawId = document.getElementById('new-sector-id').value.trim();
+            const rawTitle = document.getElementById('new-sector-title').value.trim();
+
+            if (!rawId) return; // ID requis
+
+            const key = rawId.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (db[key]) {
+                // Si l'identifiant existe déjà, on ne l'écrase pas silencieusement
+                return;
+            }
+
+            // Template standard pour un nouveau secteur
+            db[key] = {
+                name: rawId,
+                title: rawTitle || `Routines PPC – ${rawId} (2 VAC)`,
+                daily: {
+                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
+                    part: "TL, Ordo, Qualité",
+                    pts: [
+                        { status: "v", text: "Suivre l'avance retard" },
+                        { status: "v", text: "Remonter les aleas" },
+                        { status: "v", text: "Prendre des décision (points ouverts)" }
+                    ],
+                    prep: ["Gantt", "Fichier présence"],
+                    routine: ["Sheet"],
+                    irr: ""
+                },
+                weekly: {
+                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
+                    part: "TL, RL, Coach perfo",
+                    pts: [
+                        { status: "v", text: "Performance" },
+                        { status: "v", text: "Pareto des aleas" },
+                        { status: "v", text: "Plan d'action" }
+                    ],
+                    prep: ["MES"],
+                    routine: ["KPI", "Sheet"],
+                    irr: ""
+                }
+            };
+
+            saveDbToLocalStorage();
+            closeAddSectorModal();
+            
+            // Sélectionne automatiquement la nouvelle entrée
+            activeLeftKey = key;
+
+            initApp();
+        }
+
+        // ==========================================
+        // GESTION CONFIRMATION ET SUPPRESSION
+        // ==========================================
+        function confirmDeleteSector(key) {
+            const item = db[key];
+            if (!item) return;
+
+            document.getElementById('sector-to-delete').value = key;
+            document.getElementById('delete-sector-name').innerText = item.name;
+            document.getElementById('delete-confirm-modal').classList.remove('hidden');
+        }
+
+        function closeDeleteConfirmModal() {
+            document.getElementById('delete-confirm-modal').classList.add('hidden');
+        }
+
+        function deleteSector() {
+            const key = document.getElementById('sector-to-delete').value;
+            if (db[key]) {
+                delete db[key];
+                saveDbToLocalStorage();
+
+                // Ré-alloue les clefs actives pour éviter les bugs si on a supprimé une fiche ouverte
+                const remainingKeys = Object.keys(db);
+                if (activeLeftKey === key) activeLeftKey = remainingKeys[0] || "";
+                if (activeRightKey === key) activeRightKey = remainingKeys[1] || remainingKeys[0] || "";
+            }
+            closeDeleteConfirmModal();
+            initApp();
+        }
+
+        // ==========================================
+        // CONFIRMATION RESET DEFAULTS
+        // ==========================================
+        function openResetConfirmModal() {
+            document.getElementById('reset-confirm-modal').classList.remove('hidden');
+        }
+
+        function closeResetConfirmModal() {
+            document.getElementById('reset-confirm-modal').classList.add('hidden');
+        }
+
+        // Initialisation de l'application au chargement
+        window.onload = function() {
+            initApp();
+        };
+    </script>
+</body>
+</html>
