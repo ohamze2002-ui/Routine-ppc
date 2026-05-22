@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pilotage de Performance PPC - Dashboard Professionnel</title>
+    <title>Pilotage de Performance PPC - Dashboard Professionnel V15</title>
     <!-- Tailwind CSS pour un design moderne et réactif -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome pour les icônes professionnelles -->
@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
+        html { overflow-anchor: none; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
@@ -101,6 +102,157 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+
+
+        /* Blocs actions et maturité */
+        .action-card {
+            border: 1.5px solid #bfdbfe;
+            background: #f8fbff;
+            border-radius: 8px;
+            padding: 7px 9px;
+        }
+        .action-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 7px;
+            padding: 5px 0;
+            border-top: 1px solid #e5edf8;
+        }
+        .action-row:first-of-type { border-top: 0; padding-top: 2px; }
+        .action-status-btn {
+            width: 15px;
+            height: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .action-status-button {
+            width: 22px;
+            height: 22px;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:7px;
+            transition: all .15s ease;
+            flex-shrink:0;
+            margin-top: 1px;
+            border: 1px solid transparent;
+        }
+        .action-status-button:hover { background:#e0f2fe; transform: scale(1.04); border-color:#bfdbfe; }
+        .action-top-badge {
+            min-width: 34px;
+            height: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            font-size: 9px;
+            font-weight: 900;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .action-text {
+            min-width: 0;
+            flex: 1;
+            font-size: 11px;
+            line-height: 1.35;
+            color: #334155;
+            white-space: normal;
+            overflow: visible;
+            word-break: break-word;
+        }
+        .action-criteria {
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .action-edit-row {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 9px 10px;
+            border: 1px solid #dbeafe;
+            background: #ffffff;
+            border-radius: 9px;
+            margin-top: 7px;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+        }
+        .action-edit-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .action-edit-header .spacer { flex: 1; }
+        .action-edit-content {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .action-edit-criteria {
+            width: 100%;
+            border: 1px solid #dbeafe;
+            background: #f8fbff;
+            border-radius: 7px;
+            padding: 6px 8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #0f172a;
+            outline: none;
+        }
+        .action-edit-action {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            border-radius: 7px;
+            padding: 7px 8px;
+            font-size: 11px;
+            color: #334155;
+            outline: none;
+            resize: vertical;
+            min-height: 42px;
+            line-height: 1.35;
+            overflow: hidden;
+        }
+        .action-edit-criteria:focus,
+        .action-edit-action:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, .10);
+        }
+        .maturity-badge {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:34px;
+            height:34px;
+            border-radius:10px;
+            font-size:18px;
+            font-weight:900;
+            border:1px solid;
+            box-shadow:0 1px 2px rgba(15,23,42,0.06);
+        }
+        .grade-a { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+        .grade-b { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+        .grade-c { background:#fffbeb; color:#b45309; border-color:#fde68a; }
+        .grade-d { background:#fff1f2; color:#be123c; border-color:#fecdd3; }
+        .maturity-card {
+            border: 1px solid #e2e8f0;
+            background:#ffffff;
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+        }
+        .bar-track { height: 8px; background:#e2e8f0; border-radius:999px; overflow:hidden; }
+        .bar-fill { height:100%; border-radius:999px; }
+        .bar-blue { background:#2563eb; }
+        .bar-green { background:#0d9488; }
+        .bar-amber { background:#f59e0b; }
+        .bar-red { background:#ef4444; }
+        .group-badge { font-size:10px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
     </style>
 </head>
 <body class="h-screen w-screen flex flex-col overflow-hidden bg-slate-50 text-slate-800">
@@ -113,7 +265,7 @@
             </div>
             <div>
                 <h1 class="text-xl font-bold text-slate-900 tracking-tight">Dashboard routines PPC _ Usine ST-ELOI </h1>
-                <p class="text-xs text-slate-500">Visualisez, modifiez et comparez vos secteurs opérationnels en temps réel </p>
+                <p class="text-xs text-slate-500">Diagnostic dynamique PPC : routines, maturité et critères AOS</p>
             </div>
         </div>
         
@@ -158,7 +310,7 @@
         </aside>
 
         <!-- ZONE D'AFFICHAGE DU DUAL VIEW (ZOOM 1 & ZOOM 2) -->
-        <section class="flex-grow p-6 flex gap-6 overflow-y-auto bg-slate-50">
+        <section id="dashboard-scroll" class="flex-grow p-6 flex gap-6 overflow-y-auto bg-slate-50">
             
             <!-- PANEL ZOOM 1 (GAUCHE) -->
             <div id="panel-zoom1" class="flex-1 flex flex-col gap-4 fade-in">
@@ -550,6 +702,177 @@
             }
         };
 
+
+        // ===============================
+        // Données enrichies : hiérarchie, maturité, actions
+        // ===============================
+        const GROUP_STRUCTURE = {
+            odye: { name: "ODYE", title: "Vue consolidée – ODYE", children: ["odye1", "odye2"], superGroup: "ODY" },
+            odys: { name: "ODYS", title: "Vue consolidée – ODYS", children: ["odys1", "odys2", "odys3", "odys41", "odys42"], superGroup: "ODY" },
+            odyl: { name: "ODYL", title: "Vue consolidée – ODYL", children: ["odyl1", "odyl2", "odyl3"], superGroup: "ODY" },
+            ody:  { name: "ODY",  title: "Vue globale – ODY", children: ["odye", "odys", "odyl"], superGroup: "GLOBAL" }
+        };
+
+        const DEFAULT_MATURITY = {
+            daily: {
+                avanceRetard: 70,
+                aleas: 55,
+                decision: 60
+            },
+            weekly: {
+                performance: 75,
+                paretoAleas: 65,
+                planAction: 50
+            }
+        };
+
+        function scoreColor(score) {
+            if (score >= 75) return 'bar-green';
+            if (score >= 55) return 'bar-blue';
+            if (score >= 35) return 'bar-amber';
+            return 'bar-red';
+        }
+
+        function scoreLabel(score) {
+            if (score >= 75) return 'Mature';
+            if (score >= 55) return 'Intermédiaire';
+            if (score >= 35) return 'À renforcer';
+            return 'Critique';
+        }
+
+        function gradeFromScore(score) {
+            if (score >= 75) return 'A';
+            if (score >= 55) return 'B';
+            if (score >= 35) return 'C';
+            return 'D';
+        }
+
+        function gradeMeta(grade) {
+            const g = String(grade || 'C').toUpperCase();
+            if (g === 'A') return { grade: 'A', cls: 'grade-a', label: 'Maturité A' };
+            if (g === 'B') return { grade: 'B', cls: 'grade-b', label: 'Maturité B' };
+            if (g === 'D') return { grade: 'D', cls: 'grade-d', label: 'Maturité D' };
+            return { grade: 'C', cls: 'grade-c', label: 'Maturité C' };
+        }
+
+        function renderMaturityBadge(data) {
+            const meta = gradeMeta(data?.maturityGrade || gradeFromScore(getOverallScore(data?.maturity)));
+            return `<span class="maturity-badge ${meta.cls}" title="${meta.label}">${meta.grade}</span>`;
+        }
+
+        function renderMaturitySelect(side, key, data) {
+            const g = (data?.maturityGrade || gradeFromScore(getOverallScore(data?.maturity))).toUpperCase();
+            return `
+                <div class="flex items-center gap-2 shrink-0">
+                    <span class="text-xs font-extrabold text-slate-400 uppercase">Maturité</span>
+                    <select onchange="editMaturityGrade('${side}', '${key}', this.value)" class="border border-slate-200 rounded-lg px-2 py-1 text-sm font-extrabold text-slate-800 bg-white outline-none focus:border-blue-500">
+                        ${['A','B','C','D'].map(x => `<option value="${x}" ${x===g?'selected':''}>${x}</option>`).join('')}
+                    </select>
+                </div>
+            `;
+        }
+
+        function average(values) {
+            const clean = values.filter(v => typeof v === 'number' && !Number.isNaN(v));
+            if (!clean.length) return 0;
+            return Math.round(clean.reduce((a,b)=>a+b,0) / clean.length);
+        }
+
+        function getRoutineScore(maturity, type) {
+            const obj = maturity?.[type] || {};
+            return average(Object.values(obj));
+        }
+
+        function getOverallScore(maturity) {
+            return average([getRoutineScore(maturity, 'daily'), getRoutineScore(maturity, 'weekly')]);
+        }
+
+        function generateMaturityFromRoutine(routine, type) {
+            const pts = routine?.pts || [];
+            const ok = pts.filter(p => p.status === 'v').length;
+            const ratio = pts.length ? Math.round((ok / pts.length) * 100) : 50;
+            const toolPenalty = ((routine?.prep || []).length + (routine?.routine || []).length) > 6 ? -10 : 0;
+            const irritantPenalty = routine?.irr ? -12 : 5;
+            const base = Math.max(20, Math.min(95, ratio + toolPenalty + irritantPenalty));
+            if (type === 'daily') {
+                return {
+                    avanceRetard: Math.max(20, Math.min(95, base + 5)),
+                    aleas: Math.max(20, Math.min(95, base - 5)),
+                    decision: Math.max(20, Math.min(95, base))
+                };
+            }
+            return {
+                performance: Math.max(20, Math.min(95, base + 5)),
+                paretoAleas: Math.max(20, Math.min(95, base)),
+                planAction: Math.max(20, Math.min(95, base - 10))
+            };
+        }
+
+        function defaultActionsForSector(sector) {
+            const dailyIrr = sector.daily?.irr || '';
+            const weeklyIrr = sector.weekly?.irr || '';
+            return {
+                daily: [
+                    { criteria: 'Suivi avance / retard', action: 'Clarifier le support de pilotage utilisé pendant le Daily', status: 'not_started' },
+                    { criteria: 'Écarts routine', action: 'Valider les irritants terrain et les écarts observés', status: 'ongoing' }
+                ],
+                weekly: [
+                    { criteria: 'Plan d’action', action: 'Relier les aléas / KPI Weekly à un plan d’action suivi', status: 'not_started' },
+                    { criteria: 'Sources KPI', action: 'Clarifier les sources de données CVAT / performance / aléas', status: 'ongoing' }
+                ]
+            };
+        }
+
+        function enrichDatabase(database) {
+            Object.keys(database).forEach(key => {
+                if (GROUP_STRUCTURE[key]) return;
+                const sector = database[key];
+                if (!sector) return;
+                const prefix = (sector.name || '').replace(/\s+/g,'').toLowerCase().match(/ody[els]/)?.[0] || '';
+                sector.group = prefix.toUpperCase();
+                sector.superGroup = 'ODY';
+                sector.isGroup = false;
+                if (!sector.maturity) {
+                    sector.maturity = {
+                        daily: generateMaturityFromRoutine(sector.daily, 'daily'),
+                        weekly: generateMaturityFromRoutine(sector.weekly, 'weekly')
+                    };
+                }
+                if (!sector.maturityGrade) sector.maturityGrade = gradeFromScore(getOverallScore(sector.maturity));
+                if (!sector.actions) sector.actions = defaultActionsForSector(sector);
+            });
+            Object.keys(GROUP_STRUCTURE).forEach(groupKey => {
+                database[groupKey] = buildGroupNode(groupKey, database);
+            });
+        }
+
+        function buildGroupNode(groupKey, database) {
+            const cfg = GROUP_STRUCTURE[groupKey];
+            const existing = database[groupKey] || {};
+            const children = cfg.children.map(k => database[k]).filter(Boolean);
+            const childMaturities = children.map(c => c.maturity).filter(Boolean);
+            const dailyKeys = ['avanceRetard','aleas','decision'];
+            const weeklyKeys = ['performance','paretoAleas','planAction'];
+            const computedMaturity = { daily: {}, weekly: {} };
+            dailyKeys.forEach(k => computedMaturity.daily[k] = average(childMaturities.map(m => m.daily?.[k])));
+            weeklyKeys.forEach(k => computedMaturity.weekly[k] = average(childMaturities.map(m => m.weekly?.[k])));
+            return {
+                name: cfg.name,
+                title: existing.title || cfg.title,
+                isGroup: true,
+                group: cfg.name,
+                superGroup: cfg.superGroup,
+                children: cfg.children,
+                maturity: existing.maturity || computedMaturity,
+                maturityGrade: existing.maturityGrade || gradeFromScore(getOverallScore(existing.maturity || computedMaturity))
+            };
+        }
+
+        function orderedKeysForSidebar() {
+            const order = ['ody', 'odye', 'odye1', 'odye2', 'odys', 'odys1', 'odys2', 'odys3', 'odys41', 'odys42', 'odyl', 'odyl1', 'odyl2', 'odyl3'];
+            return order.filter(k => db[k]).concat(Object.keys(db).filter(k => !order.includes(k)));
+        }
+
         // État de l'application chargée depuis localStorage ou défaut
         let db = {};
         let activeLeftKey = "odyl1";
@@ -563,7 +886,7 @@
 
         // Charge les données
         function initApp() {
-            const savedDb = localStorage.getItem('ppc_sectors_db_custom_v3');
+            const savedDb = localStorage.getItem('ppc_sectors_db_custom_v6');
             if (savedDb) {
                 try {
                     db = JSON.parse(savedDb);
@@ -573,6 +896,9 @@
             } else {
                 db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
             }
+
+            // Enrichit la base avec la hiérarchie, les scores de maturité et les actions prioritaires
+            enrichDatabase(db);
 
             // Vérifie que les clés actives existent bien
             const keys = Object.keys(db);
@@ -585,12 +911,12 @@
 
         // Sauvegarde locale
         function saveDbToLocalStorage() {
-            localStorage.setItem('ppc_sectors_db_custom_v3', JSON.stringify(db));
+            localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(db));
         }
 
         // Réinitialise vers l'origine
         function resetToDefaults() {
-            localStorage.removeItem('ppc_sectors_db_custom_v3');
+            localStorage.removeItem('ppc_sectors_db_custom_v6');
             activeLeftKey = "odyl1";
             activeRightKey = "odyl2";
             editModes.left = false;
@@ -604,14 +930,15 @@
             const tbody = document.getElementById('sectors-table-body');
             tbody.innerHTML = '';
 
-            Object.keys(db).forEach(key => {
+            orderedKeysForSidebar().forEach(key => {
                 const item = db[key];
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition-colors group";
+                tr.className = item.isGroup ? "bg-slate-50 hover:bg-slate-100 transition-colors group" : "hover:bg-slate-50 transition-colors group";
                 
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-bold text-slate-800 text-sm tracking-tight truncate max-w-[120px]" title="${item.name}">
-                        ${item.name}
+                        <span class="${item.isGroup ? 'text-blue-700' : 'pl-3'}">${item.name}</span>
+                        ${item.isGroup ? '<span class="ml-2 group-badge text-blue-500">Synthèse</span>' : ''}
                     </td>
                     <td class="py-3 px-2 text-center">
                         <input type="radio" name="zoom1" value="${key}" class="sheets-checkbox" ${key === activeLeftKey ? 'checked' : ''} onchange="selectSector('left', '${key}')">
@@ -620,9 +947,7 @@
                         <input type="radio" name="zoom2" value="${key}" class="sheets-checkbox" ${key === activeRightKey ? 'checked' : ''} onchange="selectSector('right', '${key}')">
                     </td>
                     <td class="py-3 pr-4 text-right">
-                        <button onclick="confirmDeleteSector('${key}')" class="text-slate-300 hover:text-rose-500 p-1 rounded transition opacity-0 group-hover:opacity-100 focus:opacity-100" title="Supprimer ce secteur">
-                            <i class="fa-solid fa-trash-can text-sm"></i>
-                        </button>
+                        ${item.isGroup ? '<span class="text-slate-300 text-xs">—</span>' : `<button onclick="confirmDeleteSector('${key}')" class="text-slate-300 hover:text-rose-500 p-1 rounded transition opacity-0 group-hover:opacity-100 focus:opacity-100" title="Supprimer ce secteur"><i class="fa-solid fa-trash-can text-sm"></i></button>`}
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -638,13 +963,78 @@
                 activeRightKey = key;
                 editModes.right = false; // Ferme l'édition en cours
             }
-            renderDashboard();
+            safeRenderDashboard();
         }
 
         // Toggle édition
         function toggleEditMode(side) {
             editModes[side] = !editModes[side];
+            safeRenderDashboard();
+        }
+
+        // Rendu sécurisé : conserve toutes les positions de scroll importantes
+        function captureScrollState() {
+            const preserved = {};
+            document.querySelectorAll('[data-preserve-scroll]').forEach(el => {
+                preserved[el.dataset.preserveScroll] = {
+                    top: el.scrollTop || 0,
+                    left: el.scrollLeft || 0
+                };
+            });
+
+            return {
+                pageX: window.scrollX || 0,
+                pageY: window.scrollY || 0,
+                dashboard: document.getElementById('dashboard-scroll')?.scrollTop || 0,
+                sidebar: document.querySelector('aside .overflow-y-auto')?.scrollTop || 0,
+                leftPanel: document.getElementById('panel-zoom1')?.scrollTop || 0,
+                rightPanel: document.getElementById('panel-zoom2')?.scrollTop || 0,
+                activeId: document.activeElement?.id || null,
+                preserved
+            };
+        }
+
+        function restoreScrollState(state) {
+            if (!state) return;
+            const dashboard = document.getElementById('dashboard-scroll');
+            const sidebar = document.querySelector('aside .overflow-y-auto');
+            const leftPanel = document.getElementById('panel-zoom1');
+            const rightPanel = document.getElementById('panel-zoom2');
+
+            if (dashboard) dashboard.scrollTop = state.dashboard;
+            if (sidebar) sidebar.scrollTop = state.sidebar;
+            if (leftPanel) leftPanel.scrollTop = state.leftPanel;
+            if (rightPanel) rightPanel.scrollTop = state.rightPanel;
+
+            Object.entries(state.preserved || {}).forEach(([key, pos]) => {
+                const el = document.querySelector(`[data-preserve-scroll="${key}"]`);
+                if (el) {
+                    el.scrollTop = pos.top;
+                    el.scrollLeft = pos.left;
+                }
+            });
+
+            window.scrollTo(state.pageX, state.pageY);
+        }
+
+        function safeRenderDashboard() {
+            const state = captureScrollState();
+
+            // Important : certains ajouts (point traité / action) recréent le DOM.
+            // On restaure donc plusieurs fois la position après le rendu, car le navigateur
+            // peut recalculer la hauteur des blocs après l'injection HTML.
             renderDashboard();
+
+            const restore = () => {
+                restoreScrollState(state);
+                resizeAllActionTextareas();
+            };
+
+            requestAnimationFrame(() => {
+                restore();
+                requestAnimationFrame(restore);
+                [0, 25, 75, 150, 300, 500].forEach(delay => setTimeout(restore, delay));
+            });
         }
 
         // Rendu global des deux fiches (Avec mode plein écran automatique s'ils sont identiques)
@@ -670,6 +1060,7 @@
                 leftContainer.innerHTML = createCardHTML('left', activeLeftKey);
                 rightContainer.innerHTML = createCardHTML('right', activeRightKey);
             }
+            setTimeout(resizeAllActionTextareas, 0);
         }
 
         // Crée le bloc HTML complet d'une fiche (Read-Only ou Edit-Mode)
@@ -686,6 +1077,10 @@
 
             const isEditing = editModes[side];
 
+            if (data.isGroup) {
+                return isEditing ? renderGroupEditModeCard(side, key, data) : renderGroupCard(side, key, data);
+            }
+
             if (isEditing) {
                 // =============== MODE EDITION ===============
                 return renderEditModeCard(side, key, data);
@@ -693,6 +1088,139 @@
                 // =============== MODE LECTURE (PROPRE) ===============
                 return renderReadOnlyCard(side, key, data);
             }
+        }
+
+
+        function renderMaturityBars(maturity, type) {
+            const labels = type === 'daily'
+                ? { avanceRetard: 'Avance / retard', aleas: 'Aléas', decision: 'Décision' }
+                : { performance: 'Performance', paretoAleas: 'Pareto aléas', planAction: 'Plan d’action' };
+            const obj = maturity?.[type] || {};
+            return Object.keys(labels).map(k => {
+                const v = obj[k] ?? 0;
+                return `
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center justify-between text-[11px] font-semibold text-slate-600">
+                            <span>${labels[k]}</span><span>${v}%</span>
+                        </div>
+                        <div class="bar-track"><div class="bar-fill ${scoreColor(v)}" style="width:${v}%"></div></div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function normalizeActionStatus(status) {
+            const s = String(status || '').toLowerCase();
+            if (s.includes('fait') || s.includes('done') || s.includes('termin')) return 'done';
+            if (s.includes('cours') || s.includes('ongoing') || s.includes('progress')) return 'ongoing';
+            return 'not_started';
+        }
+
+        function getActionStatusMeta(status) {
+            const s = normalizeActionStatus(status);
+            if (s === 'done') return { label: 'Fait', icon: 'fa-circle-check', cls: 'text-emerald-600' };
+            if (s === 'ongoing') return { label: 'En cours', icon: 'fa-circle-half-stroke', cls: 'text-amber-500' };
+            return { label: 'Non commencé', icon: 'fa-circle-xmark', cls: 'text-slate-400' };
+        }
+
+        function nextActionStatus(status) {
+            const s = normalizeActionStatus(status);
+            if (s === 'not_started') return 'ongoing';
+            if (s === 'ongoing') return 'done';
+            return 'not_started';
+        }
+
+        function renderActions(actions, side, key, routineType) {
+            if (!actions || actions.length === 0) {
+                return `
+                    <div class="action-card border-dashed border-slate-200 bg-slate-50/50">
+                        <div class="flex items-center gap-1.5 text-slate-400 font-extrabold text-[10px] uppercase tracking-wider">
+                            <i class="fa-solid fa-list-ol"></i> Actions
+                        </div>
+                        <p class="text-[11px] text-slate-400 italic mt-1">Aucune action définie</p>
+                    </div>
+                `;
+            }
+            return `
+                <div class="action-card">
+                    <div class="flex items-center justify-between mb-1">
+                        <div class="flex items-center gap-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider">
+                            <i class="fa-solid fa-list-ol"></i> Actions
+                        </div>
+                        <span class="text-[10px] font-bold text-slate-400">${actions.length}</span>
+                    </div>
+                    ${actions.map((a, idx) => {
+                        const meta = getActionStatusMeta(a.status);
+                        const icon = `<i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn" title="${meta.label}"></i>`;
+                        return `
+                            <div class="action-row">
+                                ${icon}
+                                <span class="action-top-badge">Top ${idx + 1}</span>
+                                <div class="action-text" title="${meta.label}">
+                                    <span class="action-criteria">${a.criteria || 'Critère'}</span>
+                                    <span class="text-slate-400 mx-1">—</span>
+                                    <span>${a.action || ''}</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderGroupCard(side, key, data) {
+            const dailyScore = getRoutineScore(data.maturity, 'daily');
+            const weeklyScore = getRoutineScore(data.maturity, 'weekly');
+            const globalScore = getOverallScore(data.maturity);
+            const childLabels = (data.children || []).map(k => db[k]?.name || k.toUpperCase()).join(' • ');
+            return `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
+                    <div>
+                        <div class="flex items-center gap-3">
+                            ${renderMaturityBadge(data)}
+                            <h2 class="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                                <i class="fa-solid fa-layer-group text-blue-600"></i>${data.title}
+                            </h2>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-0.5">Regroupe : ${childLabels || 'secteurs associés'}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 hover:bg-slate-100 p-1.5 rounded-lg transition" title="Modifier la synthèse">
+                            <i class="fa-solid fa-pencil text-base"></i>
+                        </button>
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-100">Vue consolidée</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="maturity-card">
+                        <p class="text-xs font-bold text-slate-400 uppercase mb-1">Score global</p>
+                        <div class="flex items-end gap-2"><span class="text-4xl font-extrabold text-slate-900">${globalScore}</span><span class="text-sm font-bold text-slate-400 mb-1">%</span></div>
+                        <p class="text-xs font-semibold text-slate-500 mt-1">${scoreLabel(globalScore)}</p>
+                    </div>
+                    <div class="maturity-card">
+                        <p class="text-xs font-bold text-slate-400 uppercase mb-2">PPC Daily</p>
+                        <div class="bar-track mb-2"><div class="bar-fill ${scoreColor(dailyScore)}" style="width:${dailyScore}%"></div></div>
+                        <p class="text-2xl font-extrabold text-slate-800">${dailyScore}%</p>
+                    </div>
+                    <div class="maturity-card">
+                        <p class="text-xs font-bold text-slate-400 uppercase mb-2">PPC Weekly</p>
+                        <div class="bar-track mb-2"><div class="bar-fill ${scoreColor(weeklyScore)}" style="width:${weeklyScore}%"></div></div>
+                        <p class="text-2xl font-extrabold text-slate-800">${weeklyScore}%</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3">
+                        <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-clock text-blue-600"></i>Maturité Daily par critère</h3>
+                        ${renderMaturityBars(data.maturity, 'daily')}
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3">
+                        <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-calendar-week text-emerald-600"></i>Maturité Weekly par critère</h3>
+                        ${renderMaturityBars(data.maturity, 'weekly')}
+                    </div>
+                </div>
+            `;
         }
 
         // RENDU : LECTURE SEULE (Ultra-propre)
@@ -744,7 +1272,10 @@
 
             return `
                 <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
-                    <h2 class="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">${data.title}</h2>
+                    <div class="flex items-center gap-3">
+                        ${renderMaturityBadge(data)}
+                        <h2 class="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">${data.title}</h2>
+                    </div>
                     <div class="flex items-center gap-2">
                         <button onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 hover:bg-slate-100 p-1.5 rounded-lg transition" title="Modifier cette fiche">
                             <i class="fa-solid fa-pencil text-base"></i>
@@ -775,6 +1306,16 @@
                             <span class="section-label">Points Traités</span>
                             <ul class="points-list flex flex-col gap-2">${renderPointsList(data.daily.pts)}</ul>
                         </div>
+
+                        <div class="maturity-card bg-slate-50/60">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="section-label">Maturité Daily</span>
+                                <span class="text-xs font-extrabold text-slate-700">${getRoutineScore(data.maturity, 'daily')}%</span>
+                            </div>
+                            <div class="bar-track"><div class="bar-fill ${scoreColor(getRoutineScore(data.maturity, 'daily'))}" style="width:${getRoutineScore(data.maturity, 'daily')}%"></div></div>
+                        </div>
+
+                        ${renderActions(data.actions?.daily, side, key, 'daily')}
 
                         <div class="grid grid-cols-2 gap-4 mt-auto border-t border-slate-100 pt-3">
                             <div class="flex flex-col gap-1.5">
@@ -814,6 +1355,16 @@
                             <ul class="points-list flex flex-col gap-2">${renderPointsList(data.weekly.pts)}</ul>
                         </div>
 
+                        <div class="maturity-card bg-slate-50/60">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="section-label">Maturité Weekly</span>
+                                <span class="text-xs font-extrabold text-slate-700">${getRoutineScore(data.maturity, 'weekly')}%</span>
+                            </div>
+                            <div class="bar-track"><div class="bar-fill ${scoreColor(getRoutineScore(data.maturity, 'weekly'))}" style="width:${getRoutineScore(data.maturity, 'weekly')}%"></div></div>
+                        </div>
+
+                        ${renderActions(data.actions?.weekly, side, key, 'weekly')}
+
                         <div class="grid grid-cols-2 gap-4 mt-auto border-t border-slate-100 pt-3">
                             <div class="flex flex-col gap-1.5">
                                 <span class="section-label">Préparation</span>
@@ -835,6 +1386,56 @@
             `;
         }
 
+        function makeEditableActionsHTML(side, key, routineType, actions) {
+            const list = actions || [];
+            let html = '';
+            if (!list.length) {
+                html += `<p class="text-[11px] text-slate-400 italic mb-2">Aucune action définie</p>`;
+            }
+            list.forEach((a, idx) => {
+                const meta = getActionStatusMeta(a.status);
+                const criteria = escapeAttr(a.criteria || '');
+                const action = escapeHtml(a.action || '');
+                html += `
+                    <div class="action-edit-row">
+                        <div class="action-edit-header">
+                            <button type="button" onclick="cycleActionStatus(event, '${side}', '${key}', '${routineType}', ${idx})" class="action-status-button" title="Changer le statut : ${meta.label}">
+                                <i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn"></i>
+                            </button>
+                            <span class="action-top-badge">Top ${idx + 1}</span>
+                            <span class="action-status-label text-[10px] font-bold text-slate-400 uppercase">${meta.label}</span>
+                            <span class="spacer"></span>
+                            <button type="button" onclick="deleteAction('${side}', '${key}', '${routineType}', ${idx})" class="text-slate-300 hover:text-rose-500 p-1 rounded transition shrink-0" title="Supprimer cette action"><i class="fa-solid fa-trash-can text-[11px]"></i></button>
+                        </div>
+                        <div class="action-edit-content">
+                            <input type="text" value="${criteria}" oninput="editActionField('${side}', '${key}', '${routineType}', ${idx}, 'criteria', this.value)" class="action-edit-criteria" placeholder="Critère / thème">
+                            <textarea oninput="editActionField('${side}', '${key}', '${routineType}', ${idx}, 'action', this.value); autoResizeTextarea(this)" onfocus="autoResizeTextarea(this)" class="action-edit-action" placeholder="Action à mener">${action}</textarea>
+                        </div>
+                    </div>
+                `;
+            });
+            html += `
+                <button type="button" onclick="addAction('${side}', '${key}', '${routineType}')" class="mt-2 text-blue-600 hover:text-blue-700 text-[11px] font-bold flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-circle-plus"></i> Ajouter une action
+                </button>
+            `;
+            return `<div class="action-card"><div class="flex items-center gap-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider mb-1"><i class="fa-solid fa-list-ol"></i> Actions</div>${html}</div>`;
+        }
+
+        function makeEditableMaturityHTML(side, key, routineType, maturity) {
+            const labels = routineType === 'daily'
+                ? { avanceRetard: 'Avance / retard', aleas: 'Aléas', decision: 'Décision' }
+                : { performance: 'Performance', paretoAleas: 'Pareto aléas', planAction: 'Plan d’action' };
+            const obj = maturity?.[routineType] || {};
+            return Object.keys(labels).map(k => `
+                <div class="flex items-center gap-2 mb-2">
+                    <label class="text-[11px] font-semibold text-slate-600 w-32">${labels[k]}</label>
+                    <input type="number" min="0" max="100" value="${obj[k] ?? 0}" onchange="editMaturityField('${side}', '${key}', '${routineType}', '${k}', this.value)" class="w-20 border border-slate-200 rounded-lg px-2 py-1 text-xs font-bold text-slate-800 outline-none focus:border-blue-500">
+                    <span class="text-[11px] text-slate-400">%</span>
+                </div>
+            `).join('');
+        }
+
         // RENDU : MODE EDITION INTEGRAL
         function renderEditModeCard(side, key, data) {
             
@@ -845,7 +1446,7 @@
                 list.forEach((pt, idx) => {
                     html += `
                         <div class="flex items-center gap-2 mb-1.5">
-                            <button onclick="togglePtStatus('${side}', '${key}', '${routineType}', ${idx})" class="p-1 rounded hover:bg-slate-100 transition shrink-0" title="Changer l'état (Valide/Erreur)">
+                            <button onclick="togglePtStatus(event, '${side}', '${key}', '${routineType}', ${idx})" class="p-1 rounded hover:bg-slate-100 transition shrink-0" title="Changer l'état (Valide/Erreur)">
                                 <i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg"></i>
                             </button>
                             <input type="text" value="${pt.text.replace(/"/g, '&quot;')}" onchange="editPtText('${side}', '${key}', '${routineType}', ${idx}, this.value)" class="w-full border border-slate-200 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-blue-500">
@@ -870,6 +1471,7 @@
                         <span class="text-xs font-extrabold text-blue-600 uppercase">TITRE FICHE :</span>
                         <input type="text" id="edit-title-${side}" value="${data.title.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2.5 py-1 text-sm font-bold text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20">
                     </div>
+                    ${renderMaturitySelect(side, key, data)}
                     <div class="flex items-center gap-1.5 shrink-0">
                         <button onclick="saveSectorEdits('${side}', '${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-sm" title="Sauvegarder">
                             <i class="fa-solid fa-floppy-disk"></i> Enregistrer
@@ -880,7 +1482,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 flex-grow min-h-0 overflow-y-auto pr-1">
+                <div id="edit-scroll-${side}" data-preserve-scroll="edit-${side}" class="grid grid-cols-2 gap-4 flex-grow min-h-0 overflow-y-auto pr-1">
                     
                     <!-- FORMULAIRE DAILY -->
                     <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 flex flex-col gap-4">
@@ -905,11 +1507,16 @@
                         <!-- Points Traités -->
                         <div class="flex flex-col">
                             <span class="section-label mb-2 block">Points Traités (cliquer sur l'icône pour modifier le statut)</span>
-                            <div class="bg-white rounded-lg p-3 border border-slate-200 max-h-56 overflow-y-auto">
+                            <div id="pts-scroll-${side}-daily" data-preserve-scroll="pts-${side}-daily" class="bg-white rounded-lg p-3 border border-slate-200 max-h-56 overflow-y-auto">
                                 ${makeEditablePtsHTML('daily', data.daily.pts)}
                             </div>
                         </div>
 
+
+
+                        <div>
+                            ${makeEditableActionsHTML(side, key, 'daily', data.actions?.daily)}
+                        </div>
                         <!-- Outils -->
                         <div class="grid grid-cols-2 gap-3">
                             <div>
@@ -933,6 +1540,12 @@
                                 <textarea id="edit-daily-irr-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.daily.irr || ''}</textarea>
                             </div>
                         </div>
+
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3">
+                            <label class="section-label mb-2 block text-blue-700">Maturité Daily (%)</label>
+                            ${makeEditableMaturityHTML(side, key, 'daily', data.maturity)}
+                        </div>
+
                     </div>
 
                     <!-- FORMULAIRE WEEKLY -->
@@ -958,9 +1571,13 @@
                         <!-- Points Traités -->
                         <div class="flex flex-col">
                             <span class="section-label mb-2 block">Points Traités (cliquer sur l'icône pour modifier le statut)</span>
-                            <div class="bg-white rounded-lg p-3 border border-slate-200 max-h-56 overflow-y-auto">
+                            <div id="pts-scroll-${side}-weekly" data-preserve-scroll="pts-${side}-weekly" class="bg-white rounded-lg p-3 border border-slate-200 max-h-56 overflow-y-auto">
                                 ${makeEditablePtsHTML('weekly', data.weekly.pts)}
                             </div>
+                        </div>
+
+                        <div>
+                            ${makeEditableActionsHTML(side, key, 'weekly', data.actions?.weekly)}
                         </div>
 
                         <!-- Outils -->
@@ -986,18 +1603,63 @@
                                 <textarea id="edit-weekly-irr-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.weekly.irr || ''}</textarea>
                             </div>
                         </div>
+
+                        <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-3">
+                            <label class="section-label mb-2 block text-emerald-700">Maturité Weekly (%)</label>
+                            ${makeEditableMaturityHTML(side, key, 'weekly', data.maturity)}
+                        </div>
+
                     </div>
 
                 </div>
             `;
         }
 
-        // Action : Basculer coche / croix rouge
-        function togglePtStatus(side, key, routineType, idx) {
-            const list = db[key][routineType].pts;
-            if(list[idx]) {
+        function renderGroupEditModeCard(side, key, data) {
+            return `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
+                    <div class="flex items-center gap-2 flex-grow mr-4">
+                        <span class="text-xs font-extrabold text-blue-600 uppercase">TITRE SYNTHÈSE :</span>
+                        <input type="text" id="edit-title-${side}" value="${data.title.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2.5 py-1 text-sm font-bold text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20">
+                    </div>
+                    ${renderMaturitySelect(side, key, data)}
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button onclick="saveGroupEdits('${side}', '${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Enregistrer</button>
+                        <button onclick="toggleEditMode('${side}')" class="border border-slate-200 text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition"><i class="fa-solid fa-xmark"></i> Annuler</button>
+                    </div>
+                </div>
+
+                <div id="edit-scroll-${side}" data-preserve-scroll="edit-${side}" class="grid grid-cols-2 gap-4 flex-grow min-h-0 overflow-y-auto pr-1">
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
+                        <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-clock text-blue-600"></i>Modifier Daily</h3>
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3">
+                            <label class="section-label mb-2 block text-blue-700">Maturité Daily (%)</label>
+                            ${makeEditableMaturityHTML(side, key, 'daily', data.maturity)}
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
+                        <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-calendar-week text-emerald-600"></i>Modifier Weekly</h3>
+                        <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-3">
+                            <label class="section-label mb-2 block text-emerald-700">Maturité Weekly (%)</label>
+                            ${makeEditableMaturityHTML(side, key, 'weekly', data.maturity)}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Action : Basculer coche / croix rouge sans recharger toute l'interface
+        function togglePtStatus(event, side, key, routineType, idx) {
+            const list = db[key]?.[routineType]?.pts;
+            if (list && list[idx]) {
                 list[idx].status = (list[idx].status === 'v') ? 'x' : 'v';
-                renderDashboard();
+
+                // Mise à jour locale de l'icône uniquement, pour éviter de remonter en haut de page
+                const icon = event?.currentTarget?.querySelector('i');
+                if (icon) {
+                    icon.className = `fa-solid ${list[idx].status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg`;
+                }
             }
         }
 
@@ -1015,13 +1677,82 @@
                 db[key][routineType].pts = [];
             }
             db[key][routineType].pts.push({ status: "v", text: "Nouveau point de routine" });
-            renderDashboard();
+            saveDbToLocalStorage();
+            safeRenderDashboard();
         }
 
         // Action : Supprimer un point de routine
         function deletePt(side, key, routineType, idx) {
             db[key][routineType].pts.splice(idx, 1);
-            renderDashboard();
+            safeRenderDashboard();
+        }
+
+        function ensureActions(key, routineType) {
+            if (!db[key].actions) db[key].actions = { daily: [], weekly: [] };
+            if (!db[key].actions[routineType]) db[key].actions[routineType] = [];
+        }
+
+        function cycleActionStatus(event, side, key, routineType, idx) {
+            ensureActions(key, routineType);
+            const action = db[key].actions[routineType][idx];
+            if (action) {
+                action.status = nextActionStatus(action.status);
+                saveDbToLocalStorage();
+
+                // Mise à jour locale de l'icône sans recharger toute la page
+                const meta = getActionStatusMeta(action.status);
+                const button = event?.currentTarget;
+                if (button) {
+                    button.title = `Changer le statut : ${meta.label}`;
+                    const icon = button.querySelector('i');
+                    if (icon) icon.className = `fa-solid ${meta.icon} ${meta.cls} action-status-btn`;
+                    const row = button.closest('.action-edit-header');
+                    const label = row?.querySelector('.action-status-label');
+                    if (label) label.textContent = meta.label;
+                }
+            }
+        }
+
+        function editActionField(side, key, routineType, idx, field, value) {
+            ensureActions(key, routineType);
+            if (db[key].actions[routineType][idx]) db[key].actions[routineType][idx][field] = value;
+        }
+
+        function addAction(side, key, routineType) {
+            ensureActions(key, routineType);
+            db[key].actions[routineType].push({ criteria: 'Critère / thème', action: 'Action à mener', status: 'not_started' });
+            saveDbToLocalStorage();
+            safeRenderDashboard();
+        }
+
+        function deleteAction(side, key, routineType, idx) {
+            ensureActions(key, routineType);
+            db[key].actions[routineType].splice(idx, 1);
+            safeRenderDashboard();
+        }
+
+        function editMaturityField(side, key, routineType, criteriaKey, value) {
+            if (!db[key].maturity) db[key].maturity = { daily: {}, weekly: {} };
+            if (!db[key].maturity[routineType]) db[key].maturity[routineType] = {};
+            const n = Math.max(0, Math.min(100, parseInt(value || '0', 10)));
+            db[key].maturity[routineType][criteriaKey] = n;
+        }
+
+        function editMaturityGrade(side, key, value) {
+            if (!db[key]) return;
+            db[key].maturityGrade = String(value || 'C').toUpperCase();
+            saveDbToLocalStorage();
+        }
+
+        function saveGroupEdits(side, key) {
+            const data = db[key];
+            if (!data) return;
+            const titleInput = document.getElementById(`edit-title-${side}`);
+            if (titleInput) data.title = titleInput.value;
+            saveDbToLocalStorage();
+            editModes[side] = false;
+            renderSidebar();
+            safeRenderDashboard();
         }
 
         // Action : Sauvegarder les modifications d'une fiche
@@ -1075,7 +1806,7 @@
 
             // Ré-initialiser le rendu de la table et des fiches
             renderSidebar();
-            renderDashboard();
+            safeRenderDashboard();
         }
 
         // ==========================================
@@ -1162,7 +1893,7 @@
 
         function deleteSector() {
             const key = document.getElementById('sector-to-delete').value;
-            if (db[key]) {
+            if (db[key] && !db[key].isGroup) {
                 delete db[key];
                 saveDbToLocalStorage();
                 
@@ -1184,6 +1915,28 @@
 
         function closeResetConfirmModal() {
             document.getElementById('reset-confirm-modal').classList.add('hidden');
+        }
+
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function escapeAttr(value) {
+            return escapeHtml(value).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        function autoResizeTextarea(el) {
+            if (!el) return;
+            el.style.height = 'auto';
+            el.style.height = Math.max(42, el.scrollHeight) + 'px';
+        }
+
+        function resizeAllActionTextareas() {
+            document.querySelectorAll('.action-edit-action').forEach(autoResizeTextarea);
         }
 
         // Initialisation de l'application au chargement
