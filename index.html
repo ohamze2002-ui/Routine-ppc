@@ -854,8 +854,13 @@
             const dailyKeys = ['avanceRetard','aleas','decision'];
             const weeklyKeys = ['performance','paretoAleas','planAction'];
             const computedMaturity = { daily: {}, weekly: {} };
+
+            // Les synthèses ODYE / ODYS / ODYL / ODY sont toujours recalculées
+            // automatiquement depuis les secteurs enfants. Pas de saisie manuelle
+            // des pourcentages sur les pages de synthèse.
             dailyKeys.forEach(k => computedMaturity.daily[k] = average(childMaturities.map(m => m.daily?.[k])));
             weeklyKeys.forEach(k => computedMaturity.weekly[k] = average(childMaturities.map(m => m.weekly?.[k])));
+
             return {
                 name: cfg.name,
                 title: existing.title || cfg.title,
@@ -863,8 +868,8 @@
                 group: cfg.name,
                 superGroup: cfg.superGroup,
                 children: cfg.children,
-                maturity: existing.maturity || computedMaturity,
-                maturityGrade: existing.maturityGrade || gradeFromScore(getOverallScore(existing.maturity || computedMaturity))
+                maturity: computedMaturity,
+                maturityGrade: gradeFromScore(getOverallScore(computedMaturity))
             };
         }
 
@@ -1130,6 +1135,44 @@
             return 'not_started';
         }
 
+        function actionPriority(status) {
+            const s = normalizeActionStatus(status);
+            if (s === 'not_started') return 1;
+            if (s === 'ongoing') return 2;
+            if (s === 'done') return 9999;
+            return 50;
+        }
+
+        function sortActionsWithOriginalIndex(actions) {
+            return (actions || [])
+                .map((action, originalIndex) => ({ action, originalIndex }))
+                .sort((a, b) => {
+                    const pa = actionPriority(a.action.status);
+                    const pb = actionPriority(b.action.status);
+                    if (pa !== pb) return pa - pb;
+                    return a.originalIndex - b.originalIndex;
+                });
+        }
+
+        function formatActionDate(value) {
+            if (!value) return '';
+            const parts = String(value).split('-');
+            if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            return value;
+        }
+
+        function renderActionDates(action) {
+            const start = action.dateDebut || action.startDate || '';
+            const end = action.dateFin || action.endDate || '';
+            if (!start && !end) return '';
+            return `
+                <div class="text-[10px] text-slate-400 font-semibold mt-1 flex items-center gap-2">
+                    ${start ? `<span><i class="fa-regular fa-calendar-plus"></i> Début : ${formatActionDate(start)}</span>` : ''}
+                    ${end ? `<span><i class="fa-regular fa-calendar-check"></i> Fin : ${formatActionDate(end)}</span>` : ''}
+                </div>
+            `;
+        }
+
         function renderActions(actions, side, key, routineType) {
             if (!actions || actions.length === 0) {
                 return `
@@ -1141,6 +1184,9 @@
                     </div>
                 `;
             }
+
+            const sortedActions = sortActionsWithOriginalIndex(actions);
+
             return `
                 <div class="action-card">
                     <div class="flex items-center justify-between mb-1">
@@ -1149,21 +1195,243 @@
                         </div>
                         <span class="text-[10px] font-bold text-slate-400">${actions.length}</span>
                     </div>
-                    ${actions.map((a, idx) => {
+                    ${sortedActions.map(({ action: a }, idx) => {
                         const meta = getActionStatusMeta(a.status);
+                        const isDone = normalizeActionStatus(a.status) === 'done';
                         const icon = `<i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn" title="${meta.label}"></i>`;
                         return `
-                            <div class="action-row">
+                            <div class="action-row ${isDone ? 'opacity-70' : ''}">
                                 ${icon}
                                 <span class="action-top-badge">Top ${idx + 1}</span>
                                 <div class="action-text" title="${meta.label}">
-                                    <span class="action-criteria">${a.criteria || 'Critère'}</span>
+                                    <span class="action-criteria ${isDone ? 'line-through decoration-emerald-400' : ''}">${a.criteria || 'Critère'}</span>
                                     <span class="text-slate-400 mx-1">—</span>
-                                    <span>${a.action || ''}</span>
+                                    <span class="${isDone ? 'line-through decoration-emerald-300' : ''}">${a.action || ''}</span>
+                                    ${renderActionDates(a)}
                                 </div>
                             </div>
                         `;
                     }).join('')}
+                </div>
+            `;
+        }
+
+
+
+        /* =========================================================
+           AJOUT — VUES SYNTHÈSE : HEATMAP + ACTIONS
+           Objectif : enrichir les pages ODY / ODYE / ODYS / ODYL
+           sans changer la structure existante du dashboard.
+
+           Logique :
+           - ODYE / ODYS / ODYL : heatmap des secteurs enfants.
+           - ODY : heatmap uniquement des grands secteurs ODYE / ODYS / ODYL.
+           - Actions : consolidation des actions ouvertes des secteurs concernés.
+        ========================================================= */
+
+        function getLeafChildren(groupKey) {
+            const node = db[groupKey];
+            if (!node?.children) return [];
+
+            let result = [];
+
+            node.children.forEach(childKey => {
+                const child = db[childKey];
+                if (!child) return;
+
+                if (child.isGroup && child.children) {
+                    result = result.concat(getLeafChildren(childKey));
+                } else {
+                    result.push(childKey);
+                }
+            });
+
+            return result;
+        }
+
+        function getHeatmapRows(groupKey) {
+            const node = db[groupKey];
+            if (!node?.children) return [];
+
+            // Pour la vue usine ODY, on affiche uniquement les grands secteurs.
+            if (groupKey === 'ody') {
+                return node.children.filter(k => db[k]);
+            }
+
+            // Pour ODYE / ODYS / ODYL, on affiche les secteurs opérationnels.
+            return getLeafChildren(groupKey);
+        }
+
+        function getActionSourceRows(groupKey) {
+            // Les actions restent consolidées depuis les secteurs terrain.
+            return getLeafChildren(groupKey);
+        }
+
+        function heatCell(value) {
+            let cls = "bg-rose-50 text-rose-700 border-rose-100";
+
+            if (value >= 75) {
+                cls = "bg-emerald-50 text-emerald-700 border-emerald-100";
+            } else if (value >= 55) {
+                cls = "bg-blue-50 text-blue-700 border-blue-100";
+            } else if (value >= 35) {
+                cls = "bg-amber-50 text-amber-700 border-amber-100";
+            }
+
+            return `
+                <td class="px-3 py-2 text-center border ${cls} font-extrabold text-xs">
+                    ${value}%
+                </td>
+            `;
+        }
+
+        function renderGroupHeatmap(groupKey) {
+            const rows = getHeatmapRows(groupKey);
+            if (!rows.length) return "";
+
+            return `
+                <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2">
+                                <i class="fa-solid fa-table-cells-large text-blue-600"></i>
+                                Heatmap maturité
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-1">Lecture rapide des écarts Daily / Weekly / Global.</p>
+                        </div>
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 bg-slate-100 text-slate-500 rounded-full border border-slate-200">
+                            ${rows.length} lignes
+                        </span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse text-xs">
+                            <thead>
+                                <tr class="text-slate-500 uppercase text-[10px] tracking-wider bg-slate-50">
+                                    <th class="text-left px-3 py-2 border border-slate-100 rounded-l-lg">Élément</th>
+                                    <th class="text-center px-3 py-2 border border-slate-100">Daily</th>
+                                    <th class="text-center px-3 py-2 border border-slate-100">Weekly</th>
+                                    <th class="text-center px-3 py-2 border border-slate-100 rounded-r-lg">Global</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rows.map(rowKey => {
+                                    const row = db[rowKey];
+                                    const daily = getRoutineScore(row.maturity, 'daily');
+                                    const weekly = getRoutineScore(row.maturity, 'weekly');
+                                    const global = getOverallScore(row.maturity);
+
+                                    return `
+                                        <tr>
+                                            <td class="px-3 py-2 border border-slate-100 font-bold text-slate-700 bg-white">
+                                                ${row.name}
+                                            </td>
+                                            ${heatCell(daily)}
+                                            ${heatCell(weekly)}
+                                            ${heatCell(global)}
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGroupActions(groupKey) {
+            const sectors = getActionSourceRows(groupKey);
+            const actions = [];
+
+            sectors.forEach(sectorKey => {
+                const s = db[sectorKey];
+                if (!s) return;
+
+                ['daily', 'weekly'].forEach(type => {
+                    (s.actions?.[type] || []).forEach(action => {
+                        actions.push({
+                            sector: s.name,
+                            type: type === 'daily' ? 'Daily' : 'Weekly',
+                            criteria: action.criteria,
+                            action: action.action,
+                            status: action.status,
+                            dateDebut: action.dateDebut || action.startDate || '',
+                            dateFin: action.dateFin || action.endDate || ''
+                        });
+                    });
+                });
+            });
+
+            // Tri automatique : les actions terminées restent visibles, mais descendent en bas.
+            const priority = {
+                'not_started': 1,
+                'ongoing': 2,
+                'done': 9999
+            };
+
+            actions.sort((a, b) => {
+                const pa = priority[normalizeActionStatus(a.status)] ?? 50;
+                const pb = priority[normalizeActionStatus(b.status)] ?? 50;
+                return pa - pb;
+            });
+
+            const openCount = actions.filter(a => normalizeActionStatus(a.status) !== 'done').length;
+            const doneCount = actions.filter(a => normalizeActionStatus(a.status) === 'done').length;
+
+            return `
+                <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
+                    <div class="flex items-center justify-between mb-1">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-blue-600"></i>
+                                Actions prioritaires
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-1">Actions ouvertes en haut, actions terminées en bas.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-bold text-blue-600 bg-blue-50 border border-blue-100 rounded-full px-2 py-1">${openCount} ouvertes</span>
+                            <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-full px-2 py-1">${doneCount} terminées</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2 max-h-[320px] overflow-y-auto pr-1">
+                        ${
+                            actions.length
+                            ? actions.map(a => {
+                                const meta = getActionStatusMeta(a.status);
+                                const isDone = normalizeActionStatus(a.status) === 'done';
+                                return `
+                                    <div class="${isDone ? 'bg-emerald-50/40 border-emerald-100 opacity-75' : 'bg-blue-50/40 border-blue-100'} border rounded-lg px-3 py-2">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <div class="text-[10px] uppercase font-extrabold ${isDone ? 'text-emerald-700' : 'text-blue-600'}">
+                                                ${a.sector} — ${a.type}
+                                            </div>
+                                            <div class="text-[10px] uppercase font-bold ${meta.cls}">
+                                                ${meta.label}
+                                            </div>
+                                        </div>
+                                        <div class="text-xs font-extrabold text-slate-800 mt-1 ${isDone ? 'line-through decoration-emerald-400' : ''}">
+                                            ${a.criteria || 'Critère'}
+                                        </div>
+                                        <div class="text-xs text-slate-600 mt-0.5 leading-snug ${isDone ? 'line-through decoration-emerald-300' : ''}">
+                                            ${a.action || ''}
+                                        </div>
+                                        ${renderActionDates(a)}
+                                    </div>
+                                `;
+                            }).join('')
+                            : `<p class="text-xs text-slate-400 italic">Aucune action définie</p>`
+                        }
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGroupInsights(groupKey) {
+            return `
+                <div class="grid grid-cols-2 gap-4">
+                    ${renderGroupHeatmap(groupKey)}
+                    ${renderGroupActions(groupKey)}
                 </div>
             `;
         }
@@ -1220,6 +1488,8 @@
                         ${renderMaturityBars(data.maturity, 'weekly')}
                     </div>
                 </div>
+
+                ${renderGroupInsights(key)}
             `;
         }
 
@@ -1388,28 +1658,42 @@
 
         function makeEditableActionsHTML(side, key, routineType, actions) {
             const list = actions || [];
+            const sortedList = sortActionsWithOriginalIndex(list);
             let html = '';
             if (!list.length) {
                 html += `<p class="text-[11px] text-slate-400 italic mb-2">Aucune action définie</p>`;
             }
-            list.forEach((a, idx) => {
+            sortedList.forEach(({ action: a, originalIndex }, displayIndex) => {
                 const meta = getActionStatusMeta(a.status);
+                const isDone = normalizeActionStatus(a.status) === 'done';
                 const criteria = escapeAttr(a.criteria || '');
                 const action = escapeHtml(a.action || '');
+                const dateDebut = escapeAttr(a.dateDebut || a.startDate || '');
+                const dateFin = escapeAttr(a.dateFin || a.endDate || '');
                 html += `
-                    <div class="action-edit-row">
+                    <div class="action-edit-row ${isDone ? 'opacity-75 bg-emerald-50/30' : ''}">
                         <div class="action-edit-header">
-                            <button type="button" onclick="cycleActionStatus(event, '${side}', '${key}', '${routineType}', ${idx})" class="action-status-button" title="Changer le statut : ${meta.label}">
+                            <button type="button" onclick="cycleActionStatus(event, '${side}', '${key}', '${routineType}', ${originalIndex})" class="action-status-button" title="Changer le statut : ${meta.label}">
                                 <i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn"></i>
                             </button>
-                            <span class="action-top-badge">Top ${idx + 1}</span>
+                            <span class="action-top-badge">Top ${displayIndex + 1}</span>
                             <span class="action-status-label text-[10px] font-bold text-slate-400 uppercase">${meta.label}</span>
                             <span class="spacer"></span>
-                            <button type="button" onclick="deleteAction('${side}', '${key}', '${routineType}', ${idx})" class="text-slate-300 hover:text-rose-500 p-1 rounded transition shrink-0" title="Supprimer cette action"><i class="fa-solid fa-trash-can text-[11px]"></i></button>
+                            <button type="button" onclick="deleteAction('${side}', '${key}', '${routineType}', ${originalIndex})" class="text-slate-300 hover:text-rose-500 p-1 rounded transition shrink-0" title="Supprimer cette action"><i class="fa-solid fa-trash-can text-[11px]"></i></button>
                         </div>
                         <div class="action-edit-content">
-                            <input type="text" value="${criteria}" oninput="editActionField('${side}', '${key}', '${routineType}', ${idx}, 'criteria', this.value)" class="action-edit-criteria" placeholder="Critère / thème">
-                            <textarea oninput="editActionField('${side}', '${key}', '${routineType}', ${idx}, 'action', this.value); autoResizeTextarea(this)" onfocus="autoResizeTextarea(this)" class="action-edit-action" placeholder="Action à mener">${action}</textarea>
+                            <input type="text" value="${criteria}" oninput="editActionField('${side}', '${key}', '${routineType}', ${originalIndex}, 'criteria', this.value)" class="action-edit-criteria" placeholder="Critère / thème">
+                            <textarea oninput="editActionField('${side}', '${key}', '${routineType}', ${originalIndex}, 'action', this.value); autoResizeTextarea(this)" onfocus="autoResizeTextarea(this)" class="action-edit-action" placeholder="Action à mener">${action}</textarea>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[10px] font-extrabold text-slate-400 uppercase mb-1">Date début</label>
+                                    <input type="date" value="${dateDebut}" onchange="editActionField('${side}', '${key}', '${routineType}', ${originalIndex}, 'dateDebut', this.value)" class="w-full border border-slate-200 rounded-lg px-2 py-1 text-[11px] text-slate-700 outline-none focus:border-blue-500 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-extrabold text-slate-400 uppercase mb-1">Date fin</label>
+                                    <input type="date" value="${dateFin}" onchange="editActionField('${side}', '${key}', '${routineType}', ${originalIndex}, 'dateFin', this.value)" class="w-full border border-slate-200 rounded-lg px-2 py-1 text-[11px] text-slate-700 outline-none focus:border-blue-500 bg-white">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1622,27 +1906,20 @@
                         <span class="text-xs font-extrabold text-blue-600 uppercase">TITRE SYNTHÈSE :</span>
                         <input type="text" id="edit-title-${side}" value="${data.title.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2.5 py-1 text-sm font-bold text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20">
                     </div>
-                    ${renderMaturitySelect(side, key, data)}
                     <div class="flex items-center gap-1.5 shrink-0">
                         <button onclick="saveGroupEdits('${side}', '${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Enregistrer</button>
                         <button onclick="toggleEditMode('${side}')" class="border border-slate-200 text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition"><i class="fa-solid fa-xmark"></i> Annuler</button>
                     </div>
                 </div>
 
-                <div id="edit-scroll-${side}" data-preserve-scroll="edit-${side}" class="grid grid-cols-2 gap-4 flex-grow min-h-0 overflow-y-auto pr-1">
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
-                        <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-clock text-blue-600"></i>Modifier Daily</h3>
-                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3">
-                            <label class="section-label mb-2 block text-blue-700">Maturité Daily (%)</label>
-                            ${makeEditableMaturityHTML(side, key, 'daily', data.maturity)}
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
-                        <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-calendar-week text-emerald-600"></i>Modifier Weekly</h3>
-                        <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-3">
-                            <label class="section-label mb-2 block text-emerald-700">Maturité Weekly (%)</label>
-                            ${makeEditableMaturityHTML(side, key, 'weekly', data.maturity)}
+                <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-info text-blue-600 bg-blue-50 p-2 rounded-lg"></i>
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-sm uppercase">Synthèse calculée automatiquement</h3>
+                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                Les pourcentages Daily, Weekly et Global de cette vue sont recalculés automatiquement à partir des secteurs enfants. Pour modifier les scores, il faut modifier les fiches secteurs associées.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1699,17 +1976,9 @@
                 action.status = nextActionStatus(action.status);
                 saveDbToLocalStorage();
 
-                // Mise à jour locale de l'icône sans recharger toute la page
-                const meta = getActionStatusMeta(action.status);
-                const button = event?.currentTarget;
-                if (button) {
-                    button.title = `Changer le statut : ${meta.label}`;
-                    const icon = button.querySelector('i');
-                    if (icon) icon.className = `fa-solid ${meta.icon} ${meta.cls} action-status-btn`;
-                    const row = button.closest('.action-edit-header');
-                    const label = row?.querySelector('.action-status-label');
-                    if (label) label.textContent = meta.label;
-                }
+                // Après changement du statut, on réaffiche la liste pour replacer
+                // automatiquement les actions terminées en bas.
+                safeRenderDashboard();
             }
         }
 
@@ -1720,7 +1989,7 @@
 
         function addAction(side, key, routineType) {
             ensureActions(key, routineType);
-            db[key].actions[routineType].push({ criteria: 'Critère / thème', action: 'Action à mener', status: 'not_started' });
+            db[key].actions[routineType].push({ criteria: 'Critère / thème', action: 'Action à mener', status: 'not_started', dateDebut: '', dateFin: '' });
             saveDbToLocalStorage();
             safeRenderDashboard();
         }
