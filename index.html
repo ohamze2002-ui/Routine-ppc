@@ -270,6 +270,11 @@
         </div>
         
         <div class="flex items-center gap-3">
+            <!-- INDICATEUR DE SYNCHRONISATION CLOUD -->
+            <span id="sync-status" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1.5 transition-all">
+                <i class="fa-solid fa-cloud"></i> Connexion Sheets...
+            </span>
+
             <!-- Bouton Ajouter Secteur -->
             <button onclick="openAddSectorModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
                 <i class="fa-solid fa-plus text-xs"></i> Ajouter un secteur
@@ -398,6 +403,11 @@
          MOTEURS DE BASES DE DONNÉES ET FONCTIONNALITÉS INTERACTIVES
          ------------------------------------------------------------- -->
     <script>
+        // =========================================================================
+        // URL DE VOTRE DEPLOIEMENT GOOGLE APPS SCRIPT (A COLLER ENTRE LES GUILLEMETS)
+        // =========================================================================
+        const APPS_SCRIPT_URL = "https://script.google.com/a/macros/airbus.com/s/AKfycbyPSKK49r-eumNmPxjUzWssi3zMo5LrUVTAQxjp6YSgFnV4gk0uY4ym0dei3gGhqyCM/exec"; 
+
         // base de données par défaut d'origine (10 secteurs réels ST-ELOI)
         const DEFAULT_DATABASE = {
             odyl1: {
@@ -425,7 +435,7 @@
                         { status: "x", text: "Plan d'action" }
                     ],
                     prep: ["MES"],
-                    routine: ["KPI (Perfo et Top aleas)", "SHEET"],
+                    routine: ["KPI (Perfo, Top aleas)", "SHEET"],
                     irr: "Les top aleas sont utilisées pour justifier la performance, on ne cherche pas à trouver les causes pour mettre des actions en place",
                     pos: ""
                 }
@@ -605,7 +615,7 @@
                         { status: "v", text: "Plan d'action" }
                     ],
                     prep: ["Fichier présence"],
-                    routine: ["PPC sheet", "KPI (Perfo et Top aleas)"],
+                    routine: ["PPC sheet", "KPI (Perfo, Top aleas)"],
                     irr: "Le plan d'action n'est pas trop pris en compte",
                     pos: ""
                 }
@@ -635,7 +645,7 @@
                         { status: "v", text: "Plan d'action" }
                     ],
                     prep: ["Sheet", "Fichier présence", "Sheet aleas", "MES"],
-                    routine: ["PPC slide", "KPI (Perfo et Top aleas)"],
+                    routine: ["PPC slide", "KPI (Perfo, Top aleas)"],
                     irr: "Trop de préparation",
                     pos: ""
                 }
@@ -778,11 +788,13 @@
             return Math.round(clean.reduce((a,b)=>a+b,0) / clean.length);
         }
 
+        // Calcule le score global d'une routine sur 3 dimensions
         function getRoutineScore(maturity, type) {
             const obj = maturity?.[type] || {};
             return average(Object.values(obj));
         }
 
+        // Calcule la moyenne totale du secteur (Daily + Weekly)
         function getOverallScore(maturity) {
             return average([getRoutineScore(maturity, 'daily'), getRoutineScore(maturity, 'weekly')]);
         }
@@ -813,12 +825,12 @@
             const weeklyIrr = sector.weekly?.irr || '';
             return {
                 daily: [
-                    { criteria: 'Suivi avance / retard', action: 'Clarifier le support de pilotage utilisé pendant le Daily', status: 'not_started' },
-                    { criteria: 'Écarts routine', action: 'Valider les irritants terrain et les écarts observés', status: 'ongoing' }
+                    { criteria: 'Suivi avance / retard', action: 'Clarifier le support de pilotage utilisé pendant le Daily', status: 'not_started', dateDebut: '', dateFin: '' },
+                    { criteria: 'Écarts routine', action: 'Valider les irritants terrain et les écarts observés', status: 'ongoing', dateDebut: '', dateFin: '' }
                 ],
                 weekly: [
-                    { criteria: 'Plan d’action', action: 'Relier les aléas / KPI Weekly à un plan d’action suivi', status: 'not_started' },
-                    { criteria: 'Sources KPI', action: 'Clarifier les sources de données CVAT / performance / aléas', status: 'ongoing' }
+                    { criteria: 'Plan d’action', action: 'Relier les aléas / KPI Weekly à un plan d’action suivi', status: 'not_started', dateDebut: '', dateFin: '2026-05-30' },
+                    { criteria: 'Sources KPI', action: 'Clarifier les sources de données CVAT / performance / aléas', status: 'ongoing', dateDebut: '', dateFin: '' }
                 ]
             };
         }
@@ -855,9 +867,6 @@
             const weeklyKeys = ['performance','paretoAleas','planAction'];
             const computedMaturity = { daily: {}, weekly: {} };
 
-            // Les synthèses ODYE / ODYS / ODYL / ODY sont toujours recalculées
-            // automatiquement depuis les secteurs enfants. Pas de saisie manuelle
-            // des pourcentages sur les pages de synthèse.
             dailyKeys.forEach(k => computedMaturity.daily[k] = average(childMaturities.map(m => m.daily?.[k])));
             weeklyKeys.forEach(k => computedMaturity.weekly[k] = average(childMaturities.map(m => m.weekly?.[k])));
 
@@ -889,17 +898,31 @@
             right: false
         };
 
-        // Charge les données
-        function initApp() {
-            const savedDb = localStorage.getItem('ppc_sectors_db_custom_v6');
-            if (savedDb) {
+        // ==========================================
+        // SYNCHRONISATION INTÉGRALE GOOGLE SHEET
+        // ==========================================
+        async function initApp() {
+            setSyncStatus("loading", "Connexion Google Sheet...");
+            if (APPS_SCRIPT_URL !== "") {
                 try {
-                    db = JSON.parse(savedDb);
-                } catch(e) {
-                    db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
+                    const response = await fetch(APPS_SCRIPT_URL);
+                    if (response.ok) {
+                        const cloudData = await response.json();
+                        if (cloudData && typeof cloudData === 'object' && Object.keys(cloudData).length > 0) {
+                            db = cloudData;
+                            saveDbToLocalStorage(false); // Sauvegarde locale sans push
+                            setSyncStatus("success", "Synchronisé avec le Sheet");
+                        } else {
+                            loadLocalFallback("Fichier vide — Base chargée");
+                        }
+                    } else {
+                        loadLocalFallback("Erreur d'accès — Base locale chargée");
+                    }
+                } catch (e) {
+                    loadLocalFallback("Mode hors connexion — Base locale");
                 }
             } else {
-                db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
+                loadLocalFallback("Sauvegarde locale");
             }
 
             // Enrichit la base avec la hiérarchie, les scores de maturité et les actions prioritaires
@@ -914,20 +937,61 @@
             renderDashboard();
         }
 
-        // Sauvegarde locale
-        function saveDbToLocalStorage() {
-            localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(db));
+        function loadLocalFallback(msg) {
+            const savedDb = localStorage.getItem('ppc_sectors_db_custom_v6');
+            if (savedDb) {
+                try {
+                    db = JSON.parse(savedDb);
+                } catch(e) {
+                    db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
+                }
+            } else {
+                db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
+            }
+            setSyncStatus("warning", msg);
         }
 
-        // Réinitialise vers l'origine
-        function resetToDefaults() {
-            localStorage.removeItem('ppc_sectors_db_custom_v6');
-            activeLeftKey = "odyl1";
-            activeRightKey = "odyl2";
-            editModes.left = false;
-            editModes.right = false;
-            initApp();
-            closeResetConfirmModal();
+        async function saveDbToLocalStorage(syncToCloud = true) {
+            localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(db));
+            
+            if (syncToCloud && APPS_SCRIPT_URL !== "") {
+                setSyncStatus("saving", "Écriture Sheet d'équipe...");
+                try {
+                    await fetch(APPS_SCRIPT_URL, {
+                        method: "POST",
+                        mode: "no-cors", // Crucial pour le réseau d'Airbus (évite les blocages CORS de redirection)
+                        headers: {
+                            "Content-Type": "text/plain"
+                        },
+                        body: JSON.stringify(db)
+                    });
+                    setSyncStatus("success", "Fichier d'équipe synchronisé");
+                } catch (e) {
+                    setSyncStatus("error", "Échec écriture Sheet");
+                }
+            }
+        }
+
+        function setSyncStatus(status, message) {
+            const badge = document.getElementById('sync-status');
+            if (!badge) return;
+            
+            if (status === "loading" || status === "saving") {
+                badge.className = "text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1.5 animate-pulse";
+                badge.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> ${message}`;
+            } else if (status === "success") {
+                badge.className = "text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5";
+                badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${message}`;
+            } else if (status === "warning") {
+                badge.className = "text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1.5";
+                badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${message}`;
+            } else if (status === "error") {
+                badge.className = "text-xs font-semibold px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1.5";
+                badge.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${message}`;
+            } else {
+                badge.className = "text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1.5";
+                badge.innerHTML = `<i class="fa-solid fa-cloud"></i> ${message}`;
+            }
         }
 
         // Rendu de la barre latérale gauche
@@ -1025,9 +1089,7 @@
         function safeRenderDashboard() {
             const state = captureScrollState();
 
-            // Important : certains ajouts (point traité / action) recréent le DOM.
-            // On restaure donc plusieurs fois la position après le rendu, car le navigateur
-            // peut recalculer la hauteur des blocs après l'injection HTML.
+            // Rendu de l'interface
             renderDashboard();
 
             const restore = () => {
@@ -1217,7 +1279,6 @@
         }
 
 
-
         /* =========================================================
            AJOUT — VUES SYNTHÈSE : HEATMAP + ACTIONS
            Objectif : enrichir les pages ODY / ODYE / ODYS / ODYL
@@ -1249,6 +1310,7 @@
             return result;
         }
 
+        // Résolution de l'affichage de la Heatmap ODY pour l'audit d'usine
         function getHeatmapRows(groupKey) {
             const node = db[groupKey];
             if (!node?.children) return [];
@@ -1295,7 +1357,7 @@
                         <div>
                             <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2">
                                 <i class="fa-solid fa-table-cells-large text-blue-600"></i>
-                                Heatmap maturité
+                                Heatmap de maturité
                             </h3>
                             <p class="text-xs text-slate-400 mt-1">Lecture rapide des écarts Daily / Weekly / Global.</p>
                         </div>
@@ -1796,11 +1858,11 @@
                             </div>
                         </div>
 
-
-
-                        <div>
+                        <!-- ACTIONS DE PROGRÈS DAILY (Modifiables avec Priorité, Catégorie, Calendrier de dates de début/fin) -->
+                        <div class="flex flex-col">
                             ${makeEditableActionsHTML(side, key, 'daily', data.actions?.daily)}
                         </div>
+
                         <!-- Outils -->
                         <div class="grid grid-cols-2 gap-3">
                             <div>
@@ -1813,7 +1875,7 @@
                             </div>
                         </div>
 
-                        <!-- Boîtes empilées verticalement en mode édition -->
+                        <!-- Boîtes de texte complémentaires -->
                         <div class="flex flex-col gap-3">
                             <div>
                                 <label class="section-label mb-1 block">Points Positifs</label>
@@ -1825,11 +1887,11 @@
                             </div>
                         </div>
 
-                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3">
-                            <label class="section-label mb-2 block text-blue-700">Maturité Daily (%)</label>
+                        <!-- POURCENTAGES DES CRITÈRES DAILY (Image 2) -->
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
+                            <label class="section-label mb-2 block text-blue-700 font-bold">Maturité Daily (%)</label>
                             ${makeEditableMaturityHTML(side, key, 'daily', data.maturity)}
                         </div>
-
                     </div>
 
                     <!-- FORMULAIRE WEEKLY -->
@@ -1860,7 +1922,8 @@
                             </div>
                         </div>
 
-                        <div>
+                        <!-- ACTIONS DE PROGRÈS WEEKLY (Modifiables avec Priorité, Catégorie, Calendrier de dates de début/fin) -->
+                        <div class="flex flex-col">
                             ${makeEditableActionsHTML(side, key, 'weekly', data.actions?.weekly)}
                         </div>
 
@@ -1876,7 +1939,7 @@
                             </div>
                         </div>
 
-                        <!-- Boîtes empilées verticalement en mode édition -->
+                        <!-- Boîtes de texte complémentaires -->
                         <div class="flex flex-col gap-3">
                             <div>
                                 <label class="section-label mb-1 block">Points Positifs</label>
@@ -1888,11 +1951,11 @@
                             </div>
                         </div>
 
-                        <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-3">
-                            <label class="section-label mb-2 block text-emerald-700">Maturité Weekly (%)</label>
+                        <!-- POURCENTAGES DES CRITÈRES WEEKLY (Image 2) -->
+                        <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
+                            <label class="section-label mb-2 block text-emerald-700 font-bold">Maturité Weekly (%)</label>
                             ${makeEditableMaturityHTML(side, key, 'weekly', data.maturity)}
                         </div>
-
                     </div>
 
                 </div>
@@ -1937,6 +2000,7 @@
                 if (icon) {
                     icon.className = `fa-solid ${list[idx].status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg`;
                 }
+                saveDbToLocalStorage();
             }
         }
 
@@ -1982,11 +2046,13 @@
             }
         }
 
+        // Met à jour la valeur d'une action en cours d'édition
         function editActionField(side, key, routineType, idx, field, value) {
             ensureActions(key, routineType);
             if (db[key].actions[routineType][idx]) db[key].actions[routineType][idx][field] = value;
         }
 
+        // Ajoute une action au plan de progrès
         function addAction(side, key, routineType) {
             ensureActions(key, routineType);
             db[key].actions[routineType].push({ criteria: 'Critère / thème', action: 'Action à mener', status: 'not_started', dateDebut: '', dateFin: '' });
@@ -1994,12 +2060,15 @@
             safeRenderDashboard();
         }
 
+        // Supprime une action du plan de progrès
         function deleteAction(side, key, routineType, idx) {
             ensureActions(key, routineType);
             db[key].actions[routineType].splice(idx, 1);
+            saveDbToLocalStorage();
             safeRenderDashboard();
         }
 
+        // Édite les pourcentages de maturité d'une routine
         function editMaturityField(side, key, routineType, criteriaKey, value) {
             if (!db[key].maturity) db[key].maturity = { daily: {}, weekly: {} };
             if (!db[key].maturity[routineType]) db[key].maturity[routineType] = {};
@@ -2007,6 +2076,7 @@
             db[key].maturity[routineType][criteriaKey] = n;
         }
 
+        // Modifié pour forcer la mise à jour des calculs de maturité dans le Sheet
         function editMaturityGrade(side, key, value) {
             if (!db[key]) return;
             db[key].maturityGrade = String(value || 'C').toUpperCase();
@@ -2067,7 +2137,7 @@
             if(wIrr) data.weekly.irr = wIrr.value;
             if(wPos) data.weekly.pos = wPos.value;
 
-            // Sauvegarde dans localStorage
+            // Sauvegarde dans localStorage et Google Sheets
             saveDbToLocalStorage();
             
             // Fermer le mode d'édition
