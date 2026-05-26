@@ -270,7 +270,7 @@
         </div>
         
         <div class="flex items-center gap-3">
-            <!-- INDICATEUR DE SYNCHRONISATION CLOUD -->
+            <!-- INDICATEUR DE SYNCHRONISATION GOOGLE SHEETS -->
             <span id="sync-status" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1.5 transition-all">
                 <i class="fa-solid fa-cloud"></i> Connexion Sheets...
             </span>
@@ -406,7 +406,7 @@
         // =========================================================================
         // URL DE VOTRE DEPLOIEMENT GOOGLE APPS SCRIPT (A COLLER ENTRE LES GUILLEMETS)
         // =========================================================================
-        const APPS_SCRIPT_URL = "https://script.google.com/a/macros/airbus.com/s/AKfycbyPSKK49r-eumNmPxjUzWssi3zMo5LrUVTAQxjp6YSgFnV4gk0uY4ym0dei3gGhqyCM/exec"; 
+        const APPS_SCRIPT_URL = "https://script.google.com/a/macros/airbus.com/s/AKfycbz8QZCxaXtHgmVJyr6DG0pREiiL7Gm5NJ0f9IU9n_GCQg2lLjYv7nGaubgGZEuu6wS4/exec"; 
 
         // base de données par défaut d'origine (10 secteurs réels ST-ELOI)
         const DEFAULT_DATABASE = {
@@ -465,7 +465,7 @@
                         { status: "v", text: "Plan d'action" }
                     ],
                     prep: ["MES", "Fichier présence"],
-                    routine: ["KPI (Perfo et Top aleas)", "Sheet"],
+                    routine: ["KPI (Perfo, Top aleas)", "Sheet"],
                     irr: "",
                     pos: ""
                 }
@@ -513,7 +513,7 @@
                     ],
                     prep: ["Fichier présence", "Frise zone", "Abaque", "SAP", "MES", "SIC"],
                     routine: ["SHEET"],
-                    irr: "Double saisie. Tl n'est pas present dans la routine",
+                    irr: "Double saisie. Tl n'est pas présent dans la routine",
                     pos: ""
                 },
                 weekly: {
@@ -675,7 +675,7 @@
                         { status: "x", text: "Plan d'action" }
                     ],
                     prep: ["Sheet ppc daily", "sheet charge/cap", "Skywise"],
-                    routine: ["ppc weekly Slide", "KPI (Perfo et Top aleas)"],
+                    routine: ["ppc weekly Slide", "KPI (Perfo, Top aleas)"],
                     irr: "PPC weekly n'existe pas, on fait un résumé de s-1 durant cette réunion Adhérence charge/capa et non pas adhérence avec le contrat.",
                     pos: ""
                 }
@@ -788,13 +788,11 @@
             return Math.round(clean.reduce((a,b)=>a+b,0) / clean.length);
         }
 
-        // Calcule le score global d'une routine sur 3 dimensions
         function getRoutineScore(maturity, type) {
             const obj = maturity?.[type] || {};
             return average(Object.values(obj));
         }
 
-        // Calcule la moyenne totale du secteur (Daily + Weekly)
         function getOverallScore(maturity) {
             return average([getRoutineScore(maturity, 'daily'), getRoutineScore(maturity, 'weekly')]);
         }
@@ -889,8 +887,8 @@
 
         // État de l'application chargée depuis localStorage ou défaut
         let db = {};
-        let activeLeftKey = "odyl1";
-        let activeRightKey = "odyl2";
+        let activeLeftKey = "g_odye";
+        let activeRightKey = "g_odye";
 
         // Gère si un panel est en mode édition
         let editModes = {
@@ -2046,13 +2044,11 @@
             }
         }
 
-        // Met à jour la valeur d'une action en cours d'édition
         function editActionField(side, key, routineType, idx, field, value) {
             ensureActions(key, routineType);
             if (db[key].actions[routineType][idx]) db[key].actions[routineType][idx][field] = value;
         }
 
-        // Ajoute une action au plan de progrès
         function addAction(side, key, routineType) {
             ensureActions(key, routineType);
             db[key].actions[routineType].push({ criteria: 'Critère / thème', action: 'Action à mener', status: 'not_started', dateDebut: '', dateFin: '' });
@@ -2060,15 +2056,12 @@
             safeRenderDashboard();
         }
 
-        // Supprime une action du plan de progrès
         function deleteAction(side, key, routineType, idx) {
             ensureActions(key, routineType);
             db[key].actions[routineType].splice(idx, 1);
-            saveDbToLocalStorage();
             safeRenderDashboard();
         }
 
-        // Édite les pourcentages de maturité d'une routine
         function editMaturityField(side, key, routineType, criteriaKey, value) {
             if (!db[key].maturity) db[key].maturity = { daily: {}, weekly: {} };
             if (!db[key].maturity[routineType]) db[key].maturity[routineType] = {};
