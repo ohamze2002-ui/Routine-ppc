@@ -1,377 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outil transverse de pilotage PPC-AOS-Usine ST-ELOI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <style>
-        html { overflow-anchor: none; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-        }
-        h1, h2, h3, h4 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        
-        /* Personnalisation des boutons de sélection radio style Google Sheets */
-        .sheets-checkbox {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #cbd5e1;
-            border-radius: 4px;
-            outline: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            display: inline-grid;
-            place-content: center;
-            background: white;
-        }
-        .sheets-checkbox:checked {
-            background-color: #2563eb;
-            border-color: #2563eb;
-        }
-        .sheets-checkbox:checked::before {
-            content: "\f00c";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            color: white;
-            font-size: 11px;
-        }
-
-        /* Cadres d'outils */
-        .tool-pill {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 4px 10px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #475569;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-
-        /* Bloc d'irritant (Ligne rouge et cadre) */
-        .irritants-container {
-            border: 1.5px solid #fecaca;
-            border-radius: 8px;
-            padding: 8px 12px;
-            background-color: #fff5f5;
-        }
-
-        /* Bloc de points positifs (Ligne verte et cadre) */
-        .positifs-container {
-            border: 1.5px solid #a7f3d0;
-            border-radius: 8px;
-            padding: 8px 12px;
-            background-color: #f0fdf4;
-        }
-
-        /* Transitions fluides */
-        .fade-in {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Scrollbars élégantes */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 8px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
-
-        /* Blocs actions et maturité */
-        .action-card {
-            border: 1.5px solid #bfdbfe;
-            background: #f8fbff;
-            border-radius: 8px;
-            padding: 7px 9px;
-        }
-        .action-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 7px;
-            padding: 5px 0;
-            border-top: 1px solid #e5edf8;
-        }
-        .action-row:first-of-type { border-top: 0; padding-top: 2px; }
-        .action-status-btn {
-            width: 15px;
-            height: 15px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        .action-status-button {
-            width: 22px;
-            height: 22px;
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            border-radius:7px;
-            transition: all .15s ease;
-            flex-shrink:0;
-            margin-top: 1px;
-            border: 1px solid transparent;
-        }
-        .action-status-button:hover { background:#e0f2fe; transform: scale(1.04); border-color:#bfdbfe; }
-        .action-top-badge {
-            min-width: 34px;
-            height: 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 999px;
-            background: #eff6ff;
-            color: #1d4ed8;
-            border: 1px solid #bfdbfe;
-            font-size: 9px;
-            font-weight: 900;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        .action-text {
-            min-width: 0;
-            flex: 1;
-            font-size: 11px;
-            line-height: 1.35;
-            color: #334155;
-            white-space: normal;
-            overflow: visible;
-            word-break: break-word;
-        }
-        .action-criteria {
-            font-weight: 800;
-            color: #0f172a;
-        }
-        .action-edit-row {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-            padding: 9px 10px;
-            border: 1px solid #dbeafe;
-            background: #ffffff;
-            border-radius: 9px;
-            margin-top: 7px;
-            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
-        }
-        .action-edit-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .action-edit-header .spacer { flex: 1; }
-        .action-edit-content {
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .action-edit-criteria {
-            width: 100%;
-            border: 1px solid #dbeafe;
-            background: #f8fbff;
-            border-radius: 7px;
-            padding: 6px 8px;
-            font-size: 11px;
-            font-weight: 800;
-            color: #0f172a;
-            outline: none;
-        }
-        .action-edit-action {
-            width: 100%;
-            border: 1px solid #e2e8f0;
-            background: #ffffff;
-            border-radius: 7px;
-            padding: 7px 8px;
-            font-size: 11px;
-            color: #334155;
-            outline: none;
-            resize: vertical;
-            min-height: 42px;
-            line-height: 1.35;
-            overflow: hidden;
-        }
-        .action-edit-criteria:focus,
-        .action-edit-action:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, .10);
-        }
-        .maturity-badge {
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            width:34px;
-            height:34px;
-            border-radius:10px;
-            font-size:18px;
-            font-weight:900;
-            border:1px solid;
-            box-shadow:0 1px 2px rgba(15,23,42,0.06);
-        }
-        .grade-a { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
-        .grade-b { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
-        .grade-c { background:#fffbeb; color:#b45309; border-color:#fde68a; }
-        .grade-d { background:#fff1f2; color:#be123c; border-color:#fecdd3; }
-        .maturity-card {
-            border: 1px solid #e2e8f0;
-            background:#ffffff;
-            border-radius: 12px;
-            padding: 14px;
-            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
-        }
-        .bar-track { height: 8px; background:#e2e8f0; border-radius:999px; overflow:hidden; }
-        .bar-fill { height:100%; border-radius:999px; }
-        .bar-blue { background:#2563eb; }
-        .bar-green { background:#0d9488; }
-        .bar-amber { background:#f59e0b; }
-        .bar-red { background:#ef4444; }
-        .group-badge { font-size:10px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
-    </style>
-</head>
-<body class="h-screen w-screen flex flex-col overflow-hidden bg-slate-50 text-slate-800">
-
-    <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between z-10 shrink-0 shadow-sm">
-        <div class="flex items-center gap-3">
-            <div class="bg-blue-600 text-white p-2.5 rounded-xl flex items-center justify-center shadow-md shadow-blue-100">
-                <i class="fa-solid fa-square-poll-vertical text-xl"></i>
-            </div>
-            <div>
-                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Outil transverse de pilotage PPC-AOS-Usine ST-ELOI</h1>
-                <p class="text-xs text-slate-500">Diagnostic dynamique PPC : routines, maturité et critères AOS</p>
-            </div>
-        </div>
-        
-        <div class="flex items-center gap-3">
-            <button onclick="openAddSectorModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
-                <i class="fa-solid fa-plus text-xs"></i> Ajouter un secteur
-            </button>
-            
-            <button onclick="openResetConfirmModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-800 px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
-                <i class="fa-solid fa-arrow-rotate-left text-xs"></i> Réinitialiser les données
-            </button>
-        </div>
-    </header>
-
-    <main class="flex-grow flex overflow-hidden w-full">
-        
-        <aside class="w-80 bg-white border-r border-slate-200 flex flex-col shrink-0 overflow-hidden shadow-sm">
-            <div class="p-4 border-b border-slate-100 bg-slate-50/50">
-                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Matrice des Secteurs</h2>
-                <p class="text-xs text-slate-500">Cochez un secteur pour l'assigner à la colonne de gauche (Zoom 1) ou droite (Zoom 2).</p>
-            </div>
-            
-            <div class="flex-grow overflow-y-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100 sticky top-0 z-10">
-                            <th class="py-3 px-4">Élément</th>
-                            <th class="py-3 px-2 text-center">Zoom 1</th>
-                            <th class="py-3 px-2 text-center">Zoom 2</th>
-                            <th class="py-3 pr-4 text-right">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="sectors-table-body" class="divide-y divide-slate-100">
-                        </tbody>
-                </table>
-            </div>
-        </aside>
-
-        <section id="dashboard-scroll" class="flex-grow p-6 flex gap-6 overflow-y-auto bg-slate-50">
-            
-            <div id="panel-zoom1" class="flex-1 flex flex-col gap-4 fade-in"></div>
-
-            <div id="panel-divider" class="w-px bg-slate-200 shrink-0 self-stretch my-2"></div>
-
-            <div id="panel-zoom2" class="flex-1 flex flex-col gap-4 fade-in"></div>
-
-        </section>
-    </main>
-
-    <div id="add-sector-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-md border border-slate-200 fade-in flex flex-col overflow-hidden">
-            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-                <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
-                    <i class="fa-solid fa-circle-plus text-blue-600"></i> Ajouter un secteur
-                </h3>
-                <button onclick="closeAddSectorModal()" class="text-slate-400 hover:text-slate-600 transition"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div class="p-5 flex flex-col gap-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Identifiant du Secteur (ex: ODYL 4)</label>
-                    <input type="text" id="new-sector-id" placeholder="ex: ODYL 4" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition font-semibold text-slate-800">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Titre complet de la routine</label>
-                    <input type="text" id="new-sector-title" placeholder="ex: Routines PPC – ODYL 4 (2 VAC)" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition text-slate-800">
-                </div>
-            </div>
-            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50/50">
-                <button onclick="closeAddSectorModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
-                <button onclick="submitNewSector()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Créer le secteur</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="reset-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
-            <div class="p-5 flex flex-col items-center text-center gap-3">
-                <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center text-xl shadow-sm border border-amber-100">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
-                <h3 class="font-bold text-slate-800 text-lg">Réinitialiser les données ?</h3>
-                <p class="text-sm text-slate-500">Cette action chargera les données d'origine de l'usine depuis Google Sheet et écrasera vos modifications de session en cours.</p>
-            </div>
-            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
-                <button onclick="closeResetConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Conserver</button>
-                <button onclick="resetToDefaults()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition text-sm font-semibold shadow-sm">Confirmer</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="delete-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
-            <input type="hidden" id="sector-to-delete">
-            <div class="p-5 flex flex-col items-center text-center gap-3">
-                <div class="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center text-xl shadow-sm border border-rose-100">
-                    <i class="fa-solid fa-trash-can"></i>
-                </div>
-                <h3 class="font-bold text-slate-800 text-lg">Supprimer ce secteur ?</h3>
-                <p class="text-sm text-slate-500">Êtes-vous sûr de vouloir supprimer définitivement de l'écran le secteur <span id="delete-sector-name" class="font-bold text-slate-800"></span> ?</p>
-            </div>
-            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
-                <button onclick="closeDeleteConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
-                <button onclick="deleteSector()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Supprimer</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
+<script>
         // ==========================================
-        // EMPLACEMENT DU LIEN GOOGLE APPS SCRIPT
+        // CONFIGURATION UNIQUE DE TON URL APPS SCRIPT
         // ==========================================
         const GOOGLE_SHEET_API_URL = "https://script.google.com/a/macros/airbus.com/s/AKfycbxEOosGPsGcbUyvUrli0QaGGpDsQAIr3kY9s3I_qrN2UmHM6WbRoOgxwjgTIhqkaOCL/exec";
 
@@ -400,7 +29,7 @@
             odys2: {
                 name: "ODYS 2", title: "Routines PPC – ODYS 2 (2 VAC)",
                 daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "v", text: "Avance retard" }, { status: "v", text: "Aleas" }, { status: "v", text: "Points ouverts" }], prep: [], routine: [], irr: "", pos: "" },
-                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: [], routine: [], irr: "", pos: "" }
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "TL, RL, Coach perfo", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: [], routine: [], irr: "", pos: "" }
             },
             odys3: {
                 name: "ODYS 3", title: "Routines PPC – ODYS 3 (2 VAC)",
@@ -425,7 +54,7 @@
             odye2: {
                 name: "ODYE 2", title: "Routines PPC – ODYE 2 (2 VAC, non takter)",
                 daily: { name: "PASSAGE D'INFO", timeInfo: "1 fois par vac, 30 min", part: "TL, opérateurs, referent", pts: [{ status: "x", text: "Suivre l'avance retard" }, { status: "v", text: "Remonter les aleas" }, { status: "x", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence"], routine: ["Sheet"], irr: "Ce n'est pas un PPC daily.", pos: "" },
-                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 120 min", part: "tl, rl, coach perfo, ordo, rdz, qualité, support tech et maintenance", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["MES", "Aveva", "Sheet aléas", "Fichier perfo", "PPC digit"], routine: ["Fichier PPC", "KPI (Perfo et Top aleas)"], irr: "Double saisie des aléas.", pos: "" }
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 120 min", part: "tl, rl, coach perfo, ordo, rdz, qualité, support tech et maintenance", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["MES", "Aveva", "Sheet aléas", "Fichier perfo", "PPC digit"], routine: ["Fichier PPC", "KPI (Perfo et Top aleas)", "Double saisie des aléas."], irr: "Double saisie des aléas.", pos: "" }
             }
         };
 
@@ -541,18 +170,27 @@
                 if (GROUP_STRUCTURE[key]) return;
                 const sector = database[key];
                 if (!sector) return;
+                
                 sector.group = (sector.name || '').replace(/\s+/g,'').toLowerCase().match(/ody[els]/)?.[0]?.toUpperCase() || '';
                 sector.superGroup = 'ODY';
                 sector.isGroup = false;
-                if (!sector.maturity) {
+
+                // PROTECTION ANTI-CRASH : Sécurise les objets vides créés par l'Apps Script
+                if (!sector.daily) sector.daily = { name: "PPC Daily", timeInfo: "30 min", part: "", pts: [], prep: [], routine: [], irr: "", pos: "" };
+                if (!sector.weekly) sector.weekly = { name: "PPC Weekly", timeInfo: "60 min", part: "", pts: [], prep: [], routine: [], irr: "", pos: "" };
+
+                if (!sector.maturity || !sector.maturity.daily || Object.keys(sector.maturity.daily).length === 0) {
                     sector.maturity = {
                         daily: generateMaturityFromRoutine(sector.daily, 'daily'),
                         weekly: generateMaturityFromRoutine(sector.weekly, 'weekly')
                     };
                 }
                 if (!sector.maturityGrade) sector.maturityGrade = gradeFromScore(getOverallScore(sector.maturity));
-                if (!sector.actions) sector.actions = defaultActionsForSector(sector);
+                if (!sector.actions || (!sector.actions.daily && !sector.actions.weekly)) sector.actions = defaultActionsForSector(sector);
+                if (!sector.actions.daily) sector.actions.daily = [];
+                if (!sector.actions.weekly) sector.actions.weekly = [];
             });
+
             Object.keys(GROUP_STRUCTURE).forEach(groupKey => {
                 database[groupKey] = buildGroupNode(groupKey, database);
             });
@@ -567,8 +205,8 @@
             const weeklyKeys = ['performance','paretoAleas','planAction'];
             const computedMaturity = { daily: {}, weekly: {} };
 
-            dailyKeys.forEach(k => computedMaturity.daily[k] = average(childMaturities.map(m => m.daily?.[k])));
-            weeklyKeys.forEach(k => computedMaturity.weekly[k] = average(childMaturities.map(m => m.weekly?.[k])));
+            dailyKeys.forEach(k => computedMaturity.daily[k] = average(childMaturities.map(m => m?.daily?.[k] ?? 50)));
+            weeklyKeys.forEach(k => computedMaturity.weekly[k] = average(childMaturities.map(m => m?.weekly?.[k] ?? 50)));
 
             return {
                 name: cfg.name,
@@ -591,7 +229,7 @@
             localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(db));
         }
 
-        // INITIALISATION AVEC FETCH GOOGLE SHEETS
+        // TRAITEMENT ET ASSIGNATION DES DONNÉES DU SHEET
         async function initApp() {
             console.log("Tentative de chargement depuis Google Sheets...");
             let sheetData = null;
@@ -601,10 +239,10 @@
                     const response = await fetch(GOOGLE_SHEET_API_URL);
                     if (response.ok) {
                         sheetData = await response.json();
-                        console.log("Données Google Sheets synchronisées !");
+                        console.log("Données Google Sheets reçues :", sheetData);
                     }
                 } catch (e) {
-                    console.error("Erreur de liaison d'API. Utilisation du cache de session local.", e);
+                    console.error("Erreur d'appel API. Passage sur la mémoire locale.", e);
                 }
             }
 
@@ -646,6 +284,7 @@
 
             orderedKeysForSidebar().forEach(key => {
                 const item = db[key];
+                if (!item) return;
                 const tr = document.createElement('tr');
                 tr.className = item.isGroup ? "bg-slate-50 hover:bg-slate-100 transition-colors group" : "hover:bg-slate-50 transition-colors group";
                 
@@ -909,6 +548,7 @@
                             <tbody>
                                 ${rows.map(rowKey => {
                                     const row = db[rowKey];
+                                    if (!row) return '';
                                     const d = getRoutineScore(row.maturity, 'daily');
                                     const w = getRoutineScore(row.maturity, 'weekly');
                                     const g = getOverallScore(row.maturity);
@@ -981,8 +621,8 @@
         }
 
         function renderReadOnlyCard(side, key, data) {
-            const rList = (pts) => pts.map(pt => `<li class="flex items-start gap-2.5"><i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-[15px] mt-0.5 shrink-0"></i><span class="text-slate-700 text-sm font-medium">${pt.text}</span></li>`).join('');
-            const rTools = (tools) => tools.map(t => `<span class="tool-pill">${t}</span>`).join('');
+            const rList = (pts) => (pts || []).map(pt => `<li class="flex items-start gap-2.5"><i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-[15px] mt-0.5 shrink-0"></i><span class="text-slate-700 text-sm font-medium">${pt.text}</span></li>`).join('');
+            const rTools = (tools) => (tools || []).map(t => `<span class="tool-pill">${t}</span>`).join('');
             return `
                 <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 sticky top-0 z-10">
                     <div class="flex items-center gap-3">${renderMaturityBadge(data)}<h2 class="text-lg font-bold text-slate-900">${data.title}</h2></div>
@@ -990,22 +630,24 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4 flex-grow min-h-0">
                     <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm">
-                        <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><i class="fa-solid fa-clock text-blue-600 bg-blue-50 p-2 rounded-lg"></i><h3 class="font-bold text-slate-800 text-sm uppercase">${data.daily.name}</h3></div><span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.daily.timeInfo}</span></div>
-                        <div class="text-xs"><strong>Participant:</strong> ${data.daily.part}</div>
+                        <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><i class="fa-solid fa-clock text-blue-600 bg-blue-50 p-2 rounded-lg"></i><h3 class="font-bold text-slate-800 text-sm uppercase">${data.daily.name || 'PPC DAILY'}</h3></div><span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.daily.timeInfo || '30 min'}</span></div>
+                        <div class="text-xs"><strong>Participant:</strong> ${data.daily.part || 'N/A'}</div>
                         <ul class="flex flex-col gap-2">${rList(data.daily.pts)}</ul>
                         <div class="maturity-card bg-slate-50/60"><div class="flex items-center justify-between mb-2"><span class="text-xs font-bold text-slate-500">Maturité Daily</span><span class="text-xs font-extrabold">${getRoutineScore(data.maturity, 'daily')}%</span></div><div class="bar-track"><div class="bar-fill ${scoreColor(getRoutineScore(data.maturity, 'daily'))}" style="width:${getRoutineScore(data.maturity, 'daily')}%"></div></div></div>
                         ${renderActions(data.actions?.daily, side, key, 'daily')}
                         <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-3"><div><span class="text-xs font-bold text-slate-400 block mb-1">Préparation</span>${rTools(data.daily.prep)}</div><div><span class="text-xs font-bold text-slate-400 block mb-1">Routine</span>${rTools(data.daily.routine)}</div></div>
                         ${data.daily.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold uppercase">Irritants</span><p class="text-slate-700 text-xs mt-1">${data.daily.irr}</p></div>` : ''}
+                        ${data.daily.pos ? `<div class="positifs-container"><span class="text-emerald-600 text-xs font-bold uppercase">Points Positifs</span><p class="text-slate-700 text-xs mt-1">${data.daily.pos}</p></div>` : ''}
                     </div>
                     <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm">
-                        <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><i class="fa-solid fa-calendar-week text-emerald-600 bg-emerald-50 p-2 rounded-lg"></i><h3 class="font-bold text-slate-800 text-sm uppercase">${data.weekly.name}</h3></div><span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.weekly.timeInfo}</span></div>
-                        <div class="text-xs"><strong>Participant:</strong> ${data.weekly.part}</div>
+                        <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><i class="fa-solid fa-calendar-week text-emerald-600 bg-emerald-50 p-2 rounded-lg"></i><h3 class="font-bold text-slate-800 text-sm uppercase">${data.weekly.name || 'PPC WEEKLY'}</h3></div><span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.weekly.timeInfo || '60 min'}</span></div>
+                        <div class="text-xs"><strong>Participant:</strong> ${data.weekly.part || 'N/A'}</div>
                         <ul class="flex flex-col gap-2">${rList(data.weekly.pts)}</ul>
                         <div class="maturity-card bg-slate-50/60"><div class="flex items-center justify-between mb-2"><span class="text-xs font-bold text-slate-500">Maturité Weekly</span><span class="text-xs font-extrabold">${getRoutineScore(data.maturity, 'weekly')}%</span></div><div class="bar-track"><div class="bar-fill ${scoreColor(getRoutineScore(data.maturity, 'weekly'))}" style="width:${getRoutineScore(data.maturity, 'weekly')}%"></div></div></div>
                         ${renderActions(data.actions?.weekly, side, key, 'weekly')}
                         <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-3"><div><span class="text-xs font-bold text-slate-400 block mb-1">Préparation</span>${rTools(data.weekly.prep)}</div><div><span class="text-xs font-bold text-slate-400 block mb-1">Routine</span>${rTools(data.weekly.routine)}</div></div>
                         ${data.weekly.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold uppercase">Irritants</span><p class="text-slate-700 text-xs mt-1">${data.weekly.irr}</p></div>` : ''}
+                        ${data.weekly.pos ? `<div class="positifs-container"><span class="text-emerald-600 text-xs font-bold uppercase">Points Positifs</span><p class="text-slate-700 text-xs mt-1">${data.weekly.pos}</p></div>` : ''}
                     </div>
                 </div>
             `;
@@ -1034,7 +676,7 @@
                     </div>
                 `;
             }).join('');
-            return `<div class="action-card"><div class="text-[10px] uppercase font-bold text-blue-600 mb-2">Actions Tracker</div>${html}<button onclick=" someActions('${side}','${key}','${routineType}')" class="text-blue-600 text-xs font-bold mt-2 flex items-center gap-1" onclick="addAction('${side}','${key}','${routineType}')"><i class="fa-solid fa-circle-plus"></i> Ajouter une action</button></div>`;
+            return `<div class="action-card"><div class="text-[10px] uppercase font-bold text-blue-600 mb-2">Actions Tracker</div>${html}<button type="button" class="text-blue-600 text-xs font-bold mt-2 flex items-center gap-1" onclick="addAction('${side}','${key}','${routineType}')"><i class="fa-solid fa-circle-plus"></i> Ajouter une action</button></div>`;
         }
 
         function makeEditableMaturityHTML(side, key, routineType, maturity) {
@@ -1043,7 +685,8 @@
             return Object.keys(labels).map(k => `
                 <div class="flex items-center gap-2 mb-1">
                     <label class="text-[11px] font-semibold text-slate-600 w-32">${labels[k]}</label>
-                    <input type="number" min="0" max="100" value="${obj[k] ?? 0}" onchange="editMaturityField('${side}', '${key}', '${routineType}', '${k}', this.value)" class="w-16 border rounded px-2 py-0.5 text-xs font-bold outline-none">
+                    <input type="number" min="0" max="100" value="${obj[k] ?? 50}" onchange="editMaturityField('${side}', '${key}', '${routineType}', '${k}', this.value)" class="w-16 border rounded px-2 py-0.5 text-xs font-bold outline-none">
+                    <span class="text-xs text-slate-400">%</span>
                 </div>
             `).join('');
         }
@@ -1055,7 +698,7 @@
                     <input type="text" value="${escapeAttr(pt.text)}" onchange="editPtText('${side}', '${key}', '${routineType}', ${idx}, this.value)" class="w-full border rounded px-2 py-0.5 text-xs outline-none focus:border-blue-500">
                     <button onclick="deletePt('${side}', '${key}', '${routineType}', ${idx})" class="text-slate-300 hover:text-rose-500"><i class="fa-solid fa-trash-can text-xs"></i></button>
                 </div>
-            `).join('') + `<button onclick="addPt('${side}', '${key}', '${routineType}')" class="text-blue-600 text-xs font-bold mt-1 flex items-center gap-1"><i class="fa-solid fa-circle-plus"></i> Ajouter</button>`;
+            `).join('') + `<button onclick="addPt('${side}', '${key}', '${routineType}')" class="text-blue-600 text-xs font-bold mt-1 flex items-center gap-1"><i class="fa-solid fa-circle-plus"></i> Ajouter un point</button>`;
 
             return `
                 <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 sticky top-0 z-10">
@@ -1069,10 +712,10 @@
                             <input type="text" id="edit-daily-name-${side}" value="${escapeAttr(data.daily.name)}" class="border rounded px-2 py-1 text-xs outline-none">
                             <input type="text" id="edit-daily-time-${side}" value="${escapeAttr(data.daily.timeInfo)}" class="border rounded px-2 py-1 text-xs outline-none">
                         </div>
-                        <input type="text" id="edit-daily-part-${side}" value="${escapeAttr(data.daily.part)}" class="border rounded px-2 py-1 text-xs outline-none">
+                        <input type="text" id="edit-daily-part-${side}" value="${escapeAttr(data.daily.part)}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Participants">
                         <div class="bg-white border rounded p-3">${rPts('daily', data.daily.pts)}</div>
                         ${makeEditableActionsHTML(side, key, 'daily', data.actions?.daily)}
-                        <div class="grid grid-cols-2 gap-2"><input type="text" id="edit-daily-prep-${side}" value="${escapeAttr(data.daily.prep.join(', '))}" class="border rounded px-2 py-1 text-xs outline-none"><input type="text" id="edit-daily-routine-${side}" value="${escapeAttr(data.daily.routine.join(', '))}" class="border rounded px-2 py-1 text-xs outline-none"></div>
+                        <div class="grid grid-cols-2 gap-2"><input type="text" id="edit-daily-prep-${side}" value="${escapeAttr((data.daily.prep || []).join(', '))}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Préparation"><input type="text" id="edit-daily-routine-${side}" value="${escapeAttr((data.daily.routine || []).join(', '))}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Routine"></div>
                         <textarea id="edit-daily-irr-${side}" class="border rounded p-2 text-xs h-12 outline-none resize-none" placeholder="Irritants">${data.daily.irr || ''}</textarea>
                         <div class="bg-blue-50 border p-3 rounded-xl">${makeEditableMaturityHTML(side, key, 'daily', data.maturity)}</div>
                     </div>
@@ -1081,10 +724,10 @@
                             <input type="text" id="edit-weekly-name-${side}" value="${escapeAttr(data.weekly.name)}" class="border rounded px-2 py-1 text-xs outline-none">
                             <input type="text" id="edit-weekly-time-${side}" value="${escapeAttr(data.weekly.timeInfo)}" class="border rounded px-2 py-1 text-xs outline-none">
                         </div>
-                        <input type="text" id="edit-weekly-part-${side}" value="${escapeAttr(data.weekly.part)}" class="border rounded px-2 py-1 text-xs outline-none">
+                        <input type="text" id="edit-weekly-part-${side}" value="${escapeAttr(data.weekly.part)}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Participants">
                         <div class="bg-white border rounded p-3">${rPts('weekly', data.weekly.pts)}</div>
                         ${makeEditableActionsHTML(side, key, 'weekly', data.actions?.weekly)}
-                        <div class="grid grid-cols-2 gap-2"><input type="text" id="edit-weekly-prep-${side}" value="${escapeAttr(data.weekly.prep.join(', '))}" class="border rounded px-2 py-1 text-xs outline-none"><input type="text" id="edit-weekly-routine-${side}" value="${escapeAttr(data.weekly.routine.join(', '))}" class="border rounded px-2 py-1 text-xs outline-none"></div>
+                        <div class="grid grid-cols-2 gap-2"><input type="text" id="edit-weekly-prep-${side}" value="${escapeAttr((data.weekly.prep || []).join(', '))}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Préparation"><input type="text" id="edit-weekly-routine-${side}" value="${escapeAttr((data.weekly.routine || []).join(', '))}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Routine"></div>
                         <textarea id="edit-weekly-irr-${side}" class="border rounded p-2 text-xs h-12 outline-none resize-none" placeholder="Irritants">${data.weekly.irr || ''}</textarea>
                         <div class="bg-emerald-50 border p-3 rounded-xl">${makeEditableMaturityHTML(side, key, 'weekly', data.maturity)}</div>
                     </div>
@@ -1149,7 +792,7 @@
 
         function addAction(side, key, routineType) {
             ensureActions(key, routineType);
-            db[key].actions[routineType].push({ criteria: 'Nouveau Thème', action: 'Action à mener', status: 'not_started', dateDebut: '', dateFin: '' });
+            db[key].actions[routineType].push({ criteria: 'Thème', action: 'Action à mener', status: 'not_started', dateDebut: '', dateFin: '' });
             saveDbToLocalStorage();
             safeRenderDashboard();
         }
@@ -1162,11 +805,13 @@
 
         function editMaturityField(side, key, routineType, criteriaKey, value) {
             if (!db[key].maturity) db[key].maturity = { daily: {}, weekly: {} };
+            if (!db[key].maturity[routineType]) db[key].maturity[routineType] = {};
             db[key].maturity[routineType][criteriaKey] = Math.max(0, Math.min(100, parseInt(value || '0', 10)));
         }
 
+        // ÉVITE LE CALCUL AUTOMATIQUE DU GRADE DE MODIFICATION EN DIRECT
         function editMaturityGrade(side, key, value) {
-            if (db[key]) { db[key].maturityGrade = String(value).toUpperCase(); saveDbToLocalStorage(); }
+            if (db[key]) { db[key].maturityGrade = String(value).toUpperCase(); saveDbToLocalStorage(); safeRenderDashboard(); }
         }
 
         function saveGroupEdits(side, key) {
@@ -1224,8 +869,8 @@
 
             db[key] = {
                 name: rawId, title: rawTitle || `Routines PPC – ${rawId} (2 VAC)`,
-                daily: { name: "PPC Daily", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo", pts: [{ status: "v", text: "Suivre l'avance retard" }], prep: [], routine: [], irr: "", pos: "" },
-                weekly: { name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min", part: "TL, RL", pts: [{ status: "v", text: "Performance" }], prep: [], routine: [], irr: "", pos: "" }
+                daily: { name: "PPC Daily", timeInfo: "30 min", part: "TL, Ordo", pts: [{ status: "v", text: "Suivre l'avance retard" }], prep: [], routine: [], irr: "", pos: "" },
+                weekly: { name: "PPC Weekly", timeInfo: "60 min", part: "TL, RL", pts: [{ status: "v", text: "Performance" }], prep: [], routine: [], irr: "", pos: "" }
             };
 
             saveDbToLocalStorage();
@@ -1265,5 +910,3 @@
 
         window.onload = function() { initApp(); };
     </script>
-</body>
-</html>
