@@ -1,10 +1,380 @@
-<script>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outil transverse de pilotage PPC-AOS-Usine ST-ELOI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        html { overflow-anchor: none; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        /* Personnalisation des boutons de sélection radio style Google Sheets */
+        .sheets-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            display: inline-grid;
+            place-content: center;
+            background: white;
+        }
+        .sheets-checkbox:checked {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+        .sheets-checkbox:checked::before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: white;
+            font-size: 11px;
+        }
+
+        /* Cadres d'outils */
+        .tool-pill {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #475569;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        /* Bloc d'irritant (Ligne rouge et cadre) */
+        .irritants-container {
+            border: 1.5px solid #fecaca;
+            border-radius: 8px;
+            padding: 8px 12px;
+            background-color: #fff5f5;
+        }
+
+        /* Bloc de points positifs (Ligne verte et cadre) */
+        .positifs-container {
+            border: 1.5px solid #a7f3d0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            background-color: #f0fdf4;
+        }
+
+        /* Transitions fluides */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scrollbars élégantes */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Blocs actions et maturité */
+        .action-card {
+            border: 1.5px solid #bfdbfe;
+            background: #f8fbff;
+            border-radius: 8px;
+            padding: 7px 9px;
+        }
+        .action-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 7px;
+            padding: 5px 0;
+            border-top: 1px solid #e5edf8;
+        }
+        .action-row:first-of-type { border-top: 0; padding-top: 2px; }
+        .action-status-btn {
+            width: 15px;
+            height: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .action-status-button {
+            width: 22px;
+            height: 22px;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:7px;
+            transition: all .15s ease;
+            flex-shrink:0;
+            margin-top: 1px;
+            border: 1px solid transparent;
+        }
+        .action-status-button:hover { background:#e0f2fe; transform: scale(1.04); border-color:#bfdbfe; }
+        .action-top-badge {
+            min-width: 34px;
+            height: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            font-size: 9px;
+            font-weight: 900;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .action-text {
+            min-width: 0;
+            flex: 1;
+            font-size: 11px;
+            line-height: 1.35;
+            color: #334155;
+            white-space: normal;
+            overflow: visible;
+            word-break: break-word;
+        }
+        .action-criteria {
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .action-edit-row {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 9px 10px;
+            border: 1px solid #dbeafe;
+            background: #ffffff;
+            border-radius: 9px;
+            margin-top: 7px;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+        }
+        .action-edit-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .action-edit-header .spacer { flex: 1; }
+        .action-edit-content {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .action-edit-criteria {
+            width: 100%;
+            border: 1px solid #dbeafe;
+            background: #f8fbff;
+            border-radius: 7px;
+            padding: 6px 8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #0f172a;
+            outline: none;
+        }
+        .action-edit-action {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            border-radius: 7px;
+            padding: 7px 8px;
+            font-size: 11px;
+            color: #334155;
+            outline: none;
+            resize: vertical;
+            min-height: 42px;
+            line-height: 1.35;
+            overflow: hidden;
+        }
+        .action-edit-criteria:focus,
+        .action-edit-action:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, .10);
+        }
+        .maturity-badge {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:34px;
+            height:34px;
+            border-radius:10px;
+            font-size:18px;
+            font-weight:900;
+            border:1px solid;
+            box-shadow:0 1px 2px rgba(15,23,42,0.06);
+        }
+        .grade-a { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+        .grade-b { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+        .grade-c { background:#fffbeb; color:#b45309; border-color:#fde68a; }
+        .grade-d { background:#fff1f2; color:#be123c; border-color:#fecdd3; }
+        .maturity-card {
+            border: 1px solid #e2e8f0;
+            background:#ffffff;
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+        }
+        .bar-track { height: 8px; background:#e2e8f0; border-radius:999px; overflow:hidden; }
+        .bar-fill { height:100%; border-radius:999px; }
+        .bar-green { background:#0d9488; }
+        .bar-blue { background:#2563eb; }
+        .bar-amber { background:#f59e0b; }
+        .bar-red { background:#ef4444; }
+        .group-badge { font-size:10px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col overflow-hidden bg-slate-50 text-slate-800">
+
+    <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between z-10 shrink-0 shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 text-white p-2.5 rounded-xl flex items-center justify-center shadow-md shadow-blue-100">
+                <i class="fa-solid fa-square-poll-vertical text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Outil transverse de pilotage PPC-AOS-Usine ST-ELOI</h1>
+                <p class="text-xs text-slate-500">Diagnostic dynamique PPC : routines, maturité et critères AOS</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <button onclick="openAddSectorModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
+                <i class="fa-solid fa-plus text-xs"></i> Ajouter un secteur
+            </button>
+            
+            <button onclick="openResetConfirmModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-800 px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+                <i class="fa-solid fa-arrow-rotate-left text-xs"></i> Réinitialiser les données
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow flex overflow-hidden w-full">
+        
+        <aside class="w-80 bg-white border-r border-slate-200 flex flex-col shrink-0 overflow-hidden shadow-sm">
+            <div class="p-4 border-b border-slate-100 bg-slate-50/50">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Matrice des Secteurs</h2>
+                <p class="text-xs text-slate-500">Cochez un secteur pour l'assigner à la colonne de gauche (Zoom 1) ou droite (Zoom 2).</p>
+            </div>
+            
+            <div class="flex-grow overflow-y-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100 sticky top-0 z-10">
+                            <th class="py-3 px-4">Élément</th>
+                            <th class="py-3 px-2 text-center">Zoom 1</th>
+                            <th class="py-3 px-2 text-center">Zoom 2</th>
+                            <th class="py-3 pr-4 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectors-table-body" class="divide-y divide-slate-100">
+                        </tbody>
+                </table>
+            </div>
+        </aside>
+
+        <section id="dashboard-scroll" class="flex-grow p-6 flex gap-6 overflow-y-auto bg-slate-50">
+            
+            <div id="panel-zoom1" class="flex-1 flex flex-col gap-4 fade-in"></div>
+
+            <div id="panel-divider" class="w-px bg-slate-200 shrink-0 self-stretch my-2"></div>
+
+            <div id="panel-zoom2" class="flex-1 flex flex-col gap-4 fade-in"></div>
+
+        </section>
+    </main>
+
+    <div id="add-sector-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-circle-plus text-blue-600"></i> Ajouter un secteur
+                </h3>
+                <button onclick="closeAddSectorModal()" class="text-slate-400 hover:text-slate-600 transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-5 flex flex-col gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Identifiant du Secteur (ex: ODYL 4)</label>
+                    <input type="text" id="new-sector-id" placeholder="ex: ODYL 4" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition font-semibold text-slate-800">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Titre complet de la routine</label>
+                    <input type="text" id="new-sector-title" placeholder="ex: Routines PPC – ODYL 4 (2 VAC)" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition text-slate-800">
+                </div>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50/50">
+                <button onclick="closeAddSectorModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
+                <button onclick="submitNewSector()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Créer le secteur</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="reset-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <div class="p-5 flex flex-col items-center text-center gap-3">
+                <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center text-xl shadow-sm border border-amber-100">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 class="font-bold text-slate-800 text-lg">Réinitialiser les données ?</h3>
+                <p class="text-sm text-slate-500">Cette action chargera les données d'origine de l'usine depuis Google Sheet et écrasera vos modifications de session en cours.</p>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
+                <button onclick="closeResetConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Conserver</button>
+                <button onclick="resetToDefaults()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition text-sm font-semibold shadow-sm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="delete-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <input type="hidden" id="sector-to-delete">
+            <div class="p-5 flex flex-col items-center text-center gap-3">
+                <div class="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center text-xl shadow-sm border border-rose-100">
+                    <i class="fa-solid fa-trash-can"></i>
+                </div>
+                <h3 class="font-bold text-slate-800 text-lg">Supprimer ce secteur ?</h3>
+                <p class="text-sm text-slate-500">Êtes-vous sûr de vouloir supprimer définitivement de l'écran le secteur <span id="delete-sector-name" class="font-bold text-slate-800"></span> ?</p>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
+                <button onclick="closeDeleteConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
+                <button onclick="deleteSector()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
         // ==========================================
         // CONFIGURATION UNIQUE DE TON URL APPS SCRIPT
         // ==========================================
         const GOOGLE_SHEET_API_URL = "https://script.google.com/a/macros/airbus.com/s/AKfycbxEOosGPsGcbUyvUrli0QaGGpDsQAIr3kY9s3I_qrN2UmHM6WbRoOgxwjgTIhqkaOCL/exec";
 
-        // base de données par défaut d'origine (10 secteurs réels ST-ELOI)
+        // Base de données par défaut d'origine (10 secteurs réels ST-ELOI)
         const DEFAULT_DATABASE = {
             odyl1: {
                 name: "ODYL 1", title: "Routines PPC – ODYL 1 (2 VAC)",
@@ -54,7 +424,7 @@
             odye2: {
                 name: "ODYE 2", title: "Routines PPC – ODYE 2 (2 VAC, non takter)",
                 daily: { name: "PASSAGE D'INFO", timeInfo: "1 fois par vac, 30 min", part: "TL, opérateurs, referent", pts: [{ status: "x", text: "Suivre l'avance retard" }, { status: "v", text: "Remonter les aleas" }, { status: "x", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence"], routine: ["Sheet"], irr: "Ce n'est pas un PPC daily.", pos: "" },
-                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 120 min", part: "tl, rl, coach perfo, ordo, rdz, qualité, support tech et maintenance", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["MES", "Aveva", "Sheet aléas", "Fichier perfo", "PPC digit"], routine: ["Fichier PPC", "KPI (Perfo et Top aleas)", "Double saisie des aléas."], irr: "Double saisie des aléas.", pos: "" }
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 120 min", part: "tl, rl, coach perfo, ordo, rdz, qualité, support tech et maintenance", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["MES", "Aveva", "Sheet aléas", "Fichier perfo", "PPC digit"], routine: ["Fichier PPC", "KPI (Perfo et Top aleas)"], irr: "Double saisie des aléas.", pos: "" }
             }
         };
 
@@ -771,142 +1141,4 @@
         }
 
         function ensureActions(key, routineType) {
-            if (!db[key].actions) db[key].actions = { daily: [], weekly: [] };
-            if (!db[key].actions[routineType]) db[key].actions[routineType] = [];
-        }
-
-        function cycleActionStatus(event, side, key, routineType, idx) {
-            ensureActions(key, routineType);
-            const action = db[key].actions[routineType][idx];
-            if (action) {
-                action.status = nextActionStatus(action.status);
-                saveDbToLocalStorage();
-                safeRenderDashboard();
-            }
-        }
-
-        function editActionField(side, key, routineType, idx, field, value) {
-            ensureActions(key, routineType);
-            if (db[key].actions[routineType][idx]) db[key].actions[routineType][idx][field] = value;
-        }
-
-        function addAction(side, key, routineType) {
-            ensureActions(key, routineType);
-            db[key].actions[routineType].push({ criteria: 'Thème', action: 'Action à mener', status: 'not_started', dateDebut: '', dateFin: '' });
-            saveDbToLocalStorage();
-            safeRenderDashboard();
-        }
-
-        function deleteAction(side, key, routineType, idx) {
-            ensureActions(key, routineType);
-            db[key].actions[routineType].splice(idx, 1);
-            safeRenderDashboard();
-        }
-
-        function editMaturityField(side, key, routineType, criteriaKey, value) {
-            if (!db[key].maturity) db[key].maturity = { daily: {}, weekly: {} };
-            if (!db[key].maturity[routineType]) db[key].maturity[routineType] = {};
-            db[key].maturity[routineType][criteriaKey] = Math.max(0, Math.min(100, parseInt(value || '0', 10)));
-        }
-
-        // ÉVITE LE CALCUL AUTOMATIQUE DU GRADE DE MODIFICATION EN DIRECT
-        function editMaturityGrade(side, key, value) {
-            if (db[key]) { db[key].maturityGrade = String(value).toUpperCase(); saveDbToLocalStorage(); safeRenderDashboard(); }
-        }
-
-        function saveGroupEdits(side, key) {
-            const titleInput = document.getElementById(`edit-title-${side}`);
-            if (titleInput && db[key]) db[key].title = titleInput.value;
-            saveDbToLocalStorage();
-            editModes[side] = false;
-            renderSidebar();
-            safeRenderDashboard();
-        }
-
-        function saveSectorEdits(side, key) {
-            const data = db[key];
-            if (!data) return;
-
-            const tIn = document.getElementById(`edit-title-${side}`);
-            if(tIn) data.title = tIn.value;
-
-            ['daily', 'weekly'].forEach(type => {
-                const nameIn = document.getElementById(`edit-${type}-name-${side}`);
-                const timeIn = document.getElementById(`edit-${type}-time-${side}`);
-                const partIn = document.getElementById(`edit-${type}-part-${side}`);
-                const prepIn = document.getElementById(`edit-${type}-prep-${side}`);
-                const routIn = document.getElementById(`edit-${type}-routine-${side}`);
-                const irrIn = document.getElementById(`edit-${type}-irr-${side}`);
-
-                if(nameIn) data[type].name = nameIn.value;
-                if(timeIn) data[type].timeInfo = timeIn.value;
-                if(partIn) data[type].part = partIn.value;
-                if(prepIn) data[type].prep = prepIn.value.split(',').map(s => s.trim()).filter(Boolean);
-                if(routIn) data[type].routine = routIn.value.split(',').map(s => s.trim()).filter(Boolean);
-                if(irrIn) data[type].irr = irrIn.value;
-            });
-
-            saveDbToLocalStorage();
-            editModes[side] = false;
-            renderSidebar();
-            safeRenderDashboard();
-        }
-
-        function openAddSectorModal() {
-            document.getElementById('new-sector-id').value = '';
-            document.getElementById('new-sector-title').value = '';
-            document.getElementById('add-sector-modal').classList.remove('hidden');
-        }
-        function closeAddSectorModal() { document.getElementById('add-sector-modal').classList.add('hidden'); }
-
-        function submitNewSector() {
-            const rawId = document.getElementById('new-sector-id').value.trim();
-            const rawTitle = document.getElementById('new-sector-title').value.trim();
-            if (!rawId) return;
-
-            const key = rawId.toLowerCase().replace(/[^a-z0-9]/g, '');
-            if (db[key]) return;
-
-            db[key] = {
-                name: rawId, title: rawTitle || `Routines PPC – ${rawId} (2 VAC)`,
-                daily: { name: "PPC Daily", timeInfo: "30 min", part: "TL, Ordo", pts: [{ status: "v", text: "Suivre l'avance retard" }], prep: [], routine: [], irr: "", pos: "" },
-                weekly: { name: "PPC Weekly", timeInfo: "60 min", part: "TL, RL", pts: [{ status: "v", text: "Performance" }], prep: [], routine: [], irr: "", pos: "" }
-            };
-
-            saveDbToLocalStorage();
-            closeAddSectorModal();
-            activeLeftKey = key;
-            initApp();
-        }
-
-        function confirmDeleteSector(key) {
-            if (!db[key]) return;
-            document.getElementById('sector-to-delete').value = key;
-            document.getElementById('delete-sector-name').innerText = db[key].name;
-            document.getElementById('delete-confirm-modal').classList.remove('hidden');
-        }
-        function closeDeleteConfirmModal() { document.getElementById('delete-confirm-modal').classList.add('hidden'); }
-
-        function deleteSector() {
-            const key = document.getElementById('sector-to-delete').value;
-            if (db[key] && !db[key].isGroup) {
-                delete db[key];
-                saveDbToLocalStorage();
-                const rem = Object.keys(db);
-                if (activeLeftKey === key) activeLeftKey = rem[0] || "";
-                if (activeRightKey === key) activeRightKey = rem[1] || rem[0] || "";
-            }
-            closeDeleteConfirmModal();
-            initApp();
-        }
-
-        function openResetConfirmModal() { document.getElementById('reset-confirm-modal').classList.remove('hidden'); }
-        function closeResetConfirmModal() { document.getElementById('reset-confirm-modal').classList.add('hidden'); }
-
-        function escapeHtml(v) { return String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-        function escapeAttr(v) { return escapeHtml(v).replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
-        function autoResizeTextarea(el) { if(el) { el.style.height = 'auto'; el.style.height = Math.max(42, el.scrollHeight) + 'px'; } }
-        function resizeAllActionTextareas() { document.querySelectorAll('.action-edit-action').forEach(autoResizeTextarea); }
-
-        window.onload = function() { initApp(); };
-    </script>
+            if (!db[key].actions) db[key].actions
