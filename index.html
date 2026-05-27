@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outil transverse de pilotage PPC-AOS-Usine ST-ELOI</title>
-    <!-- Tailwind CSS pour un design moderne et réactif -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome pour les icônes professionnelles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -257,7 +254,6 @@
 </head>
 <body class="h-screen w-screen flex flex-col overflow-hidden bg-slate-50 text-slate-800">
 
-    <!-- BARRE DE TITRE SUPERIEURE -->
     <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between z-10 shrink-0 shadow-sm">
         <div class="flex items-center gap-3">
             <div class="bg-blue-600 text-white p-2.5 rounded-xl flex items-center justify-center shadow-md shadow-blue-100">
@@ -270,27 +266,18 @@
         </div>
         
         <div class="flex items-center gap-3">
-            <!-- INDICATEUR DE SYNCHRONISATION GOOGLE SHEETS -->
-            <span id="sync-status" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1.5 transition-all">
-                <i class="fa-solid fa-cloud"></i> Connexion Sheets...
-            </span>
-
-            <!-- Bouton Ajouter Secteur -->
             <button onclick="openAddSectorModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
                 <i class="fa-solid fa-plus text-xs"></i> Ajouter un secteur
             </button>
             
-            <!-- Bouton Reset -->
             <button onclick="openResetConfirmModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-800 px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
                 <i class="fa-solid fa-arrow-rotate-left text-xs"></i> Réinitialiser les données
             </button>
         </div>
     </header>
 
-    <!-- ZONE PRINCIPALE DE L'APPLICATION -->
     <main class="flex-grow flex overflow-hidden w-full">
         
-        <!-- SIDEBAR DE SELECTION (STYLE GOOGLE SHEETS INTERACTIF) -->
         <aside class="w-80 bg-white border-r border-slate-200 flex flex-col shrink-0 overflow-hidden shadow-sm">
             <div class="p-4 border-b border-slate-100 bg-slate-50/50">
                 <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Matrice des Secteurs</h2>
@@ -308,36 +295,22 @@
                         </tr>
                     </thead>
                     <tbody id="sectors-table-body" class="divide-y divide-slate-100">
-                        <!-- Généré de manière dynamique par le script JS -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </aside>
 
-        <!-- ZONE D'AFFICHAGE DU DUAL VIEW (ZOOM 1 & ZOOM 2) -->
         <section id="dashboard-scroll" class="flex-grow p-6 flex gap-6 overflow-y-auto bg-slate-50">
             
-            <!-- PANEL ZOOM 1 (GAUCHE) -->
-            <div id="panel-zoom1" class="flex-1 flex flex-col gap-4 fade-in">
-                <!-- Injecté dynamiquement par JS -->
-            </div>
+            <div id="panel-zoom1" class="flex-1 flex flex-col gap-4 fade-in"></div>
 
-            <!-- SEPARATEUR VISUEL VERTICAL -->
             <div id="panel-divider" class="w-px bg-slate-200 shrink-0 self-stretch my-2"></div>
 
-            <!-- PANEL ZOOM 2 (DROITE) -->
-            <div id="panel-zoom2" class="flex-1 flex flex-col gap-4 fade-in">
-                <!-- Injecté dynamiquement par JS -->
-            </div>
+            <div id="panel-zoom2" class="flex-1 flex flex-col gap-4 fade-in"></div>
 
         </section>
     </main>
 
-    <!-- ==========================================
-         MODALS ET BOITES DE CONFIRMATION CUSTOMS 
-         ========================================== -->
-
-    <!-- MODAL : AJOUTER UN SECTEUR -->
     <div id="add-sector-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-md border border-slate-200 fade-in flex flex-col overflow-hidden">
             <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
@@ -363,7 +336,6 @@
         </div>
     </div>
 
-    <!-- MODAL : CONFIRMATION REINITIALISATION -->
     <div id="reset-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
             <div class="p-5 flex flex-col items-center text-center gap-3">
@@ -371,7 +343,7 @@
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
                 <h3 class="font-bold text-slate-800 text-lg">Réinitialiser les données ?</h3>
-                <p class="text-sm text-slate-500">Cette action écrasera toutes vos modifications pour restaurer les 10 fiches PPC d'origine. Cette action est irréversible.</p>
+                <p class="text-sm text-slate-500">Cette action chargera les données d'origine de l'usine depuis Google Sheet et écrasera vos modifications de session en cours.</p>
             </div>
             <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
                 <button onclick="closeResetConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Conserver</button>
@@ -380,7 +352,6 @@
         </div>
     </div>
 
-    <!-- MODAL : CONFIRMATION SUPPRESSION SECTEUR -->
     <div id="delete-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
             <input type="hidden" id="sector-to-delete">
@@ -389,7 +360,7 @@
                     <i class="fa-solid fa-trash-can"></i>
                 </div>
                 <h3 class="font-bold text-slate-800 text-lg">Supprimer ce secteur ?</h3>
-                <p class="text-sm text-slate-500">Êtes-vous sûr de vouloir supprimer définitivement le secteur <span id="delete-sector-name" class="font-bold text-slate-800"></span> ?</p>
+                <p class="text-sm text-slate-500">Êtes-vous sûr de vouloir supprimer définitivement de l'écran le secteur <span id="delete-sector-name" class="font-bold text-slate-800"></span> ?</p>
             </div>
             <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
                 <button onclick="closeDeleteConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
@@ -398,324 +369,66 @@
         </div>
     </div>
 
-
-    <!-- -------------------------------------------------------------
-         MOTEURS DE BASES DE DONNÉES ET FONCTIONNALITÉS INTERACTIVES
-         ------------------------------------------------------------- -->
     <script>
-        // =========================================================================
-        // URL DE VOTRE DEPLOIEMENT GOOGLE APPS SCRIPT (A COLLER ENTRE LES GUILLEMETS)
-        // =========================================================================
-        const APPS_SCRIPT_URL = "https://script.google.com/a/macros/airbus.com/s/AKfycbz8QZCxaXtHgmVJyr6DG0pREiiL7Gm5NJ0f9IU9n_GCQg2lLjYv7nGaubgGZEuu6wS4/exec"; 
+        // ==========================================
+        // EMPLACEMENT DU LIEN GOOGLE APPS SCRIPT
+        // ==========================================
+        const GOOGLE_SHEET_API_URL = "https://script.google.com/a/macros/airbus.com/s/AKfycbxEOosGPsGcbUyvUrli0QaGGpDsQAIr3kY9s3I_qrN2UmHM6WbRoOgxwjgTIhqkaOCL/exec";
 
         // base de données par défaut d'origine (10 secteurs réels ST-ELOI)
         const DEFAULT_DATABASE = {
             odyl1: {
-                name: "ODYL 1",
-                title: "Routines PPC – ODYL 1 (2 VAC)",
-                daily: {
-                    name: "ROP", timeInfo: "1 fois par vac, 55 min",
-                    part: "TL, Ordo, Qualité, Support tech, RDZ",
-                    pts: [
-                        { status: "x", text: "Suivre l'avance retard" },
-                        { status: "x", text: "Remonter les aleas" },
-                        { status: "v", text: "Prendre des décision (points ouverts)" }
-                    ],
-                    prep: ["Plan de prod", "Gantt", "Fichier présence"],
-                    routine: ["Feuille de match", "Tandem"],
-                    irr: "Ce n'est pas une routine PPC daily, trop de préparatrion",
-                    pos: ""
-                },
-                weekly: {
-                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
-                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité, leader support tech, pro",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "x", text: "Plan d'action" }
-                    ],
-                    prep: ["MES"],
-                    routine: ["KPI (Perfo, Top aleas)", "SHEET"],
-                    irr: "Les top aleas sont utilisées pour justifier la performance, on ne cherche pas à trouver les causes pour mettre des actions en place",
-                    pos: ""
-                }
+                name: "ODYL 1", title: "Routines PPC – ODYL 1 (2 VAC)",
+                daily: { name: "ROP", timeInfo: "1 fois par vac, 55 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "x", text: "Suivre l'avance retard" }, { status: "x", text: "Remonter les aleas" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Plan de prod", "Gantt", "Fichier présence"], routine: ["Feuille de match", "Tandem"], irr: "Ce n'est pas une routine PPC daily, trop de préparatrion", pos: "" },
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité, leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "x", text: "Plan d'action" }], prep: ["MES"], routine: ["KPI (Perfo et Top aleas)", "SHEET"], irr: "Les top aleas sont utilisées pour justifier la performance, on ne cherche pas à trouver les causes pour mettre des actions en place", pos: "" }
             },
             odyl2: {
-                name: "ODYL 2",
-                title: "Routines PPC – ODYL 2 (2 VAC)",
-                daily: {
-                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
-                    part: "TL, Ordo, Qualité, Support tech, RDZ",
-                    pts: [
-                        { status: "v", text: "Suivre l'avance retard" },
-                        { status: "x", text: "Remonter les aleas (se fait durant la journée)" },
-                        { status: "v", text: "Prendre des décision (points ouverts)" }
-                    ],
-                    prep: ["Fichier présence", "Feuille de match", "Gantt"],
-                    routine: ["IOBEYA"],
-                    irr: "La non utilisation de l'outil Skywise PPC (besoin de modification)",
-                    pos: ""
-                },
-                weekly: {
-                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
-                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "v", text: "Plan d'action" }
-                    ],
-                    prep: ["MES", "Fichier présence"],
-                    routine: ["KPI (Perfo, Top aleas)", "Sheet"],
-                    irr: "",
-                    pos: ""
-                }
+                name: "ODYL 2", title: "Routines PPC – ODYL 2 (2 VAC)",
+                daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "v", text: "Suivre l'avance retard" }, { status: "x", text: "Remonter les aleas (se fait durant la journée)" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence", "Feuille de match", "Gantt"], routine: ["IOBEYA"], irr: "La non utilisation de l'outil Skywise PPC (besoin de modification)", pos: "" },
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["MES", "Fichier présence"], routine: ["KPI (Perfo et Top aleas)", "Sheet"], irr: "", pos: "" }
             },
             odyl3: {
-                name: "ODYL 3",
-                title: "Routines PPC – ODYL 3 (2 VAC)",
-                daily: {
-                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
-                    part: "TL, Ordo, Qualité, Support tech, RDZ",
-                    pts: [
-                        { status: "v", text: "Avance retard" },
-                        { status: "v", text: "Aleas" },
-                        { status: "v", text: "Points ouverts" }
-                    ],
-                    prep: [],
-                    routine: [],
-                    irr: "",
-                    pos: ""
-                },
-                weekly: {
-                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
-                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "v", text: "Plan d'action" }
-                    ],
-                    prep: [],
-                    routine: [],
-                    irr: "",
-                    pos: ""
-                }
+                name: "ODYL 3", title: "Routines PPC – ODYL 3 (2 VAC)",
+                daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "v", text: "Avance retard" }, { status: "v", text: "Aleas" }, { status: "v", text: "Points ouverts" }], prep: [], routine: [], irr: "", pos: "" },
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: [], routine: [], irr: "", pos: "" }
             },
             odys1: {
-                name: "ODYS 1",
-                title: "Routines PPC – ODYS 1 (2 VAC)",
-                daily: {
-                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
-                    part: "Ordo, Qualité, Support tech, RDZ P67, toa, RDZ P68",
-                    pts: [
-                        { status: "v", text: "Suivre l'avance retard" },
-                        { status: "x", text: "Remonter les aleas (se fait durant la journée)" },
-                        { status: "v", text: "Prendre des décision (points ouverts)" }
-                    ],
-                    prep: ["Fichier présence", "Frise zone", "Abaque", "SAP", "MES", "SIC"],
-                    routine: ["SHEET"],
-                    irr: "Double saisie. Tl n'est pas présent dans la routine",
-                    pos: ""
-                },
-                weekly: {
-                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
-                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "v", text: "Plan d'action" }
-                    ],
-                    prep: ["Fichier présence", "MES", "IBM"],
-                    routine: ["SHEET", "KPI (Perfo et Top pareto)", "Adhérence charge/capa"],
-                    irr: "",
-                    pos: ""
-                }
+                name: "ODYS 1", title: "Routines PPC – ODYS 1 (2 VAC)",
+                daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "Ordo, Qualité, Support tech, RDZ P67, toa, RDZ P68", pts: [{ status: "v", text: "Suivre l'avance retard" }, { status: "x", text: "Remonter les aleas (se fait durant la journée)" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence", "Frise zone", "Abaque", "SAP", "MES", "SIC"], routine: ["SHEET"], irr: "Double saisie. Tl n'est pas present dans la routine", pos: "" },
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["Fichier présence", "MES", "IBM"], routine: ["SHEET", "KPI (Perfo et Top pareto)", "Adhérence charge/capa"], irr: "", pos: "" }
             },
             odys2: {
-                name: "ODYS 2",
-                title: "Routines PPC – ODYS 2 (2 VAC)",
-                daily: {
-                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
-                    part: "TL, Ordo, Qualité, Support tech, RDZ",
-                    pts: [
-                        { status: "v", text: "Avance retard" },
-                        { status: "v", text: "Aleas" },
-                        { status: "v", text: "Points ouverts" }
-                    ],
-                    prep: [],
-                    routine: [],
-                    irr: "",
-                    pos: ""
-                },
-                weekly: {
-                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
-                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "v", text: "Plan d'action" }
-                    ],
-                    prep: [],
-                    routine: [],
-                    irr: "",
-                    pos: ""
-                }
+                name: "ODYS 2", title: "Routines PPC – ODYS 2 (2 VAC)",
+                daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "v", text: "Avance retard" }, { status: "v", text: "Aleas" }, { status: "v", text: "Points ouverts" }], prep: [], routine: [], irr: "", pos: "" },
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: [], routine: [], irr: "", pos: "" }
             },
             odys3: {
-                name: "ODYS 3",
-                title: "Routines PPC – ODYS 3 (2 VAC)",
-                daily: {
-                    name: "PPC DAILY", timeInfo: "2 fois par vac, 30 min",
-                    part: "TL, Ordo, Qualité, Support tech, RDZ, ONET, TOA",
-                    pts: [
-                        { status: "x", text: "Suivre l'avance retard (se fait durant la vac sur le tableau visuel)" },
-                        { status: "v", text: "Remonter les aleas" },
-                        { status: "v", text: "Prendre des décision (points ouverts)" }
-                    ],
-                    prep: ["Fichier présence", "Feuille de match", "Tandem", "MYHR", "MES"],
-                    routine: ["SHEET"],
-                    irr: "Double saisie",
-                    pos: ""
-                },
-                weekly: {
-                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
-                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "v", text: "Plan d'action" }
-                    ],
-                    prep: ["Igea", "Fichier présence", "MES"],
-                    routine: ["SHEET", "KPI (Perfo et Top aleas)"],
-                    irr: "",
-                    pos: ""
-                }
+                name: "ODYS 3", title: "Routines PPC – ODYS 3 (2 VAC)",
+                daily: { name: "PPC DAILY", timeInfo: "2 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ, ONET, TOA", pts: [{ status: "x", text: "Suivre l'avance retard (se fait durant la vac sur le tableau visuel)" }, { status: "v", text: "Remonter les aleas" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence", "Feuille de match", "Tandem", "MYHR", "MES"], routine: ["SHEET"], irr: "Double saisie", pos: "" },
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["Igea", "Fichier présence", "MES"], routine: ["SHEET", "KPI (Perfo et Top aleas)"], irr: "", pos: "" }
             },
             odys41: {
-                name: "ODYS 41",
-                title: "Routines PPC – ODYS 41 (2 VAC, non takte)",
-                daily: {
-                    name: "PPC DAILY", timeInfo: "1 fois par vac, 60 min",
-                    part: "TL, Ordo, Qualité, Support tech, RDZ, prepa, TOA, QLS exterieur",
-                    pts: [
-                        { status: "v", text: "Suivre l'avance retard" },
-                        { status: "x", text: "Remonter les aleas (se fait durant la journée)" },
-                        { status: "v", text: "Prendre des décision (points ouverts)" }
-                    ],
-                    prep: ["Fichier présence"],
-                    routine: ["Tandem", "MES", "SAP", "SHEET"],
-                    irr: "Mise à jour du fichier sheet durant la routine.",
-                    pos: ""
-                },
-                weekly: {
-                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
-                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "v", text: "Plan d'action" }
-                    ],
-                    prep: ["Fichier présence"],
-                    routine: ["PPC sheet", "KPI (Perfo, Top aleas)"],
-                    irr: "Le plan d'action n'est pas trop pris en compte",
-                    pos: ""
-                }
+                name: "ODYS 41", title: "Routines PPC – ODYS 41 (2 VAC, non takte)",
+                daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 60 min", part: "TL, Ordo, Qualité, Support tech, RDZ, prepa, TOA, QLS exterieur", pts: [{ status: "v", text: "Suivre l'avance retard" }, { status: "x", text: "Remonter les aleas (se fait durant la journée)" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence"], routine: ["Tandem", "MES", "SAP", "SHEET"], irr: "Mise à jour du fichier sheet durant la routine.", pos: "" },
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["Fichier présence"], routine: ["PPC sheet", "KPI (Perfo et Top aleas)"], irr: "Le plan d'action n'est pas trop pris en compte", pos: "" }
             },
             odys42: {
-                name: "ODYS 42",
-                title: "Routines PPC – ODYS 42 (2 VAC)",
-                daily: {
-                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
-                    part: "TL, Ordo, Qualité, Support tech, RDZ",
-                    pts: [
-                        { status: "v", text: "Suivre l'avance retard" },
-                        { status: "v", text: "Remonter les aleas" },
-                        { status: "x", text: "Prendre des décision (points ouverts)" }
-                    ],
-                    prep: ["Sheet poste (A/R)", "Tandem", "MES", "Fichier consigne"],
-                    routine: ["PPC sheet"],
-                    irr: "La prise de décision est orale.",
-                    pos: ""
-                },
-                weekly: {
-                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min",
-                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "v", text: "Plan d'action" }
-                    ],
-                    prep: ["Sheet", "Fichier présence", "Sheet aleas", "MES"],
-                    routine: ["PPC slide", "KPI (Perfo, Top aleas)"],
-                    irr: "Trop de préparation",
-                    pos: ""
-                }
+                name: "ODYS 42", title: "Routines PPC – ODYS 42 (2 VAC)",
+                daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "v", text: "Suivre l'avance retard" }, { status: "v", text: "Remonter les aleas" }, { status: "x", text: "Prendre des décision (points ouverts)" }], prep: ["Sheet poste (A/R)", "Tandem", "MES", "Fichier consigne"], routine: ["PPC sheet"], irr: "La prise de décision est orale.", pos: "" },
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["Sheet", "Fichier présence", "Sheet aleas", "MES"], routine: ["PPC slide", "KPI (Perfo et Top aleas)"], irr: "Trop de préparation", pos: "" }
             },
             odye1: {
-                name: "ODYE 1",
-                title: "Routines PPC – ODYE 1 (2 VAC, non takter)",
-                daily: {
-                    name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min",
-                    part: "TL, Ordo, Qualité, Support tech, RDZ, prepa",
-                    pts: [
-                        { status: "v", text: "Suivre l'avance retard" },
-                        { status: "v", text: "Remonter les aleas" },
-                        { status: "v", text: "Prendre des décision (points ouverts)" }
-                    ],
-                    prep: ["Mes (partiel)", "ppc digit (partiel)", "Scoot"],
-                    routine: ["Sheet"],
-                    irr: "Fiabilité des données. Traitement des aleas oralement.",
-                    pos: ""
-                },
-                weekly: {
-                    name: "DPS", timeInfo: "1 fois par semaine, 90 min",
-                    part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "x", text: "Plan d'action" }
-                    ],
-                    prep: ["Sheet ppc daily", "sheet charge/cap", "Skywise"],
-                    routine: ["ppc weekly Slide", "KPI (Perfo, Top aleas)"],
-                    irr: "PPC weekly n'existe pas, on fait un résumé de s-1 durant cette réunion Adhérence charge/capa et non pas adhérence avec le contrat.",
-                    pos: ""
-                }
+                name: "ODYE 1", title: "Routines PPC – ODYE 1 (2 VAC, non takter)",
+                daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ, prepa", pts: [{ status: "v", text: "Suivre l'avance retard" }, { status: "v", text: "Remonter les aleas" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Mes (partiel)", "ppc digit (partiel)", "Scoot"], routine: ["Sheet"], irr: "Fiabilité des données. Traitement des aleas oralement.", pos: "" },
+                weekly: { name: "DPS", timeInfo: "1 fois par semaine, 90 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "x", text: "Plan d'action" }], prep: ["Sheet ppc daily", "sheet charge/cap", "Skywise"], routine: ["ppc weekly Slide", "KPI (Perfo et Top aleas)"], irr: "PPC weekly n'existe pas, on fait un résumé de s-1 durant cette réunion Adhérence charge/capa et non pas adhérence avec le contrat.", pos: "" }
             },
             odye2: {
-                name: "ODYE 2",
-                title: "Routines PPC – ODYE 2 (2 VAC, non takter)",
-                daily: {
-                    name: "PASSAGE D'INFO", timeInfo: "1 fois par vac, 30 min",
-                    part: "TL, opérateurs, referent",
-                    pts: [
-                        { status: "x", text: "Suivre l'avance retard" },
-                        { status: "v", text: "Remonter les aleas" },
-                        { status: "x", text: "Prendre des décision (points ouverts)" }
-                    ],
-                    prep: ["Fichier présence"],
-                    routine: ["Sheet"],
-                    irr: "Ce n'est pas un PPC daily.",
-                    pos: ""
-                },
-                weekly: {
-                    name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 120 min",
-                    part: "tl, rl, coach perfo, ordo, rdz, qualité, support tech et maintenance",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "v", text: "Plan d'action" }
-                    ],
-                    prep: ["MES", "Aveva", "Sheet aléas", "Fichier perfo", "PPC digit"],
-                    routine: ["Fichier PPC", "KPI (Perfo et Top aleas)"],
-                    irr: "Double saisie des aléas.",
-                    pos: ""
-                }
+                name: "ODYE 2", title: "Routines PPC – ODYE 2 (2 VAC, non takter)",
+                daily: { name: "PASSAGE D'INFO", timeInfo: "1 fois par vac, 30 min", part: "TL, opérateurs, referent", pts: [{ status: "x", text: "Suivre l'avance retard" }, { status: "v", text: "Remonter les aleas" }, { status: "x", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence"], routine: ["Sheet"], irr: "Ce n'est pas un PPC daily.", pos: "" },
+                weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 120 min", part: "tl, rl, coach perfo, ordo, rdz, qualité, support tech et maintenance", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["MES", "Aveva", "Sheet aléas", "Fichier perfo", "PPC digit"], routine: ["Fichier PPC", "KPI (Perfo et Top aleas)"], irr: "Double saisie des aléas.", pos: "" }
             }
         };
 
-
-        // ===============================
-        // Données enrichies : hiérarchie, maturité, actions
-        // ===============================
         const GROUP_STRUCTURE = {
             odye: { name: "ODYE", title: "Vue consolidée – ODYE", children: ["odye1", "odye2"], superGroup: "ODY" },
             odys: { name: "ODYS", title: "Vue consolidée – ODYS", children: ["odys1", "odys2", "odys3", "odys41", "odys42"], superGroup: "ODY" },
@@ -723,18 +436,10 @@
             ody:  { name: "ODY",  title: "Vue globale – ODY", children: ["odye", "odys", "odyl"], superGroup: "GLOBAL" }
         };
 
-        const DEFAULT_MATURITY = {
-            daily: {
-                avanceRetard: 70,
-                aleas: 55,
-                decision: 60
-            },
-            weekly: {
-                performance: 75,
-                paretoAleas: 65,
-                planAction: 50
-            }
-        };
+        let db = {};
+        let activeLeftKey = "odyl1";
+        let activeRightKey = "odyl2";
+        let editModes = { left: false, right: false };
 
         function scoreColor(score) {
             if (score >= 75) return 'bar-green';
@@ -819,16 +524,14 @@
         }
 
         function defaultActionsForSector(sector) {
-            const dailyIrr = sector.daily?.irr || '';
-            const weeklyIrr = sector.weekly?.irr || '';
             return {
                 daily: [
-                    { criteria: 'Suivi avance / retard', action: 'Clarifier le support de pilotage utilisé pendant le Daily', status: 'not_started', dateDebut: '', dateFin: '' },
-                    { criteria: 'Écarts routine', action: 'Valider les irritants terrain et les écarts observés', status: 'ongoing', dateDebut: '', dateFin: '' }
+                    { criteria: 'Suivi avance / retard', action: 'Clarifier le support de pilotage utilisé pendant le Daily', status: 'not_started' },
+                    { criteria: 'Écarts routine', action: 'Valider les irritants terrain et les écarts observés', status: 'ongoing' }
                 ],
                 weekly: [
-                    { criteria: 'Plan d’action', action: 'Relier les aléas / KPI Weekly à un plan d’action suivi', status: 'not_started', dateDebut: '', dateFin: '2026-05-30' },
-                    { criteria: 'Sources KPI', action: 'Clarifier les sources de données CVAT / performance / aléas', status: 'ongoing', dateDebut: '', dateFin: '' }
+                    { criteria: 'Plan d’action', action: 'Relier les aléas / KPI Weekly à un plan d’action suivi', status: 'not_started' },
+                    { criteria: 'Sources KPI', action: 'Clarifier les sources de données CVAT / performance / aléas', status: 'ongoing' }
                 ]
             };
         }
@@ -838,8 +541,7 @@
                 if (GROUP_STRUCTURE[key]) return;
                 const sector = database[key];
                 if (!sector) return;
-                const prefix = (sector.name || '').replace(/\s+/g,'').toLowerCase().match(/ody[els]/)?.[0] || '';
-                sector.group = prefix.toUpperCase();
+                sector.group = (sector.name || '').replace(/\s+/g,'').toLowerCase().match(/ody[els]/)?.[0]?.toUpperCase() || '';
                 sector.superGroup = 'ODY';
                 sector.isGroup = false;
                 if (!sector.maturity) {
@@ -885,48 +587,41 @@
             return order.filter(k => db[k]).concat(Object.keys(db).filter(k => !order.includes(k)));
         }
 
-        // État de l'application chargée depuis localStorage ou défaut
-        let db = {};
-        let activeLeftKey = "g_odye";
-        let activeRightKey = "g_odye";
+        function saveDbToLocalStorage() {
+            localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(db));
+        }
 
-        // Gère si un panel est en mode édition
-        let editModes = {
-            left: false,
-            right: false
-        };
-
-        // ==========================================
-        // SYNCHRONISATION INTÉGRALE GOOGLE SHEET
-        // ==========================================
+        // INITIALISATION AVEC FETCH GOOGLE SHEETS
         async function initApp() {
-            setSyncStatus("loading", "Connexion Google Sheet...");
-            if (APPS_SCRIPT_URL !== "") {
+            console.log("Tentative de chargement depuis Google Sheets...");
+            let sheetData = null;
+
+            if (GOOGLE_SHEET_API_URL !== "https://script.google.com/a/macros/airbus.com/s/AKfycbxEOosGPsGcbUyvUrli0QaGGpDsQAIr3kY9s3I_qrN2UmHM6WbRoOgxwjgTIhqkaOCL/exec" && GOOGLE_SHEET_API_URL !== "") {
                 try {
-                    const response = await fetch(APPS_SCRIPT_URL);
+                    const response = await fetch(GOOGLE_SHEET_API_URL);
                     if (response.ok) {
-                        const cloudData = await response.json();
-                        if (cloudData && typeof cloudData === 'object' && Object.keys(cloudData).length > 0) {
-                            db = cloudData;
-                            saveDbToLocalStorage(false); // Sauvegarde locale sans push
-                            setSyncStatus("success", "Synchronisé avec le Sheet");
-                        } else {
-                            loadLocalFallback("Fichier vide — Base chargée");
-                        }
-                    } else {
-                        loadLocalFallback("Erreur d'accès — Base locale chargée");
+                        sheetData = await response.json();
+                        console.log("Données Google Sheets synchronisées !");
                     }
                 } catch (e) {
-                    loadLocalFallback("Mode hors connexion — Base locale");
+                    console.error("Erreur de liaison d'API. Utilisation du cache de session local.", e);
                 }
-            } else {
-                loadLocalFallback("Sauvegarde locale");
             }
 
-            // Enrichit la base avec la hiérarchie, les scores de maturité et les actions prioritaires
+            if (sheetData && Object.keys(sheetData).length > 0) {
+                db = sheetData;
+                saveDbToLocalStorage();
+            } else {
+                const savedDb = localStorage.getItem('ppc_sectors_db_custom_v6');
+                if (savedDb) {
+                    try { db = JSON.parse(savedDb); } catch(e) { db = JSON.parse(JSON.stringify(DEFAULT_DATABASE)); }
+                } else {
+                    db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
+                }
+            }
+
             enrichDatabase(db);
 
-            // Vérifie que les clés actives existent bien
             const keys = Object.keys(db);
             if (!keys.includes(activeLeftKey)) activeLeftKey = keys[0] || "";
             if (!keys.includes(activeRightKey)) activeRightKey = keys[1] || keys[0] || "";
@@ -935,64 +630,16 @@
             renderDashboard();
         }
 
-        function loadLocalFallback(msg) {
-            const savedDb = localStorage.getItem('ppc_sectors_db_custom_v6');
-            if (savedDb) {
-                try {
-                    db = JSON.parse(savedDb);
-                } catch(e) {
-                    db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
-                }
-            } else {
-                db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
-            }
-            setSyncStatus("warning", msg);
+        function resetToDefaults() {
+            localStorage.removeItem('ppc_sectors_db_custom_v6');
+            activeLeftKey = "odyl1";
+            activeRightKey = "odyl2";
+            editModes.left = false;
+            editModes.right = false;
+            initApp();
+            closeResetConfirmModal();
         }
 
-        async function saveDbToLocalStorage(syncToCloud = true) {
-            localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(db));
-            
-            if (syncToCloud && APPS_SCRIPT_URL !== "") {
-                setSyncStatus("saving", "Écriture Sheet d'équipe...");
-                try {
-                    await fetch(APPS_SCRIPT_URL, {
-                        method: "POST",
-                        mode: "no-cors", // Crucial pour le réseau d'Airbus (évite les blocages CORS de redirection)
-                        headers: {
-                            "Content-Type": "text/plain"
-                        },
-                        body: JSON.stringify(db)
-                    });
-                    setSyncStatus("success", "Fichier d'équipe synchronisé");
-                } catch (e) {
-                    setSyncStatus("error", "Échec écriture Sheet");
-                }
-            }
-        }
-
-        function setSyncStatus(status, message) {
-            const badge = document.getElementById('sync-status');
-            if (!badge) return;
-            
-            if (status === "loading" || status === "saving") {
-                badge.className = "text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1.5 animate-pulse";
-                badge.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> ${message}`;
-            } else if (status === "success") {
-                badge.className = "text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5";
-                badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${message}`;
-            } else if (status === "warning") {
-                badge.className = "text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1.5";
-                badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${message}`;
-            } else if (status === "error") {
-                badge.className = "text-xs font-semibold px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1.5";
-                badge.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${message}`;
-            } else {
-                badge.className = "text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1.5";
-                badge.innerHTML = `<i class="fa-solid fa-cloud"></i> ${message}`;
-            }
-        }
-
-        // Rendu de la barre latérale gauche
         function renderSidebar() {
             const tbody = document.getElementById('sectors-table-body');
             tbody.innerHTML = '';
@@ -1021,42 +668,33 @@
             });
         }
 
-        // Gère la sélection d'un secteur
         function selectSector(side, key) {
             if (side === 'left') {
                 activeLeftKey = key;
-                editModes.left = false; // Ferme l'édition en cours
+                editModes.left = false;
             } else {
                 activeRightKey = key;
-                editModes.right = false; // Ferme l'édition en cours
+                editModes.right = false;
             }
             safeRenderDashboard();
         }
 
-        // Toggle édition
         function toggleEditMode(side) {
             editModes[side] = !editModes[side];
             safeRenderDashboard();
         }
 
-        // Rendu sécurisé : conserve toutes les positions de scroll importantes
         function captureScrollState() {
             const preserved = {};
             document.querySelectorAll('[data-preserve-scroll]').forEach(el => {
-                preserved[el.dataset.preserveScroll] = {
-                    top: el.scrollTop || 0,
-                    left: el.scrollLeft || 0
-                };
+                preserved[el.dataset.preserveScroll] = { top: el.scrollTop || 0, left: el.scrollLeft || 0 };
             });
-
             return {
-                pageX: window.scrollX || 0,
-                pageY: window.scrollY || 0,
+                pageX: window.scrollX || 0, pageY: window.scrollY || 0,
                 dashboard: document.getElementById('dashboard-scroll')?.scrollTop || 0,
                 sidebar: document.querySelector('aside .overflow-y-auto')?.scrollTop || 0,
                 leftPanel: document.getElementById('panel-zoom1')?.scrollTop || 0,
                 rightPanel: document.getElementById('panel-zoom2')?.scrollTop || 0,
-                activeId: document.activeElement?.id || null,
                 preserved
             };
         }
@@ -1075,26 +713,17 @@
 
             Object.entries(state.preserved || {}).forEach(([key, pos]) => {
                 const el = document.querySelector(`[data-preserve-scroll="${key}"]`);
-                if (el) {
-                    el.scrollTop = pos.top;
-                    el.scrollLeft = pos.left;
-                }
+                if (el) { el.scrollTop = pos.top; el.scrollLeft = pos.left; }
             });
-
-            window.scrollTo(state.pageX, state.pageY);
         }
 
         function safeRenderDashboard() {
             const state = captureScrollState();
-
-            // Rendu de l'interface
             renderDashboard();
-
             const restore = () => {
                 restoreScrollState(state);
                 resizeAllActionTextareas();
             };
-
             requestAnimationFrame(() => {
                 restore();
                 requestAnimationFrame(restore);
@@ -1102,64 +731,38 @@
             });
         }
 
-        // Rendu global des deux fiches (Avec mode plein écran automatique s'ils sont identiques)
         function renderDashboard() {
             const leftContainer = document.getElementById('panel-zoom1');
             const rightContainer = document.getElementById('panel-zoom2');
             const divider = document.getElementById('panel-divider');
 
-            // DOUBLE CHECK COCHÉ => MODE PLEIN ÉCRAN PANORAMIQUE AUTOMATIQUE
             if (activeLeftKey === activeRightKey) {
                 if (divider) divider.classList.add('hidden');
                 if (rightContainer) rightContainer.classList.add('hidden');
-                
                 leftContainer.className = "flex-grow w-full flex flex-col gap-4 fade-in";
                 leftContainer.innerHTML = createCardHTML('left', activeLeftKey);
             } else {
                 if (divider) divider.classList.remove('hidden');
                 if (rightContainer) rightContainer.classList.remove('hidden');
-                
                 leftContainer.className = "flex-1 flex flex-col gap-4 fade-in";
                 rightContainer.className = "flex-1 flex flex-col gap-4 fade-in";
-                
                 leftContainer.innerHTML = createCardHTML('left', activeLeftKey);
                 rightContainer.innerHTML = createCardHTML('right', activeRightKey);
             }
             setTimeout(resizeAllActionTextareas, 0);
         }
 
-        // Crée le bloc HTML complet d'une fiche (Read-Only ou Edit-Mode)
         function createCardHTML(side, key) {
             const data = db[key];
-            if (!data) {
-                return `
-                    <div class="flex-grow flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-200 rounded-xl p-8 bg-white">
-                        <i class="fa-solid fa-folder-open text-4xl mb-3 text-slate-300"></i>
-                        <p class="text-sm font-semibold">Aucun secteur sélectionné ou disponible</p>
-                    </div>
-                `;
-            }
-
+            if (!data) return `<div class="flex-grow flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-200 rounded-xl p-8 bg-white"><p class="text-sm font-semibold">Aucun secteur sélectionné</p></div>`;
+            
             const isEditing = editModes[side];
-
-            if (data.isGroup) {
-                return isEditing ? renderGroupEditModeCard(side, key, data) : renderGroupCard(side, key, data);
-            }
-
-            if (isEditing) {
-                // =============== MODE EDITION ===============
-                return renderEditModeCard(side, key, data);
-            } else {
-                // =============== MODE LECTURE (PROPRE) ===============
-                return renderReadOnlyCard(side, key, data);
-            }
+            if (data.isGroup) return isEditing ? renderGroupEditModeCard(side, key, data) : renderGroupCard(side, key, data);
+            return isEditing ? renderEditModeCard(side, key, data) : renderReadOnlyCard(side, key, data);
         }
 
-
         function renderMaturityBars(maturity, type) {
-            const labels = type === 'daily'
-                ? { avanceRetard: 'Avance / retard', aleas: 'Aléas', decision: 'Décision' }
-                : { performance: 'Performance', paretoAleas: 'Pareto aléas', planAction: 'Plan d’action' };
+            const labels = type === 'daily' ? { avanceRetard: 'Avance / retard', aleas: 'Aléas', decision: 'Décision' } : { performance: 'Performance', paretoAleas: 'Pareto aléas', planAction: 'Plan d’action' };
             const obj = maturity?.[type] || {};
             return Object.keys(labels).map(k => {
                 const v = obj[k] ?? 0;
@@ -1199,19 +802,16 @@
             const s = normalizeActionStatus(status);
             if (s === 'not_started') return 1;
             if (s === 'ongoing') return 2;
-            if (s === 'done') return 9999;
-            return 50;
+            return 9999;
         }
 
         function sortActionsWithOriginalIndex(actions) {
-            return (actions || [])
-                .map((action, originalIndex) => ({ action, originalIndex }))
-                .sort((a, b) => {
-                    const pa = actionPriority(a.action.status);
-                    const pb = actionPriority(b.action.status);
-                    if (pa !== pb) return pa - pb;
-                    return a.originalIndex - b.originalIndex;
-                });
+            return (actions || []).map((action, originalIndex) => ({ action, originalIndex })).sort((a, b) => {
+                const pa = actionPriority(a.action.status);
+                const pb = actionPriority(b.action.status);
+                if (pa !== pb) return pa - pb;
+                return a.originalIndex - b.originalIndex;
+            });
         }
 
         function formatActionDate(value) {
@@ -1234,36 +834,21 @@
         }
 
         function renderActions(actions, side, key, routineType) {
-            if (!actions || actions.length === 0) {
-                return `
-                    <div class="action-card border-dashed border-slate-200 bg-slate-50/50">
-                        <div class="flex items-center gap-1.5 text-slate-400 font-extrabold text-[10px] uppercase tracking-wider">
-                            <i class="fa-solid fa-list-ol"></i> Actions
-                        </div>
-                        <p class="text-[11px] text-slate-400 italic mt-1">Aucune action définie</p>
-                    </div>
-                `;
-            }
-
+            if (!actions || actions.length === 0) return `<div class="action-card border-dashed border-slate-200 bg-slate-50/50"><p class="text-[11px] text-slate-400 italic">Aucune action définie</p></div>`;
             const sortedActions = sortActionsWithOriginalIndex(actions);
-
             return `
                 <div class="action-card">
                     <div class="flex items-center justify-between mb-1">
-                        <div class="flex items-center gap-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider">
-                            <i class="fa-solid fa-list-ol"></i> Actions
-                        </div>
-                        <span class="text-[10px] font-bold text-slate-400">${actions.length}</span>
+                        <div class="flex items-center gap-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider"><i class="fa-solid fa-list-ol"></i> Actions</div>
                     </div>
                     ${sortedActions.map(({ action: a }, idx) => {
                         const meta = getActionStatusMeta(a.status);
                         const isDone = normalizeActionStatus(a.status) === 'done';
-                        const icon = `<i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn" title="${meta.label}"></i>`;
                         return `
                             <div class="action-row ${isDone ? 'opacity-70' : ''}">
-                                ${icon}
+                                <i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn" title="${meta.label}"></i>
                                 <span class="action-top-badge">Top ${idx + 1}</span>
-                                <div class="action-text" title="${meta.label}">
+                                <div class="action-text">
                                     <span class="action-criteria ${isDone ? 'line-through decoration-emerald-400' : ''}">${a.criteria || 'Critère'}</span>
                                     <span class="text-slate-400 mx-1">—</span>
                                     <span class="${isDone ? 'line-through decoration-emerald-300' : ''}">${a.action || ''}</span>
@@ -1276,121 +861,58 @@
             `;
         }
 
-
-        /* =========================================================
-           AJOUT — VUES SYNTHÈSE : HEATMAP + ACTIONS
-           Objectif : enrichir les pages ODY / ODYE / ODYS / ODYL
-           sans changer la structure existante du dashboard.
-
-           Logique :
-           - ODYE / ODYS / ODYL : heatmap des secteurs enfants.
-           - ODY : heatmap uniquement des grands secteurs ODYE / ODYS / ODYL.
-           - Actions : consolidation des actions ouvertes des secteurs concernés.
-        ========================================================= */
-
         function getLeafChildren(groupKey) {
             const node = db[groupKey];
             if (!node?.children) return [];
-
             let result = [];
-
             node.children.forEach(childKey => {
                 const child = db[childKey];
                 if (!child) return;
-
-                if (child.isGroup && child.children) {
-                    result = result.concat(getLeafChildren(childKey));
-                } else {
-                    result.push(childKey);
-                }
+                if (child.isGroup && child.children) result = result.concat(getLeafChildren(childKey));
+                else result.push(childKey);
             });
-
             return result;
         }
 
-        // Résolution de l'affichage de la Heatmap ODY pour l'audit d'usine
         function getHeatmapRows(groupKey) {
             const node = db[groupKey];
             if (!node?.children) return [];
-
-            // Pour la vue usine ODY, on affiche uniquement les grands secteurs.
-            if (groupKey === 'ody') {
-                return node.children.filter(k => db[k]);
-            }
-
-            // Pour ODYE / ODYS / ODYL, on affiche les secteurs opérationnels.
-            return getLeafChildren(groupKey);
-        }
-
-        function getActionSourceRows(groupKey) {
-            // Les actions restent consolidées depuis les secteurs terrain.
+            if (groupKey === 'ody') return node.children.filter(k => db[k]);
             return getLeafChildren(groupKey);
         }
 
         function heatCell(value) {
-            let cls = "bg-rose-50 text-rose-700 border-rose-100";
-
-            if (value >= 75) {
-                cls = "bg-emerald-50 text-emerald-700 border-emerald-100";
-            } else if (value >= 55) {
-                cls = "bg-blue-50 text-blue-700 border-blue-100";
-            } else if (value >= 35) {
-                cls = "bg-amber-50 text-amber-700 border-amber-100";
-            }
-
-            return `
-                <td class="px-3 py-2 text-center border ${cls} font-extrabold text-xs">
-                    ${value}%
-                </td>
-            `;
+            let cls = value >= 75 ? "bg-emerald-50 text-emerald-700 border-emerald-100" : value >= 55 ? "bg-blue-50 text-blue-700 border-blue-100" : value >= 35 ? "bg-amber-50 text-amber-700 border-amber-100" : "bg-rose-50 text-rose-700 border-rose-100";
+            return `<td class="px-3 py-2 text-center border ${cls} font-extrabold text-xs">${value}%</td>`;
         }
 
         function renderGroupHeatmap(groupKey) {
             const rows = getHeatmapRows(groupKey);
             if (!rows.length) return "";
-
             return `
                 <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
-                    <div class="flex items-start justify-between gap-3">
+                    <div class="flex items-start justify-between">
                         <div>
-                            <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2">
-                                <i class="fa-solid fa-table-cells-large text-blue-600"></i>
-                                Heatmap de maturité
-                            </h3>
-                            <p class="text-xs text-slate-400 mt-1">Lecture rapide des écarts Daily / Weekly / Global.</p>
+                            <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-table-cells-large text-blue-600"></i>Heatmap maturité</h3>
                         </div>
-                        <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 bg-slate-100 text-slate-500 rounded-full border border-slate-200">
-                            ${rows.length} lignes
-                        </span>
                     </div>
-
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse text-xs">
                             <thead>
                                 <tr class="text-slate-500 uppercase text-[10px] tracking-wider bg-slate-50">
-                                    <th class="text-left px-3 py-2 border border-slate-100 rounded-l-lg">Élément</th>
+                                    <th class="text-left px-3 py-2 border border-slate-100">Élément</th>
                                     <th class="text-center px-3 py-2 border border-slate-100">Daily</th>
                                     <th class="text-center px-3 py-2 border border-slate-100">Weekly</th>
-                                    <th class="text-center px-3 py-2 border border-slate-100 rounded-r-lg">Global</th>
+                                    <th class="text-center px-3 py-2 border border-slate-100">Global</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${rows.map(rowKey => {
                                     const row = db[rowKey];
-                                    const daily = getRoutineScore(row.maturity, 'daily');
-                                    const weekly = getRoutineScore(row.maturity, 'weekly');
-                                    const global = getOverallScore(row.maturity);
-
-                                    return `
-                                        <tr>
-                                            <td class="px-3 py-2 border border-slate-100 font-bold text-slate-700 bg-white">
-                                                ${row.name}
-                                            </td>
-                                            ${heatCell(daily)}
-                                            ${heatCell(weekly)}
-                                            ${heatCell(global)}
-                                        </tr>
-                                    `;
+                                    const d = getRoutineScore(row.maturity, 'daily');
+                                    const w = getRoutineScore(row.maturity, 'weekly');
+                                    const g = getOverallScore(row.maturity);
+                                    return `<tr><td class="px-3 py-2 border border-slate-100 font-bold text-slate-700 bg-white">${row.name}</td>${heatCell(d)}${heatCell(w)}${heatCell(g)}</tr>`;
                                 }).join('')}
                             </tbody>
                         </table>
@@ -1400,98 +922,38 @@
         }
 
         function renderGroupActions(groupKey) {
-            const sectors = getActionSourceRows(groupKey);
+            const sectors = getLeafChildren(groupKey);
             const actions = [];
-
             sectors.forEach(sectorKey => {
                 const s = db[sectorKey];
                 if (!s) return;
-
                 ['daily', 'weekly'].forEach(type => {
                     (s.actions?.[type] || []).forEach(action => {
-                        actions.push({
-                            sector: s.name,
-                            type: type === 'daily' ? 'Daily' : 'Weekly',
-                            criteria: action.criteria,
-                            action: action.action,
-                            status: action.status,
-                            dateDebut: action.dateDebut || action.startDate || '',
-                            dateFin: action.dateFin || action.endDate || ''
-                        });
+                        actions.push({ sector: s.name, type: type === 'daily' ? 'Daily' : 'Weekly', criteria: action.criteria, action: action.action, status: action.status, dateDebut: action.dateDebut || action.startDate || '', dateFin: action.dateFin || action.endDate || '' });
                     });
                 });
             });
 
-            // Tri automatique : les actions terminées restent visibles, mais descendent en bas.
-            const priority = {
-                'not_started': 1,
-                'ongoing': 2,
-                'done': 9999
-            };
-
-            actions.sort((a, b) => {
-                const pa = priority[normalizeActionStatus(a.status)] ?? 50;
-                const pb = priority[normalizeActionStatus(b.status)] ?? 50;
-                return pa - pb;
-            });
-
-            const openCount = actions.filter(a => normalizeActionStatus(a.status) !== 'done').length;
-            const doneCount = actions.filter(a => normalizeActionStatus(a.status) === 'done').length;
+            const p = { 'not_started': 1, 'ongoing': 2, 'done': 9999 };
+            actions.sort((a, b) => (p[normalizeActionStatus(a.status)] ?? 50) - (p[normalizeActionStatus(b.status)] ?? 50));
 
             return `
                 <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
-                    <div class="flex items-center justify-between mb-1">
-                        <div>
-                            <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2">
-                                <i class="fa-solid fa-list-check text-blue-600"></i>
-                                Actions prioritaires
-                            </h3>
-                            <p class="text-xs text-slate-400 mt-1">Actions ouvertes en haut, actions terminées en bas.</p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-[10px] font-bold text-blue-600 bg-blue-50 border border-blue-100 rounded-full px-2 py-1">${openCount} ouvertes</span>
-                            <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-full px-2 py-1">${doneCount} terminées</span>
-                        </div>
+                    <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-list-check text-blue-600"></i>Actions prioritaires</h3>
+                    <div class="flex flex-col gap-2 max-h-[320px] overflow-y-auto">
+                        ${actions.length ? actions.map(a => {
+                            const m = getActionStatusMeta(a.status);
+                            const idone = normalizeActionStatus(a.status) === 'done';
+                            return `
+                                <div class="${idone ? 'bg-emerald-50/40 border-emerald-100 opacity-75' : 'bg-blue-50/40 border-blue-100'} border rounded-lg px-3 py-2">
+                                    <div class="flex items-center justify-between"><div class="text-[10px] uppercase font-extrabold text-blue-600">${a.sector} — ${a.type}</div><div class="text-[10px] uppercase font-bold ${m.cls}">${m.label}</div></div>
+                                    <div class="text-xs font-extrabold text-slate-800 mt-1">${a.criteria}</div>
+                                    <div class="text-xs text-slate-600 mt-0.5">${a.action}</div>
+                                    ${renderActionDates(a)}
+                                </div>
+                            `;
+                        }).join('') : '<p class="text-xs text-slate-400 italic">Aucune action</p>'}
                     </div>
-
-                    <div class="flex flex-col gap-2 max-h-[320px] overflow-y-auto pr-1">
-                        ${
-                            actions.length
-                            ? actions.map(a => {
-                                const meta = getActionStatusMeta(a.status);
-                                const isDone = normalizeActionStatus(a.status) === 'done';
-                                return `
-                                    <div class="${isDone ? 'bg-emerald-50/40 border-emerald-100 opacity-75' : 'bg-blue-50/40 border-blue-100'} border rounded-lg px-3 py-2">
-                                        <div class="flex items-center justify-between gap-2">
-                                            <div class="text-[10px] uppercase font-extrabold ${isDone ? 'text-emerald-700' : 'text-blue-600'}">
-                                                ${a.sector} — ${a.type}
-                                            </div>
-                                            <div class="text-[10px] uppercase font-bold ${meta.cls}">
-                                                ${meta.label}
-                                            </div>
-                                        </div>
-                                        <div class="text-xs font-extrabold text-slate-800 mt-1 ${isDone ? 'line-through decoration-emerald-400' : ''}">
-                                            ${a.criteria || 'Critère'}
-                                        </div>
-                                        <div class="text-xs text-slate-600 mt-0.5 leading-snug ${isDone ? 'line-through decoration-emerald-300' : ''}">
-                                            ${a.action || ''}
-                                        </div>
-                                        ${renderActionDates(a)}
-                                    </div>
-                                `;
-                            }).join('')
-                            : `<p class="text-xs text-slate-400 italic">Aucune action définie</p>`
-                        }
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderGroupInsights(groupKey) {
-            return `
-                <div class="grid grid-cols-2 gap-4">
-                    ${renderGroupHeatmap(groupKey)}
-                    ${renderGroupActions(groupKey)}
                 </div>
             `;
         }
@@ -1500,527 +962,166 @@
             const dailyScore = getRoutineScore(data.maturity, 'daily');
             const weeklyScore = getRoutineScore(data.maturity, 'weekly');
             const globalScore = getOverallScore(data.maturity);
-            const childLabels = (data.children || []).map(k => db[k]?.name || k.toUpperCase()).join(' • ');
             return `
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
-                    <div>
-                        <div class="flex items-center gap-3">
-                            ${renderMaturityBadge(data)}
-                            <h2 class="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                                <i class="fa-solid fa-layer-group text-blue-600"></i>${data.title}
-                            </h2>
-                        </div>
-                        <p class="text-xs text-slate-500 mt-0.5">Regroupe : ${childLabels || 'secteurs associés'}</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 hover:bg-slate-100 p-1.5 rounded-lg transition" title="Modifier la synthèse">
-                            <i class="fa-solid fa-pencil text-base"></i>
-                        </button>
-                        <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-100">Vue consolidée</span>
-                    </div>
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 sticky top-0 z-10">
+                    <div class="flex items-center gap-3">${renderMaturityBadge(data)}<h2 class="text-lg font-bold text-slate-900">${data.title}</h2></div>
+                    <div class="flex items-center gap-2"><button onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 p-1.5 rounded-lg"><i class="fa-solid fa-pencil"></i></button></div>
                 </div>
-
                 <div class="grid grid-cols-3 gap-4">
-                    <div class="maturity-card">
-                        <p class="text-xs font-bold text-slate-400 uppercase mb-1">Score global</p>
-                        <div class="flex items-end gap-2"><span class="text-4xl font-extrabold text-slate-900">${globalScore}</span><span class="text-sm font-bold text-slate-400 mb-1">%</span></div>
-                        <p class="text-xs font-semibold text-slate-500 mt-1">${scoreLabel(globalScore)}</p>
-                    </div>
-                    <div class="maturity-card">
-                        <p class="text-xs font-bold text-slate-400 uppercase mb-2">PPC Daily</p>
-                        <div class="bar-track mb-2"><div class="bar-fill ${scoreColor(dailyScore)}" style="width:${dailyScore}%"></div></div>
-                        <p class="text-2xl font-extrabold text-slate-800">${dailyScore}%</p>
-                    </div>
-                    <div class="maturity-card">
-                        <p class="text-xs font-bold text-slate-400 uppercase mb-2">PPC Weekly</p>
-                        <div class="bar-track mb-2"><div class="bar-fill ${scoreColor(weeklyScore)}" style="width:${weeklyScore}%"></div></div>
-                        <p class="text-2xl font-extrabold text-slate-800">${weeklyScore}%</p>
-                    </div>
+                    <div class="maturity-card"><p class="text-xs font-bold text-slate-400 uppercase mb-1">Score global</p><div class="flex items-end gap-2"><span class="text-4xl font-extrabold text-slate-900">${globalScore}</span><span class="text-sm font-bold text-slate-400 mb-1">%</span></div></div>
+                    <div class="maturity-card"><p class="text-xs font-bold text-slate-400 uppercase mb-2">PPC Daily</p><div class="bar-track mb-2"><div class="bar-fill ${scoreColor(dailyScore)}" style="width:${dailyScore}%"></div></div><p class="text-2xl font-extrabold text-slate-800">${dailyScore}%</p></div>
+                    <div class="maturity-card"><p class="text-xs font-bold text-slate-400 uppercase mb-2">PPC Weekly</p><div class="bar-track mb-2"><div class="bar-fill ${scoreColor(weeklyScore)}" style="width:${weeklyScore}%"></div></div><p class="text-2xl font-extrabold text-slate-800">${weeklyScore}%</p></div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3">
-                        <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-clock text-blue-600"></i>Maturité Daily par critère</h3>
-                        ${renderMaturityBars(data.maturity, 'daily')}
-                    </div>
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3">
-                        <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-calendar-week text-emerald-600"></i>Maturité Weekly par critère</h3>
-                        ${renderMaturityBars(data.maturity, 'weekly')}
-                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3"><h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-clock text-blue-600"></i>Maturité Daily</h3>${renderMaturityBars(data.maturity, 'daily')}</div>
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3"><h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-calendar-week text-emerald-600"></i>Maturité Weekly</h3>${renderMaturityBars(data.maturity, 'weekly')}</div>
                 </div>
-
-                ${renderGroupInsights(key)}
+                <div class="grid grid-cols-2 gap-4">${renderGroupHeatmap(key)}${renderGroupActions(key)}</div>
             `;
         }
 
-        // RENDU : LECTURE SEULE (Ultra-propre)
         function renderReadOnlyCard(side, key, data) {
-            const renderPointsList = (pts) => {
-                if (!pts || pts.length === 0) return '<li class="text-xs text-slate-400 italic">Aucun point défini</li>';
-                return pts.map(pt => `
-                    <li class="flex items-start gap-2.5">
-                        <i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-[15px] mt-0.5 shrink-0 transition-all"></i>
-                        <span class="text-slate-700 text-sm font-medium leading-relaxed">${pt.text}</span>
-                    </li>
-                `).join('');
-            };
-
-            const renderToolsGroup = (tools, colorClass) => {
-                if (!tools || tools.length === 0) return '<span class="text-xs text-slate-400 italic">Aucun</span>';
-                return tools.map(t => `<span class="tool-pill" ${colorClass ? `style="border-color:${colorClass};color:${colorClass};"` : ''}>${t}</span>`).join('');
-            };
-
-            const renderIrritantsBox = (irr) => {
-                if (!irr) return `
-                    <div class="irritants-container w-full border-dashed border-slate-200 bg-slate-50/20">
-                        <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Irritants:</span>
-                        <p class="text-xs text-slate-400 italic mt-1">Aucun irritant identifié</p>
-                    </div>
-                `;
-                return `
-                    <div class="irritants-container w-full">
-                        <span class="text-rose-500 text-xs font-bold uppercase tracking-wider">Irritants:</span>
-                        <p class="text-slate-700 text-xs font-medium leading-normal mt-1">${irr}</p>
-                    </div>
-                `;
-            };
-
-            const renderPositifsBox = (pos) => {
-                if (!pos) return `
-                    <div class="positifs-container w-full border-dashed border-slate-200 bg-slate-50/20">
-                        <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Points Positifs:</span>
-                        <p class="text-xs text-slate-400 italic mt-1">Aucun point positif identifié</p>
-                    </div>
-                `;
-                return `
-                    <div class="positifs-container w-full">
-                        <span class="text-emerald-600 text-xs font-bold uppercase tracking-wider">Points Positifs:</span>
-                        <p class="text-slate-700 text-xs font-medium leading-normal mt-1">${pos}</p>
-                    </div>
-                `;
-            };
-
+            const rList = (pts) => pts.map(pt => `<li class="flex items-start gap-2.5"><i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-[15px] mt-0.5 shrink-0"></i><span class="text-slate-700 text-sm font-medium">${pt.text}</span></li>`).join('');
+            const rTools = (tools) => tools.map(t => `<span class="tool-pill">${t}</span>`).join('');
             return `
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
-                    <div class="flex items-center gap-3">
-                        ${renderMaturityBadge(data)}
-                        <h2 class="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">${data.title}</h2>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 hover:bg-slate-100 p-1.5 rounded-lg transition" title="Modifier cette fiche">
-                            <i class="fa-solid fa-pencil text-base"></i>
-                        </button>
-                        <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full border border-slate-200">
-                            ${activeLeftKey === activeRightKey ? 'Plein Écran' : (side === 'left' ? 'Zoom 1' : 'Zoom 2')}
-                        </span>
-                    </div>
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 sticky top-0 z-10">
+                    <div class="flex items-center gap-3">${renderMaturityBadge(data)}<h2 class="text-lg font-bold text-slate-900">${data.title}</h2></div>
+                    <button onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 p-1.5 rounded-lg"><i class="fa-solid fa-pencil"></i></button>
                 </div>
-
                 <div class="grid grid-cols-2 gap-4 flex-grow min-h-0">
-                    <!-- ENCART DAILY -->
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm hover:shadow-md transition-all duration-200">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2.5">
-                                <i class="fa-solid fa-clock text-blue-600 bg-blue-50 p-2 rounded-lg text-base"></i>
-                                <h3 class="font-bold text-slate-800 text-sm tracking-wide uppercase">${data.daily.name}</h3>
-                            </div>
-                            <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.daily.timeInfo}</span>
-                        </div>
-                        
-                        <div class="meta-box">
-                            <i class="fa-solid fa-users text-blue-500 shrink-0 text-sm"></i>
-                            <span class="text-xs"><strong>Participant:</strong> ${data.daily.part || 'Non spécifié'}</span>
-                        </div>
-
-                        <div class="flex flex-col gap-2.5 flex-grow">
-                            <span class="section-label">Points Traités</span>
-                            <ul class="points-list flex flex-col gap-2">${renderPointsList(data.daily.pts)}</ul>
-                        </div>
-
-                        <div class="maturity-card bg-slate-50/60">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="section-label">Maturité Daily</span>
-                                <span class="text-xs font-extrabold text-slate-700">${getRoutineScore(data.maturity, 'daily')}%</span>
-                            </div>
-                            <div class="bar-track"><div class="bar-fill ${scoreColor(getRoutineScore(data.maturity, 'daily'))}" style="width:${getRoutineScore(data.maturity, 'daily')}%"></div></div>
-                        </div>
-
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm">
+                        <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><i class="fa-solid fa-clock text-blue-600 bg-blue-50 p-2 rounded-lg"></i><h3 class="font-bold text-slate-800 text-sm uppercase">${data.daily.name}</h3></div><span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.daily.timeInfo}</span></div>
+                        <div class="text-xs"><strong>Participant:</strong> ${data.daily.part}</div>
+                        <ul class="flex flex-col gap-2">${rList(data.daily.pts)}</ul>
+                        <div class="maturity-card bg-slate-50/60"><div class="flex items-center justify-between mb-2"><span class="text-xs font-bold text-slate-500">Maturité Daily</span><span class="text-xs font-extrabold">${getRoutineScore(data.maturity, 'daily')}%</span></div><div class="bar-track"><div class="bar-fill ${scoreColor(getRoutineScore(data.maturity, 'daily'))}" style="width:${getRoutineScore(data.maturity, 'daily')}%"></div></div></div>
                         ${renderActions(data.actions?.daily, side, key, 'daily')}
-
-                        <div class="grid grid-cols-2 gap-4 mt-auto border-t border-slate-100 pt-3">
-                            <div class="flex flex-col gap-1.5">
-                                <span class="section-label">Préparation</span>
-                                <div class="tags-container flex flex-wrap gap-1.5">${renderToolsGroup(data.daily.prep)}</div>
-                            </div>
-                            <div class="flex flex-col gap-1.5">
-                                <span class="section-label">Routine</span>
-                                <div class="tags-container flex flex-wrap gap-1.5">${renderToolsGroup(data.daily.routine, "#2563eb")}</div>
-                            </div>
-                        </div>
-
-                        <!-- Boîtes empilées verticalement -->
-                        <div class="flex flex-col gap-3 mt-auto">
-                            ${renderPositifsBox(data.daily.pos)}
-                            ${renderIrritantsBox(data.daily.irr)}
-                        </div>
+                        <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-3"><div><span class="text-xs font-bold text-slate-400 block mb-1">Préparation</span>${rTools(data.daily.prep)}</div><div><span class="text-xs font-bold text-slate-400 block mb-1">Routine</span>${rTools(data.daily.routine)}</div></div>
+                        ${data.daily.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold uppercase">Irritants</span><p class="text-slate-700 text-xs mt-1">${data.daily.irr}</p></div>` : ''}
                     </div>
-
-                    <!-- ENCART WEEKLY -->
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm hover:shadow-md transition-all duration-200">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2.5">
-                                <i class="fa-solid fa-calendar-week text-emerald-600 bg-emerald-50 p-2 rounded-lg text-base"></i>
-                                <h3 class="font-bold text-slate-800 text-sm tracking-wide uppercase">${data.weekly.name}</h3>
-                            </div>
-                            <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.weekly.timeInfo}</span>
-                        </div>
-                        
-                        <div class="meta-box">
-                            <i class="fa-solid fa-users text-emerald-500 shrink-0 text-sm"></i>
-                            <span class="text-xs"><strong>Participant:</strong> ${data.weekly.part || 'Non spécifié'}</span>
-                        </div>
-
-                        <div class="flex flex-col gap-2.5 flex-grow">
-                            <span class="section-label">Points Traités</span>
-                            <ul class="points-list flex flex-col gap-2">${renderPointsList(data.weekly.pts)}</ul>
-                        </div>
-
-                        <div class="maturity-card bg-slate-50/60">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="section-label">Maturité Weekly</span>
-                                <span class="text-xs font-extrabold text-slate-700">${getRoutineScore(data.maturity, 'weekly')}%</span>
-                            </div>
-                            <div class="bar-track"><div class="bar-fill ${scoreColor(getRoutineScore(data.maturity, 'weekly'))}" style="width:${getRoutineScore(data.maturity, 'weekly')}%"></div></div>
-                        </div>
-
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm">
+                        <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><i class="fa-solid fa-calendar-week text-emerald-600 bg-emerald-50 p-2 rounded-lg"></i><h3 class="font-bold text-slate-800 text-sm uppercase">${data.weekly.name}</h3></div><span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.weekly.timeInfo}</span></div>
+                        <div class="text-xs"><strong>Participant:</strong> ${data.weekly.part}</div>
+                        <ul class="flex flex-col gap-2">${rList(data.weekly.pts)}</ul>
+                        <div class="maturity-card bg-slate-50/60"><div class="flex items-center justify-between mb-2"><span class="text-xs font-bold text-slate-500">Maturité Weekly</span><span class="text-xs font-extrabold">${getRoutineScore(data.maturity, 'weekly')}%</span></div><div class="bar-track"><div class="bar-fill ${scoreColor(getRoutineScore(data.maturity, 'weekly'))}" style="width:${getRoutineScore(data.maturity, 'weekly')}%"></div></div></div>
                         ${renderActions(data.actions?.weekly, side, key, 'weekly')}
-
-                        <div class="grid grid-cols-2 gap-4 mt-auto border-t border-slate-100 pt-3">
-                            <div class="flex flex-col gap-1.5">
-                                <span class="section-label">Préparation</span>
-                                <div class="tags-container flex flex-wrap gap-1.5">${renderToolsGroup(data.weekly.prep)}</div>
-                            </div>
-                            <div class="flex flex-col gap-1.5">
-                                <span class="section-label">Routine</span>
-                                <div class="tags-container flex flex-wrap gap-1.5">${renderToolsGroup(data.weekly.routine, "#0d9488")}</div>
-                            </div>
-                        </div>
-
-                        <!-- Boîtes empilées verticalement -->
-                        <div class="flex flex-col gap-3 mt-auto">
-                            ${renderPositifsBox(data.weekly.pos)}
-                            ${renderIrritantsBox(data.weekly.irr)}
-                        </div>
+                        <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-3"><div><span class="text-xs font-bold text-slate-400 block mb-1">Préparation</span>${rTools(data.weekly.prep)}</div><div><span class="text-xs font-bold text-slate-400 block mb-1">Routine</span>${rTools(data.weekly.routine)}</div></div>
+                        ${data.weekly.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold uppercase">Irritants</span><p class="text-slate-700 text-xs mt-1">${data.weekly.irr}</p></div>` : ''}
                     </div>
                 </div>
             `;
         }
 
         function makeEditableActionsHTML(side, key, routineType, actions) {
-            const list = actions || [];
-            const sortedList = sortActionsWithOriginalIndex(list);
-            let html = '';
-            if (!list.length) {
-                html += `<p class="text-[11px] text-slate-400 italic mb-2">Aucune action définie</p>`;
-            }
-            sortedList.forEach(({ action: a, originalIndex }, displayIndex) => {
+            const sortedList = sortActionsWithOriginalIndex(actions || []);
+            let html = sortedList.map(({ action: a, originalIndex }, dIdx) => {
                 const meta = getActionStatusMeta(a.status);
-                const isDone = normalizeActionStatus(a.status) === 'done';
-                const criteria = escapeAttr(a.criteria || '');
-                const action = escapeHtml(a.action || '');
-                const dateDebut = escapeAttr(a.dateDebut || a.startDate || '');
-                const dateFin = escapeAttr(a.dateFin || a.endDate || '');
-                html += `
-                    <div class="action-edit-row ${isDone ? 'opacity-75 bg-emerald-50/30' : ''}">
+                return `
+                    <div class="action-edit-row">
                         <div class="action-edit-header">
-                            <button type="button" onclick="cycleActionStatus(event, '${side}', '${key}', '${routineType}', ${originalIndex})" class="action-status-button" title="Changer le statut : ${meta.label}">
-                                <i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn"></i>
-                            </button>
-                            <span class="action-top-badge">Top ${displayIndex + 1}</span>
-                            <span class="action-status-label text-[10px] font-bold text-slate-400 uppercase">${meta.label}</span>
+                            <button onclick="cycleActionStatus(event, '${side}', '${key}', '${routineType}', ${originalIndex})" class="action-status-button"><i class="fa-solid ${meta.icon} ${meta.cls} text-sm"></i></button>
+                            <span class="action-top-badge">Top ${dIdx + 1}</span>
                             <span class="spacer"></span>
-                            <button type="button" onclick="deleteAction('${side}', '${key}', '${routineType}', ${originalIndex})" class="text-slate-300 hover:text-rose-500 p-1 rounded transition shrink-0" title="Supprimer cette action"><i class="fa-solid fa-trash-can text-[11px]"></i></button>
+                            <button onclick="deleteAction('${side}', '${key}', '${routineType}', ${originalIndex})" class="text-slate-300 hover:text-rose-500"><i class="fa-solid fa-trash-can text-xs"></i></button>
                         </div>
                         <div class="action-edit-content">
-                            <input type="text" value="${criteria}" oninput="editActionField('${side}', '${key}', '${routineType}', ${originalIndex}, 'criteria', this.value)" class="action-edit-criteria" placeholder="Critère / thème">
-                            <textarea oninput="editActionField('${side}', '${key}', '${routineType}', ${originalIndex}, 'action', this.value); autoResizeTextarea(this)" onfocus="autoResizeTextarea(this)" class="action-edit-action" placeholder="Action à mener">${action}</textarea>
+                            <input type="text" value="${escapeAttr(a.criteria)}" oninput="editActionField('${side}','${key}','${routineType}',${originalIndex},'criteria',this.value)" class="action-edit-criteria">
+                            <textarea oninput="editActionField('${side}','${key}','${routineType}',${originalIndex},'action',this.value); autoResizeTextarea(this)" class="action-edit-action">${escapeHtml(a.action)}</textarea>
                             <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block text-[10px] font-extrabold text-slate-400 uppercase mb-1">Date début</label>
-                                    <input type="date" value="${dateDebut}" onchange="editActionField('${side}', '${key}', '${routineType}', ${originalIndex}, 'dateDebut', this.value)" class="w-full border border-slate-200 rounded-lg px-2 py-1 text-[11px] text-slate-700 outline-none focus:border-blue-500 bg-white">
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-extrabold text-slate-400 uppercase mb-1">Date fin</label>
-                                    <input type="date" value="${dateFin}" onchange="editActionField('${side}', '${key}', '${routineType}', ${originalIndex}, 'dateFin', this.value)" class="w-full border border-slate-200 rounded-lg px-2 py-1 text-[11px] text-slate-700 outline-none focus:border-blue-500 bg-white">
-                                </div>
+                                <input type="date" value="${escapeAttr(a.dateDebut || a.startDate)}" onchange="editActionField('${side}','${key}','${routineType}',${originalIndex},'dateDebut',this.value)" class="border border-slate-200 rounded px-2 py-0.5 text-xs outline-none">
+                                <input type="date" value="${escapeAttr(a.dateFin || a.endDate)}" onchange="editActionField('${side}','${key}','${routineType}',${originalIndex},'dateFin',this.value)" class="border border-slate-200 rounded px-2 py-0.5 text-xs outline-none">
                             </div>
                         </div>
                     </div>
                 `;
-            });
-            html += `
-                <button type="button" onclick="addAction('${side}', '${key}', '${routineType}')" class="mt-2 text-blue-600 hover:text-blue-700 text-[11px] font-bold flex items-center gap-1.5 transition">
-                    <i class="fa-solid fa-circle-plus"></i> Ajouter une action
-                </button>
-            `;
-            return `<div class="action-card"><div class="flex items-center gap-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider mb-1"><i class="fa-solid fa-list-ol"></i> Actions</div>${html}</div>`;
+            }).join('');
+            return `<div class="action-card"><div class="text-[10px] uppercase font-bold text-blue-600 mb-2">Actions Tracker</div>${html}<button onclick=" someActions('${side}','${key}','${routineType}')" class="text-blue-600 text-xs font-bold mt-2 flex items-center gap-1" onclick="addAction('${side}','${key}','${routineType}')"><i class="fa-solid fa-circle-plus"></i> Ajouter une action</button></div>`;
         }
 
         function makeEditableMaturityHTML(side, key, routineType, maturity) {
-            const labels = routineType === 'daily'
-                ? { avanceRetard: 'Avance / retard', aleas: 'Aléas', decision: 'Décision' }
-                : { performance: 'Performance', paretoAleas: 'Pareto aléas', planAction: 'Plan d’action' };
+            const labels = routineType === 'daily' ? { avanceRetard: 'Avance / retard', aleas: 'Aléas', decision: 'Décision' } : { performance: 'Performance', paretoAleas: 'Pareto aléas', planAction: 'Plan d’action' };
             const obj = maturity?.[routineType] || {};
             return Object.keys(labels).map(k => `
-                <div class="flex items-center gap-2 mb-2">
+                <div class="flex items-center gap-2 mb-1">
                     <label class="text-[11px] font-semibold text-slate-600 w-32">${labels[k]}</label>
-                    <input type="number" min="0" max="100" value="${obj[k] ?? 0}" onchange="editMaturityField('${side}', '${key}', '${routineType}', '${k}', this.value)" class="w-20 border border-slate-200 rounded-lg px-2 py-1 text-xs font-bold text-slate-800 outline-none focus:border-blue-500">
-                    <span class="text-[11px] text-slate-400">%</span>
+                    <input type="number" min="0" max="100" value="${obj[k] ?? 0}" onchange="editMaturityField('${side}', '${key}', '${routineType}', '${k}', this.value)" class="w-16 border rounded px-2 py-0.5 text-xs font-bold outline-none">
                 </div>
             `).join('');
         }
 
-        // RENDU : MODE EDITION INTEGRAL
         function renderEditModeCard(side, key, data) {
-            
-            // Construit la liste dynamique de points éditables
-            const makeEditablePtsHTML = (routineType, pts) => {
-                const list = pts || [];
-                let html = '';
-                list.forEach((pt, idx) => {
-                    html += `
-                        <div class="flex items-center gap-2 mb-1.5">
-                            <button onclick="togglePtStatus(event, '${side}', '${key}', '${routineType}', ${idx})" class="p-1 rounded hover:bg-slate-100 transition shrink-0" title="Changer l'état (Valide/Erreur)">
-                                <i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg"></i>
-                            </button>
-                            <input type="text" value="${pt.text.replace(/"/g, '&quot;')}" onchange="editPtText('${side}', '${key}', '${routineType}', ${idx}, this.value)" class="w-full border border-slate-200 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-blue-500">
-                            <button onclick="deletePt('${side}', '${key}', '${routineType}', ${idx})" class="text-slate-300 hover:text-rose-500 p-1 rounded transition shrink-0" title="Supprimer ce point">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
-                            </button>
-                        </div>
-                    `;
-                });
-                // Ajouter point bouton
-                html += `
-                    <button onclick="addPt('${side}', '${key}', '${routineType}')" class="mt-2 text-blue-600 hover:text-blue-700 text-xs font-bold flex items-center gap-1.5 transition">
-                        <i class="fa-solid fa-circle-plus"></i> Ajouter un point
-                    </button>
-                `;
-                return html;
-            };
+            const rPts = (routineType, pts) => (pts || []).map((pt, idx) => `
+                <div class="flex items-center gap-2 mb-1">
+                    <button onclick="togglePtStatus(event, '${side}', '${key}', '${routineType}', ${idx})"><i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg"></i></button>
+                    <input type="text" value="${escapeAttr(pt.text)}" onchange="editPtText('${side}', '${key}', '${routineType}', ${idx}, this.value)" class="w-full border rounded px-2 py-0.5 text-xs outline-none focus:border-blue-500">
+                    <button onclick="deletePt('${side}', '${key}', '${routineType}', ${idx})" class="text-slate-300 hover:text-rose-500"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                </div>
+            `).join('') + `<button onclick="addPt('${side}', '${key}', '${routineType}')" class="text-blue-600 text-xs font-bold mt-1 flex items-center gap-1"><i class="fa-solid fa-circle-plus"></i> Ajouter</button>`;
 
             return `
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
-                    <div class="flex items-center gap-2 flex-grow mr-4">
-                        <span class="text-xs font-extrabold text-blue-600 uppercase">TITRE FICHE :</span>
-                        <input type="text" id="edit-title-${side}" value="${data.title.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2.5 py-1 text-sm font-bold text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20">
-                    </div>
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 sticky top-0 z-10">
+                    <input type="text" id="edit-title-${side}" value="${escapeAttr(data.title)}" class="border rounded px-2 py-1 text-sm font-bold w-96 outline-none focus:border-blue-500">
                     ${renderMaturitySelect(side, key, data)}
-                    <div class="flex items-center gap-1.5 shrink-0">
-                        <button onclick="saveSectorEdits('${side}', '${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-sm" title="Sauvegarder">
-                            <i class="fa-solid fa-floppy-disk"></i> Enregistrer
-                        </button>
-                        <button onclick="toggleEditMode('${side}')" class="border border-slate-200 text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition" title="Annuler">
-                            <i class="fa-solid fa-xmark"></i> Annuler
-                        </button>
-                    </div>
+                    <div class="flex gap-2"><button onclick="saveSectorEdits('${side}', '${key}')" class="bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Enregistrer</button><button onclick="toggleEditMode('${side}')" class="border px-3 py-1.5 rounded-lg text-xs font-bold">Annuler</button></div>
                 </div>
-
                 <div id="edit-scroll-${side}" data-preserve-scroll="edit-${side}" class="grid grid-cols-2 gap-4 flex-grow min-h-0 overflow-y-auto pr-1">
-                    
-                    <!-- FORMULAIRE DAILY -->
-                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 flex flex-col gap-4">
-                        <!-- Nom Routine et Horaires -->
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="section-label mb-1 block">Nom de la Routine</label>
-                                <input type="text" id="edit-daily-name-${side}" value="${data.daily.name.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-bold text-slate-800 outline-none focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label class="section-label mb-1 block">Fréquence & Durée</label>
-                                <input type="text" id="edit-daily-time-${side}" value="${data.daily.timeInfo.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-600 outline-none focus:border-blue-500">
-                            </div>
+                    <div class="bg-slate-50 rounded-xl p-5 border flex flex-col gap-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="edit-daily-name-${side}" value="${escapeAttr(data.daily.name)}" class="border rounded px-2 py-1 text-xs outline-none">
+                            <input type="text" id="edit-daily-time-${side}" value="${escapeAttr(data.daily.timeInfo)}" class="border rounded px-2 py-1 text-xs outline-none">
                         </div>
-
-                        <!-- Participants -->
-                        <div>
-                            <label class="section-label mb-1 block">Participants</label>
-                            <input type="text" id="edit-daily-part-${side}" value="${data.daily.part.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-800 outline-none focus:border-blue-500">
-                        </div>
-
-                        <!-- Points Traités -->
-                        <div class="flex flex-col">
-                            <span class="section-label mb-2 block">Points Traités (cliquer sur l'icône pour modifier le statut)</span>
-                            <div id="pts-scroll-${side}-daily" data-preserve-scroll="pts-${side}-daily" class="bg-white rounded-lg p-3 border border-slate-200 max-h-56 overflow-y-auto">
-                                ${makeEditablePtsHTML('daily', data.daily.pts)}
-                            </div>
-                        </div>
-
-                        <!-- ACTIONS DE PROGRÈS DAILY (Modifiables avec Priorité, Catégorie, Calendrier de dates de début/fin) -->
-                        <div class="flex flex-col">
-                            ${makeEditableActionsHTML(side, key, 'daily', data.actions?.daily)}
-                        </div>
-
-                        <!-- Outils -->
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="section-label mb-1 block">Préparation (séparés par des virgules)</label>
-                                <input type="text" id="edit-daily-prep-${side}" value="${data.daily.prep.join(', ').replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 outline-none focus:border-blue-500" placeholder="ex: Gantt, MES">
-                            </div>
-                            <div>
-                                <label class="section-label mb-1 block">Routine (séparés par des virgules)</label>
-                                <input type="text" id="edit-daily-routine-${side}" value="${data.daily.routine.join(', ').replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 outline-none focus:border-blue-500" placeholder="ex: Iobeya, Sheet">
-                            </div>
-                        </div>
-
-                        <!-- Boîtes de texte complémentaires -->
-                        <div class="flex flex-col gap-3">
-                            <div>
-                                <label class="section-label mb-1 block">Points Positifs</label>
-                                <textarea id="edit-daily-pos-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.daily.pos || ''}</textarea>
-                            </div>
-                            <div>
-                                <label class="section-label mb-1 block">Irritants</label>
-                                <textarea id="edit-daily-irr-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.daily.irr || ''}</textarea>
-                            </div>
-                        </div>
-
-                        <!-- POURCENTAGES DES CRITÈRES DAILY (Image 2) -->
-                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
-                            <label class="section-label mb-2 block text-blue-700 font-bold">Maturité Daily (%)</label>
-                            ${makeEditableMaturityHTML(side, key, 'daily', data.maturity)}
-                        </div>
+                        <input type="text" id="edit-daily-part-${side}" value="${escapeAttr(data.daily.part)}" class="border rounded px-2 py-1 text-xs outline-none">
+                        <div class="bg-white border rounded p-3">${rPts('daily', data.daily.pts)}</div>
+                        ${makeEditableActionsHTML(side, key, 'daily', data.actions?.daily)}
+                        <div class="grid grid-cols-2 gap-2"><input type="text" id="edit-daily-prep-${side}" value="${escapeAttr(data.daily.prep.join(', '))}" class="border rounded px-2 py-1 text-xs outline-none"><input type="text" id="edit-daily-routine-${side}" value="${escapeAttr(data.daily.routine.join(', '))}" class="border rounded px-2 py-1 text-xs outline-none"></div>
+                        <textarea id="edit-daily-irr-${side}" class="border rounded p-2 text-xs h-12 outline-none resize-none" placeholder="Irritants">${data.daily.irr || ''}</textarea>
+                        <div class="bg-blue-50 border p-3 rounded-xl">${makeEditableMaturityHTML(side, key, 'daily', data.maturity)}</div>
                     </div>
-
-                    <!-- FORMULAIRE WEEKLY -->
-                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 flex flex-col gap-4">
-                        <!-- Nom Routine et Horaires -->
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="section-label mb-1 block">Nom de la Routine</label>
-                                <input type="text" id="edit-weekly-name-${side}" value="${data.weekly.name.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-bold text-slate-800 outline-none focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label class="section-label mb-1 block">Fréquence & Durée</label>
-                                <input type="text" id="edit-weekly-time-${side}" value="${data.weekly.timeInfo.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-600 outline-none focus:border-blue-500">
-                            </div>
+                    <div class="bg-slate-50 rounded-xl p-5 border flex flex-col gap-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="edit-weekly-name-${side}" value="${escapeAttr(data.weekly.name)}" class="border rounded px-2 py-1 text-xs outline-none">
+                            <input type="text" id="edit-weekly-time-${side}" value="${escapeAttr(data.weekly.timeInfo)}" class="border rounded px-2 py-1 text-xs outline-none">
                         </div>
-
-                        <!-- Participants -->
-                        <div>
-                            <label class="section-label mb-1 block">Participants</label>
-                            <input type="text" id="edit-weekly-part-${side}" value="${data.weekly.part.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-800 outline-none focus:border-blue-500">
-                        </div>
-
-                        <!-- Points Traités -->
-                        <div class="flex flex-col">
-                            <span class="section-label mb-2 block">Points Traités (cliquer sur l'icône pour modifier le statut)</span>
-                            <div id="pts-scroll-${side}-weekly" data-preserve-scroll="pts-${side}-weekly" class="bg-white rounded-lg p-3 border border-slate-200 max-h-56 overflow-y-auto">
-                                ${makeEditablePtsHTML('weekly', data.weekly.pts)}
-                            </div>
-                        </div>
-
-                        <!-- ACTIONS DE PROGRÈS WEEKLY (Modifiables avec Priorité, Catégorie, Calendrier de dates de début/fin) -->
-                        <div class="flex flex-col">
-                            ${makeEditableActionsHTML(side, key, 'weekly', data.actions?.weekly)}
-                        </div>
-
-                        <!-- Outils -->
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="section-label mb-1 block">Préparation (séparés par des virgules)</label>
-                                <input type="text" id="edit-weekly-prep-${side}" value="${data.weekly.prep.join(', ').replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 outline-none focus:border-blue-500" placeholder="ex: Gantt, MES">
-                            </div>
-                            <div>
-                                <label class="section-label mb-1 block">Routine (séparés par des virgules)</label>
-                                <input type="text" id="edit-weekly-routine-${side}" value="${data.weekly.routine.join(', ').replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 outline-none focus:border-blue-500" placeholder="ex: Iobeya, Sheet">
-                            </div>
-                        </div>
-
-                        <!-- Boîtes de texte complémentaires -->
-                        <div class="flex flex-col gap-3">
-                            <div>
-                                <label class="section-label mb-1 block">Points Positifs</label>
-                                <textarea id="edit-weekly-pos-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.weekly.pos || ''}</textarea>
-                            </div>
-                            <div>
-                                <label class="section-label mb-1 block">Irritants</label>
-                                <textarea id="edit-weekly-irr-${side}" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 h-16 outline-none focus:border-blue-500 resize-none">${data.weekly.irr || ''}</textarea>
-                            </div>
-                        </div>
-
-                        <!-- POURCENTAGES DES CRITÈRES WEEKLY (Image 2) -->
-                        <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
-                            <label class="section-label mb-2 block text-emerald-700 font-bold">Maturité Weekly (%)</label>
-                            ${makeEditableMaturityHTML(side, key, 'weekly', data.maturity)}
-                        </div>
+                        <input type="text" id="edit-weekly-part-${side}" value="${escapeAttr(data.weekly.part)}" class="border rounded px-2 py-1 text-xs outline-none">
+                        <div class="bg-white border rounded p-3">${rPts('weekly', data.weekly.pts)}</div>
+                        ${makeEditableActionsHTML(side, key, 'weekly', data.actions?.weekly)}
+                        <div class="grid grid-cols-2 gap-2"><input type="text" id="edit-weekly-prep-${side}" value="${escapeAttr(data.weekly.prep.join(', '))}" class="border rounded px-2 py-1 text-xs outline-none"><input type="text" id="edit-weekly-routine-${side}" value="${escapeAttr(data.weekly.routine.join(', '))}" class="border rounded px-2 py-1 text-xs outline-none"></div>
+                        <textarea id="edit-weekly-irr-${side}" class="border rounded p-2 text-xs h-12 outline-none resize-none" placeholder="Irritants">${data.weekly.irr || ''}</textarea>
+                        <div class="bg-emerald-50 border p-3 rounded-xl">${makeEditableMaturityHTML(side, key, 'weekly', data.maturity)}</div>
                     </div>
-
                 </div>
             `;
         }
 
         function renderGroupEditModeCard(side, key, data) {
             return `
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
-                    <div class="flex items-center gap-2 flex-grow mr-4">
-                        <span class="text-xs font-extrabold text-blue-600 uppercase">TITRE SYNTHÈSE :</span>
-                        <input type="text" id="edit-title-${side}" value="${data.title.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2.5 py-1 text-sm font-bold text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20">
-                    </div>
-                    <div class="flex items-center gap-1.5 shrink-0">
-                        <button onclick="saveGroupEdits('${side}', '${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Enregistrer</button>
-                        <button onclick="toggleEditMode('${side}')" class="border border-slate-200 text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition"><i class="fa-solid fa-xmark"></i> Annuler</button>
-                    </div>
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 sticky top-0 z-10">
+                    <input type="text" id="edit-title-${side}" value="${escapeAttr(data.title)}" class="border rounded px-2 py-1 text-sm font-bold w-96 outline-none">
+                    <div class="flex gap-2"><button onclick="saveGroupEdits('${side}', '${key}')" class="bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Enregistrer</button><button onclick="toggleEditMode('${side}')" class="border px-3 py-1.5 rounded-lg text-xs font-bold">Annuler</button></div>
                 </div>
-
-                <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-                    <div class="flex items-start gap-3">
-                        <i class="fa-solid fa-circle-info text-blue-600 bg-blue-50 p-2 rounded-lg"></i>
-                        <div>
-                            <h3 class="font-bold text-slate-800 text-sm uppercase">Synthèse calculée automatiquement</h3>
-                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                                Les pourcentages Daily, Weekly et Global de cette vue sont recalculés automatiquement à partir des secteurs enfants. Pour modifier les scores, il faut modifier les fiches secteurs associées.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <div class="bg-white rounded-xl p-5 border border-slate-200 mt-4"><div class="flex items-start gap-3"><i class="fa-solid fa-circle-info text-blue-600 bg-blue-50 p-2 rounded-lg"></i><div><h3 class="font-bold text-slate-800 text-sm uppercase">Synthèse calculée automatiquement</h3><p class="text-xs text-slate-500 mt-1">Les scores de cette vue sont calculés automatiquement à partir des secteurs enfants. Modifiez directement les fiches sous-secteurs.</p></div></div></div>
             `;
         }
 
-        // Action : Basculer coche / croix rouge sans recharger toute l'interface
         function togglePtStatus(event, side, key, routineType, idx) {
             const list = db[key]?.[routineType]?.pts;
             if (list && list[idx]) {
-                list[idx].status = (list[idx].status === 'v') ? 'x' : 'v';
-
-                // Mise à jour locale de l'icône uniquement, pour éviter de remonter en haut de page
+                list[idx].status = list[idx].status === 'v' ? 'x' : 'v';
                 const icon = event?.currentTarget?.querySelector('i');
-                if (icon) {
-                    icon.className = `fa-solid ${list[idx].status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg`;
-                }
-                saveDbToLocalStorage();
+                if (icon) icon.className = `fa-solid ${list[idx].status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg`;
             }
         }
 
-        // Action : Éditer le texte d'un point traité en direct
         function editPtText(side, key, routineType, idx, value) {
-            const list = db[key][routineType].pts;
-            if(list[idx]) {
-                list[idx].text = value;
-            }
+            if(db[key]?.[routineType]?.pts[idx]) db[key][routineType].pts[idx].text = value;
         }
 
-        // Action : Ajouter un nouveau point de routine
         function addPt(side, key, routineType) {
-            if(!db[key][routineType].pts) {
-                db[key][routineType].pts = [];
-            }
-            db[key][routineType].pts.push({ status: "v", text: "Nouveau point de routine" });
+            if(!db[key][routineType].pts) db[key][routineType].pts = [];
+            db[key][routineType].pts.push({ status: "v", text: "Nouveau point" });
             saveDbToLocalStorage();
             safeRenderDashboard();
         }
 
-        // Action : Supprimer un point de routine
         function deletePt(side, key, routineType, idx) {
             db[key][routineType].pts.splice(idx, 1);
             safeRenderDashboard();
@@ -2037,9 +1138,6 @@
             if (action) {
                 action.status = nextActionStatus(action.status);
                 saveDbToLocalStorage();
-
-                // Après changement du statut, on réaffiche la liste pour replacer
-                // automatiquement les actions terminées en bas.
                 safeRenderDashboard();
             }
         }
@@ -2051,7 +1149,7 @@
 
         function addAction(side, key, routineType) {
             ensureActions(key, routineType);
-            db[key].actions[routineType].push({ criteria: 'Critère / thème', action: 'Action à mener', status: 'not_started', dateDebut: '', dateFin: '' });
+            db[key].actions[routineType].push({ criteria: 'Nouveau Thème', action: 'Action à mener', status: 'not_started', dateDebut: '', dateFin: '' });
             saveDbToLocalStorage();
             safeRenderDashboard();
         }
@@ -2064,217 +1162,108 @@
 
         function editMaturityField(side, key, routineType, criteriaKey, value) {
             if (!db[key].maturity) db[key].maturity = { daily: {}, weekly: {} };
-            if (!db[key].maturity[routineType]) db[key].maturity[routineType] = {};
-            const n = Math.max(0, Math.min(100, parseInt(value || '0', 10)));
-            db[key].maturity[routineType][criteriaKey] = n;
+            db[key].maturity[routineType][criteriaKey] = Math.max(0, Math.min(100, parseInt(value || '0', 10)));
         }
 
-        // Modifié pour forcer la mise à jour des calculs de maturité dans le Sheet
         function editMaturityGrade(side, key, value) {
-            if (!db[key]) return;
-            db[key].maturityGrade = String(value || 'C').toUpperCase();
-            saveDbToLocalStorage();
+            if (db[key]) { db[key].maturityGrade = String(value).toUpperCase(); saveDbToLocalStorage(); }
         }
 
         function saveGroupEdits(side, key) {
-            const data = db[key];
-            if (!data) return;
             const titleInput = document.getElementById(`edit-title-${side}`);
-            if (titleInput) data.title = titleInput.value;
+            if (titleInput && db[key]) db[key].title = titleInput.value;
             saveDbToLocalStorage();
             editModes[side] = false;
             renderSidebar();
             safeRenderDashboard();
         }
 
-        // Action : Sauvegarder les modifications d'une fiche
         function saveSectorEdits(side, key) {
             const data = db[key];
             if (!data) return;
 
-            // Titre fiche
-            const titleInput = document.getElementById(`edit-title-${side}`);
-            if(titleInput) data.title = titleInput.value;
+            const tIn = document.getElementById(`edit-title-${side}`);
+            if(tIn) data.title = tIn.value;
 
-            // --- Enregistrement Daily ---
-            const dName = document.getElementById(`edit-daily-name-${side}`);
-            const dTime = document.getElementById(`edit-daily-time-${side}`);
-            const dPart = document.getElementById(`edit-daily-part-${side}`);
-            const dPrep = document.getElementById(`edit-daily-prep-${side}`);
-            const dRoutine = document.getElementById(`edit-daily-routine-${side}`);
-            const dIrr = document.getElementById(`edit-daily-irr-${side}`);
-            const dPos = document.getElementById(`edit-daily-pos-${side}`);
+            ['daily', 'weekly'].forEach(type => {
+                const nameIn = document.getElementById(`edit-${type}-name-${side}`);
+                const timeIn = document.getElementById(`edit-${type}-time-${side}`);
+                const partIn = document.getElementById(`edit-${type}-part-${side}`);
+                const prepIn = document.getElementById(`edit-${type}-prep-${side}`);
+                const routIn = document.getElementById(`edit-${type}-routine-${side}`);
+                const irrIn = document.getElementById(`edit-${type}-irr-${side}`);
 
-            if(dName) data.daily.name = dName.value;
-            if(dTime) data.daily.timeInfo = dTime.value;
-            if(dPart) data.daily.part = dPart.value;
-            if(dPrep) data.daily.prep = dPrep.value.split(',').map(s => s.trim()).filter(s => s !== "");
-            if(dRoutine) data.daily.routine = dRoutine.value.split(',').map(s => s.trim()).filter(s => s !== "");
-            if(dIrr) data.daily.irr = dIrr.value;
-            if(dPos) data.daily.pos = dPos.value;
+                if(nameIn) data[type].name = nameIn.value;
+                if(timeIn) data[type].timeInfo = timeIn.value;
+                if(partIn) data[type].part = partIn.value;
+                if(prepIn) data[type].prep = prepIn.value.split(',').map(s => s.trim()).filter(Boolean);
+                if(routIn) data[type].routine = routIn.value.split(',').map(s => s.trim()).filter(Boolean);
+                if(irrIn) data[type].irr = irrIn.value;
+            });
 
-            // --- Enregistrement Weekly ---
-            const wName = document.getElementById(`edit-weekly-name-${side}`);
-            const wTime = document.getElementById(`edit-weekly-time-${side}`);
-            const wPart = document.getElementById(`edit-weekly-part-${side}`);
-            const wPrep = document.getElementById(`edit-weekly-prep-${side}`);
-            const wRoutine = document.getElementById(`edit-weekly-routine-${side}`);
-            const wIrr = document.getElementById(`edit-weekly-irr-${side}`);
-            const wPos = document.getElementById(`edit-weekly-pos-${side}`);
-
-            if(wName) data.weekly.name = wName.value;
-            if(wTime) data.weekly.timeInfo = wTime.value;
-            if(wPart) data.weekly.part = wPart.value;
-            if(wPrep) data.weekly.prep = wPrep.value.split(',').map(s => s.trim()).filter(s => s !== "");
-            if(wRoutine) data.weekly.routine = wRoutine.value.split(',').map(s => s.trim()).filter(s => s !== "");
-            if(wIrr) data.weekly.irr = wIrr.value;
-            if(wPos) data.weekly.pos = wPos.value;
-
-            // Sauvegarde dans localStorage et Google Sheets
             saveDbToLocalStorage();
-            
-            // Fermer le mode d'édition
             editModes[side] = false;
-
-            // Ré-initialiser le rendu de la table et des fiches
             renderSidebar();
             safeRenderDashboard();
         }
 
-        // ==========================================
-        // GESTION DU MODAL AJOUT DE SECTEUR
-        // ==========================================
         function openAddSectorModal() {
             document.getElementById('new-sector-id').value = '';
             document.getElementById('new-sector-title').value = '';
             document.getElementById('add-sector-modal').classList.remove('hidden');
         }
-
-        function closeAddSectorModal() {
-            document.getElementById('add-sector-modal').classList.add('hidden');
-        }
+        function closeAddSectorModal() { document.getElementById('add-sector-modal').classList.add('hidden'); }
 
         function submitNewSector() {
             const rawId = document.getElementById('new-sector-id').value.trim();
             const rawTitle = document.getElementById('new-sector-title').value.trim();
-
-            if (!rawId) return; // ID requis
+            if (!rawId) return;
 
             const key = rawId.toLowerCase().replace(/[^a-z0-9]/g, '');
-            if (db[key]) {
-                // Si l'identifiant existe déjà, on ne l'écrase pas silencieusement
-                return;
-            }
+            if (db[key]) return;
 
-            // Template standard pour un nouveau secteur
             db[key] = {
-                name: rawId,
-                title: rawTitle || `Routines PPC – ${rawId} (2 VAC)`,
-                daily: {
-                    name: "PPC Daily", timeInfo: "1 fois par vac, 30 min",
-                    part: "TL, Ordo, Qualité",
-                    pts: [
-                        { status: "v", text: "Suivre l'avance retard" },
-                        { status: "v", text: "Remonter les aleas" },
-                        { status: "v", text: "Prendre des décision (points ouverts)" }
-                    ],
-                    prep: ["Gantt", "Fichier présence"],
-                    routine: ["Sheet"],
-                    irr: "",
-                    pos: ""
-                },
-                weekly: {
-                    name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min",
-                    part: "TL, RL, Coach perfo",
-                    pts: [
-                        { status: "v", text: "Performance" },
-                        { status: "v", text: "Pareto des aleas" },
-                        { status: "v", text: "Plan d'action" }
-                    ],
-                    prep: ["MES"],
-                    routine: ["KPI", "Sheet"],
-                    irr: "",
-                    pos: ""
-                }
+                name: rawId, title: rawTitle || `Routines PPC – ${rawId} (2 VAC)`,
+                daily: { name: "PPC Daily", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo", pts: [{ status: "v", text: "Suivre l'avance retard" }], prep: [], routine: [], irr: "", pos: "" },
+                weekly: { name: "PPC Weekly", timeInfo: "1 fois par semaine, 60 min", part: "TL, RL", pts: [{ status: "v", text: "Performance" }], prep: [], routine: [], irr: "", pos: "" }
             };
 
             saveDbToLocalStorage();
             closeAddSectorModal();
-            
-            // Sélectionne automatiquement la nouvelle entrée
             activeLeftKey = key;
-
             initApp();
         }
 
-        // ==========================================
-        // GESTION CONFIRMATION ET SUPPRESSION
-        // ==========================================
         function confirmDeleteSector(key) {
-            const item = db[key];
-            if (!item) return;
-
+            if (!db[key]) return;
             document.getElementById('sector-to-delete').value = key;
-            document.getElementById('delete-sector-name').innerText = item.name;
+            document.getElementById('delete-sector-name').innerText = db[key].name;
             document.getElementById('delete-confirm-modal').classList.remove('hidden');
         }
-
-        function closeDeleteConfirmModal() {
-            document.getElementById('delete-confirm-modal').classList.add('hidden');
-        }
+        function closeDeleteConfirmModal() { document.getElementById('delete-confirm-modal').classList.add('hidden'); }
 
         function deleteSector() {
             const key = document.getElementById('sector-to-delete').value;
             if (db[key] && !db[key].isGroup) {
                 delete db[key];
                 saveDbToLocalStorage();
-                
-                // Ré-alloue les clefs actives pour éviter les bugs si on a supprimé une fiche ouverte
-                const remainingKeys = Object.keys(db);
-                if (activeLeftKey === key) activeLeftKey = remainingKeys[0] || "";
-                if (activeRightKey === key) activeRightKey = remainingKeys[1] || remainingKeys[0] || "";
+                const rem = Object.keys(db);
+                if (activeLeftKey === key) activeLeftKey = rem[0] || "";
+                if (activeRightKey === key) activeRightKey = rem[1] || rem[0] || "";
             }
             closeDeleteConfirmModal();
             initApp();
         }
 
-        // ==========================================
-        // CONFIRMATION RESET DEFAULTS
-        // ==========================================
-        function openResetConfirmModal() {
-            document.getElementById('reset-confirm-modal').classList.remove('hidden');
-        }
+        function openResetConfirmModal() { document.getElementById('reset-confirm-modal').classList.remove('hidden'); }
+        function closeResetConfirmModal() { document.getElementById('reset-confirm-modal').classList.add('hidden'); }
 
-        function closeResetConfirmModal() {
-            document.getElementById('reset-confirm-modal').classList.add('hidden');
-        }
+        function escapeHtml(v) { return String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+        function escapeAttr(v) { return escapeHtml(v).replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+        function autoResizeTextarea(el) { if(el) { el.style.height = 'auto'; el.style.height = Math.max(42, el.scrollHeight) + 'px'; } }
+        function resizeAllActionTextareas() { document.querySelectorAll('.action-edit-action').forEach(autoResizeTextarea); }
 
-
-        function escapeHtml(value) {
-            return String(value ?? '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
-        }
-
-        function escapeAttr(value) {
-            return escapeHtml(value).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-        }
-
-        function autoResizeTextarea(el) {
-            if (!el) return;
-            el.style.height = 'auto';
-            el.style.height = Math.max(42, el.scrollHeight) + 'px';
-        }
-
-        function resizeAllActionTextareas() {
-            document.querySelectorAll('.action-edit-action').forEach(autoResizeTextarea);
-        }
-
-        // Initialisation de l'application au chargement
-        window.onload = function() {
-            initApp();
-        };
+        window.onload = function() { initApp(); };
     </script>
 </body>
 </html>
