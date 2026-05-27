@@ -374,7 +374,7 @@
         // ==========================================
         const GOOGLE_SHEET_API_URL = "https://script.google.com/a/macros/airbus.com/s/AKfycbxEOosGPsGcbUyvUrli0QaGGpDsQAIr3kY9s3I_qrN2UmHM6WbRoOgxwjgTIhqkaOCL/exec";
 
-        // Base de données par défaut d'origine (10 secteurs réels ST-ELOI)
+        // base de données par défaut d'origine (10 secteurs réels ST-ELOI)
         const DEFAULT_DATABASE = {
             odyl1: {
                 name: "ODYL 1", title: "Routines PPC – ODYL 1 (2 VAC)",
@@ -608,18 +608,31 @@
                 try {
                     const response = await fetch(GOOGLE_SHEET_API_URL);
                     if (response.ok) {
-                        sheetData = await response.json();
-                        console.log("Données Google Sheets reçues :", sheetData);
+                        const rawData = await response.json();
+                        console.log("Données brutes reçues de Google :", rawData);
+                        
+                        // RE-CORRECTION DES CLÉS EN CAS DE SOUCI DE TIRET DU BAS (id_secteur vs idsecteur)
+                        sheetData = {};
+                        Object.keys(rawData).forEach(key => {
+                            const cleanKey = key.toLowerCase().replace(/[^a-z0-9]/g, ''); // enlève les espaces/tirets pour uniformiser
+                            sheetData[cleanKey] = rawData[key];
+                            // Force le nom pour la cohérence interne
+                            if(sheetData[cleanKey]) {
+                                if(!sheetData[cleanKey].name) sheetData[cleanKey].name = key.toUpperCase();
+                            }
+                        });
                     }
                 } catch (e) {
                     console.error("Erreur d'appel API. Passage sur la mémoire locale.", e);
                 }
             }
 
+            // Aiguillage et sécurité vers la base locale si Google renvoie du vide
             if (sheetData && Object.keys(sheetData).length > 0) {
                 db = sheetData;
                 saveDbToLocalStorage();
             } else {
+                console.log("API vide ou inaccessible, chargement de la base d'origine...");
                 const savedDb = localStorage.getItem('ppc_sectors_db_custom_v6');
                 if (savedDb) {
                     try { db = JSON.parse(savedDb); } catch(e) { db = JSON.parse(JSON.stringify(DEFAULT_DATABASE)); }
@@ -628,14 +641,26 @@
                 }
             }
 
+            // Forcer la création des objets de base s'ils manquent
+            Object.keys(db).forEach(k => {
+                if(!db[k].daily) db[k].daily = { name: "PPC Daily", timeInfo: "30 min", part: "", pts: [], prep: [], routine: [], irr: "", pos: "" };
+                if(!db[k].weekly) db[k].weekly = { name: "PPC Weekly", timeInfo: "60 min", part: "", pts: [], prep: [], routine: [], irr: "", pos: "" };
+                if(!db[k].maturity) db[k].maturity = { daily: {avanceRetard:50, aleas:50, decision:50}, weekly: {performance:50, paretoAleas:50, planAction:50} };
+                if(!db[k].actions) db[k].actions = { daily: [], weekly: [] };
+            });
+
             enrichDatabase(db);
 
-            const keys = Object.keys(db);
-            if (!keys.includes(activeLeftKey)) activeLeftKey = keys[0] || "";
-            if (!keys.includes(activeRightKey)) activeRightKey = keys[1] || keys[0] || "";
+            // Sélection automatique des premiers secteurs valides pour l'affichage
+            const validKeys = Object.keys(db).filter(k => !GROUP_STRUCTURE[k]);
+            if (validKeys.length > 0) {
+                activeLeftKey = validKeys[0];
+                activeRightKey = validKeys[1] || validKeys[0];
+            }
 
             renderSidebar();
             renderDashboard();
+            console.log("Application initialisée avec succès ! Base actuelle :", db);
         }
 
         function resetToDefaults() {
@@ -814,331 +839,4 @@
             return 9999;
         }
 
-        function sortActionsWithOriginalIndex(actions) {
-            return (actions || []).map((action, originalIndex) => ({ action, originalIndex })).sort((a, b) => {
-                const pa = actionPriority(a.action.status);
-                const pb = actionPriority(b.action.status);
-                if (pa !== pb) return pa - pb;
-                return a.originalIndex - b.originalIndex;
-            });
-        }
-
-        function formatActionDate(value) {
-            if (!value) return '';
-            const parts = String(value).split('-');
-            if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
-            return value;
-        }
-
-        function renderActionDates(action) {
-            const start = action.dateDebut || action.startDate || '';
-            const end = action.dateFin || action.endDate || '';
-            if (!start && !end) return '';
-            return `
-                <div class="text-[10px] text-slate-400 font-semibold mt-1 flex items-center gap-2">
-                    ${start ? `<span><i class="fa-regular fa-calendar-plus"></i> Début : ${formatActionDate(start)}</span>` : ''}
-                    ${end ? `<span><i class="fa-regular fa-calendar-check"></i> Fin : ${formatActionDate(end)}</span>` : ''}
-                </div>
-            `;
-        }
-
-        function renderActions(actions, side, key, routineType) {
-            if (!actions || actions.length === 0) return `<div class="action-card border-dashed border-slate-200 bg-slate-50/50"><p class="text-[11px] text-slate-400 italic">Aucune action définie</p></div>`;
-            const sortedActions = sortActionsWithOriginalIndex(actions);
-            return `
-                <div class="action-card">
-                    <div class="flex items-center justify-between mb-1">
-                        <div class="flex items-center gap-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider"><i class="fa-solid fa-list-ol"></i> Actions</div>
-                    </div>
-                    ${sortedActions.map(({ action: a }, idx) => {
-                        const meta = getActionStatusMeta(a.status);
-                        const isDone = normalizeActionStatus(a.status) === 'done';
-                        return `
-                            <div class="action-row ${isDone ? 'opacity-70' : ''}">
-                                <i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn" title="${meta.label}"></i>
-                                <span class="action-top-badge">Top ${idx + 1}</span>
-                                <div class="action-text">
-                                    <span class="action-criteria ${isDone ? 'line-through decoration-emerald-400' : ''}">${a.criteria || 'Critère'}</span>
-                                    <span class="text-slate-400 mx-1">—</span>
-                                    <span class="${isDone ? 'line-through decoration-emerald-300' : ''}">${a.action || ''}</span>
-                                    ${renderActionDates(a)}
-                                </div>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            `;
-        }
-
-        function getLeafChildren(groupKey) {
-            const node = db[groupKey];
-            if (!node?.children) return [];
-            let result = [];
-            node.children.forEach(childKey => {
-                const child = db[childKey];
-                if (!child) return;
-                if (child.isGroup && child.children) result = result.concat(getLeafChildren(childKey));
-                else result.push(childKey);
-            });
-            return result;
-        }
-
-        function getHeatmapRows(groupKey) {
-            const node = db[groupKey];
-            if (!node?.children) return [];
-            if (groupKey === 'ody') return node.children.filter(k => db[k]);
-            return getLeafChildren(groupKey);
-        }
-
-        function heatCell(value) {
-            let cls = value >= 75 ? "bg-emerald-50 text-emerald-700 border-emerald-100" : value >= 55 ? "bg-blue-50 text-blue-700 border-blue-100" : value >= 35 ? "bg-amber-50 text-amber-700 border-amber-100" : "bg-rose-50 text-rose-700 border-rose-100";
-            return `<td class="px-3 py-2 text-center border ${cls} font-extrabold text-xs">${value}%</td>`;
-        }
-
-        function renderGroupHeatmap(groupKey) {
-            const rows = getHeatmapRows(groupKey);
-            if (!rows.length) return "";
-            return `
-                <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-table-cells-large text-blue-600"></i>Heatmap maturité</h3>
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full border-collapse text-xs">
-                            <thead>
-                                <tr class="text-slate-500 uppercase text-[10px] tracking-wider bg-slate-50">
-                                    <th class="text-left px-3 py-2 border border-slate-100">Élément</th>
-                                    <th class="text-center px-3 py-2 border border-slate-100">Daily</th>
-                                    <th class="text-center px-3 py-2 border border-slate-100">Weekly</th>
-                                    <th class="text-center px-3 py-2 border border-slate-100">Global</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${rows.map(rowKey => {
-                                    const row = db[rowKey];
-                                    if (!row) return '';
-                                    const d = getRoutineScore(row.maturity, 'daily');
-                                    const w = getRoutineScore(row.maturity, 'weekly');
-                                    const g = getOverallScore(row.maturity);
-                                    return `<tr><td class="px-3 py-2 border border-slate-100 font-bold text-slate-700 bg-white">${row.name}</td>${heatCell(d)}${heatCell(w)}${heatCell(g)}</tr>`;
-                                }).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderGroupActions(groupKey) {
-            const sectors = getLeafChildren(groupKey);
-            const actions = [];
-            sectors.forEach(sectorKey => {
-                const s = db[sectorKey];
-                if (!s) return;
-                ['daily', 'weekly'].forEach(type => {
-                    (s.actions?.[type] || []).forEach(action => {
-                        actions.push({ sector: s.name, type: type === 'daily' ? 'Daily' : 'Weekly', criteria: action.criteria, action: action.action, status: action.status, dateDebut: action.dateDebut || action.startDate || '', dateFin: action.dateFin || action.endDate || '' });
-                    });
-                });
-            });
-
-            const p = { 'not_started': 1, 'ongoing': 2, 'done': 9999 };
-            actions.sort((a, b) => (p[normalizeActionStatus(a.status)] ?? 50) - (p[normalizeActionStatus(b.status)] ?? 50));
-
-            return `
-                <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
-                    <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-list-check text-blue-600"></i>Actions prioritaires</h3>
-                    <div class="flex flex-col gap-2 max-h-[320px] overflow-y-auto">
-                        ${actions.length ? actions.map(a => {
-                            const m = getActionStatusMeta(a.status);
-                            const idone = normalizeActionStatus(a.status) === 'done';
-                            return `
-                                <div class="${idone ? 'bg-emerald-50/40 border-emerald-100 opacity-75' : 'bg-blue-50/40 border-blue-100'} border rounded-lg px-3 py-2">
-                                    <div class="flex items-center justify-between"><div class="text-[10px] uppercase font-extrabold text-blue-600">${a.sector} — ${a.type}</div><div class="text-[10px] uppercase font-bold ${m.cls}">${m.label}</div></div>
-                                    <div class="text-xs font-extrabold text-slate-800 mt-1">${a.criteria}</div>
-                                    <div class="text-xs text-slate-600 mt-0.5">${a.action}</div>
-                                    ${renderActionDates(a)}
-                                </div>
-                            `;
-                        }).join('') : '<p class="text-xs text-slate-400 italic">Aucune action</p>'}
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderGroupCard(side, key, data) {
-            const dailyScore = getRoutineScore(data.maturity, 'daily');
-            const weeklyScore = getRoutineScore(data.maturity, 'weekly');
-            const globalScore = getOverallScore(data.maturity);
-            return `
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 sticky top-0 z-10">
-                    <div class="flex items-center gap-3">${renderMaturityBadge(data)}<h2 class="text-lg font-bold text-slate-900">${data.title}</h2></div>
-                    <div class="flex items-center gap-2"><button onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 p-1.5 rounded-lg"><i class="fa-solid fa-pencil"></i></button></div>
-                </div>
-                <div class="grid grid-cols-3 gap-4">
-                    <div class="maturity-card"><p class="text-xs font-bold text-slate-400 uppercase mb-1">Score global</p><div class="flex items-end gap-2"><span class="text-4xl font-extrabold text-slate-900">${globalScore}</span><span class="text-sm font-bold text-slate-400 mb-1">%</span></div></div>
-                    <div class="maturity-card"><p class="text-xs font-bold text-slate-400 uppercase mb-2">PPC Daily</p><div class="bar-track mb-2"><div class="bar-fill ${scoreColor(dailyScore)}" style="width:${dailyScore}%"></div></div><p class="text-2xl font-extrabold text-slate-800">${dailyScore}%</p></div>
-                    <div class="maturity-card"><p class="text-xs font-bold text-slate-400 uppercase mb-2">PPC Weekly</p><div class="bar-track mb-2"><div class="bar-fill ${scoreColor(weeklyScore)}" style="width:${weeklyScore}%"></div></div><p class="text-2xl font-extrabold text-slate-800">${weeklyScore}%</p></div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3"><h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-clock text-blue-600"></i>Maturité Daily</h3>${renderMaturityBars(data.maturity, 'daily')}</div>
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3"><h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-calendar-week text-emerald-600"></i>Maturité Weekly</h3>${renderMaturityBars(data.maturity, 'weekly')}</div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">${renderGroupHeatmap(key)}${renderGroupActions(key)}</div>
-            `;
-        }
-
-        function renderReadOnlyCard(side, key, data) {
-            const rList = (pts) => (pts || []).map(pt => `<li class="flex items-start gap-2.5"><i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-[15px] mt-0.5 shrink-0"></i><span class="text-slate-700 text-sm font-medium">${pt.text}</span></li>`).join('');
-            const rTools = (tools) => (tools || []).map(t => `<span class="tool-pill">${t}</span>`).join('');
-            return `
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 sticky top-0 z-10">
-                    <div class="flex items-center gap-3">${renderMaturityBadge(data)}<h2 class="text-lg font-bold text-slate-900">${data.title}</h2></div>
-                    <button onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 p-1.5 rounded-lg"><i class="fa-solid fa-pencil"></i></button>
-                </div>
-                <div class="grid grid-cols-2 gap-4 flex-grow min-h-0">
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm">
-                        <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><i class="fa-solid fa-clock text-blue-600 bg-blue-50 p-2 rounded-lg"></i><h3 class="font-bold text-slate-800 text-sm uppercase">${data.daily.name || 'PPC DAILY'}</h3></div><span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.daily.timeInfo || '30 min'}</span></div>
-                        <div class="text-xs"><strong>Participant:</strong> ${data.daily.part || 'N/A'}</div>
-                        <ul class="flex flex-col gap-2">${rList(data.daily.pts)}</ul>
-                        <div class="maturity-card bg-slate-50/60"><div class="flex items-center justify-between mb-2"><span class="text-xs font-bold text-slate-500">Maturité Daily</span><span class="text-xs font-extrabold">${getRoutineScore(data.maturity, 'daily')}%</span></div><div class="bar-track"><div class="bar-fill ${scoreColor(getRoutineScore(data.maturity, 'daily'))}" style="width:${getRoutineScore(data.maturity, 'daily')}%"></div></div></div>
-                        ${renderActions(data.actions?.daily, side, key, 'daily')}
-                        <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-3"><div><span class="text-xs font-bold text-slate-400 block mb-1">Préparation</span>${rTools(data.daily.prep)}</div><div><span class="text-xs font-bold text-slate-400 block mb-1">Routine</span>${rTools(data.daily.routine)}</div></div>
-                        ${data.daily.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold uppercase">Irritants</span><p class="text-slate-700 text-xs mt-1">${data.daily.irr}</p></div>` : ''}
-                        ${data.daily.pos ? `<div class="positifs-container"><span class="text-emerald-600 text-xs font-bold uppercase">Points Positifs</span><p class="text-slate-700 text-xs mt-1">${data.daily.pos}</p></div>` : ''}
-                    </div>
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm">
-                        <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><i class="fa-solid fa-calendar-week text-emerald-600 bg-emerald-50 p-2 rounded-lg"></i><h3 class="font-bold text-slate-800 text-sm uppercase">${data.weekly.name || 'PPC WEEKLY'}</h3></div><span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">⏱️ ${data.weekly.timeInfo || '60 min'}</span></div>
-                        <div class="text-xs"><strong>Participant:</strong> ${data.weekly.part || 'N/A'}</div>
-                        <ul class="flex flex-col gap-2">${rList(data.weekly.pts)}</ul>
-                        <div class="maturity-card bg-slate-50/60"><div class="flex items-center justify-between mb-2"><span class="text-xs font-bold text-slate-500">Maturité Weekly</span><span class="text-xs font-extrabold">${getRoutineScore(data.maturity, 'weekly')}%</span></div><div class="bar-track"><div class="bar-fill ${scoreColor(getRoutineScore(data.maturity, 'weekly'))}" style="width:${getRoutineScore(data.maturity, 'weekly')}%"></div></div></div>
-                        ${renderActions(data.actions?.weekly, side, key, 'weekly')}
-                        <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-3"><div><span class="text-xs font-bold text-slate-400 block mb-1">Préparation</span>${rTools(data.weekly.prep)}</div><div><span class="text-xs font-bold text-slate-400 block mb-1">Routine</span>${rTools(data.weekly.routine)}</div></div>
-                        ${data.weekly.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold uppercase">Irritants</span><p class="text-slate-700 text-xs mt-1">${data.weekly.irr}</p></div>` : ''}
-                        ${data.weekly.pos ? `<div class="positifs-container"><span class="text-emerald-600 text-xs font-bold uppercase">Points Positifs</span><p class="text-slate-700 text-xs mt-1">${data.weekly.pos}</p></div>` : ''}
-                    </div>
-                </div>
-            `;
-        }
-
-        function makeEditableActionsHTML(side, key, routineType, actions) {
-            const sortedList = sortActionsWithOriginalIndex(actions || []);
-            let html = sortedList.map(({ action: a, originalIndex }, dIdx) => {
-                const meta = getActionStatusMeta(a.status);
-                return `
-                    <div class="action-edit-row">
-                        <div class="action-edit-header">
-                            <button onclick="cycleActionStatus(event, '${side}', '${key}', '${routineType}', ${originalIndex})" class="action-status-button"><i class="fa-solid ${meta.icon} ${meta.cls} text-sm"></i></button>
-                            <span class="action-top-badge">Top ${dIdx + 1}</span>
-                            <span class="spacer"></span>
-                            <button onclick="deleteAction('${side}', '${key}', '${routineType}', ${originalIndex})" class="text-slate-300 hover:text-rose-500"><i class="fa-solid fa-trash-can text-xs"></i></button>
-                        </div>
-                        <div class="action-edit-content">
-                            <input type="text" value="${escapeAttr(a.criteria)}" oninput="editActionField('${side}','${key}','${routineType}',${originalIndex},'criteria',this.value)" class="action-edit-criteria">
-                            <textarea oninput="editActionField('${side}','${key}','${routineType}',${originalIndex},'action',this.value); autoResizeTextarea(this)" class="action-edit-action">${escapeHtml(a.action)}</textarea>
-                            <div class="grid grid-cols-2 gap-2">
-                                <input type="date" value="${escapeAttr(a.dateDebut || a.startDate)}" onchange="editActionField('${side}','${key}','${routineType}',${originalIndex},'dateDebut',this.value)" class="border border-slate-200 rounded px-2 py-0.5 text-xs outline-none">
-                                <input type="date" value="${escapeAttr(a.dateFin || a.endDate)}" onchange="editActionField('${side}','${key}','${routineType}',${originalIndex},'dateFin',this.value)" class="border border-slate-200 rounded px-2 py-0.5 text-xs outline-none">
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            return `<div class="action-card"><div class="text-[10px] uppercase font-bold text-blue-600 mb-2">Actions Tracker</div>${html}<button type="button" class="text-blue-600 text-xs font-bold mt-2 flex items-center gap-1" onclick="addAction('${side}','${key}','${routineType}')"><i class="fa-solid fa-circle-plus"></i> Ajouter une action</button></div>`;
-        }
-
-        function makeEditableMaturityHTML(side, key, routineType, maturity) {
-            const labels = routineType === 'daily' ? { avanceRetard: 'Avance / retard', aleas: 'Aléas', decision: 'Décision' } : { performance: 'Performance', paretoAleas: 'Pareto aléas', planAction: 'Plan d’action' };
-            const obj = maturity?.[routineType] || {};
-            return Object.keys(labels).map(k => `
-                <div class="flex items-center gap-2 mb-1">
-                    <label class="text-[11px] font-semibold text-slate-600 w-32">${labels[k]}</label>
-                    <input type="number" min="0" max="100" value="${obj[k] ?? 50}" onchange="editMaturityField('${side}', '${key}', '${routineType}', '${k}', this.value)" class="w-16 border rounded px-2 py-0.5 text-xs font-bold outline-none">
-                    <span class="text-xs text-slate-400">%</span>
-                </div>
-            `).join('');
-        }
-
-        function renderEditModeCard(side, key, data) {
-            const rPts = (routineType, pts) => (pts || []).map((pt, idx) => `
-                <div class="flex items-center gap-2 mb-1">
-                    <button onclick="togglePtStatus(event, '${side}', '${key}', '${routineType}', ${idx})"><i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg"></i></button>
-                    <input type="text" value="${escapeAttr(pt.text)}" onchange="editPtText('${side}', '${key}', '${routineType}', ${idx}, this.value)" class="w-full border rounded px-2 py-0.5 text-xs outline-none focus:border-blue-500">
-                    <button onclick="deletePt('${side}', '${key}', '${routineType}', ${idx})" class="text-slate-300 hover:text-rose-500"><i class="fa-solid fa-trash-can text-xs"></i></button>
-                </div>
-            `).join('') + `<button onclick="addPt('${side}', '${key}', '${routineType}')" class="text-blue-600 text-xs font-bold mt-1 flex items-center gap-1"><i class="fa-solid fa-circle-plus"></i> Ajouter un point</button>`;
-
-            return `
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 sticky top-0 z-10">
-                    <input type="text" id="edit-title-${side}" value="${escapeAttr(data.title)}" class="border rounded px-2 py-1 text-sm font-bold w-96 outline-none focus:border-blue-500">
-                    ${renderMaturitySelect(side, key, data)}
-                    <div class="flex gap-2"><button onclick="saveSectorEdits('${side}', '${key}')" class="bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Enregistrer</button><button onclick="toggleEditMode('${side}')" class="border px-3 py-1.5 rounded-lg text-xs font-bold">Annuler</button></div>
-                </div>
-                <div id="edit-scroll-${side}" data-preserve-scroll="edit-${side}" class="grid grid-cols-2 gap-4 flex-grow min-h-0 overflow-y-auto pr-1">
-                    <div class="bg-slate-50 rounded-xl p-5 border flex flex-col gap-3">
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="edit-daily-name-${side}" value="${escapeAttr(data.daily.name)}" class="border rounded px-2 py-1 text-xs outline-none">
-                            <input type="text" id="edit-daily-time-${side}" value="${escapeAttr(data.daily.timeInfo)}" class="border rounded px-2 py-1 text-xs outline-none">
-                        </div>
-                        <input type="text" id="edit-daily-part-${side}" value="${escapeAttr(data.daily.part)}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Participants">
-                        <div class="bg-white border rounded p-3">${rPts('daily', data.daily.pts)}</div>
-                        ${makeEditableActionsHTML(side, key, 'daily', data.actions?.daily)}
-                        <div class="grid grid-cols-2 gap-2"><input type="text" id="edit-daily-prep-${side}" value="${escapeAttr((data.daily.prep || []).join(', '))}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Préparation"><input type="text" id="edit-daily-routine-${side}" value="${escapeAttr((data.daily.routine || []).join(', '))}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Routine"></div>
-                        <textarea id="edit-daily-irr-${side}" class="border rounded p-2 text-xs h-12 outline-none resize-none" placeholder="Irritants">${data.daily.irr || ''}</textarea>
-                        <div class="bg-blue-50 border p-3 rounded-xl">${makeEditableMaturityHTML(side, key, 'daily', data.maturity)}</div>
-                    </div>
-                    <div class="bg-slate-50 rounded-xl p-5 border flex flex-col gap-3">
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="edit-weekly-name-${side}" value="${escapeAttr(data.weekly.name)}" class="border rounded px-2 py-1 text-xs outline-none">
-                            <input type="text" id="edit-weekly-time-${side}" value="${escapeAttr(data.weekly.timeInfo)}" class="border rounded px-2 py-1 text-xs outline-none">
-                        </div>
-                        <input type="text" id="edit-weekly-part-${side}" value="${escapeAttr(data.weekly.part)}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Participants">
-                        <div class="bg-white border rounded p-3">${rPts('weekly', data.weekly.pts)}</div>
-                        ${makeEditableActionsHTML(side, key, 'weekly', data.actions?.weekly)}
-                        <div class="grid grid-cols-2 gap-2"><input type="text" id="edit-weekly-prep-${side}" value="${escapeAttr((data.weekly.prep || []).join(', '))}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Préparation"><input type="text" id="edit-weekly-routine-${side}" value="${escapeAttr((data.weekly.routine || []).join(', '))}" class="border rounded px-2 py-1 text-xs outline-none" placeholder="Routine"></div>
-                        <textarea id="edit-weekly-irr-${side}" class="border rounded p-2 text-xs h-12 outline-none resize-none" placeholder="Irritants">${data.weekly.irr || ''}</textarea>
-                        <div class="bg-emerald-50 border p-3 rounded-xl">${makeEditableMaturityHTML(side, key, 'weekly', data.maturity)}</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderGroupEditModeCard(side, key, data) {
-            return `
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 sticky top-0 z-10">
-                    <input type="text" id="edit-title-${side}" value="${escapeAttr(data.title)}" class="border rounded px-2 py-1 text-sm font-bold w-96 outline-none">
-                    <div class="flex gap-2"><button onclick="saveGroupEdits('${side}', '${key}')" class="bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Enregistrer</button><button onclick="toggleEditMode('${side}')" class="border px-3 py-1.5 rounded-lg text-xs font-bold">Annuler</button></div>
-                </div>
-                <div class="bg-white rounded-xl p-5 border border-slate-200 mt-4"><div class="flex items-start gap-3"><i class="fa-solid fa-circle-info text-blue-600 bg-blue-50 p-2 rounded-lg"></i><div><h3 class="font-bold text-slate-800 text-sm uppercase">Synthèse calculée automatiquement</h3><p class="text-xs text-slate-500 mt-1">Les scores de cette vue sont calculés automatiquement à partir des secteurs enfants. Modifiez directement les fiches sous-secteurs.</p></div></div></div>
-            `;
-        }
-
-        function togglePtStatus(event, side, key, routineType, idx) {
-            const list = db[key]?.[routineType]?.pts;
-            if (list && list[idx]) {
-                list[idx].status = list[idx].status === 'v' ? 'x' : 'v';
-                const icon = event?.currentTarget?.querySelector('i');
-                if (icon) icon.className = `fa-solid ${list[idx].status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg`;
-            }
-        }
-
-        function editPtText(side, key, routineType, idx, value) {
-            if(db[key]?.[routineType]?.pts[idx]) db[key][routineType].pts[idx].text = value;
-        }
-
-        function addPt(side, key, routineType) {
-            if(!db[key][routineType].pts) db[key][routineType].pts = [];
-            db[key][routineType].pts.push({ status: "v", text: "Nouveau point" });
-            saveDbToLocalStorage();
-            safeRenderDashboard();
-        }
-
-        function deletePt(side, key, routineType, idx) {
-            db[key][routineType].pts.splice(idx, 1);
-            safeRenderDashboard();
-        }
-
-        function ensureActions(key, routineType) {
-            if (!db[key].actions) db[key].actions
+        function sortActionsWith
