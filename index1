@@ -1100,4 +1100,225 @@
     </script>
 </body>
 </html>
+/////////////////////////////////////////////////////////// codegs
+const SPREADSHEET_ID = 'COLLER_ICI_ID_DU_GOOGLE_SHEET';
+const DB_SHEET_NAME = 'DB';
+const CHUNK_SIZE = 45000;
+
+
+function doGet() {
+  return HtmlService
+    .createHtmlOutputFromFile('index')
+    .setTitle('Outil transverse de pilotage PPC')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+
+function getSpreadsheet_() {
+  if (SPREADSHEET_ID && SPREADSHEET_ID !== 'COLLER_ICI_ID_DU_GOOGLE_SHEET') {
+    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  }
+
+
+  const active = SpreadsheetApp.getActiveSpreadsheet();
+  if (!active) {
+    throw new Error('Aucun Google Sheet actif. Renseigner SPREADSHEET_ID dans Code.gs.');
+  }
+
+
+  return active;
+}
+
+
+function ensureDbSheet_() {
+  const ss = getSpreadsheet_();
+  let sheet = ss.getSheetByName(DB_SHEET_NAME);
+
+
+  if (!sheet) {
+    sheet = ss.insertSheet(DB_SHEET_NAME);
+  }
+
+
+  if (sheet.getLastRow() === 0) {
+    sheet.getRange(1, 1, 1, 4).setValues([[
+      'key',
+      'json_chunk',
+      'updated_at',
+      'comment'
+    ]]);
+    sheet.setFrozenRows(1);
+  }
+
+
+  return sheet;
+}
+
+
+/**
+ * Lecture de la base.
+ * Retourne un objet :
+ * { ok: true, data: {...} }
+ */
+/**
+ * Lecture de la base - VERSION ULTRA-RAPIDE OPTIMISÉE
+ */
+function getData() {
+  const lock = LockService.getScriptLock();
+
+
+  try {
+    lock.waitLock(5000); // Attente réduite à 5s pour libérer l'interface
+
+
+    const sheet = ensureDbSheet_();
+    const lastRow = sheet.getLastRow();
+
+
+    if (lastRow < 2) {
+      return { ok: true, data: null };
+    }
+
+
+    // On récupère uniquement la colonne des clés (A) et des chunks (B) pour aller plus vite
+    const rangeCles = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    const rangeChunks = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
+
+
+    // Création d'un tableau indexé pour éviter les filtres et tris lourds
+    let chunksArray = [];
+   
+    for (let i = 0; i < rangeCles.length; i++) {
+      const cle = String(rangeCles[i][0] || '');
+      if (cle.startsWith('chunk_')) {
+        // On extrait l'index directement (ex: chunk_00001 -> index 1)
+        const index = parseInt(cle.replace('chunk_', ''), 10) - 1;
+        if (index >= 0) {
+          chunksArray[index] = String(rangeChunks[i][0] || '');
+        }
+      }
+    }
+
+
+    // Recollage instantané des morceaux de texte
+    const json = chunksArray.join('');
+
+
+    if (!json) {
+      return { ok: true, data: null };
+    }
+
+
+    return {
+      ok: true,
+      data: JSON.parse(json)
+    };
+
+
+  } catch (err) {
+    return {
+      ok: false,
+      data: null,
+      error: String(err.message || err)
+    };
+  } finally {
+    try { lock.releaseLock(); } catch (e) {}
+  }
+}
+/**
+ * Sauvegarde de la base.
+ * data = objet JavaScript envoye par index.html.
+ */
+function saveData(data) {
+  const lock = LockService.getScriptLock();
+
+
+  try {
+    lock.waitLock(10000);
+
+
+    if (!data || typeof data !== 'object') {
+      throw new Error('Payload invalide : data doit etre un objet.');
+    }
+
+
+    const sheet = ensureDbSheet_();
+    const json = JSON.stringify(data);
+    const now = new Date();
+
+
+    const rows = [];
+    for (let i = 0; i < json.length; i += CHUNK_SIZE) {
+      const chunkNumber = String(rows.length + 1).padStart(5, '0');
+      rows.push([
+        'chunk_' + chunkNumber,
+        json.substring(i, i + CHUNK_SIZE),
+        now,
+        'PPC database JSON chunk'
+      ]);
+    }
+
+
+    // Nettoyage ancien contenu sans supprimer l'en-tete.
+    const lastRow = sheet.getLastRow();
+    if (lastRow > 1) {
+      sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
+    }
+
+
+    if (rows.length > 0) {
+      sheet.getRange(2, 1, rows.length, 4).setValues(rows);
+    }
+
+
+    sheet.autoResizeColumns(1, 4);
+
+
+    return {
+      ok: true,
+      chunks: rows.length,
+      jsonLength: json.length,
+      updatedAt: now.toISOString()
+    };
+
+
+  } catch (err) {
+    return {
+      ok: false,
+      error: String(err && err.message ? err.message : err)
+    };
+  } finally {
+    try {
+      lock.releaseLock();
+    } catch (e) {}
+  }
+}
+
+
+/**
+ * Optionnel : a lancer une fois manuellement pour preparer l'onglet DB.
+ */
+function setupDatabaseSheet() {
+  const sheet = ensureDbSheet_();
+  return 'Onglet DB pret : ' + sheet.getName();
+}
+
+
+/**
+ * Optionnel : efface uniquement la base JSON.
+ * Ne pas utiliser sauf si tu veux repartir a zero.
+ */
+function clearDatabase() {
+  const sheet = ensureDbSheet_();
+  const lastRow = sheet.getLastRow();
+
+
+  if (lastRow > 1) {
+    sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
+  }
+
+
+  return 'Base DB videe.';
+}
+
 
