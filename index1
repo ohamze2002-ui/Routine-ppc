@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilotage de Performance PPC - Dashboard </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        html { overflow-anchor: none; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        /* Personnalisation des boutons de sélection radio style Google Sheets */
+        .sheets-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            display: inline-grid;
+            place-content: center;
+            background: white;
+        }
+        .sheets-checkbox:checked {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+        .sheets-checkbox:checked::before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: white;
+            font-size: 11px;
+        }
+
+        /* Cadres d'outils */
+        .tool-pill {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #475569;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        /* Bloc d'irritant (Ligne rouge et cadre) */
+        .irritants-container {
+            border: 1.5px solid #fecaca;
+            border-radius: 8px;
+            padding: 8px 12px;
+            background-color: #fff5f5;
+        }
+
+        /* Bloc de points positifs (Ligne verte et cadre) */
+        .positifs-container {
+            border: 1.5px solid #a7f3d0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            background-color: #f0fdf4;
+        }
+
+        /* Transitions fluides */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scrollbars élégantes */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Blocs actions et maturité */
+        .action-card {
+            border: 1.5px solid #bfdbfe;
+            background: #f8fbff;
+            border-radius: 8px;
+            padding: 7px 9px;
+        }
+        .action-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 7px;
+            padding: 5px 0;
+            border-top: 1px solid #e5edf8;
+        }
+        .action-row:first-of-type { border-top: 0; padding-top: 2px; }
+        .action-status-btn {
+            width: 15px;
+            height: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .action-status-button {
+            width: 22px;
+            height: 22px;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:7px;
+            transition: all .15s ease;
+            flex-shrink:0;
+            margin-top: 1px;
+            border: 1px solid transparent;
+        }
+        .action-status-button:hover { background:#e0f2fe; transform: scale(1.04); border-color:#bfdbfe; }
+        .action-top-badge {
+            min-width: 34px;
+            height: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            font-size: 9px;
+            font-weight: 900;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .action-text {
+            min-width: 0;
+            flex: 1;
+            font-size: 11px;
+            line-height: 1.35;
+            color: #334155;
+            white-space: normal;
+            overflow: visible;
+            word-break: break-word;
+        }
+        .action-criteria {
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .action-edit-row {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 9px 10px;
+            border: 1px solid #dbeafe;
+            background: #ffffff;
+            border-radius: 9px;
+            margin-top: 7px;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+        }
+        .action-edit-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .action-edit-header .spacer { flex: 1; }
+        .action-edit-content {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .action-edit-criteria {
+            width: 100%;
+            border: 1px solid #dbeafe;
+            background: #f8fbff;
+            border-radius: 7px;
+            padding: 6px 8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #0f172a;
+            outline: none;
+        }
+        .action-edit-action {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            border-radius: 7px;
+            padding: 7px 8px;
+            font-size: 11px;
+            color: #334155;
+            outline: none;
+            resize: vertical;
+            min-height: 42px;
+            line-height: 1.35;
+            overflow: hidden;
+        }
+        .action-edit-criteria:focus,
+        .action-edit-action:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, .10);
+        }
+        .maturity-badge {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:34px;
+            height:34px;
+            border-radius:10px;
+            font-size:18px;
+            font-weight:900;
+            border:1px solid;
+            box-shadow:0 1px 2px rgba(15,23,42,0.06);
+        }
+        .grade-a { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+        .grade-b { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+        .grade-c { background:#fffbeb; color:#b45309; border-color:#fde68a; }
+        .grade-d { background:#fff1f2; color:#be123c; border-color:#fecdd3; }
+        .maturity-card {
+            border: 1px solid #e2e8f0;
+            background:#ffffff;
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+        }
+        .bar-track { height: 8px; background:#e2e8f0; border-radius:999px; overflow:hidden; }
+        .bar-fill { height:100%; border-radius:999px; }
+        .bar-blue { background:#2563eb; }
+        .bar-green { background:#0d9488; }
+        .bar-amber { background:#f59e0b; }
+        .bar-red { background:#ef4444; }
+        .group-badge { font-size:10px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col overflow-hidden bg-slate-50 text-slate-800">
+
+    <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between z-10 shrink-0 shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 text-white p-2.5 rounded-xl flex items-center justify-center shadow-md shadow-blue-100">
+                <i class="fa-solid fa-square-poll-vertical text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Dashboard routines PPC _ Usine ST-ELOI </h1>
+                <p class="text-xs text-slate-500">Diagnostic dynamique PPC : routines, maturité et critères AOS</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <button onclick="openAddSectorModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
+                <i class="fa-solid fa-plus text-xs"></i> Ajouter un secteur
+            </button>
+            <button onclick="openResetConfirmModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-800 px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+                <i class="fa-solid fa-arrow-rotate-left text-xs"></i> Réinitialiser les données
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow flex overflow-hidden w-full">
+        <aside class="w-80 bg-white border-r border-slate-200 flex flex-col shrink-0 overflow-hidden shadow-sm">
+            <div class="p-4 border-b border-slate-100 bg-slate-50/50">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Matrice des Secteurs</h2>
+                <p class="text-xs text-slate-500">Cochez un secteur pour l'assigner à la colonne de gauche (Zoom 1) ou droite (Zoom 2).</p>
+            </div>
+            <div class="flex-grow overflow-y-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100 sticky top-0 z-10">
+                            <th class="py-3 px-4">Élément</th>
+                            <th class="py-3 px-2 text-center">Zoom 1</th>
+                            <th class="py-3 px-2 text-center">Zoom 2</th>
+                            <th class="py-3 pr-4 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectors-table-body" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </aside>
+
+        <section id="dashboard-scroll" class="flex-grow p-6 flex gap-6 overflow-y-auto bg-slate-50">
+            <div id="panel-zoom1" class="flex-1 flex flex-col gap-4 fade-in"></div>
+            <div id="panel-divider" class="w-px bg-slate-200 shrink-0 self-stretch my-2"></div>
+            <div id="panel-zoom2" class="flex-1 flex flex-col gap-4 fade-in"></div>
+        </section>
+    </main>
+
+    <div id="add-sector-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2"><i class="fa-solid fa-circle-plus text-blue-600"></i> Ajouter un secteur</h3>
+                <button onclick="closeAddSectorModal()" class="text-slate-400 hover:text-slate-600 transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-5 flex flex-col gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Identifiant du Secteur</label>
+                    <input type="text" id="new-sector-id" placeholder="ex: ODYL 4" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition font-semibold text-slate-800">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Titre complet</label>
+                    <input type="text" id="new-sector-title" placeholder="ex: Routines PPC – ODYL 4 (2 VAC)" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition text-slate-800">
+                </div>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50/50">
+                <button onclick="closeAddSectorModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
+                <button onclick="submitNewSector()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Créer le secteur</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="reset-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <div class="p-5 flex flex-col items-center text-center gap-3">
+                <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center text-xl shadow-sm border border-amber-100"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h3 class="font-bold text-slate-800 text-lg">Réinitialiser les données ?</h3>
+                <p class="text-sm text-slate-500">Cette action écrasera toutes vos modifications pour restaurer les fiches d'origine. Cette action est irréversible.</p>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
+                <button onclick="closeResetConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Conserver</button>
+                <button onclick="resetToDefaults()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition text-sm font-semibold shadow-sm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="delete-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <input type="hidden" id="sector-to-delete">
+            <div class="p-5 flex flex-col items-center text-center gap-3">
+                <div class="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center text-xl shadow-sm border border-rose-100"><i class="fa-solid fa-trash-can"></i></div>
+                <h3 class="font-bold text-slate-800 text-lg">Supprimer ce secteur ?</h3>
+                <p class="text-sm text-slate-500">Êtes-vous sûr de vouloir supprimer définitivement le secteur <span id="delete-sector-name" class="font-bold text-slate-800"></span> ?</p>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
+                <button onclick="closeDeleteConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
+                <button onclick="deleteSector()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DEFAULT_DATABASE = {
+            odyl1: { name: "ODYL 1", title: "Routines PPC – ODYL 1 (2 VAC)", daily: { name: "ROP", timeInfo: "1 fois par vac, 55 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "x", text: "Suivre l'avance retard" }, { status: "x", text: "Remonter les aleas" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Plan de prod", "Gantt", "Fichier présence"], routine: ["Feuille de match", "Tandem"], irr: "Ce n'est pas une routine PPC daily, trop de préparatrion", pos: "" }, weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité, leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "x", text: "Plan d'action" }], prep: ["MES"], routine: ["KPI (Perfo et Top aleas)", "SHEET"], irr: "Les top aleas sont utilisées pour justifier la performance, on ne cherche pas à trouver les causes pour mettre des actions en place", pos: "" } },
+            odyl2: { name: "ODYL 2", title: "Routines PPC – ODYL 2 (2 VAC)", daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "v", text: "Suivre l'avance retard" }, { status: "x", text: "Remonter les aleas (se fait durant la journée)" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence", "Feuille de match", "Gantt"], routine: ["IOBEYA"], irr: "La non utilisation de l'outil Skywise PPC (besoin de modification)", pos: "" }, weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["MES", "Fichier présence"], routine: ["KPI (Perfo et Top aleas)", "Sheet"], irr: "", pos: "" } },
+            odyl3: { name: "ODYL 3", title: "Routines PPC – ODYL 3 (2 VAC)", daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "v", text: "Avance retard" }, { status: "v", text: "Aleas" }, { status: "v", text: "Points ouverts" }], prep: [], routine: [], irr: "", pos: "" }, weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: [], routine: [], irr: "", pos: "" } },
+            odys1: { name: "ODYS 1", title: "Routines PPC – ODYS 1 (2 VAC)", daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "Ordo, Qualité, Support tech, RDZ P67, toa, RDZ P68", pts: [{ status: "v", text: "Suivre l'avance retard" }, { status: "x", text: "Remonter les aleas (se fait durant la journée)" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence", "Frise zone", "Abaque", "SAP", "MES", "SIC"], routine: ["SHEET"], irr: "Double saisie. Tl n'est pas present dans la routine", pos: "" }, weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["Fichier présence", "MES", "IBM"], routine: ["SHEET", "KPI (Perfo et Top pareto)", "Adhérence charge/capa"], irr: "", pos: "" } },
+            odys2: { name: "ODYS 2", title: "Routines PPC – ODYS 2 (2 VAC)", daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "v", text: "Avance retard" }, { status: "v", text: "Aleas" }, { status: "v", text: "Points ouverts" }], prep: [], routine: [], irr: "", pos: "" }, weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: [], routine: [], irr: "", pos: "" } },
+            odys3: { name: "ODYS 3", title: "Routines PPC – ODYS 3 (2 VAC)", daily: { name: "PPC DAILY", timeInfo: "2 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ, ONET, TOA", pts: [{ status: "x", text: "Suivre l'avance retard (se fait durant la vac sur le tableau visuel)" }, { status: "v", text: "Remonter les aleas" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence", "Feuille de match", "Tandem", "MYHR", "MES"], routine: ["SHEET"], irr: "Double saisie", pos: "" }, weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["Igea", "Fichier présence", "MES"], routine: ["SHEET", "KPI (Perfo et Top aleas)"], irr: "", pos: "" } },
+            odys41: { name: "ODYS 41", title: "Routines PPC – ODYS 41 (2 VAC, non takte)", daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 60 min", part: "TL, Ordo, Qualité, Support tech, RDZ, prepa, TOA, QLS exterior", pts: [{ status: "v", text: "Suivre l'avance retard" }, { status: "x", text: "Remonter les aleas (se fait durant la journée)" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence"], routine: ["Tandem", "MES", "SAP", "SHEET"], irr: "Mise à jour du fichier sheet durant la routine.", pos: "" }, weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["Fichier présence"], routine: ["PPC sheet", "KPI (Perfo et Top aleas)"], irr: "Le plan d'action n'est pas trop pris en compte", pos: "" } },
+            odys42: { name: "ODYS 42", title: "Routines PPC – ODYS 42 (2 VAC)", daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "v", text: "Suivre l'avance retard" }, { status: "v", text: "Remonter les aleas" }, { status: "x", text: "Prendre des décision (points ouverts)" }], prep: ["Sheet poste (A/R)", "Tandem", "MES", "Fichier consigne"], routine: ["PPC sheet"], irr: "La prise de décision est orale.", pos: "" }, weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["Sheet", "Fichier présence", "Sheet aleas", "MES"], routine: ["PPC slide", "KPI (Perfo et Top aleas)"], irr: "Trop de préparation", pos: "" } },
+            odye1: { name: "ODYE 1", title: "Routines PPC – ODYE 1 (2 VAC, non takter)", daily: { name: "PPC DAILY", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo, Qualité, Support tech, RDZ, prepa", pts: [{ status: "v", text: "Suivre l'avance retard" }, { status: "v", text: "Remonter les aleas" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Mes (partiel)", "ppc digit (partiel)", "Scoot"], routine: ["Sheet"], irr: "Fiabilité des données. Traitement des aleas oralement.", pos: "" }, weekly: { name: "DPS", timeInfo: "1 fois par semaine, 90 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité et leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "x", text: "Plan d'action" }], prep: ["Sheet ppc daily", "sheet charge/cap", "Skywise"], routine: ["ppc weekly Slide", "KPI (Perfo et Top aleas)"], irr: "PPC weekly n'existe pas, on fait un résumé de s-1 durant cette réunion Adhérence charge/capa et non pas adherence avec le contrat.", pos: "" } },
+            odye2: { name: "ODYE 2", title: "Routines PPC – ODYE 2 (2 VAC, non takter)", daily: { name: "PASSAGE D'INFO", timeInfo: "1 fois par vac, 30 min", part: "TL, opérateurs, referent", pts: [{ status: "x", text: "Suivre l'avance retard" }, { status: "v", text: "Remonter les aleas" }, { status: "x", text: "Prendre des décision (points ouverts)" }], prep: ["Fichier présence"], routine: ["Sheet"], irr: "Ce n'est pas un PPC daily.", pos: "" }, weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 120 min", part: "tl, rl, coach perfo, ordo, rdz, qualité, support tech et maintenance", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "v", text: "Plan d'action" }], prep: ["MES", "Aveva", "Sheet aléas", "Fichier perfo", "PPC digit"], routine: ["Fichier PPC", "KPI (Perfo et Top aleas)"], irr: "Double saisie des aléas.", pos: "" } }
+        };
+
+        const GROUP_STRUCTURE = {
+            ody:  { name: "ODY",  title: "Vue globale – ODY", children: ["odye", "odys", "odyl"], superGroup: "GLOBAL" },
+            odye: { name: "ODYE", title: "Vue consolidée – ODYE", children: ["odye1", "odye2"], superGroup: "ODY" },
+            odys: { name: "ODYS", title: "Vue consolidée – ODYS", children: ["odys1", "odys2", "odys3", "odys41", "odys42"], superGroup: "ODY" },
+            odyl: { name: "ODYL", title: "Vue consolidée – ODYL", children: ["odyl1", "odyl2", "odyl3"], superGroup: "ODY" }
+        };
+
+        function scoreColor(score) {
+            if (score >= 75) return 'bar-green';
+            if (score >= 55) return 'bar-blue';
+            if (score >= 35) return 'bar-amber';
+            return 'bar-red';
+        }
+
+        function gradeFromScore(score) {
+            if (score >= 75) return 'A';
+            if (score >= 55) return 'B';
+            if (score >= 35) return 'C';
+            return 'D';
+        }
+
+        function gradeMeta(grade) {
+            const g = String(grade || 'C').toUpperCase();
+            if (g === 'A') return { grade: 'A', cls: 'grade-a', label: 'Maturité A' };
+            if (g === 'B') return { grade: 'B', cls: 'grade-b', label: 'Maturité B' };
+            if (g === 'D') return { grade: 'D', cls: 'grade-d', label: 'Maturité D' };
+            return { grade: 'C', cls: 'grade-c', label: 'Maturité C' };
+        }
+
+        function renderMaturityBadge(data) {
+            const meta = gradeMeta(data?.maturityGrade || gradeFromScore(getOverallScore(data?.maturity)));
+            return `<span class="maturity-badge ${meta.cls}" title="${meta.label}">${meta.grade}</span>`;
+        }
+
+        function renderMaturitySelect(side, key, data) {
+            const g = (data?.maturityGrade || gradeFromScore(getOverallScore(data?.maturity))).toUpperCase();
+            return `
+                <div class="flex items-center gap-2 shrink-0">
+                    <span class="text-xs font-extrabold text-slate-400 uppercase">Maturité</span>
+                    <select onchange="editMaturityGrade('${side}', '${key}', this.value)" class="border border-slate-200 rounded-lg px-2 py-1 text-sm font-extrabold text-slate-800 bg-white outline-none focus:border-blue-500">
+                        ${['A','B','C','D'].map(x => `<option value="${x}" ${x===g?'selected':''}>${x}</option>`).join('')}
+                    </select>
+                </div>
+            `;
+        }
+
+        function average(values) {
+            const clean = values.filter(v => typeof v === 'number' && !Number.isNaN(v));
+            return clean.length ? Math.round(clean.reduce((a,b)=>a+b,0) / clean.length) : 0;
+        }
+
+        function getRoutineScore(maturity, type) {
+            return average(Object.values(maturity?.[type] || {}));
+        }
+
+        function getOverallScore(maturity) {
+            return average([getRoutineScore(maturity, 'daily'), getRoutineScore(maturity, 'weekly')]);
+        }
+
+        function generateMaturityFromRoutine(routine, type) {
+            const pts = routine?.pts || [];
+            const ok = pts.filter(p => p.status === 'v').length;
+            const ratio = pts.length ? Math.round((ok / pts.length) * 100) : 50;
+            const base = Math.max(20, Math.min(95, ratio + ((routine?.prep || []).length + (routine?.routine || []).length > 6 ? -10 : 0) + (routine?.irr ? -12 : 5)));
+            return type === 'daily' 
+                ? { avanceRetard: Math.max(20, Math.min(95, base + 5)), aleas: Math.max(20, Math.min(95, base - 5)), decision: Math.max(20, Math.min(95, base)) }
+                : { performance: Math.max(20, Math.min(95, base + 5)), paretoAleas: Math.max(20, Math.min(95, base)), planAction: Math.max(20, Math.min(95, base - 10)) };
+        }
+
+        function defaultActionsForSector(sector) {
+            return {
+                daily: [{ criteria: 'Suivi avance / retard', action: 'Clarifier le support de pilotage utilisé pendant le Daily', status: 'not_started' }, { criteria: 'Écarts routine', action: 'Valider les irritants terrain et les écarts observés', status: 'ongoing' }],
+                weekly: [{ criteria: 'Plan d’action', action: 'Relier les aléas / KPI Weekly à un plan d’action suivi', status: 'not_started' }, { criteria: 'Sources KPI', action: 'Clarifier les sources de données CVAT / performance / aléas', status: 'ongoing' }]
+            };
+        }
+
+        function enrichDatabase(database) {
+            // CORRECTION 1 : On boucle en premier sur tous les sous-secteurs pour que les totaux soient calculés avant d'attaquer les synthèses
+            Object.keys(database).forEach(key => {
+                if (GROUP_STRUCTURE[key]) return;
+                const sector = database[key];
+                if (!sector) return;
+                sector.group = ((sector.name || '').replace(/\s+/g,'').toLowerCase().match(/ody[els]/)?.[0] || '').toUpperCase();
+                sector.superGroup = 'ODY';
+                sector.isGroup = false;
+                if (!sector.maturity) sector.maturity = { daily: generateMaturityFromRoutine(sector.daily, 'daily'), weekly: generateMaturityFromRoutine(sector.weekly, 'weekly') };
+                if (!sector.maturityGrade) sector.maturityGrade = gradeFromScore(getOverallScore(sector.maturity));
+                if (!sector.actions) sector.actions = defaultActionsForSector(sector);
+            });
+            // Étape 2 : On compile maintenant les synthèses à l'ouverture, tout est déjà pré-calculé !
+            Object.keys(GROUP_STRUCTURE).forEach(groupKey => { database[groupKey] = buildGroupNode(groupKey, database); });
+        }
+
+        function buildGroupNode(groupKey, database) {
+            const cfg = GROUP_STRUCTURE[groupKey];
+            const existing = database[groupKey] || {};
+            const childKeys = getLeafChildrenForStructure(groupKey);
+            const childMaturities = childKeys.map(k => database[k]).filter(Boolean).map(c => c.maturity).filter(Boolean);
+            const computedMaturity = { daily: {}, weekly: {} };
+            ['avanceRetard','aleas','decision'].forEach(k => computedMaturity.daily[k] = average(childMaturities.map(m => m.daily?.[k])));
+            ['performance','paretoAleas','planAction'].forEach(k => computedMaturity.weekly[k] = average(childMaturities.map(m => m.weekly?.[k])));
+            return { name: cfg.name, title: existing.title || cfg.title, isGroup: true, group: cfg.name, superGroup: cfg.superGroup, children: cfg.children, maturity: computedMaturity, maturityGrade: gradeFromScore(getOverallScore(computedMaturity)) };
+        }
+
+        function getLeafChildrenForStructure(groupKey) {
+            const cfg = GROUP_STRUCTURE[groupKey]; if (!cfg) return [groupKey];
+            let res = []; cfg.children.forEach(ck => { if (GROUP_STRUCTURE[ck]) res = res.concat(getLeafChildrenForStructure(ck)); else res.push(ck); }); return res;
+        }
+
+        function orderedKeysForSidebar() {
+            const order = ['ody', 'odye', 'odye1', 'odye2', 'odys', 'odys1', 'odys2', 'odys3', 'odys41', 'odys42', 'odyl', 'odyl1', 'odyl2', 'odyl3'];
+            return order.filter(k => db[k]).concat(Object.keys(db).filter(k => !order.includes(k)));
+        }
+
+        let db = {};
+        let activeLeftKey = "odyl1";
+        let activeRightKey = "odyl2";
+        let editModes = { left: false, right: false };
+        let editDrafts = { left: null, right: null }; 
+        let isServerReady = false;
+
+        function isAppsScriptRuntime() { return typeof google !== 'undefined' && google.script && google.script.run; }
+
+        function showLoadingState(message = "Chargement des donnees PPC...") {
+            const leftContainer = document.getElementById('panel-zoom1');
+            const rightContainer = document.getElementById('panel-zoom2');
+            const divider = document.getElementById('panel-divider');
+            if (divider) divider.classList.add('hidden');
+            if (rightContainer) rightContainer.classList.add('hidden');
+            if (leftContainer) {
+                leftContainer.className = "flex-grow w-full flex flex-col gap-4 fade-in";
+                leftContainer.innerHTML = `<div class="flex-grow flex flex-col items-center justify-center text-slate-500 border-2 border-dashed border-slate-200 rounded-xl p-8 bg-white"><i class="fa-solid fa-database text-4xl mb-3 text-blue-500"></i><p class="text-sm font-bold">${message}</p><p class="text-xs text-slate-400 mt-1">Connexion a la base Google Sheet...</p></div>`;
+            }
+        }
+
+        function getSerializableDb() {
+            const copy = JSON.parse(JSON.stringify(db || {}));
+            if (typeof GROUP_STRUCTURE !== 'undefined') { Object.keys(GROUP_STRUCTURE).forEach(gk => { delete copy[gk]; }); }
+            return copy;
+        }
+
+        function initApp() {
+            showLoadingState("Connexion et lecture de la base PPC...");
+            if (isAppsScriptRuntime()) {
+                google.script.run
+                    .withSuccessHandler(response => {
+                        try {
+                            isServerReady = true;
+                            if (response && response.ok && response.data) {
+                                db = response.data;
+                                enrichDatabase(db);
+                                const keys = Object.keys(db);
+                                if (!keys.includes(activeLeftKey)) activeLeftKey = keys[0] || "";
+                                if (!keys.includes(activeRightKey)) activeRightKey = keys[1] || keys[0] || "";
+                                renderSidebar();
+                                renderDashboard();
+                            } else {
+                                db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
+                                enrichDatabase(db);
+                                const payload = getSerializableDb();
+                                if (isAppsScriptRuntime()) google.script.run.saveData(payload);
+                            }
+                        } catch (e) { applyLoadedDatabase(null); }
+                    })
+                    .withFailureHandler(() => { applyLoadedDatabase(null); })
+                    .getData();
+                return;
+            }
+            const savedDb = localStorage.getItem('ppc_sectors_db_custom_v6');
+            applyLoadedDatabase(savedDb ? JSON.parse(savedDb) : null);
+        }
+
+        function applyLoadedDatabase(loadedDb) {
+            db = (loadedDb && typeof loadedDb === 'object' && Object.keys(loadedDb).length > 0) ? loadedDb : JSON.parse(JSON.stringify(DEFAULT_DATABASE));
+            enrichDatabase(db);
+            const keys = Object.keys(db);
+            if (!keys.includes(activeLeftKey)) activeLeftKey = "odyl1";
+            if (!keys.includes(activeRightKey)) activeRightKey = "odyl2";
+            renderSidebar();
+            renderDashboard();
+        }
+
+        function resetToDefaults() {
+            activeLeftKey = "odyl1"; activeRightKey = "odyl2"; editModes.left = false; editModes.right = false;
+            editDrafts.left = null; editDrafts.right = null;
+            db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
+            enrichDatabase(db);
+            const payload = getSerializableDb();
+            if (isAppsScriptRuntime()) google.script.run.saveData(payload);
+            else localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(payload));
+            closeResetConfirmModal();
+            renderSidebar();
+            renderDashboard();
+        }
+
+        function renderSidebar() {
+            const tbody = document.getElementById('sectors-table-body');
+            tbody.innerHTML = '';
+            orderedKeysForSidebar().forEach(key => {
+                const item = db[key]; if (!item) return;
+                const tr = document.createElement('tr');
+                tr.className = item.isGroup ? "bg-slate-50 hover:bg-slate-100 transition-colors group" : "hover:bg-slate-50 transition-colors group";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-bold text-slate-800 text-sm tracking-tight truncate max-w-[120px]" title="${item.name}">
+                        <span class="${item.isGroup ? 'text-blue-700' : 'pl-3'}">${item.name}</span>
+                        ${item.isGroup ? '<span class="ml-2 group-badge text-blue-500">Synthèse</span>' : ''}
+                    </td>
+                    <td class="py-3 px-2 text-center"><input type="radio" name="zoom1" value="${key}" class="sheets-checkbox" ${key === activeLeftKey ? 'checked' : ''} onchange="selectSector('left', '${key}')"></td>
+                    <td class="py-3 px-2 text-center"><input type="radio" name="zoom2" value="${key}" class="sheets-checkbox" ${key === activeRightKey ? 'checked' : ''} onchange="selectSector('right', '${key}')"></td>
+                    <td class="py-3 pr-4 text-right">${item.isGroup ? '<span class="text-slate-300 text-xs">—</span>' : `<button onclick="confirmDeleteSector('${key}')" class="text-slate-300 hover:text-rose-500 p-1 rounded transition opacity-0 group-hover:opacity-100 focus:opacity-100"><i class="fa-solid fa-trash-can text-sm"></i></button>`}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function selectSector(side, key) {
+            if (side === 'left') { activeLeftKey = key; editModes.left = false; editDrafts.left = null; } else { activeRightKey = key; editModes.right = false; editDrafts.right = null; }
+            safeRenderDashboard();
+        }
+
+        function toggleEditMode(side) { 
+            editModes[side] = !editModes[side]; 
+            if (editModes[side]) {
+                const activeKey = (side === 'left') ? activeLeftKey : activeRightKey;
+                editDrafts[side] = JSON.parse(JSON.stringify(db[activeKey] || {}));
+            } else {
+                editDrafts[side] = null;
+            }
+            safeRenderDashboard(); 
+        }
+
+        function captureScrollState() {
+            const preserved = {};
+            document.querySelectorAll('[data-preserve-scroll]').forEach(el => { preserved[el.dataset.preserveScroll] = { top: el.scrollTop || 0, left: el.scrollLeft || 0 }; });
+            return { dashboard: document.getElementById('dashboard-scroll')?.scrollTop || 0, sidebar: document.querySelector('aside .overflow-y-auto')?.scrollTop || 0, leftPanel: document.getElementById('panel-zoom1')?.scrollTop || 0, rightPanel: document.getElementById('panel-zoom2')?.scrollTop || 0, preserved };
+        }
+
+        function restoreScrollState(state) {
+            if (!state) return;
+            if (document.getElementById('dashboard-scroll')) document.getElementById('dashboard-scroll').scrollTop = state.dashboard;
+            if (document.querySelector('aside .overflow-y-auto')) document.querySelector('aside .overflow-y-auto').scrollTop = state.sidebar;
+            if (document.getElementById('panel-zoom1')) document.getElementById('panel-zoom1').scrollTop = state.leftPanel;
+            if (document.getElementById('panel-zoom2')) document.getElementById('panel-zoom2').scrollTop = state.rightPanel;
+            Object.entries(state.preserved || {}).forEach(([k, pos]) => { const el = document.querySelector(`[data-preserve-scroll="${k}"]`); if (el) { el.scrollTop = pos.top; el.scrollLeft = pos.left; } });
+        }
+
+        function safeRenderDashboard() {
+            const state = captureScrollState();
+            renderDashboard();
+            requestAnimationFrame(() => { restoreScrollState(state); resizeAllActionTextareas(); });
+        }
+
+        function renderDashboard() {
+            const leftContainer = document.getElementById('panel-zoom1');
+            const rightContainer = document.getElementById('panel-zoom2');
+            const divider = document.getElementById('panel-divider');
+            if (activeLeftKey === activeRightKey) {
+                if (divider) divider.classList.add('hidden'); if (rightContainer) rightContainer.classList.add('hidden');
+                leftContainer.className = "flex-grow w-full flex flex-col gap-4 fade-in"; leftContainer.innerHTML = createCardHTML('left', activeLeftKey);
+            } else {
+                if (divider) divider.classList.remove('hidden'); if (rightContainer) rightContainer.classList.remove('hidden');
+                leftContainer.className = "flex-1 flex flex-col gap-4 fade-in"; rightContainer.className = "flex-1 flex flex-col gap-4 fade-in";
+                leftContainer.innerHTML = createCardHTML('left', activeLeftKey); rightContainer.innerHTML = createCardHTML('right', activeRightKey);
+            }
+            setTimeout(resizeAllActionTextareas, 0);
+        }
+
+        function createCardHTML(side, key) {
+            const data = db[key]; if (!data) return '<p class="text-sm p-4 text-slate-400">Aucun secteur disponible</p>';
+            if (data.isGroup) return editModes[side] ? renderGroupEditModeCard(side, key, data) : renderGroupCard(side, key, data);
+            return editModes[side] ? renderEditModeCard(side, key, editDrafts[side]) : renderReadOnlyCard(side, key, data);
+        }
+
+        function renderMaturityBars(maturity, type) {
+            const labels = type === 'daily' ? { avanceRetard: 'Avance / retard', aleas: 'Aléas', decision: 'Décision' } : { performance: 'Performance', paretoAleas: 'Pareto aléas', planAction: 'Plan d’action' };
+            const obj = maturity?.[type] || {};
+            return Object.keys(labels).map(k => {
+                const v = obj[k] ?? 0;
+                return `<div class="flex flex-col gap-1"><div class="flex items-center justify-between text-[11px] font-semibold text-slate-600"><span>${labels[k]}</span><span>${v}%</span></div><div class="bar-track"><div class="bar-fill ${scoreColor(v)}" style="width:${v}%"></div></div></div>`;
+            }).join('');
+        }
+
+        function normalizeActionStatus(status) {
+            const s = String(status || '').toLowerCase();
+            if (s.includes('fait') || s.includes('done') || s.includes('termin')) return 'done';
+            if (s.includes('cours') || s.includes('ongoing') || s.includes('progress')) return 'ongoing';
+            return 'not_started';
+        }
+
+        function getActionStatusMeta(status) {
+            const s = normalizeActionStatus(status);
+            if (s === 'done') return { label: 'Fait', icon: 'fa-circle-check', cls: 'text-emerald-600' };
+            if (s === 'ongoing') return { label: 'En cours', icon: 'fa-circle-half-stroke', cls: 'text-amber-500' };
+            return { label: 'Non commencé', icon: 'fa-circle-xmark', cls: 'text-slate-400' };
+        }
+
+        function nextActionStatus(status) {
+            const s = normalizeActionStatus(status); return s === 'not_started' ? 'ongoing' : (s === 'ongoing' ? 'done' : 'not_started');
+        }
+
+        function renderActions(actions, side, key, routineType) {
+            if (!actions || actions.length === 0) return `<div class="action-card border-dashed border-slate-200 bg-slate-50/50"><div class="flex items-center gap-1.5 text-slate-400 font-extrabold text-[10px] uppercase tracking-wider"><i class="fa-solid fa-list-ol"></i> Actions</div><p class="text-[11px] text-slate-400 italic mt-1">Aucune action définie</p></div>`;
+            return `
+                <div class="action-card">
+                    <div class="flex items-center justify-between mb-1"><div class="flex items-center gap-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider"><i class="fa-solid fa-list-ol"></i> Actions</div></div>
+                    ${actions.map((a, idx) => { const meta = getActionStatusMeta(a.status); return `<div class="action-row"><i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn"></i><span class="action-top-badge">Top ${idx + 1}</span><div class="action-text"><span class="action-criteria">${a.criteria || 'Critère'}</span><span class="text-slate-400 mx-1">—</span><span>${a.action || ''}</span></div></div>`; }).join('')}
+                </div>
+            `;
+        }
+
+        function getLeafChildren(groupKey) {
+            const node = db[groupKey]; if (!node?.children) return [];
+            let res = []; node.children.forEach(ck => { const child = db[ck]; if (child) { if (child.isGroup && child.children) res = res.concat(getLeafChildren(ck)); else res.push(ck); } }); return res;
+        }
+
+        function getHeatmapRows(groupKey) {
+            const node = db[groupKey]; if (!node?.children) return [];
+            return groupKey === 'ody' ? node.children.filter(k => db[k]) : getLeafChildren(groupKey);
+        }
+
+        function heatCell(value) {
+            let cls = value >= 75 ? "bg-emerald-50 text-emerald-700 border-emerald-100" : (value >= 55 ? "bg-blue-50 text-blue-700 border-blue-100" : (value >= 35 ? "bg-amber-50 text-amber-700 border-amber-100" : "bg-rose-50 text-rose-700 border-rose-100"));
+            return `<td class="px-3 py-2 text-center border ${cls} font-extrabold text-xs">${value}%</td>`;
+        }
+
+        function renderGroupHeatmap(groupKey) {
+            const rows = getHeatmapRows(groupKey); if (!rows.length) return "";
+            return `
+                <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
+                    <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-table-cells-large text-blue-600"></i>Heatmap maturité</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse text-xs">
+                            <thead><tr class="text-slate-500 uppercase text-[10px] tracking-wider bg-slate-50"><th class="text-left px-3 py-2 border border-slate-100">Élément</th><th class="text-center px-3 py-2 border border-slate-100">Daily</th><th class="text-center px-3 py-2 border border-slate-100">Weekly</th><th class="text-center px-3 py-2 border border-slate-100">Global</th></tr></thead>
+                            <tbody>${rows.map(rk => { const r = db[rk]; return `<tr><td class="px-3 py-2 border border-slate-100 font-bold text-slate-700 bg-white">${r.name}</td>${heatCell(getRoutineScore(r.maturity, 'daily'))}${heatCell(getRoutineScore(r.maturity, 'weekly'))}${heatCell(getOverallScore(r.maturity))}</tr>`; }).join('')}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGroupActions(groupKey) {
+            const sectors = getLeafChildren(groupKey); const actions = [];
+            sectors.forEach(sk => {
+                const s = db[sk]; if (!s) return;
+                ['daily', 'weekly'].forEach(type => { (s.actions?.[type] || []).forEach(act => { if (normalizeActionStatus(act.status) !== 'done') { actions.push({ sector: s.name, type: type === 'daily' ? 'Daily' : 'Weekly', criteria: act.criteria, action: act.action, status: act.status }); } }); });
+            });
+            return `
+                <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
+                    <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-list-check text-blue-600"></i>Actions prioritères ouvertes</h3>
+                    <div class="flex flex-col gap-2 max-h-[320px] overflow-y-auto">
+                        ${actions.length ? actions.map(a => { const meta = getActionStatusMeta(a.status); return `<div class="bg-blue-50/40 border border-blue-100 rounded-lg px-3 py-2"><div class="flex items-center justify-between text-[10px] font-extrabold text-blue-600"><span>${a.sector} — ${a.type}</span><span class="${meta.cls}">${meta.label}</span></div><div class="text-xs font-extrabold text-slate-800 mt-1">${a.criteria}</div><div class="text-xs text-slate-600 mt-0.5 leading-snug">${a.action}</div></div>`; }).join('') : '<p class="text-xs text-slate-400 italic">Aucune action ouverte</p>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGroupCard(side, key, data) {
+            return `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
+                    <div class="flex items-center gap-3">${renderMaturityBadge(data)}<h2 class="text-lg font-bold text-slate-900 tracking-tight">${data.title}</h2></div>
+                    <button type="button" onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 p-1.5 rounded-lg"><i class="fa-solid fa-pencil"></i></button>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="maturity-card"><p class="text-xs font-bold text-slate-400 mb-1">Score global</p><span class="text-4xl font-extrabold">${getOverallScore(data.maturity)}%</span></div>
+                    <div class="maturity-card"><p class="text-xs font-bold text-slate-400 mb-2">PPC Daily</p><span class="text-2xl font-bold text-slate-800">${getRoutineScore(data.maturity, 'daily')}%</span></div>
+                    <div class="maturity-card"><p class="text-xs font-bold text-slate-400 mb-2">PPC Weekly</p><span class="text-2xl font-bold text-slate-800">${getRoutineScore(data.maturity, 'weekly')}%</span></div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3"><h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-clock text-blue-600"></i>Maturité Daily</h3>${renderMaturityBars(data.maturity, 'daily')}</div>
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3"><h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-calendar-week text-emerald-600"></i>Maturité Weekly</h3>${renderMaturityBars(data.maturity, 'weekly')}</div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">${renderGroupHeatmap(key)}${renderGroupActions(key)}</div>
+            `;
+        }
+
+        // CORRECTION 2 : MASQUAGE DU SÉLECTEUR DE MATURITÉ SUR LES GRANDS SECTEURS
+        function renderGroupEditModeCard(side, key, data) {
+            return `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
+                    <div class="flex items-center gap-2 flex-grow mr-4"><span class="text-xs font-extrabold text-blue-600 uppercase">TITRE SYNTHÈSE :</span><input type="text" id="edit-title-${side}" value="${data.title.replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2.5 py-1 text-sm font-bold text-slate-800 outline-none focus:border-blue-500"></div>
+                    
+                    <div class="flex items-center gap-2 shrink-0 bg-slate-100 px-3 py-1.5 rounded-lg border text-xs font-bold text-slate-500 uppercase select-none">
+                        <i class="fa-solid fa-calculator"></i> Moyenne Auto
+                    </div>
+                    
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button type="button" onclick="saveGroupEdits('${side}', '${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Enregistrer</button>
+                        <button type="button" onclick="toggleEditMode('${side}')" class="border border-slate-200 text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition"><i class="fa-solid fa-xmark"></i> Annuler</button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-5 border shadow-sm"><p class="text-sm text-slate-500 italic">Cette fiche correspond à un grand secteur de synthèse. Tous les pourcentages de maturité, irritants et points positifs sont consolidés automatiquement en direct à partir de la Heatmap ci-dessous.</p></div>
+                <div class="grid grid-cols-2 gap-4 mt-2">${renderGroupHeatmap(key)}${renderGroupActions(key)}</div>
+            `;
+        }
+
+        function renderReadOnlyCard(side, key, data) {
+            const renderPointsList = (pList) => (pList || []).length === 0 ? '<li class="text-xs text-slate-400 italic">Aucun point</li>' : pList.map(pt => `<li class="flex items-start gap-2"><i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-[15px] mt-0.5"></i><span class="text-slate-700 text-sm">${pt.text}</span></li>`).join('');
+            const renderToolsGroup = (tools, color) => (tools || []).length === 0 ? '<span class="text-xs text-slate-400">Aucun</span>' : tools.map(t => `<span class="tool-pill" ${color ? `style="border-color:${color};color:${color};"` : ''}>${t}</span>`).join('');
+            
+            const dScore = getRoutineScore(data.maturity, 'daily');
+            const wScore = getRoutineScore(data.maturity, 'weekly');
+
+            return `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
+                    <div class="flex items-center gap-3">${renderMaturityBadge(data)}<h2 class="text-lg font-bold text-slate-900">${data.title}</h2></div>
+                    <button type="button" onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 p-1.5 rounded-lg"><i class="fa-solid fa-pencil"></i></button>
+                </div>
+                <div class="grid grid-cols-2 gap-4 flex-grow min-h-0">
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm">
+                        <div class="flex items-center justify-between"><h3 class="font-bold text-sm text-slate-800 uppercase">${data.daily.name}</h3><span class="text-xs text-slate-500">⏱️ ${data.daily.timeInfo}</span></div>
+                        <div class="text-xs"><strong>Participant:</strong> ${data.daily.part || 'Non spécifié'}</div>
+                        <div class="flex flex-col gap-2 flex-grow"><span class="text-xs font-bold text-slate-400 uppercase">Points Traités</span><ul class="flex flex-col gap-2">${renderPointsList(data.daily.pts)}</ul></div>
+                        <div class="maturity-card bg-slate-50/60"><div class="flex justify-between text-xs font-bold mb-1"><span>Maturité</span><span>${dScore}%</span></div><div class="bar-track"><div class="bar-fill ${scoreColor(dScore)}" style="width:${dScore}%"></div></div></div>
+                        ${renderActions(data.actions?.daily, side, key, 'daily')}
+                        <div class="grid grid-cols-2 gap-2 pt-3 border-t">
+                            <div><span class="text-[10px] font-bold text-slate-400 uppercase">Préparation</span><div class="flex flex-wrap gap-1 mt-1">${renderToolsGroup(data.daily.prep)}</div></div>
+                            <div><span class="text-[10px] font-bold text-slate-400 uppercase">Routine</span><div class="flex flex-wrap gap-1 mt-1">${renderToolsGroup(data.daily.routine, "#2563eb")}</div></div>
+                        </div>
+                        <div class="flex flex-col gap-2 mt-2">
+                            ${data.daily.pos ? `<div class="positifs-container"><span class="text-emerald-600 text-xs font-bold">Points Positifs :</span><p class="text-xs mt-0.5">${data.daily.pos}</p></div>` : ''}
+                            ${data.daily.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold">Irritants :</span><p class="text-xs mt-0.5">${data.daily.irr}</p></div>` : ''}
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm">
+                        <div class="flex items-center justify-between"><h3 class="font-bold text-sm text-slate-800 uppercase">${data.weekly.name}</h3><span class="text-xs text-slate-500">⏱️ ${data.weekly.timeInfo}</span></div>
+                        <div class="text-xs"><strong>Participant:</strong> ${data.weekly.part || 'Non spécifié'}</div>
+                        <div class="flex flex-col gap-2 flex-grow"><span class="text-xs font-bold text-slate-400 uppercase">Points Traités</span><ul class="flex flex-col gap-2">${renderPointsList(data.weekly.pts)}</ul></div>
+                        <div class="maturity-card bg-slate-50/60"><div class="flex justify-between text-xs font-bold mb-1"><span>Maturité</span><span>${wScore}%</span></div><div class="bar-track"><div class="bar-fill ${scoreColor(wScore)}" style="width:${wScore}%"></div></div></div>
+                        ${renderActions(data.actions?.weekly, side, key, 'weekly')}
+                        <div class="grid grid-cols-2 gap-2 pt-3 border-t">
+                            <div><span class="text-[10px] font-bold text-slate-400 uppercase">Préparation</span><div class="flex flex-wrap gap-1 mt-1">${renderToolsGroup(data.weekly.prep)}</div></div>
+                            <div><span class="text-[10px] font-bold text-slate-400 uppercase">Routine</span><div class="flex flex-wrap gap-1 mt-1">${renderToolsGroup(data.weekly.routine, "#0d9488")}</div></div>
+                        </div>
+                        <div class="flex flex-col gap-2 mt-2">
+                            ${data.weekly.pos ? `<div class="positifs-container"><span class="text-emerald-600 text-xs font-bold">Points Positifs :</span><p class="text-xs mt-0.5">${data.weekly.pos}</p></div>` : ''}
+                            ${data.weekly.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold">Irritants :</span><p class="text-xs mt-0.5">${data.weekly.irr}</p></div>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderEditModeCard(side, key, draftData) {
+            // CORRECTION 3 : APPAREIL PHOTO GLOBAL COMPLET (Empêche toute interférence de suppression)
+            const syncCurrentInputs = () => {
+                const dName = document.getElementById(`edit-daily-name-${side}`);
+                const dTime = document.getElementById(`edit-daily-time-${side}`);
+                const dPart = document.getElementById(`edit-daily-part-${side}`);
+                const dPrep = document.getElementById(`edit-daily-prep-${side}`);
+                const dRoutine = document.getElementById(`edit-daily-routine-${side}`);
+                const dIrr = document.getElementById(`edit-daily-irr-${side}`);
+                const dPos = document.getElementById(`edit-daily-pos-${side}`);
+                if(dName) draftData.daily.name = dName.value;
+                if(dTime) draftData.daily.timeInfo = dTime.value;
+                if(dPart) draftData.daily.part = dPart.value;
+                if(dPrep) draftData.daily.prep = dPrep.value.split(',').map(s => s.trim()).filter(s => s !== "");
+                if(dRoutine) draftData.daily.routine = dRoutine.value.split(',').map(s => s.trim()).filter(s => s !== "");
+                if(dIrr) draftData.daily.irr = dIrr.value;
+                if(dPos) draftData.daily.pos = dPos.value;
+
+                const wName = document.getElementById(`edit-weekly-name-${side}`);
+                const wTime = document.getElementById(`edit-weekly-time-${side}`);
+                const wPart = document.getElementById(`edit-weekly-part-${side}`);
+                const wPrep = document.getElementById(`edit-weekly-prep-${side}`);
+                const wRoutine = document.getElementById(`edit-weekly-routine-${side}`);
+                const wIrr = document.getElementById(`edit-weekly-irr-${side}`);
+                const wPos = document.getElementById(`edit-weekly-pos-${side}`);
+                if(wName) draftData.weekly.name = wName.value;
+                if(wTime) draftData.weekly.timeInfo = wTime.value;
+                if(wPart) draftData.weekly.part = wPart.value;
+                if(wPrep) draftData.weekly.prep = wPrep.value.split(',').map(s => s.trim()).filter(s => s !== "");
+                if(wRoutine) draftData.weekly.routine = wRoutine.value.split(',').map(s => s.trim()).filter(s => s !== "");
+                if(wIrr) draftData.weekly.irr = wIrr.value;
+                if(wPos) draftData.weekly.pos = wPos.value;
+            };
+
+            window[`syncInputs_${side}`] = syncCurrentInputs;
+
+            window[`addPtInline_${side}`] = (routineType) => { syncCurrentInputs(); if(!draftData[routineType].pts) draftData[routineType].pts = []; draftData[routineType].pts.push({ status: "v", text: "Nouveau point de routine" }); safeRenderDashboard(); };
+            window[`deletePtInline_${side}`] = (routineType, idx) => { syncCurrentInputs(); draftData[routineType].pts.splice(idx, 1); safeRenderDashboard(); };
+            window[`addActionInline_${side}`] = (routineType) => { syncCurrentInputs(); if (!draftData.actions) draftData.actions = { daily: [], weekly: [] }; if (!draftData.actions[routineType]) draftData.actions[routineType] = []; draftData.actions[routineType].push({ criteria: 'Critère / thème', action: 'Action à mener', status: 'not_started' }); safeRenderDashboard(); };
+            window[`deleteActionInline_${side}`] = (routineType, idx) => { syncCurrentInputs(); if (draftData.actions && draftData.actions[routineType]) draftData.actions[routineType].splice(idx, 1); safeRenderDashboard(); };
+
+            const makeEditablePtsHTML = (routineType, pts) => {
+                let html = ''; (pts || []).forEach((pt, idx) => {
+                    html += `
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <button type="button" onclick="togglePtStatusDraft(event, '${side}', '${routineType}', ${idx})" class="p-1 rounded hover:bg-slate-100 transition shrink-0"><i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg"></i></button>
+                            <input type="text" value="${pt.text.replace(/"/g, '&quot;')}" onchange="editPtTextDraft('${side}', '${routineType}', ${idx}, this.value)" class="w-full border border-slate-200 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-blue-500">
+                            <button type="button" onclick="window['deletePtInline_${side}']('${routineType}', ${idx})" class="text-slate-300 hover:text-rose-500 p-1 rounded transition shrink-0"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                        </div>
+                    `;
+                });
+                return html + `<button type="button" onclick="window['addPtInline_${side}']('${routineType}')" class="mt-2 text-blue-600 hover:text-blue-700 text-xs font-bold flex items-center gap-1.5"><i class="fa-solid fa-circle-plus"></i> Ajouter un point</button>`;
+            };
+
+            const makeEditableActionsInlineHTML = (routineType, actionsList) => {
+                let html = ''; (actionsList || []).forEach((a, idx) => {
+                    const meta = getActionStatusMeta(a.status);
+                    html += `
+                        <div class="action-edit-row">
+                            <div class="action-edit-header">
+                                <button type="button" onclick="cycleActionStatusDraft(event, '${side}', '${routineType}', ${idx})" class="action-status-button"><i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn"></i></button>
+                                <span class="action-top-badge">Top ${idx + 1}</span><span class="action-status-label text-[10px] font-bold text-slate-400 uppercase">${meta.label}</span><span class="spacer"></span>
+                                <button type="button" onclick="window['deleteActionInline_${side}']('${routineType}', ${idx})" class="text-slate-300 hover:text-rose-500 p-1"><i class="fa-solid fa-trash-can text-[11px]"></i></button>
+                            </div>
+                            <div class="action-edit-content">
+                                <input type="text" value="${escapeAttr(a.criteria)}" oninput="editActionFieldDraft('${side}', '${routineType}', ${idx}, 'criteria', this.value)" class="action-edit-criteria" placeholder="Critère">
+                                <textarea oninput="editActionFieldDraft('${side}', '${routineType}', ${idx}, 'action', this.value); autoResizeTextarea(this)" class="action-edit-action" placeholder="Action">${escapeHtml(a.action)}</textarea>
+                            </div>
+                        </div>
+                    `;
+                });
+                return `<div class="action-card">${html}<button type="button" onclick="window['addActionInline_${side}']('${routineType}')" class="mt-2 text-blue-600 font-bold text-[11px] flex items-center gap-1"><i class="fa-solid fa-circle-plus"></i> Ajouter une action</button></div>`;
+            };
+
+            return `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
+                    <div class="flex items-center gap-2 flex-grow mr-4"><span class="text-xs font-extrabold text-blue-600 uppercase">TITRE FICHE :</span><input type="text" id="edit-title-${side}" value="${draftData.title.replace(/"/g, '&quot;')}" class="w-full border border-slate-200 rounded-lg px-2.5 py-1 text-sm font-bold text-slate-800 outline-none focus:border-blue-500"></div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <span class="text-xs font-extrabold text-slate-400 uppercase">Maturité</span>
+                        <select onchange="editMaturityGradeDraft('${side}', this.value)" class="border border-slate-200 rounded-lg px-2 py-1 text-sm font-extrabold text-slate-800 bg-white outline-none focus:border-blue-500">
+                            ${['A','B','C','D'].map(x => `<option value="${x}" ${x===draftData.maturityGrade?'selected':''}>${x}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button type="button" id="btn-save-${side}" onmousedown="saveSectorEdits('${side}', '${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-sm" title="Sauvegarder">
+                            <i id="icon-save-${side}" class="fa-solid fa-floppy-disk"></i> <span id="txt-save-${side}">Enregistrer</span>
+                        </button>
+                        <button type="button" onclick="toggleEditMode('${side}')" class="border border-slate-200 text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition"><i class="fa-solid fa-xmark"></i> Annuler</button>
+                    </div>
+                </div>
+                <div id="edit-scroll-${side}" data-preserve-scroll="edit-${side}" class="grid grid-cols-2 gap-4 flex-grow min-h-0 overflow-y-auto pr-1">
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 flex flex-col gap-4">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><label class="text-[10px] font-bold text-slate-400 uppercase">Nom de la Routine</label><input type="text" id="edit-daily-name-${side}" value="${draftData.daily.name.replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2 py-1.5 text-xs font-bold"></div>
+                            <div><label class="text-[10px] font-bold text-slate-400 uppercase">Fréquence & Durée</label><input type="text" id="edit-daily-time-${side}" value="${draftData.daily.timeInfo.replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2 py-1.5 text-xs"></div>
+                        </div>
+                        <div><label class="text-[10px] font-bold text-slate-400 uppercase">Participants</label><input type="text" id="edit-daily-part-${side}" value="${draftData.daily.part.replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2 py-1.5 text-xs"></div>
+                        <div class="flex flex-col"><span class="text-[10px] font-bold text-slate-400 uppercase mb-1">Points Traités</span><div class="bg-white rounded-lg p-3 border max-h-56 overflow-y-auto">${makeEditablePtsHTML('daily', draftData.daily.pts)}</div></div>
+                        <div>${makeEditableActionsInlineHTML('daily', draftData.actions?.daily)}</div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><label class="text-[10px] font-bold text-slate-400 uppercase">Préparation</label><input type="text" id="edit-daily-prep-${side}" value="${draftData.daily.prep.join(', ').replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2 py-1.5 text-xs"></div>
+                            <div><label class="text-[10px] font-bold text-slate-400 uppercase">Routine</label><input type="text" id="edit-daily-routine-${side}" value="${draftData.daily.routine.join(', ').replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2 py-1.5 text-xs"></div>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <div class="p-2 border border-dashed border-slate-300 rounded-xl bg-white"><label class="text-[10px] font-bold text-emerald-600 uppercase">Points Positifs</label><textarea id="edit-daily-pos-${side}" class="w-full rounded px-1 py-1 text-xs h-16 resize-none outline-none focus:bg-slate-50">${draftData.daily.pos || ''}</textarea></div>
+                            <div class="p-2 border border-dashed border-slate-300 rounded-xl bg-white"><label class="text-[10px] font-bold text-rose-500 uppercase">Irritants</label><textarea id="edit-daily-irr-${side}" class="w-full rounded px-1 py-1 text-xs h-16 resize-none outline-none focus:bg-slate-50">${draftData.daily.irr || ''}</textarea></div>
+                        </div>
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3"><label class="text-xs font-bold text-blue-700 mb-2 block">Maturité Daily (%)</label>${makeEditableMaturityInlineHTML(side, 'daily', draftData.maturity)}</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 flex flex-col gap-4">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><label class="text-[10px] font-bold text-slate-400 uppercase">Nom de la Routine</label><input type="text" id="edit-weekly-name-${side}" value="${draftData.weekly.name.replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2 py-1.5 text-xs font-bold"></div>
+                            <div><label class="text-[10px] font-bold text-slate-400 uppercase">Fréquence & Durée</label><input type="text" id="edit-weekly-time-${side}" value="${draftData.weekly.timeInfo.replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2 py-1.5 text-xs"></div>
+                        </div>
+                        <div><label class="text-[10px] font-bold text-slate-400 uppercase">Participants</label><input type="text" id="edit-weekly-part-${side}" value="${draftData.weekly.part.replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2 py-1.5 text-xs"></div>
+                        <div class="flex flex-col"><span class="text-[10px] font-bold text-slate-400 uppercase mb-1">Points Traités</span><div class="bg-white rounded-lg p-3 border max-h-56 overflow-y-auto">${makeEditablePtsHTML('weekly', draftData.weekly.pts)}</div></div>
+                        <div>${makeEditableActionsInlineHTML('weekly', draftData.actions?.weekly)}</div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><label class="text-[10px] font-bold text-slate-400 uppercase">Préparation</label><input type="text" id="edit-weekly-prep-${side}" value="${draftData.weekly.prep.join(', ').replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2 py-1.5 text-xs"></div>
+                            <div><label class="text-[10px] font-bold text-slate-400 uppercase">Routine</label><input type="text" id="edit-weekly-routine-${side}" value="${draftData.weekly.routine.join(', ').replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2 py-1.5 text-xs"></div>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <div class="p-2 border border-dashed border-slate-300 rounded-xl bg-white"><label class="text-[10px] font-bold text-emerald-600 uppercase">Points Positifs</label><textarea id="edit-weekly-pos-${side}" class="w-full rounded px-1 py-1 text-xs h-16 resize-none outline-none focus:bg-slate-50">${draftData.weekly.pos || ''}</textarea></div>
+                            <div class="p-2 border border-dashed border-slate-300 rounded-xl bg-white"><label class="text-[10px] font-bold text-rose-500 uppercase">Irritants</label><textarea id="edit-weekly-irr-${side}" class="w-full rounded px-1 py-1 text-xs h-16 resize-none outline-none focus:bg-slate-50">${draftData.weekly.irr || ''}</textarea></div>
+                        </div>
+                        <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-3"><label class="text-xs font-bold text-emerald-700 mb-2 block">Maturité Weekly (%)</label>${makeEditableMaturityInlineHTML(side, 'weekly', draftData.maturity)}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function togglePtStatusDraft(event, side, routineType, idx) {
+            const draft = editDrafts[side];
+            if (draft && draft[routineType]?.pts?.[idx]) {
+                const pt = draft[routineType].pts[idx];
+                pt.status = (pt.status === 'v') ? 'x' : 'v';
+                const icon = event?.currentTarget?.querySelector('i');
+                if (icon) icon.className = `fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-lg`;
+            }
+        }
+        function editPtTextDraft(side, routineType, idx, value) { const draft = editDrafts[side]; if(draft && draft[routineType]?.pts?.[idx]) draft[routineType].pts[idx].text = value; }
+        function editActionFieldDraft(side, routineType, idx, field, value) { const draft = editDrafts[side]; if(draft && draft.actions?.[routineType]?.[idx]) draft.actions[routineType][idx][field] = value; }
+        
+        function editMaturityFieldDraft(side, routineType, criteriaKey, value) { 
+            const draft = editDrafts[side]; 
+            if(draft && draft.maturity?.[routineType]) {
+                if (window[`syncInputs_${side}`]) window[`syncInputs_${side}`]();
+                draft.maturity[routineType][criteriaKey] = Math.max(0, Math.min(100, parseInt(value || '0', 10))); 
+                
+                const activeKey = (side === 'left') ? activeLeftKey : activeRightKey;
+                const oldObj = db[activeKey];
+                db[activeKey] = draft;
+                enrichDatabase(db);
+                db[activeKey] = oldObj; 
+                
+                const state = captureScrollState();
+                renderDashboard();
+                requestAnimationFrame(() => { restoreScrollState(state); });
+            }
+        }
+        
+        function editMaturityGradeDraft(side, value) { const draft = editDrafts[side]; if(draft) draft.maturityGrade = String(value || 'C').toUpperCase(); }
+
+        function cycleActionStatusDraft(event, side, routineType, idx) {
+            const draft = editDrafts[side];
+            if (draft && draft.actions?.[routineType]?.[idx]) {
+                if (window[`syncInputs_${side}`]) window[`syncInputs_${side}`]();
+                const action = draft.actions[routineType][idx];
+                action.status = nextActionStatus(action.status);
+                
+                const activeKey = (side === 'left') ? activeLeftKey : activeRightKey;
+                const oldObj = db[activeKey];
+                db[activeKey] = draft;
+                enrichDatabase(db);
+                db[activeKey] = oldObj;
+
+                safeRenderDashboard();
+            }
+        }
+
+        function saveGroupEdits(side, key) {
+            const titleInput = document.getElementById(`edit-title-${side}`); if (titleInput && db[key]) db[key].title = titleInput.value;
+            editModes[side] = false; editDrafts[side] = null;
+            const payload = getSerializableDb();
+            if (isAppsScriptRuntime()) google.script.run.saveData(payload);
+            renderSidebar(); safeRenderDashboard();
+        }
+
+        function saveSectorEdits(side, key) {
+            const draft = editDrafts[side]; if (!draft) return;
+            
+            const btn = document.getElementById(`btn-save-${side}`);
+            const icon = document.getElementById(`icon-save-${side}`);
+            const txt = document.getElementById(`txt-save-${side}`);
+            if (btn && icon && txt) {
+                btn.disabled = true;
+                btn.className = "bg-slate-400 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-not-allowed shadow-sm";
+                icon.className = "fa-solid fa-spinner fa-spin";
+                txt.textContent = "Enregistrement...";
+            }
+
+            const titleInput = document.getElementById(`edit-title-${side}`); if(titleInput) draft.title = titleInput.value;
+
+            ['daily', 'weekly'].forEach(rType => {
+                const name = document.getElementById(`edit-${rType}-name-${side}`);
+                const time = document.getElementById(`edit-${rType}-time-${side}`);
+                const part = document.getElementById(`edit-${rType}-part-${side}`);
+                const prep = document.getElementById(`edit-${rType}-prep-${side}`);
+                const rout = document.getElementById(`edit-${rType}-routine-${side}`);
+                const irr = document.getElementById(`edit-${rType}-irr-${side}`);
+                const pos = document.getElementById(`edit-${rType}-pos-${side}`);
+                if(name) draft[rType].name = name.value;
+                if(time) draft[rType].timeInfo = time.value;
+                if(part) draft[rType].part = part.value;
+                if(prep) draft[rType].prep = prep.value.split(',').map(s => s.trim()).filter(s => s !== "");
+                if(rout) draft[rType].routine = rout.value.split(',').map(s => s.trim()).filter(s => s !== "");
+                if(irr) draft[rType].irr = irr.value;
+                if(pos) draft[rType].pos = pos.value;
+            });
+
+            db[key] = draft;
+            enrichDatabase(db); 
+            const payload = getSerializableDb();
+            
+            if (isAppsScriptRuntime()) {
+                google.script.run
+                    .withSuccessHandler(() => { 
+                        editModes[side] = false; 
+                        editDrafts[side] = null; 
+                        renderSidebar(); 
+                        safeRenderDashboard(); 
+                    })
+                    .withFailureHandler(e => {
+                        alert('Erreur : ' + e.message);
+                        safeRenderDashboard();
+                    })
+                    .saveData(payload);
+            } else {
+                localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(payload));
+                editModes[side] = false; editDrafts[side] = null; renderSidebar(); safeRenderDashboard();
+            }
+        }
+
+        function openAddSectorModal() { document.getElementById('new-sector-id').value = ''; document.getElementById('new-sector-title').value = ''; document.getElementById('add-sector-modal').classList.remove('hidden'); }
+        function closeAddSectorModal() { document.getElementById('add-sector-modal').classList.add('hidden'); }
+
+        submitNewSector = function() {
+            const rawId = document.getElementById('new-sector-id').value.trim(); const rawTitle = document.getElementById('new-sector-title').value.trim(); if (!rawId) return;
+            const key = rawId.toLowerCase().replace(/[^a-z0-9]/g, ''); if (db[key]) return;
+            db[key] = { name: rawId, title: rawTitle || `Routines PPC – ${rawId} (2 VAC)`, daily: { name: "PPC Daily", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo", pts: [{ status: "v", text: "Suivre l'avance retard" }], prep: [], routine: [], irr: "", pos: "" }, weekly: { name: "PPC Weekly", timeInfo: "1 fois par semaine", part: "TL, RL", pts: [{ status: "v", text: "Performance" }], prep: [], routine: [], irr: "", pos: "" } };
+            
+            enrichDatabase(db);
+            const payload = getSerializableDb();
+            if (isAppsScriptRuntime()) google.script.run.saveData(payload);
+            
+            closeAddSectorModal(); activeLeftKey = key; initApp();
+        }
+
+        function confirmDeleteSector(key) { const item = db[key]; if (!item) return; document.getElementById('sector-to-delete').value = key; document.getElementById('delete-sector-name').innerText = item.name; document.getElementById('delete-confirm-modal').classList.remove('hidden'); }
+        function closeDeleteConfirmModal() { document.getElementById('delete-confirm-modal').classList.add('hidden'); }
+
+        function deleteSector() {
+            const key = document.getElementById('sector-to-delete').value;
+            if (db[key] && !db[key].isGroup) {
+                delete db[key]; enrichDatabase(db); const rem = Object.keys(db);
+                if (activeLeftKey === key) activeLeftKey = rem[0] || ""; if (activeRightKey === key) activeRightKey = rem[1] || rem[0] || "";
+                const payload = getSerializableDb();
+                if (isAppsScriptRuntime()) google.script.run.saveData(payload);
+            }
+            closeDeleteConfirmModal(); initApp();
+        }
+
+        function openResetConfirmModal() { document.getElementById('reset-confirm-modal').classList.remove('hidden'); }
+        function closeResetConfirmModal() { document.getElementById('reset-confirm-modal').classList.add('hidden'); }
+
+        function makeEditableMaturityInlineHTML(side, routineType, maturity) {
+            const labels = routineType === 'daily' ? { avanceRetard: 'Avance / retard', aleas: 'Aléas', decision: 'Décision' } : { performance: 'Performance', paretoAleas: 'Pareto aléas', planAction: 'Plan d’action' };
+            const obj = maturity?.[routineType] || {};
+            return Object.keys(labels).map(k => `<div class="flex items-center gap-2 mb-1.5"><label class="text-[11px] font-semibold text-slate-600 w-32">${labels[k]}</label><input type="number" min="0" max="100" value="${obj[k] ?? 0}" onchange="editMaturityFieldDraft('${side}', '${routineType}', '${k}', this.value)" class="w-16 border rounded px-2 py-0.5 text-xs font-bold"><span class="text-xs text-slate-400">%</span></div>`).join('');
+        }
+
+        function escapeHtml(val) { return String(val ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+        function escapeAttr(val) { return escapeHtml(val).replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+        function autoResizeTextarea(el) { if (!el) return; el.style.height = 'auto'; el.style.height = Math.max(42, el.scrollHeight) + 'px'; }
+        function resizeAllActionTextareas() { document.querySelectorAll('.action-edit-action').forEach(autoResizeTextarea); }
+
+        window.onload = function() { initApp(); };
+    </script>
+</body>
+</html>
+
