@@ -840,3 +840,151 @@
         }
 
         function sortActionsWith
+
+            CHAPITRE 3 : LE PROJET PPC — OPTIMISATION DES RITUELS DE PRODUCTION PACE CONTROL ET CONCEPTION D'UN COCKPIT DIGITAL TRANSVERSE
+3.1. PHASE PLAN : Diagnostic terrain et cartographie des pratiques
+3.1.1. Description du projet et périmètre d’intervention
+Le projet PPC (Production Pace Control – Contrôle du Rythme de Production) est un dispositif d'amélioration continue d'envergure stratégique pour l'usine d'Airbus Saint-Éloi. Intégré au référentiel AOS (Airbus Operational System), le PPC a pour but de s'assurer que le rythme de fabrication de chaque îlot est parfaitement synchronisé avec le Takt Time dicté par les lignes d'assemblage final et le carnet de commandes des clients. Sponsorisé par la Direction de la Production et les Fonctions Supports (Qualité, Logistique, Performance), ce projet vise à restructurer et standardiser les rituels de management de la performance de l'usine. Pour mener cette transformation transverse, une équipe MFT (Multi-Functional Team) a été mise en place, découpée en 6 Workpackages (WP).
+
+Dans cette organisation, j'ai été officiellement nommé Leader du Workpackage 1 (WP1 : État des lieux et Besoins). Mon périmètre de responsabilité consistait à manager une équipe composée d'agents AOS sectoriels et de Performance Leaders afin de dresser une cartographie exhaustive et critique des pratiques de gouvernance sur les trois grands piliers de production du site :
+
+Le secteur ODYE : Dédié à la fabrication des Pièces Élémentaires (PE).
+
+Le secteur ODYS : Chargé de l'Assemblage des mâts de liaison pour les avions monocouloirs (Single Aisle - Famille A320) à haute cadence.
+
+Le secteur ODYL : Consacré à l'Assemblage des mâts pour les gros-porteurs (Wide Body - A330/A350) à forte valeur ajoutée.
+
+[ Sponsors Production & Supports ]
+               │
+      [ MFT : Projet PPC ]
+               │
+ ┌─────────────┼─────────────┐
+ ▼             ▼             ▼
+WP1 (Omar H.) WP2 à WP5     WP6
+Leader : État Déploiement   Pérennisation
+des lieux     Terrain       & Efficience
+& Besoins
+3.1.2. Analyse de l'existant : L'immersion sur le Gemba
+Pour mener à bien la mission du WP1, j'ai refusé d'adopter une posture d'analyse passive depuis un bureau informatique. J'ai instauré une démarche d'immersion totale sur le terrain (Gemba Walk). Durant plusieurs semaines, j'ai participé physiquement à la quasi-totalité des rituels quotidiens (Daily) et hebdomadaires (Weekly) de chaque secteur, ainsi qu'aux DPS (Daily Production Synchronisation).
+
+Ma méthodologie d'investigation s'est structurée en trois étapes participatives :
+
+Entretiens individuels approfondis : Menés avec chaque agent AOS sectoriel pour comprendre l'histoire des routines de leur périmètre, capter leurs irritants et recueillir leur vision des points forts.
+
+Groupes de travail avec les Team Leaders (TL) : Pour confronter les rituels théoriques à la réalité managériale de proximité et évaluer la pertinence de la transmission des informations.
+
+Analyses documentaires : Audit des supports physiques et numériques utilisés, des indicateurs de rythme extraits et des modes de transmission des plans d'actions.
+
+Pour chaque sous-secteur audité, j'ai formalisé une fiche d'évaluation standardisée analysant le niveau de préparation en amont, l'efficacité du déroulement de la routine, la pertinence des KPI, la réactivité face aux irritants et l'indice de maturité globale du rituel.
+
+3.1.3. Identification des problèmes et analyse des causes racines
+Le croisement de ces observations terrain a mis en lumière un dysfonctionnement structurel majeur. Le sujet de l'amélioration des routines PPC souffrait historiquement d'un "effet de cycle" au sein de l'usine : le problème était traité, puis dérivait, revenant sur la table tous les deux ans sans jamais s'anrer durablement dans la culture de l'entreprise.
+
+En appliquant la méthode des 5 Pourquoi, j'ai identifié les causes racines profondes de cette instabilité :
+
+Dispersion absolue des données : Les informations de performance, les listes d'irritants et les suivis d'actions n'étaient centralisés nulle part. Ils étaient éparpillés dans une multitude de fichiers locaux (tableurs Excel, Google Sheets, présentations PowerPoint statiques).
+
+Création d'îlots d'informations : Ce cloisonnement numérique isolait les secteurs (ODYE, ODYS, ODYL) les uns des autres. Le management visuel était purement localisé, empêchant le Top Management et la MFT d'avoir une vision consolidée et instantanée du rythme de production de l'usine.
+
+Extraction de données et consolidation manuelles (Gaspillage de traitement) : Lors de mes réunions avec l'équipe Performance et les leaders des différents Workpackages, j'ai constaté un gaspillage majeur de temps et de valeur. Pour obtenir une vision de la performance et de la maturité des routines à l'échelle de l'usine, il fallait extraire manuellement des données de fichiers Sheets locaux et dispersés pour les recopier et les mettre en forme sur des diapositives PowerPoint avant chaque grande réunion de projet. Ce processus manuel lourd créait de la double saisie pour les équipes de transformation et retardait la prise de décision. Les agents AOS, dans leur rôle d'observateurs et de garants méthodologiques sur les sous-secteurs, manquaient d'un support unique et standardisé pour consigner leurs observations efficacement.
+
+3.1.4. Définition des objectifs et limites du besoin initial
+L'attendu contractuel fixé à l'origine pour mon Workpackage 1 était classique : livrer une matrice Excel ou Google Sheets statique compilant l'état des lieux des pratiques. Ce tableau devait simplement lister les secteurs et cocher des cases en vert ("oui, la routine existe") ou en rouge ("non, l'outil n'est pas standardisé").
+
+En tant qu'ingénieur, j'ai mesuré les limites de cette commande : une cartographie figée sur un tableur ne résoudrait en rien les causes racines identifiées. Elle viendrait alimenter la pile des fichiers dispersés, serait obsolète au bout de quelques semaines, et ne permettrait pas à la MFT de piloter activement la transformation des WP2, WP3, WP4 et WP5. Le besoin réel du terrain n'était pas un constat passif, mais un outil de pilotage dynamique.
+
+3.2. PHASE DO : Posture d'intrapreneur et développement de l'architecture digitale
+3.2.1. L'initiative personnelle de rupture
+Face à ce constat, j'ai pris une décision de rupture méthodologique qui a transformé le périmètre de mon stage : passer d'une simple tâche de cartographie administrative à la conception d'un produit technologique d'ingénierie. J'ai proposé aux sponsors du projet PPC de substituer le livrable Sheets statique par le développement en interne d'une application web collaborative faisant office de Cockpit Digital Transverse de Pilotage.
+
+Cette démarche d'intrapreneuriat présentait un triple intérêt pour Airbus : casser les silos de l'information immédiatement, éliminer la double saisie par la consolidation automatique, et offrir un outil moderne, ergonomique et visuel, garantissant l'engagement à long terme des équipes.
+
+3.2.2. Cycle de développement agile et transfert technologique
+N'ayant pas de budget alloué pour l'achat d'un logiciel éditeur externe, j'ai réalisé un véritable transfert de compétences technologiques. J'ai mobilisé mes compétences en codage (architecture logicielle et bases de données) acquises et éprouvées lors de mon projet de Master sur la voiture électrique pour les injecter au profit des processus industriels d'Airbus.
+
+Pour garantir l'adoption humaine du produit par le terrain, j'ai mné le développement selon une méthodologie agile et itérative, jalonnée par trois versions majeures :
+
+Version 1 (Maquette Statique) : Structuration de la base de données relationnelle brute sur tableur pour figer les algorithmes de calcul de maturité et valider les formules mathématiques d'agrégation.
+
+Version 2 (Interface Web de Consultation) : Programmation de l'interface graphique (Front-End) en design épuré, permettant aux utilisateurs de naviguer visuellement dans les données. Cette phase a servi à recueillir les critiques ergonomiques des agents AOS sur le Gemba.
+
+Version 3 (Plateforme Web Full-Stack interactive) : Version finale opérationnelle intégrant la connexion dynamique des données avec une base cloud sécurisée. L'outil permet désormais la saisie en direct, la modification instantanée par les utilisateurs autorisés, la sauvegarde automatique et le rechargement en temps réel sans perte d'information.
+
+3.2.3. Architecture et fonctionnalités du Cockpit Digital
+L'application web a été pensée pour répondre précisément au besoin de management visuel de l'AOS. Son architecture repose sur le principe du "Double Zoom", offrant une navigation fluide de la vision d'ensemble au détail opérationnel :
+
+┌────────────────────────────────────────────────────────┐
+│                   VUE MACRO USINE                      │
+│       (Heatmap de Rythme Global & KPI Usine)           │
+└───────────────────────────┬────────────────────────────┘
+                            │ (Filtrage par Secteur)
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│                  VUE SECTORIELLE                       │
+│          (Détails ODYE / ODYS / ODYL / ODY)            │
+└───────────────────────────┬────────────────────────────┘
+                            │ (Descente au flux)
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│                 VUE MICRO ROUTINE                      │
+│ (Points traités, Irritants, Actions Prioritaires Ouvertes)│
+└────────────────────────────────────────────────────────┘
+L'outil intègre quatre fonctionnalités majeures :
+
+Le Module de Gestion PPC 360° : Pour chaque secteur et type de rituel (Daily/Weekly), l'utilisateur renseigne de manière ergonomique les points critiques traités, les aspects positifs relevés, les irritants bloquants et l'état de préparation de la réunion.
+
+L'Algorithme de Calcul de Maturité : Le site intègre un moteur de calcul qui évalue automatiquement le niveau de maturité des rituels à partir des saisies des sous-secteurs. Il génère un score précis pour le Daily, le Weekly, et un score global consolidé.
+
+La Consolidation Automatique Usine (Désilotage) : Les données saisies localement alimentent instantanément, sans aucune manipulation humaine, une Heatmap (carte thermique) sur la vue Macro Usine. Les managers et l'équipe de transformation peuvent identifier en un coup d'œil les zones d'excellence et les secteurs en dérive de rythme.
+
+Le Pilote d'Actions Prioritaires : Centralisation et suivi dynamique des plans d'actions ouverts pour lever les irritants des compagnons, évitant l'oubli des tâches et structurant le travail de la MFT.
+
+[INSERER ICI : Photo/Capture d'écran 1 - Interface générale de la vue Macro Usine avec la Heatmap de Production Pace Control]
+
+[INSERER ICI : Photo/Capture d'écran 2 - Interface de la vue Micro Sectorielle (ex: Focus ODYE) montrant les formulaires de saisie et les scores automatisés]
+
+3.3. PHASE CHECK : Validation, mesure des résultats et impact humain
+3.3.1. Processus de co-validation et levée des résistances
+Le plus grand défi d'un outil digital en usine n'est pas sa réussite technique, mais son adoption par les hommes et les femmes qui l'utilisent. Pour contrer toute résistance au changement, j'ai appliqué un management participatif rigoureux. Une fois le site Web codé, j'ai organisé des sessions de travail individuelles avec chaque agent AOS des secteurs ODYE (Pièces Élémentaires), ODYS (Single Aisle) et ODYL (Wide Body).
+
+Ensemble, devant l'écran, nous avons passé en revue l'ergonomie, injecté les données réelles issues de leurs observations terrain et validé la configuration de leurs secteurs. En procédant ainsi, les utilisateurs et garants de la méthode n'ont pas perçu le cockpit comme une contrainte managériale descendante, mais comme un outil qu'ils ont co-construit et validé eux-mêmes. Cette étape a permis de "figer" le référentiel de données sur des bases saines et de créer une dynamique d'adhérence collective.
+
+3.3.2. Quantification de la valeur ajoutée et des gains industriels
+Le passage du modèle théorique de cartographie à ce cockpit digital de pilotage a généré des bénéfices immédiats pour le service AOS et la direction de l'usine :
+
+Élimination de la non-valeur ajoutée : La centralisation et la consolidation automatique ont définitivement éradiqué le gaspillage des consolidations manuelles sur PowerPoint. Les équipes de performance et les leaders de WP économisent un temps précieux de mise en forme, réinvesti dans l'accompagnement des lignes.
+
+Rupture des silos d'informations : L'information est désilotée. La MFT dispose d'un langage commun et d'une visibilité en temps réel pour coordonner les déploiements des chantiers de progrès.
+
+Aide à la décision managériale : Le Top Management et les sponsors du projet PPC disposent enfin d'un support de management visuel fiable et dynamique pour cibler les priorités et maintenir le rythme de production de Saint-Éloi.
+
+3.3.3. Reconnaissance officielle par l'organisation
+La preuve ultime de la valeur ajoutée de cette initiative personnelle a été son accueil par l'organisation Airbus. Suite à la démonstration de l'outil devant l'ensemble des équipes de l'Excellence Opérationnelle et de la direction du projet PPC, le succès de la posture adoptée a été formalisé par un mail de félicitations écrit, partagé à l'échelle du service.
+
+Le message soulignait qu'en quelques semaines, cette approche innovante avait permis d'accomplir ce que l'usine n'avait pas réussi à stabiliser depuis plusieurs années, validant la capacité du cockpit à désiloter l'information et à offrir des perspectives de progrès concrètes pour le terrain.
+
+[INSERER ICI : Photo/Capture d'écran 3 - Verbatim ou image du mail officiel de félicitations reçu de l'équipe]
+
+3.4. PHASE ACT : Pérennisation et perspectives futures
+3.4.1. Standardisation et ancrage dans la gouvernance
+Pour s'assurer que cet actif numérique survive au départ de l'ingénieur stagiaire et ne dérive pas, l'outil a été officiellement intégré dans les standards opérationnels du Workpackage 6 (WP6 : Pérennisation et Efficience) mené par la gouvernance d'Airbus. Le site web est désormais le support visuel obligatoire utilisé lors des réunions de synchronisation de la MFT pour piloter l'avancement et l'efficience de la transformation PPC.
+
+3.4.2. Perspectives de scalabilité industrielle
+Le Cockpit Digital a été programmé avec une architecture logicielle modulaire et évolutive. Les perspectives d'avenir pour ce produit sont doubles :
+
+Scalabilité interne : L'intégration de nouveaux modules de suivi de performance (comme l'intégration directe des données de WIP ou de Takt Time de l'assemblage).
+
+Transférabilité inter-sites : La structure du code permet de dupliquer facilement cette plateforme pour piloter les rituels PPC d'autres usines du groupe Airbus, capitalisant ainsi à grande échelle sur cette innovation de Saint-Éloi.
+
+3.4.3. Synthèse des compétences d'ingénieur mobilisées (Référentiel UTBM)
+Ce projet principal m'a permis de valider et de dmontrer des compétences de niveau ingénieur senior, alignées sur le référentiel d'évaluation de l'UTBM :
+
+Analyse de processus complexes : Diagnostic systémique de flux d'informations et de rituels managériaux.
+
+Culture Lean Manufacturing : Chasse aux gaspillages de traitement et maîtrise du management visuel.
+
+Ingénierie Numérique & Data : Structuration de bases de données relationnelles et développement logiciel Full-Stack.
+
+Gestion de projet & Leadership : Pilotage d'un Workpackage transverse au sein d'une équipe pluridisciplinaire (MFT).
+
+Conduite du changement : Écoute active sur le Gemba, co-construction avec les utilisateurs et négociation face aux résistances d'acteurs de différents niveaux hiérarchiques.
