@@ -442,3 +442,73 @@ Négociation technique & Argumentation basée sur les données : Porter un sujet
 Conclusion du chapitre WIP Cible
 Ce projet a permis de démontrer qu'un indicateur industriel ne doit pas être appliqué uniformément à tous les secteurs sans tenir compte de leurs spécificités opérationnelles. En remettent en question un standard existant et en proposant une alternative basée sur les données et les principes fondamentaux de l'ingénierie des flux, cette étude a contribué à rendre l'évaluation du secteur Pièces Élémentaires plus représentative de sa réalité industrielle.
 
+CHAPITRE 6 : OPTIMISATION CAPACITAIRE ET RECONCEPTION DE L'ÎLOT DE FORMAGE PAR LA MÉTHODOLOGIE DMAIC
+6.1. DÉFINIR (Define) : Contexte, Cartographie de la Zone et Problématique Goulot
+6.1.1. Description systémique de l'environnement industriel du Formage
+La zone de Formage de l'usine Airbus Saint-Éloi est un pôle industriel lourd et hautement critique. Comme illustré par la cartographie de flux présente dans le document image_40a93b.png, l'îlot est structurellement divisé en deux sous-ensembles opérationnels distincts :
+La zone Panneau : Dédiée au formage des panneaux de structure aéronautique, elle regroupe une ébavureuse, deux presses panneaux, une rouleuse et une zone dédiée au contrôle des panneaux.
+La zone Longeron : Dédiée aux longerons, elle est équipée d'une presse longeron spécifique et d'une zone de contrôle dédiée aux longerons.
+ [ FLUX LOGISTIQUE DE L'ÎLOT DE FORMAGE (Réf. image_40a93b.png) ]
+ 
+   Arrivée Panneaux ──► [Ébavureuse] ──► [2 Presses Panneaux] ──► [Rouleuse] ──► [Contrôle Panneau] ┐
+                                                                                                  ├──► [DEPART UNIQUE] ──► TRIDIM
+   Arrivée Longeron ───────────────────► [Presse Longeron] ───────────────────► [Contrôle Longeron] ┘
+                                                                                                  ▲
+   [Non-Conformités] ─────────────────────────────────────────────────────────────────────────────┴──► [ZONE NC] ─────► QLS
+Sur le plan logistique, ces deux zones possèdent des zones d'arrivée distinctes, mais partagent une seule et unique zone de départ pour l'évacuation des pièces conformes vers le pôle Tridim, ainsi qu'une zone commune de gestion des Non-Conformités (NC) vers la Qualité Logistique Site (QLS). L'approvisionnement et l'expédition sont transfonctionnels : les pièces arrivent soit de sous-traitants externes, soit de postes internes à l'usine, et repartent selon le même schéma mixte.
+6.1.2. Énoncé du problème capacitaire et objectifs du projet
+Face aux exigences de montée en cadence du plan industriel d'Airbus, les projections de charge du site ont mis en évidence un risque imminent et critique de rupture capacitaire sur la ligne des panneaux au cours de l'année. L'îlot, dans sa configuration actuelle, se trouvait dans l'incapacité technique d'absorber les volumes demandés.
+Pour sécuriser la chaîne de valeur sans impacter les lignes d'assemblage final, la direction a validé le déploiement d'une double stratégie :
+Objectif Court Terme : Identifier et libérer immédiatement de la capacité machine masquée au sein de l'îlot via des actions d'organisation rapides (Quick Wins).
+Objectif Long Terme : Valider un scénario de transformation structurelle (investissement ou délestage complet) et concevoir la future implantation industrielle de la zone.
+Chronologiquement, ma démarche sur ce projet a débuté par une phase d'immersion classique : conduite de réunions sur la zone pour capter les irritants des opérateurs et mise à jour complète de la carte de l'îlot à l'état présent.
+6.2. MESURER (Measure) : Analyse du Flux d'Information et Diagramme Spaghetti
+6.2.1. Cartographie du flux réel et modélisation Spaghetti
+Afin d'objectiver les dysfonctionnements et de mesurer la performance physique réelle de l'îlot, j'ai réalisé un diagramme Spaghetti détaillé de l'ensemble de la zone (reproduit graphiquement sur la base du canevas de l'image_40a93b.png). Cet outil de mesure a mis en évidence des croisements de flux sévères, des ruptures de cheminement logistique et des déplacements excessifs des compagnons entre les différentes machines de la zone panneau (ébavureuse, presses, rouleuse) et la zone unique de départ.
+6.2.2. Recueil et sécurisation des données de charge/capacité
+Parallèlement à cette analyse physique, j'ai audité la base de données de charge/capacité du poste. Pour la solution court terme, j'ai repris et analysé en profondeur une étude de réorganisation de gamme menée sur la zone longeron. En exerçant ma rigueur d'ingénieur, ma mission a consisté à vérifier la cohérence des hypothèses, à recalculer les temps de cycles et à m'assurer de la parfaite véracité et faisabilité réelle de l'étude avant toute présentation aux instances de décision.
+6.3. ANALYSER (Analyze) : Confrontation des Hypothèses Opératoires et Verrous Organi-organisationnels
+6.3.1. Analyse critique des modes opératoires (L'hypothèse de charge)
+Le cœur de l'analyse a reposé sur la confrontation de trois modes opératoires de répartition de charge étudiés pour le poste, détaillés dans le document image_404421.png :
+Hypothèse 1 : Répartition classique des tâches entre deux opérateurs (Opérateur A sur le contrôle amont et le pressage ; Opérateur B sur le contrôle aval).
+Hypothèse 2 (Situation initiale du poste) : Concentration de l'intégralité du flux (Contrôle Avant + Presse + Contrôle Après) sur un seul opérateur (Opérateur A), générant un goulot d'étranglement humain massif (Poste 280).
+Hypothèse 3 (Scénario d'optimisation retenu) : Déchargement partiel de l'opérateur de la presse. L'Opérateur B prend à sa charge exclusive la première opération de Contrôle Avant (Poste 448), tandis que l'Opérateur A se concentre uniquement sur le cycle de Pressage et le Contrôle Après (Poste 280).
+6.3.2. Identification des verrous réglementaires et humains
+L'analyse a révélé que le passage à l'Hypothèse 3 soulevait un problème critique d'autorisation de travail en interne, lié au manque de formation croisée des opérateurs. Cette contrainte réglementaire bloquait la polyvalence nécessaire pour exécuter le standard. Pour lever ce verrou sans délai, j'ai formalisé et escaladé cette problématique au niveau managérial supérieur, permettant de déclencher les plans de formation requis pour sécuriser le déploiement de la solution court terme.
+6.4. INNOVER / AMÉLIORER (Innovate / Improve) : Plan d'Action Court Terme et Workshop d'Implantation Long Terme
+6.4.1. Déploiement de la solution Court Terme : Flexibilité technologique
+La solution court terme a consisté à valider l'Hypothèse 3 en adaptant l'outillage industriel. Pour permettre à la presse longeron d'absorber une partie de la surcharge des panneaux en cas de pic, nous avons intégré l'utilisation d'adaptateurs mécaniques spécifiques. Ce Quick Win a permis de modifier la flexibilité de la machine sans aucune modification de structure lourde.
+6.4.2. Déploiement de la solution Long Terme : Ingénierie de compromis et Workshop Implantation
+Pour le long terme, le chef de projet a mené une étude technico-économique comparative entre deux scénarios : l'investissement dans une nouvelle presse panneau neuve ou le délestage permanent des volumes chez un sous-traitant. L'analyse de rentabilité (ROI) ayant démontré qu'une nouvelle machine était plus rentable pour Airbus, j'ai collaboré activement avec le chef de projet pour concevoir la future implantation.
+Pour placer les opérateurs au centre de la boucle de conception (démarche pro-humaine), j'ai préparé et organisé un Workshop Kaizen d'implantation participatif. En amont, j'ai imprimé à l'échelle sur de grands formats A0 des cartes vierges de l'îlot, des plans de l'état réel actuel et l'ensemble des silhouettes des composants industriels (gabarits des machines, zones de stocks).
+Ce Workshop pluridisciplinaire a réuni autour d'une même table le Team Leader, les Méthodes, le Schéma Directeur, le Chef de Projet, la Sécurité, l'Ergonomie, la Logistique, l'Ordonnancement et les Opérateurs de production. Ensemble, à travers plusieurs itérations et essais de manipulation de maquettes physiques, nous avons co-conçu la nouvelle implantation. La future presse panneau y est intégrée de manière hautement fonctionnelle, optimisant l'ergonomie des postes de travail, sécurisant les flux logistiques et éliminant les croisements mis en évidence par mon diagramme Spaghetti.
+6.5. CONTRÔLER (Control) : Quantification Mathématique des Gains et Pérennisation
+6.5.1. Bilan capacitaire de la solution Court Terme
+Les résultats issus de la réorganisation du processus de travail (Hypothèse 3), validés et consignés dans le tableau de synthèse de l'document image_403c83.png, démontrent l'atteinte des objectifs de sécurisation :
+┌───────────────────────────────────────────────────────────┬───────────┬───────────┐
+│ PARAMÈTRE DE SUIVI CAPACITAIRE                            │  PAR MIN  │  PAR HEURE│
+├───────────────────────────────────────────────────────────┼───────────┼───────────┤
+│ Temps Total d'ouverture du poste / semaine                │   5 400   │   90,000  │
+│ Temps Total pour tous les Longerons dans le poste / semaine│ 4 000,26  │   66,671  │
+│ Temps Total pour la 1ère Inspection Géométrique (I.G)     │  591,36   │    9,856  │
+│ Moyenne du Temps Perdu par les Aléas (1ère OP) / semaine  │  313,75   │    5,229  │
+├───────────────────────────────────────────────────────────┴───────────┴───────────┤
+│ Pourcentage de temps consacré à la 1ère I.G : 14,78%                              │
+│ TEMPS NET GAGNÉ DANS LE POSTE / SEMAINE     : 15,085 h                            │
+└───────────────────────────────────────────────────────────────────────────────────┘
+Le calcul mathématique du gain net se décompose précisément ainsi :
+10 heures libérées grâce à l'élimination de la première opération de contrôle sur le poste 280 (transférée à l'Opérateur B).
+5 heures récupérées par la suppression des temps perdus liés aux aléas logistiques et opératoires.
+Réduction nette du temps de traversée global d'un longeron au poste.
+Ce gain de 15,085 heures par semaine offre à l'usine la capacité d'utilisation de la presse nécessaire pour pallier le goulot à court terme et absorber la hausse des volumes de panneaux.
+6.5.2. Jalons de pérennisation et déploiement de la solution Long Terme
+La solution long terme étant validée, la fabrication et la livraison de la nouvelle presse panneau requièrent un délai industriel standard d'environ une année. Sa mise en place physique interviendra donc après la clôture de mon stage. Pour garantir le contrôle et la continuité du projet, les livrables du Workshop (plans d'implantation A0 validés par l'Ergonomie et la Sécurité) ont été officiellement intégrés au plan directeur de l'usine, et le plan de formation des compagnons a été placé sous la gouvernance du Team Leader.
+Conclusion du chapitre Formage
+Ce chapitre démontre l'intérêt d'une démarche DMAIC combinant des leviers d'action complémentaires. L'optimisation organisationnelle à court terme a permis de libérer immédiatement 15 heures de capacité hebdomadaire sur la presse longeron pour sécuriser les flux de panneaux. En parallèle, la démarche collaborative menée en Workshop A0 a posé les bases physiques de la future implantation industrielle du site, garantissant la performance et la viabilité de l'îlot face aux cadences futures d'Airbus.
+6.5.3. Synthèse des compétences d'ingénieur mobilisées (Référentiel UTBM)
+Le pilotage de ce projet d'optimisation et de reconception de l'îlot de Formage m'a permis de valider plusieurs compétences clés du profil d'ingénieur UTBM :
+Ingénierie des flux et modélisation physique : Capacité à analyser une implantation industrielle complexe par le biais d'outils de mesure terrain (diagramme Spaghetti détaillé) et à cartographier rigoureusement les interactions logistiques (zones d'arrivée/départ, flux de sous-traitance).
+Rigueur scientifique et esprit critique : Aptitude à reprendre, auditer et sécuriser de manière autonome une étude de charge/capacité existante (Hypothèse 3) en confrontant mathématiquement les chronométrages et les modes opératoires pour en garantir la parfaite exactitude.
+Conception industrielle et gestion des contraintes : Collaboration active à la définition d'une nouvelle implantation d'usine à long terme intégrant l'arrivée d'une nouvelle machine lourde, tout en respectant un univers de contraintes strictes (ergonomie des postes, sécurité, flux réglementaires).
+Animation collaborative et démarche pro-humaine : Préparation et co-animation d'un Workshop Kaizen pluridisciplinaire sur support grand format (A0), plaçant les opérateurs au centre de la boucle de conception pour transformer les exigences techniques en standards partagés.
+Escalade managériale et résolution de verrous : Capacité à identifier les blocages organisationnels (problématiques d'autorisation de travail en interne et de formation) et à les remonter au niveau supérieur pour débloquer le déploiement opérationnel d'une solution.
