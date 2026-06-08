@@ -1,3 +1,193 @@
+const SPREADSHEET_ID = 'COLLER_ICI_ID_DU_GOOGLE_SHEET';
+const DB_SHEET_NAME = 'DB';
+const CHUNK_SIZE = 45000;
+
+function doGet() {
+  return HtmlService
+    .createHtmlOutputFromFile('index')
+    .setTitle('Outil transverse de pilotage PPC')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function getSpreadsheet_() {
+  if (SPREADSHEET_ID && SPREADSHEET_ID !== 'COLLER_ICI_ID_DU_GOOGLE_SHEET') {
+    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  }
+
+  const active = SpreadsheetApp.getActiveSpreadsheet();
+  if (!active) {
+    throw new Error('Aucun Google Sheet actif. Renseigner SPREADSHEET_ID dans Code.gs.');
+  }
+
+  return active;
+}
+
+function ensureDbSheet_() {
+  const ss = getSpreadsheet_();
+  let sheet = ss.getSheetByName(DB_SHEET_NAME);
+
+  if (!sheet) {
+    sheet = ss.insertSheet(DB_SHEET_NAME);
+  }
+
+  if (sheet.getLastRow() === 0) {
+    sheet.getRange(1, 1, 1, 4).setValues([[
+      'key',
+      'json_chunk',
+      'updated_at',
+      'comment'
+    ]]);
+    sheet.setFrozenRows(1);
+  }
+
+  return sheet;
+}
+
+/**
+ * Lecture de la base.
+ * Retourne un objet :
+ * { ok: true, data: {...} }
+ */
+/**
+ * Lecture de la base - VERSION ULTRA-RAPIDE OPTIMISÉE
+ */
+function getData() {
+  const lock = LockService.getScriptLock();
+
+  try {
+    lock.waitLock(5000); // Attente réduite à 5s pour libérer l'interface
+
+    const sheet = ensureDbSheet_();
+    const lastRow = sheet.getLastRow();
+
+    if (lastRow < 2) {
+      return { ok: true, data: null };
+    }
+
+    // On récupère uniquement la colonne des clés (A) et des chunks (B) pour aller plus vite
+    const rangeCles = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    const rangeChunks = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
+
+    // Création d'un tableau indexé pour éviter les filtres et tris lourds
+    let chunksArray = [];
+    
+    for (let i = 0; i < rangeCles.length; i++) {
+      const cle = String(rangeCles[i][0] || '');
+      if (cle.startsWith('chunk_')) {
+        // On extrait l'index directement (ex: chunk_00001 -> index 1)
+        const index = parseInt(cle.replace('chunk_', ''), 10) - 1;
+        if (index >= 0) {
+          chunksArray[index] = String(rangeChunks[i][0] || '');
+        }
+      }
+    }
+
+    // Recollage instantané des morceaux de texte
+    const json = chunksArray.join('');
+
+    if (!json) {
+      return { ok: true, data: null };
+    }
+
+    return {
+      ok: true,
+      data: JSON.parse(json)
+    };
+
+  } catch (err) {
+    return {
+      ok: false,
+      data: null,
+      error: String(err.message || err)
+    };
+  } finally {
+    try { lock.releaseLock(); } catch (e) {}
+  }
+}
+/**
+ * Sauvegarde de la base.
+ * data = objet JavaScript envoye par index.html.
+ */
+function saveData(data) {
+  const lock = LockService.getScriptLock();
+
+  try {
+    lock.waitLock(10000);
+
+    if (!data || typeof data !== 'object') {
+      throw new Error('Payload invalide : data doit etre un objet.');
+    }
+
+    const sheet = ensureDbSheet_();
+    const json = JSON.stringify(data);
+    const now = new Date();
+
+    const rows = [];
+    for (let i = 0; i < json.length; i += CHUNK_SIZE) {
+      const chunkNumber = String(rows.length + 1).padStart(5, '0');
+      rows.push([
+        'chunk_' + chunkNumber,
+        json.substring(i, i + CHUNK_SIZE),
+        now,
+        'PPC database JSON chunk'
+      ]);
+    }
+
+    // Nettoyage ancien contenu sans supprimer l'en-tete.
+    const lastRow = sheet.getLastRow();
+    if (lastRow > 1) {
+      sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
+    }
+
+    if (rows.length > 0) {
+      sheet.getRange(2, 1, rows.length, 4).setValues(rows);
+    }
+
+    sheet.autoResizeColumns(1, 4);
+
+    return {
+      ok: true,
+      chunks: rows.length,
+      jsonLength: json.length,
+      updatedAt: now.toISOString()
+    };
+
+  } catch (err) {
+    return {
+      ok: false,
+      error: String(err && err.message ? err.message : err)
+    };
+  } finally {
+    try {
+      lock.releaseLock();
+    } catch (e) {}
+  }
+}
+
+/**
+ * Optionnel : a lancer une fois manuellement pour preparer l'onglet DB.
+ */
+function setupDatabaseSheet() {
+  const sheet = ensureDbSheet_();
+  return 'Onglet DB pret : ' + sheet.getName();
+}
+
+/**
+ * Optionnel : efface uniquement la base JSON.
+ * Ne pas utiliser sauf si tu veux repartir a zero.
+ */
+function clearDatabase() {
+  const sheet = ensureDbSheet_();
+  const lastRow = sheet.getLastRow();
+
+  if (lastRow > 1) {
+    sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
+  }
+
+  return 'Base DB videe.';
+}
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,7 +199,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
+   
     <style>
         html { overflow-anchor: none; }
         body {
@@ -19,7 +209,7 @@
         h1, h2, h3, h4 {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        
+       
         /* Personnalisation des boutons de sélection radio style Google Sheets */
         .sheets-checkbox {
             appearance: none;
@@ -259,11 +449,11 @@
                 <i class="fa-solid fa-square-poll-vertical text-xl"></i>
             </div>
             <div>
-                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Dashboard routines PPC _ Usine ST-ELOI </h1>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Outil transverse de pilotage PPC-AOS-Usine ST-ELOI</h1>
                 <p class="text-xs text-slate-500">Diagnostic dynamique PPC : routines, maturité et critères AOS</p>
             </div>
         </div>
-        
+       
         <div class="flex items-center gap-3">
             <button onclick="openAddSectorModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
                 <i class="fa-solid fa-plus text-xs"></i> Ajouter un secteur
@@ -432,7 +622,7 @@
             const ok = pts.filter(p => p.status === 'v').length;
             const ratio = pts.length ? Math.round((ok / pts.length) * 100) : 50;
             const base = Math.max(20, Math.min(95, ratio + ((routine?.prep || []).length + (routine?.routine || []).length > 6 ? -10 : 0) + (routine?.irr ? -12 : 5)));
-            return type === 'daily' 
+            return type === 'daily'
                 ? { avanceRetard: Math.max(20, Math.min(95, base + 5)), aleas: Math.max(20, Math.min(95, base - 5)), decision: Math.max(20, Math.min(95, base)) }
                 : { performance: Math.max(20, Math.min(95, base + 5)), paretoAleas: Math.max(20, Math.min(95, base)), planAction: Math.max(20, Math.min(95, base - 10)) };
         }
@@ -469,7 +659,16 @@
             const computedMaturity = { daily: {}, weekly: {} };
             ['avanceRetard','aleas','decision'].forEach(k => computedMaturity.daily[k] = average(childMaturities.map(m => m.daily?.[k])));
             ['performance','paretoAleas','planAction'].forEach(k => computedMaturity.weekly[k] = average(childMaturities.map(m => m.weekly?.[k])));
-            return { name: cfg.name, title: existing.title || cfg.title, isGroup: true, group: cfg.name, superGroup: cfg.superGroup, children: cfg.children, maturity: computedMaturity, maturityGrade: gradeFromScore(getOverallScore(computedMaturity)) };
+            return {
+                name: cfg.name,
+                title: existing.title || cfg.title,
+                isGroup: true,
+                group: cfg.name,
+                superGroup: cfg.superGroup,
+                children: cfg.children,
+                maturity: computedMaturity,
+                maturityGrade: existing.maturityGrade || gradeFromScore(getOverallScore(computedMaturity))
+            };
         }
 
         function getLeafChildrenForStructure(groupKey) {
@@ -486,7 +685,7 @@
         let activeLeftKey = "odyl1";
         let activeRightKey = "odyl2";
         let editModes = { left: false, right: false };
-        let editDrafts = { left: null, right: null }; 
+        let editDrafts = { left: null, right: null };
         let isServerReady = false;
 
         function isAppsScriptRuntime() { return typeof google !== 'undefined' && google.script && google.script.run; }
@@ -505,7 +704,18 @@
 
         function getSerializableDb() {
             const copy = JSON.parse(JSON.stringify(db || {}));
-            if (typeof GROUP_STRUCTURE !== 'undefined') { Object.keys(GROUP_STRUCTURE).forEach(gk => { delete copy[gk]; }); }
+
+            if (typeof GROUP_STRUCTURE !== 'undefined') {
+                Object.keys(GROUP_STRUCTURE).forEach(gk => {
+                    if (copy[gk]) {
+                        copy[gk] = {
+                            title: copy[gk].title,
+                            maturityGrade: copy[gk].maturityGrade
+                        };
+                    }
+                });
+            }
+
             return copy;
         }
 
@@ -588,15 +798,15 @@
             safeRenderDashboard();
         }
 
-        function toggleEditMode(side) { 
-            editModes[side] = !editModes[side]; 
+        function toggleEditMode(side) {
+            editModes[side] = !editModes[side];
             if (editModes[side]) {
                 const activeKey = (side === 'left') ? activeLeftKey : activeRightKey;
                 editDrafts[side] = JSON.parse(JSON.stringify(db[activeKey] || {}));
             } else {
                 editDrafts[side] = null;
             }
-            safeRenderDashboard(); 
+            safeRenderDashboard();
         }
 
         function captureScrollState() {
@@ -745,20 +955,30 @@
 
         // CORRECTION 2 : MASQUAGE DU SÉLECTEUR DE MATURITÉ SUR LES GRANDS SECTEURS
         function renderGroupEditModeCard(side, key, data) {
+            const grade = data.maturityGrade || gradeFromScore(getOverallScore(data.maturity));
+
             return `
                 <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
-                    <div class="flex items-center gap-2 flex-grow mr-4"><span class="text-xs font-extrabold text-blue-600 uppercase">TITRE SYNTHÈSE :</span><input type="text" id="edit-title-${side}" value="${data.title.replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2.5 py-1 text-sm font-bold text-slate-800 outline-none focus:border-blue-500"></div>
-                    
-                    <div class="flex items-center gap-2 shrink-0 bg-slate-100 px-3 py-1.5 rounded-lg border text-xs font-bold text-slate-500 uppercase select-none">
-                        <i class="fa-solid fa-calculator"></i> Moyenne Auto
+                    <div class="flex items-center gap-2 flex-grow mr-4">
+                        <span class="text-xs font-extrabold text-blue-600 uppercase">TITRE SYNTHÈSE :</span>
+                        <input type="text" id="edit-title-${side}" value="${data.title.replace(/"/g, '&quot;')}" class="w-full border rounded-lg px-2.5 py-1 text-sm font-bold text-slate-800 outline-none focus:border-blue-500">
                     </div>
-                    
+
+                    <div class="flex items-center gap-2 shrink-0">
+                        <span class="text-xs font-extrabold text-slate-400 uppercase">Maturité</span>
+                        <select id="edit-group-grade-${side}" class="border border-slate-200 rounded-lg px-2 py-1 text-sm font-extrabold text-slate-800 bg-white outline-none focus:border-blue-500">
+                            ${['A','B','C','D'].map(x => `<option value="${x}" ${x === grade ? 'selected' : ''}>${x}</option>`).join('')}
+                        </select>
+                    </div>
+
                     <div class="flex items-center gap-1.5 shrink-0">
                         <button type="button" onclick="saveGroupEdits('${side}', '${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Enregistrer</button>
                         <button type="button" onclick="toggleEditMode('${side}')" class="border border-slate-200 text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition"><i class="fa-solid fa-xmark"></i> Annuler</button>
                     </div>
                 </div>
-                <div class="bg-white rounded-xl p-5 border shadow-sm"><p class="text-sm text-slate-500 italic">Cette fiche correspond à un grand secteur de synthèse. Tous les pourcentages de maturité, irritants et points positifs sont consolidés automatiquement en direct à partir de la Heatmap ci-dessous.</p></div>
+                <div class="bg-white rounded-xl p-5 border shadow-sm">
+                    <p class="text-sm text-slate-500 italic">Cette fiche correspond à un grand secteur de synthèse. Les pourcentages sont consolidés automatiquement à partir des sous-secteurs.</p>
+                </div>
                 <div class="grid grid-cols-2 gap-4 mt-2">${renderGroupHeatmap(key)}${renderGroupActions(key)}</div>
             `;
         }
@@ -766,7 +986,7 @@
         function renderReadOnlyCard(side, key, data) {
             const renderPointsList = (pList) => (pList || []).length === 0 ? '<li class="text-xs text-slate-400 italic">Aucun point</li>' : pList.map(pt => `<li class="flex items-start gap-2"><i class="fa-solid ${pt.status === 'v' ? 'fa-circle-check text-blue-500' : 'fa-circle-xmark text-rose-500'} text-[15px] mt-0.5"></i><span class="text-slate-700 text-sm">${pt.text}</span></li>`).join('');
             const renderToolsGroup = (tools, color) => (tools || []).length === 0 ? '<span class="text-xs text-slate-400">Aucun</span>' : tools.map(t => `<span class="tool-pill" ${color ? `style="border-color:${color};color:${color};"` : ''}>${t}</span>`).join('');
-            
+           
             const dScore = getRoutineScore(data.maturity, 'daily');
             const wScore = getRoutineScore(data.maturity, 'weekly');
 
@@ -787,8 +1007,8 @@
                             <div><span class="text-[10px] font-bold text-slate-400 uppercase">Routine</span><div class="flex flex-wrap gap-1 mt-1">${renderToolsGroup(data.daily.routine, "#2563eb")}</div></div>
                         </div>
                         <div class="flex flex-col gap-2 mt-2">
-                            ${data.daily.pos ? `<div class="positifs-container"><span class="text-emerald-600 text-xs font-bold">Points Positifs :</span><p class="text-xs mt-0.5">${data.daily.pos}</p></div>` : ''}
-                            ${data.daily.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold">Irritants :</span><p class="text-xs mt-0.5">${data.daily.irr}</p></div>` : ''}
+                            ${data.daily.pos ? `<div class="positifs-container"><span class="text-emerald-600 text-xs font-bold">Points Positifs :</span><p class="text-xs mt-0.5 whitespace-pre-line">${data.daily.pos}</p></div>` : ''}
+                            ${data.daily.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold">Irritants :</span><p class="text-xs mt-0.5 whitespace-pre-line">${data.daily.irr}</p></div>` : ''}
                         </div>
                     </div>
                     <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm">
@@ -802,8 +1022,8 @@
                             <div><span class="text-[10px] font-bold text-slate-400 uppercase">Routine</span><div class="flex flex-wrap gap-1 mt-1">${renderToolsGroup(data.weekly.routine, "#0d9488")}</div></div>
                         </div>
                         <div class="flex flex-col gap-2 mt-2">
-                            ${data.weekly.pos ? `<div class="positifs-container"><span class="text-emerald-600 text-xs font-bold">Points Positifs :</span><p class="text-xs mt-0.5">${data.weekly.pos}</p></div>` : ''}
-                            ${data.weekly.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold">Irritants :</span><p class="text-xs mt-0.5">${data.weekly.irr}</p></div>` : ''}
+                            ${data.weekly.pos ? `<div class="positifs-container"><span class="text-emerald-600 text-xs font-bold">Points Positifs :</span><p class="text-xs mt-0.5 whitespace-pre-line">${data.weekly.pos}</p></div>` : ''}
+                            ${data.weekly.irr ? `<div class="irritants-container"><span class="text-rose-500 text-xs font-bold">Irritants :</span><p class="text-xs mt-0.5 whitespace-pre-line">${data.weekly.irr}</p></div>` : ''}
                         </div>
                     </div>
                 </div>
@@ -813,6 +1033,9 @@
         function renderEditModeCard(side, key, draftData) {
             // CORRECTION 3 : APPAREIL PHOTO GLOBAL COMPLET (Empêche toute interférence de suppression)
             const syncCurrentInputs = () => {
+                const titleInput = document.getElementById(`edit-title-${side}`);
+                if (titleInput) draftData.title = titleInput.value;
+
                 const dName = document.getElementById(`edit-daily-name-${side}`);
                 const dTime = document.getElementById(`edit-daily-time-${side}`);
                 const dPart = document.getElementById(`edit-daily-part-${side}`);
@@ -952,25 +1175,15 @@
         }
         function editPtTextDraft(side, routineType, idx, value) { const draft = editDrafts[side]; if(draft && draft[routineType]?.pts?.[idx]) draft[routineType].pts[idx].text = value; }
         function editActionFieldDraft(side, routineType, idx, field, value) { const draft = editDrafts[side]; if(draft && draft.actions?.[routineType]?.[idx]) draft.actions[routineType][idx][field] = value; }
-        
-        function editMaturityFieldDraft(side, routineType, criteriaKey, value) { 
-            const draft = editDrafts[side]; 
-            if(draft && draft.maturity?.[routineType]) {
+       
+        function editMaturityFieldDraft(side, routineType, criteriaKey, value) {
+            const draft = editDrafts[side];
+            if (draft && draft.maturity?.[routineType]) {
                 if (window[`syncInputs_${side}`]) window[`syncInputs_${side}`]();
-                draft.maturity[routineType][criteriaKey] = Math.max(0, Math.min(100, parseInt(value || '0', 10))); 
-                
-                const activeKey = (side === 'left') ? activeLeftKey : activeRightKey;
-                const oldObj = db[activeKey];
-                db[activeKey] = draft;
-                enrichDatabase(db);
-                db[activeKey] = oldObj; 
-                
-                const state = captureScrollState();
-                renderDashboard();
-                requestAnimationFrame(() => { restoreScrollState(state); });
+                draft.maturity[routineType][criteriaKey] = Math.max(0, Math.min(100, parseInt(value || '0', 10)));
             }
         }
-        
+       
         function editMaturityGradeDraft(side, value) { const draft = editDrafts[side]; if(draft) draft.maturityGrade = String(value || 'C').toUpperCase(); }
 
         function cycleActionStatusDraft(event, side, routineType, idx) {
@@ -979,7 +1192,7 @@
                 if (window[`syncInputs_${side}`]) window[`syncInputs_${side}`]();
                 const action = draft.actions[routineType][idx];
                 action.status = nextActionStatus(action.status);
-                
+               
                 const activeKey = (side === 'left') ? activeLeftKey : activeRightKey;
                 const oldObj = db[activeKey];
                 db[activeKey] = draft;
@@ -991,16 +1204,30 @@
         }
 
         function saveGroupEdits(side, key) {
-            const titleInput = document.getElementById(`edit-title-${side}`); if (titleInput && db[key]) db[key].title = titleInput.value;
-            editModes[side] = false; editDrafts[side] = null;
+            const titleInput = document.getElementById(`edit-title-${side}`);
+            const gradeInput = document.getElementById(`edit-group-grade-${side}`);
+
+            if (titleInput && db[key]) db[key].title = titleInput.value;
+            if (gradeInput && db[key]) db[key].maturityGrade = gradeInput.value;
+
+            editModes[side] = false;
+            editDrafts[side] = null;
+
             const payload = getSerializableDb();
-            if (isAppsScriptRuntime()) google.script.run.saveData(payload);
-            renderSidebar(); safeRenderDashboard();
+
+            if (isAppsScriptRuntime()) {
+                google.script.run.saveData(payload);
+            } else {
+                localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(payload));
+            }
+
+            renderSidebar();
+            safeRenderDashboard();
         }
 
         function saveSectorEdits(side, key) {
             const draft = editDrafts[side]; if (!draft) return;
-            
+           
             const btn = document.getElementById(`btn-save-${side}`);
             const icon = document.getElementById(`icon-save-${side}`);
             const txt = document.getElementById(`txt-save-${side}`);
@@ -1031,16 +1258,16 @@
             });
 
             db[key] = draft;
-            enrichDatabase(db); 
+            enrichDatabase(db);
             const payload = getSerializableDb();
-            
+           
             if (isAppsScriptRuntime()) {
                 google.script.run
-                    .withSuccessHandler(() => { 
-                        editModes[side] = false; 
-                        editDrafts[side] = null; 
-                        renderSidebar(); 
-                        safeRenderDashboard(); 
+                    .withSuccessHandler(() => {
+                        editModes[side] = false;
+                        editDrafts[side] = null;
+                        renderSidebar();
+                        safeRenderDashboard();
                     })
                     .withFailureHandler(e => {
                         alert('Erreur : ' + e.message);
@@ -1060,11 +1287,11 @@
             const rawId = document.getElementById('new-sector-id').value.trim(); const rawTitle = document.getElementById('new-sector-title').value.trim(); if (!rawId) return;
             const key = rawId.toLowerCase().replace(/[^a-z0-9]/g, ''); if (db[key]) return;
             db[key] = { name: rawId, title: rawTitle || `Routines PPC – ${rawId} (2 VAC)`, daily: { name: "PPC Daily", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo", pts: [{ status: "v", text: "Suivre l'avance retard" }], prep: [], routine: [], irr: "", pos: "" }, weekly: { name: "PPC Weekly", timeInfo: "1 fois par semaine", part: "TL, RL", pts: [{ status: "v", text: "Performance" }], prep: [], routine: [], irr: "", pos: "" } };
-            
+           
             enrichDatabase(db);
             const payload = getSerializableDb();
             if (isAppsScriptRuntime()) google.script.run.saveData(payload);
-            
+           
             closeAddSectorModal(); activeLeftKey = key; initApp();
         }
 
@@ -1088,7 +1315,7 @@
         function makeEditableMaturityInlineHTML(side, routineType, maturity) {
             const labels = routineType === 'daily' ? { avanceRetard: 'Avance / retard', aleas: 'Aléas', decision: 'Décision' } : { performance: 'Performance', paretoAleas: 'Pareto aléas', planAction: 'Plan d’action' };
             const obj = maturity?.[routineType] || {};
-            return Object.keys(labels).map(k => `<div class="flex items-center gap-2 mb-1.5"><label class="text-[11px] font-semibold text-slate-600 w-32">${labels[k]}</label><input type="number" min="0" max="100" value="${obj[k] ?? 0}" onchange="editMaturityFieldDraft('${side}', '${routineType}', '${k}', this.value)" class="w-16 border rounded px-2 py-0.5 text-xs font-bold"><span class="text-xs text-slate-400">%</span></div>`).join('');
+            return Object.keys(labels).map(k => `<div class="flex items-center gap-2 mb-1.5"><label class="text-[11px] font-semibold text-slate-600 w-32">${labels[k]}</label><input type="number" min="0" max="100" value="${obj[k] ?? 0}" oninput="editMaturityFieldDraft('${side}', '${routineType}', '${k}', this.value)" class="w-16 border rounded px-2 py-0.5 text-xs font-bold"><span class="text-xs text-slate-400">%</span></div>`).join('');
         }
 
         function escapeHtml(val) { return String(val ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
@@ -1100,225 +1327,3 @@
     </script>
 </body>
 </html>
-/////////////////////////////////////////////////////////// codegs
-const SPREADSHEET_ID = 'COLLER_ICI_ID_DU_GOOGLE_SHEET';
-const DB_SHEET_NAME = 'DB';
-const CHUNK_SIZE = 45000;
-
-
-function doGet() {
-  return HtmlService
-    .createHtmlOutputFromFile('index')
-    .setTitle('Outil transverse de pilotage PPC')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-}
-
-
-function getSpreadsheet_() {
-  if (SPREADSHEET_ID && SPREADSHEET_ID !== 'COLLER_ICI_ID_DU_GOOGLE_SHEET') {
-    return SpreadsheetApp.openById(SPREADSHEET_ID);
-  }
-
-
-  const active = SpreadsheetApp.getActiveSpreadsheet();
-  if (!active) {
-    throw new Error('Aucun Google Sheet actif. Renseigner SPREADSHEET_ID dans Code.gs.');
-  }
-
-
-  return active;
-}
-
-
-function ensureDbSheet_() {
-  const ss = getSpreadsheet_();
-  let sheet = ss.getSheetByName(DB_SHEET_NAME);
-
-
-  if (!sheet) {
-    sheet = ss.insertSheet(DB_SHEET_NAME);
-  }
-
-
-  if (sheet.getLastRow() === 0) {
-    sheet.getRange(1, 1, 1, 4).setValues([[
-      'key',
-      'json_chunk',
-      'updated_at',
-      'comment'
-    ]]);
-    sheet.setFrozenRows(1);
-  }
-
-
-  return sheet;
-}
-
-
-/**
- * Lecture de la base.
- * Retourne un objet :
- * { ok: true, data: {...} }
- */
-/**
- * Lecture de la base - VERSION ULTRA-RAPIDE OPTIMISÉE
- */
-function getData() {
-  const lock = LockService.getScriptLock();
-
-
-  try {
-    lock.waitLock(5000); // Attente réduite à 5s pour libérer l'interface
-
-
-    const sheet = ensureDbSheet_();
-    const lastRow = sheet.getLastRow();
-
-
-    if (lastRow < 2) {
-      return { ok: true, data: null };
-    }
-
-
-    // On récupère uniquement la colonne des clés (A) et des chunks (B) pour aller plus vite
-    const rangeCles = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
-    const rangeChunks = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
-
-
-    // Création d'un tableau indexé pour éviter les filtres et tris lourds
-    let chunksArray = [];
-   
-    for (let i = 0; i < rangeCles.length; i++) {
-      const cle = String(rangeCles[i][0] || '');
-      if (cle.startsWith('chunk_')) {
-        // On extrait l'index directement (ex: chunk_00001 -> index 1)
-        const index = parseInt(cle.replace('chunk_', ''), 10) - 1;
-        if (index >= 0) {
-          chunksArray[index] = String(rangeChunks[i][0] || '');
-        }
-      }
-    }
-
-
-    // Recollage instantané des morceaux de texte
-    const json = chunksArray.join('');
-
-
-    if (!json) {
-      return { ok: true, data: null };
-    }
-
-
-    return {
-      ok: true,
-      data: JSON.parse(json)
-    };
-
-
-  } catch (err) {
-    return {
-      ok: false,
-      data: null,
-      error: String(err.message || err)
-    };
-  } finally {
-    try { lock.releaseLock(); } catch (e) {}
-  }
-}
-/**
- * Sauvegarde de la base.
- * data = objet JavaScript envoye par index.html.
- */
-function saveData(data) {
-  const lock = LockService.getScriptLock();
-
-
-  try {
-    lock.waitLock(10000);
-
-
-    if (!data || typeof data !== 'object') {
-      throw new Error('Payload invalide : data doit etre un objet.');
-    }
-
-
-    const sheet = ensureDbSheet_();
-    const json = JSON.stringify(data);
-    const now = new Date();
-
-
-    const rows = [];
-    for (let i = 0; i < json.length; i += CHUNK_SIZE) {
-      const chunkNumber = String(rows.length + 1).padStart(5, '0');
-      rows.push([
-        'chunk_' + chunkNumber,
-        json.substring(i, i + CHUNK_SIZE),
-        now,
-        'PPC database JSON chunk'
-      ]);
-    }
-
-
-    // Nettoyage ancien contenu sans supprimer l'en-tete.
-    const lastRow = sheet.getLastRow();
-    if (lastRow > 1) {
-      sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
-    }
-
-
-    if (rows.length > 0) {
-      sheet.getRange(2, 1, rows.length, 4).setValues(rows);
-    }
-
-
-    sheet.autoResizeColumns(1, 4);
-
-
-    return {
-      ok: true,
-      chunks: rows.length,
-      jsonLength: json.length,
-      updatedAt: now.toISOString()
-    };
-
-
-  } catch (err) {
-    return {
-      ok: false,
-      error: String(err && err.message ? err.message : err)
-    };
-  } finally {
-    try {
-      lock.releaseLock();
-    } catch (e) {}
-  }
-}
-
-
-/**
- * Optionnel : a lancer une fois manuellement pour preparer l'onglet DB.
- */
-function setupDatabaseSheet() {
-  const sheet = ensureDbSheet_();
-  return 'Onglet DB pret : ' + sheet.getName();
-}
-
-
-/**
- * Optionnel : efface uniquement la base JSON.
- * Ne pas utiliser sauf si tu veux repartir a zero.
- */
-function clearDatabase() {
-  const sheet = ensureDbSheet_();
-  const lastRow = sheet.getLastRow();
-
-
-  if (lastRow > 1) {
-    sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
-  }
-
-
-  return 'Base DB videe.';
-}
-
-
