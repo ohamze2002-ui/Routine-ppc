@@ -1,193 +1,3 @@
-const SPREADSHEET_ID = 'COLLER_ICI_ID_DU_GOOGLE_SHEET';
-const DB_SHEET_NAME = 'DB';
-const CHUNK_SIZE = 45000;
-
-function doGet() {
-  return HtmlService
-    .createHtmlOutputFromFile('index')
-    .setTitle('Outil transverse de pilotage PPC')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-}
-
-function getSpreadsheet_() {
-  if (SPREADSHEET_ID && SPREADSHEET_ID !== 'COLLER_ICI_ID_DU_GOOGLE_SHEET') {
-    return SpreadsheetApp.openById(SPREADSHEET_ID);
-  }
-
-  const active = SpreadsheetApp.getActiveSpreadsheet();
-  if (!active) {
-    throw new Error('Aucun Google Sheet actif. Renseigner SPREADSHEET_ID dans Code.gs.');
-  }
-
-  return active;
-}
-
-function ensureDbSheet_() {
-  const ss = getSpreadsheet_();
-  let sheet = ss.getSheetByName(DB_SHEET_NAME);
-
-  if (!sheet) {
-    sheet = ss.insertSheet(DB_SHEET_NAME);
-  }
-
-  if (sheet.getLastRow() === 0) {
-    sheet.getRange(1, 1, 1, 4).setValues([[
-      'key',
-      'json_chunk',
-      'updated_at',
-      'comment'
-    ]]);
-    sheet.setFrozenRows(1);
-  }
-
-  return sheet;
-}
-
-/**
- * Lecture de la base.
- * Retourne un objet :
- * { ok: true, data: {...} }
- */
-/**
- * Lecture de la base - VERSION ULTRA-RAPIDE OPTIMISÉE
- */
-function getData() {
-  const lock = LockService.getScriptLock();
-
-  try {
-    lock.waitLock(5000); // Attente réduite à 5s pour libérer l'interface
-
-    const sheet = ensureDbSheet_();
-    const lastRow = sheet.getLastRow();
-
-    if (lastRow < 2) {
-      return { ok: true, data: null };
-    }
-
-    // On récupère uniquement la colonne des clés (A) et des chunks (B) pour aller plus vite
-    const rangeCles = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
-    const rangeChunks = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
-
-    // Création d'un tableau indexé pour éviter les filtres et tris lourds
-    let chunksArray = [];
-    
-    for (let i = 0; i < rangeCles.length; i++) {
-      const cle = String(rangeCles[i][0] || '');
-      if (cle.startsWith('chunk_')) {
-        // On extrait l'index directement (ex: chunk_00001 -> index 1)
-        const index = parseInt(cle.replace('chunk_', ''), 10) - 1;
-        if (index >= 0) {
-          chunksArray[index] = String(rangeChunks[i][0] || '');
-        }
-      }
-    }
-
-    // Recollage instantané des morceaux de texte
-    const json = chunksArray.join('');
-
-    if (!json) {
-      return { ok: true, data: null };
-    }
-
-    return {
-      ok: true,
-      data: JSON.parse(json)
-    };
-
-  } catch (err) {
-    return {
-      ok: false,
-      data: null,
-      error: String(err.message || err)
-    };
-  } finally {
-    try { lock.releaseLock(); } catch (e) {}
-  }
-}
-/**
- * Sauvegarde de la base.
- * data = objet JavaScript envoye par index.html.
- */
-function saveData(data) {
-  const lock = LockService.getScriptLock();
-
-  try {
-    lock.waitLock(10000);
-
-    if (!data || typeof data !== 'object') {
-      throw new Error('Payload invalide : data doit etre un objet.');
-    }
-
-    const sheet = ensureDbSheet_();
-    const json = JSON.stringify(data);
-    const now = new Date();
-
-    const rows = [];
-    for (let i = 0; i < json.length; i += CHUNK_SIZE) {
-      const chunkNumber = String(rows.length + 1).padStart(5, '0');
-      rows.push([
-        'chunk_' + chunkNumber,
-        json.substring(i, i + CHUNK_SIZE),
-        now,
-        'PPC database JSON chunk'
-      ]);
-    }
-
-    // Nettoyage ancien contenu sans supprimer l'en-tete.
-    const lastRow = sheet.getLastRow();
-    if (lastRow > 1) {
-      sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
-    }
-
-    if (rows.length > 0) {
-      sheet.getRange(2, 1, rows.length, 4).setValues(rows);
-    }
-
-    sheet.autoResizeColumns(1, 4);
-
-    return {
-      ok: true,
-      chunks: rows.length,
-      jsonLength: json.length,
-      updatedAt: now.toISOString()
-    };
-
-  } catch (err) {
-    return {
-      ok: false,
-      error: String(err && err.message ? err.message : err)
-    };
-  } finally {
-    try {
-      lock.releaseLock();
-    } catch (e) {}
-  }
-}
-
-/**
- * Optionnel : a lancer une fois manuellement pour preparer l'onglet DB.
- */
-function setupDatabaseSheet() {
-  const sheet = ensureDbSheet_();
-  return 'Onglet DB pret : ' + sheet.getName();
-}
-
-/**
- * Optionnel : efface uniquement la base JSON.
- * Ne pas utiliser sauf si tu veux repartir a zero.
- */
-function clearDatabase() {
-  const sheet = ensureDbSheet_();
-  const lastRow = sheet.getLastRow();
-
-  if (lastRow > 1) {
-    sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
-  }
-
-  return 'Base DB videe.';
-}
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -439,6 +249,79 @@ function clearDatabase() {
         .bar-amber { background:#f59e0b; }
         .bar-red { background:#ef4444; }
         .group-badge { font-size:10px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
+
+
+        /* Evolution de maturité - vues consolidées uniquement */
+        .evolution-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+        }
+        .evolution-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 8px;
+        }
+        .evolution-filter label {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #e2e8f0;
+            border-radius: 999px;
+            padding: 2px 7px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #475569;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+        .evolution-filter input {
+            width: 12px;
+            height: 12px;
+            accent-color: #2563eb;
+        }
+        .reference-btn {
+            border: 1px solid #bfdbfe;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-radius: 9px;
+            padding: 5px 9px;
+            font-size: 10px;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all .15s ease;
+            white-space: nowrap;
+        }
+        .reference-btn:hover {
+            background: #dbeafe;
+            border-color: #93c5fd;
+        }
+        .action-order-btn {
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            background: #ffffff;
+            transition: all .15s ease;
+        }
+        .action-order-btn:hover:not(:disabled) {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-color: #bfdbfe;
+        }
+        .action-order-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body class="h-screen w-screen flex flex-col overflow-hidden bg-slate-50 text-slate-800">
@@ -540,6 +423,23 @@ function clearDatabase() {
             <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
                 <button onclick="closeDeleteConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
                 <button onclick="deleteSector()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="reference-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <input type="hidden" id="reference-group-key">
+            <div class="p-5 flex flex-col items-center text-center gap-3">
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl shadow-sm border border-blue-100"><i class="fa-solid fa-thumbtack"></i></div>
+                <h3 class="font-bold text-slate-800 text-lg">Définir une nouvelle référence ?</h3>
+                <p class="text-sm text-slate-500">Voulez-vous vraiment définir la situation actuelle comme nouvelle référence pour <span id="reference-group-name" class="font-bold text-slate-800"></span> ?</p>
+                <p class="text-xs text-amber-600 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">Cette opération remplacera les valeurs de référence Daily et Weekly existantes par les valeurs actuelles.</p>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
+                <button onclick="closeReferenceConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
+                <button onclick="confirmSetReferenceAsCurrent()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Confirmer</button>
             </div>
         </div>
     </div>
@@ -646,6 +546,20 @@ function clearDatabase() {
                 if (!sector.maturity) sector.maturity = { daily: generateMaturityFromRoutine(sector.daily, 'daily'), weekly: generateMaturityFromRoutine(sector.weekly, 'weekly') };
                 if (!sector.maturityGrade) sector.maturityGrade = gradeFromScore(getOverallScore(sector.maturity));
                 if (!sector.actions) sector.actions = defaultActionsForSector(sector);
+                if (!sector.reference) {
+                    sector.reference = {
+                        dailyInitial: getRoutineScore(sector.maturity, 'daily'),
+                        weeklyInitial: getRoutineScore(sector.maturity, 'weekly'),
+                        referenceDate: getTodayIso()
+                    };
+                }
+                ['daily', 'weekly'].forEach(type => {
+                    if (!sector.actions[type]) sector.actions[type] = [];
+                    sector.actions[type].forEach((a, idx) => {
+                        if (typeof a.order !== 'number') a.order = idx + 1;
+                    });
+                    sector.actions[type].sort((a, b) => (a.order || 9999) - (b.order || 9999));
+                });
             });
             // Étape 2 : On compile maintenant les synthèses à l'ouverture, tout est déjà pré-calculé !
             Object.keys(GROUP_STRUCTURE).forEach(groupKey => { database[groupKey] = buildGroupNode(groupKey, database); });
@@ -687,6 +601,8 @@ function clearDatabase() {
         let editModes = { left: false, right: false };
         let editDrafts = { left: null, right: null };
         let isServerReady = false;
+        let evolutionVisible = {};
+        const EVOLUTION_COLORS = ['#2563eb', '#0d9488', '#f97316', '#7c3aed', '#dc2626', '#0891b2', '#65a30d', '#be185d'];
 
         function isAppsScriptRuntime() { return typeof google !== 'undefined' && google.script && google.script.run; }
 
@@ -893,6 +809,213 @@ function clearDatabase() {
             let res = []; node.children.forEach(ck => { const child = db[ck]; if (child) { if (child.isGroup && child.children) res = res.concat(getLeafChildren(ck)); else res.push(ck); } }); return res;
         }
 
+
+        function getTodayIso() {
+            return new Date().toISOString().slice(0, 10);
+        }
+
+        function getEvolutionRows(groupKey) {
+            if (!db[groupKey]?.isGroup) return [];
+            if (groupKey === 'ody') return (db[groupKey]?.children || []).filter(k => db[k]);
+            return getLeafChildren(groupKey);
+        }
+
+        function getInitialScore(key, type) {
+            const node = db[key];
+            if (!node) return 0;
+            if (node.isGroup) {
+                const leaves = getLeafChildren(key);
+                return average(leaves.map(k => getInitialScore(k, type)));
+            }
+            const field = type === 'daily' ? 'dailyInitial' : 'weeklyInitial';
+            return typeof node.reference?.[field] === 'number' ? node.reference[field] : getRoutineScore(node.maturity, type);
+        }
+
+        function getCurrentScore(key, type) {
+            const node = db[key];
+            return node ? getRoutineScore(node.maturity, type) : 0;
+        }
+
+        function getReferenceDateForGroup(groupKey) {
+            const rows = getEvolutionRows(groupKey);
+            const dates = [];
+            rows.forEach(k => {
+                const node = db[k];
+                if (!node) return;
+                if (node.isGroup) getLeafChildren(k).forEach(leaf => { if (db[leaf]?.reference?.referenceDate) dates.push(db[leaf].reference.referenceDate); });
+                else if (node.reference?.referenceDate) dates.push(node.reference.referenceDate);
+            });
+            return dates.length ? dates.sort()[0] : '';
+        }
+
+        function getEvolutionColor(groupKey, itemKey) {
+            const rows = getEvolutionRows(groupKey);
+            const idx = Math.max(0, rows.indexOf(itemKey));
+            return EVOLUTION_COLORS[idx % EVOLUTION_COLORS.length];
+        }
+
+        function getVisibleEvolutionKeys(groupKey) {
+            const rows = getEvolutionRows(groupKey);
+            if (!evolutionVisible[groupKey]) evolutionVisible[groupKey] = {};
+            rows.forEach((rk, idx) => {
+                if (typeof evolutionVisible[groupKey][rk] !== 'boolean') evolutionVisible[groupKey][rk] = rows.length <= 3 || idx < 3;
+            });
+            return rows.filter(rk => evolutionVisible[groupKey][rk]);
+        }
+
+        function toggleEvolutionItem(groupKey, itemKey, checked) {
+            if (!evolutionVisible[groupKey]) evolutionVisible[groupKey] = {};
+            evolutionVisible[groupKey][itemKey] = !!checked;
+            safeRenderDashboard();
+        }
+
+        let pendingReferenceGroupKey = null;
+
+        function setReferenceAsCurrent(groupKey) {
+            const node = db[groupKey];
+            if (!node) return;
+            pendingReferenceGroupKey = groupKey;
+            const input = document.getElementById('reference-group-key');
+            const name = document.getElementById('reference-group-name');
+            if (input) input.value = groupKey;
+            if (name) name.textContent = node.name || groupKey.toUpperCase();
+            const modal = document.getElementById('reference-confirm-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeReferenceConfirmModal() {
+            pendingReferenceGroupKey = null;
+            const modal = document.getElementById('reference-confirm-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function confirmSetReferenceAsCurrent() {
+            const groupKey = pendingReferenceGroupKey || document.getElementById('reference-group-key')?.value;
+            const node = db[groupKey];
+            if (!node) return closeReferenceConfirmModal();
+
+            const targets = node.isGroup ? getLeafChildren(groupKey) : [groupKey];
+            const today = getTodayIso();
+            targets.forEach(k => {
+                const s = db[k];
+                if (!s || s.isGroup) return;
+                s.reference = {
+                    dailyInitial: getRoutineScore(s.maturity, 'daily'),
+                    weeklyInitial: getRoutineScore(s.maturity, 'weekly'),
+                    referenceDate: today
+                };
+            });
+            enrichDatabase(db);
+            const payload = getSerializableDb();
+            if (isAppsScriptRuntime()) google.script.run.saveData(payload);
+            else localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(payload));
+            closeReferenceConfirmModal();
+            safeRenderDashboard();
+        }
+
+        function renderEvolutionChart(groupKey, type) {
+            const allRows = getEvolutionRows(groupKey);
+            if (!allRows.length) return '';
+            const visibleRows = getVisibleEvolutionKeys(groupKey);
+            const w = 420, h = 142, left = 40, right = 20, top = 16, bottom = 30;
+            const x0 = left + 20;
+            const x1 = w - right - 20;
+            const y = (v) => top + (100 - Math.max(0, Math.min(100, v))) * (h - top - bottom) / 100;
+            const refDate = getReferenceDateForGroup(groupKey) || '—';
+            const today = getTodayIso();
+            const title = type === 'daily' ? 'Évolution Daily' : 'Évolution Weekly';
+            const icon = type === 'daily' ? 'fa-clock text-blue-600' : 'fa-calendar-week text-emerald-600';
+
+            const lines = visibleRows.map((rk) => {
+                const init = getInitialScore(rk, type);
+                const curr = getCurrentScore(rk, type);
+                const color = getEvolutionColor(groupKey, rk);
+                const name = db[rk]?.name || rk;
+                return `
+                    <line x1="${x0}" y1="${y(init)}" x2="${x1}" y2="${y(curr)}" stroke="${color}" stroke-width="3" stroke-linecap="round"></line>
+                    <circle cx="${x0}" cy="${y(init)}" r="4" fill="${color}"></circle>
+                    <circle cx="${x1}" cy="${y(curr)}" r="4" fill="${color}"></circle>
+                    <text x="${x0}" y="${y(init)-7}" text-anchor="middle" fill="${color}" font-size="9" font-weight="800">${init}%</text>
+                    <text x="${x1}" y="${y(curr)-7}" text-anchor="middle" fill="${color}" font-size="9" font-weight="800">${curr}%</text>
+                    <title>${name} : ${init}% → ${curr}%</title>
+                `;
+            }).join('');
+
+            const legend = visibleRows.map(rk => {
+                const color = getEvolutionColor(groupKey, rk);
+                return `<span class="inline-flex items-center gap-1 text-[10px] font-bold text-slate-600"><span style="width:9px;height:9px;border-radius:999px;background:${color};display:inline-block;"></span>${db[rk]?.name || rk}</span>`;
+            }).join('');
+
+            const filters = allRows.map(rk => {
+                const color = getEvolutionColor(groupKey, rk);
+                return `
+                    <label title="Afficher / masquer ${db[rk]?.name || rk}">
+                        <input type="checkbox" ${getVisibleEvolutionKeys(groupKey).includes(rk) ? 'checked' : ''} onchange="toggleEvolutionItem('${groupKey}', '${rk}', this.checked)">
+                        <span style="width:8px;height:8px;border-radius:999px;background:${color};display:inline-block;"></span>
+                        ${db[rk]?.name || rk}
+                    </label>
+                `;
+            }).join('');
+
+            return `
+                <div class="evolution-card">
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-xs uppercase flex items-center gap-2"><i class="fa-solid ${icon}"></i>${title}</h3>
+                            <p class="text-[10px] text-slate-400 mt-1">Réf. : ${refDate} · MAJ : ${today}</p>
+                        </div>
+                    </div>
+                    ${allRows.length > 3 ? `<div class="evolution-filter">${filters}</div>` : ''}
+                    <div class="overflow-x-auto mt-2">
+                        <svg viewBox="0 0 ${w} ${h}" class="w-full min-w-[330px] h-[150px]">
+                            <line x1="${left}" y1="${top}" x2="${left}" y2="${h-bottom}" stroke="#cbd5e1" stroke-width="1"></line>
+                            <line x1="${left}" y1="${h-bottom}" x2="${w-right}" y2="${h-bottom}" stroke="#cbd5e1" stroke-width="1"></line>
+                            <line x1="${left}" y1="${y(50)}" x2="${w-right}" y2="${y(50)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4 4"></line>
+                            <line x1="${left}" y1="${y(75)}" x2="${w-right}" y2="${y(75)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4 4"></line>
+                            <text x="${left-6}" y="${y(100)+4}" text-anchor="end" fill="#94a3b8" font-size="9">100%</text>
+                            <text x="${left-6}" y="${y(75)+4}" text-anchor="end" fill="#94a3b8" font-size="9">75%</text>
+                            <text x="${left-6}" y="${y(50)+4}" text-anchor="end" fill="#94a3b8" font-size="9">50%</text>
+                            <text x="${x0}" y="${h-10}" text-anchor="middle" fill="#64748b" font-size="9" font-weight="800">Référence</text>
+                            <text x="${x1}" y="${h-10}" text-anchor="middle" fill="#64748b" font-size="9" font-weight="800">Aujourd'hui</text>
+                            ${lines}
+                        </svg>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-1">${legend || '<span class="text-xs text-slate-400 italic">Aucun élément sélectionné</span>'}</div>
+                </div>
+            `;
+        }
+
+        function renderEvolutionBlock(groupKey) {
+            if (!db[groupKey]?.isGroup) return '';
+            return `
+                <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col gap-3">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-chart-line text-blue-600"></i>Évolution de la maturité</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Suivi entre la situation de référence et la situation actuelle.</p>
+                        </div>
+                        <button type="button" onclick="setReferenceAsCurrent('${groupKey}')" class="reference-btn" title="Mettre l'état actuel comme nouvelle référence"><i class="fa-solid fa-thumbtack"></i> Définir l'actuel comme référence</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        ${renderEvolutionChart(groupKey, 'daily')}
+                        ${renderEvolutionChart(groupKey, 'weekly')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function moveActionDraft(side, routineType, idx, direction) {
+            const draft = editDrafts[side];
+            const list = draft?.actions?.[routineType];
+            if (!list) return;
+            const newIdx = idx + direction;
+            if (newIdx < 0 || newIdx >= list.length) return;
+            if (window[`syncInputs_${side}`]) window[`syncInputs_${side}`]();
+            [list[idx], list[newIdx]] = [list[newIdx], list[idx]];
+            list.forEach((a, i) => a.order = i + 1);
+            safeRenderDashboard();
+        }
+
         function getHeatmapRows(groupKey) {
             const node = db[groupKey]; if (!node?.children) return [];
             return groupKey === 'ody' ? node.children.filter(k => db[k]) : getLeafChildren(groupKey);
@@ -906,7 +1029,7 @@ function clearDatabase() {
         function renderGroupHeatmap(groupKey) {
             const rows = getHeatmapRows(groupKey); if (!rows.length) return "";
             return `
-                <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
+                <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col gap-3">
                     <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-table-cells-large text-blue-600"></i>Heatmap maturité</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse text-xs">
@@ -927,7 +1050,7 @@ function clearDatabase() {
             return `
                 <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
                     <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-list-check text-blue-600"></i>Actions prioritères ouvertes</h3>
-                    <div class="flex flex-col gap-2 max-h-[320px] overflow-y-auto">
+                    <div class="flex flex-col gap-2 max-h-[150px] overflow-y-auto">
                         ${actions.length ? actions.map(a => { const meta = getActionStatusMeta(a.status); return `<div class="bg-blue-50/40 border border-blue-100 rounded-lg px-3 py-2"><div class="flex items-center justify-between text-[10px] font-extrabold text-blue-600"><span>${a.sector} — ${a.type}</span><span class="${meta.cls}">${meta.label}</span></div><div class="text-xs font-extrabold text-slate-800 mt-1">${a.criteria}</div><div class="text-xs text-slate-600 mt-0.5 leading-snug">${a.action}</div></div>`; }).join('') : '<p class="text-xs text-slate-400 italic">Aucune action ouverte</p>'}
                     </div>
                 </div>
@@ -950,6 +1073,7 @@ function clearDatabase() {
                     <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col gap-3"><h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-calendar-week text-emerald-600"></i>Maturité Weekly</h3>${renderMaturityBars(data.maturity, 'weekly')}</div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">${renderGroupHeatmap(key)}${renderGroupActions(key)}</div>
+                ${renderEvolutionBlock(key)}
             `;
         }
 
@@ -980,6 +1104,7 @@ function clearDatabase() {
                     <p class="text-sm text-slate-500 italic">Cette fiche correspond à un grand secteur de synthèse. Les pourcentages sont consolidés automatiquement à partir des sous-secteurs.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-4 mt-2">${renderGroupHeatmap(key)}${renderGroupActions(key)}</div>
+                ${renderEvolutionBlock(key)}
             `;
         }
 
@@ -1071,7 +1196,7 @@ function clearDatabase() {
 
             window[`addPtInline_${side}`] = (routineType) => { syncCurrentInputs(); if(!draftData[routineType].pts) draftData[routineType].pts = []; draftData[routineType].pts.push({ status: "v", text: "Nouveau point de routine" }); safeRenderDashboard(); };
             window[`deletePtInline_${side}`] = (routineType, idx) => { syncCurrentInputs(); draftData[routineType].pts.splice(idx, 1); safeRenderDashboard(); };
-            window[`addActionInline_${side}`] = (routineType) => { syncCurrentInputs(); if (!draftData.actions) draftData.actions = { daily: [], weekly: [] }; if (!draftData.actions[routineType]) draftData.actions[routineType] = []; draftData.actions[routineType].push({ criteria: 'Critère / thème', action: 'Action à mener', status: 'not_started' }); safeRenderDashboard(); };
+            window[`addActionInline_${side}`] = (routineType) => { syncCurrentInputs(); if (!draftData.actions) draftData.actions = { daily: [], weekly: [] }; if (!draftData.actions[routineType]) draftData.actions[routineType] = []; draftData.actions[routineType].push({ criteria: 'Critère / thème', action: 'Action à mener', status: 'not_started', order: draftData.actions[routineType].length + 1 }); safeRenderDashboard(); };
             window[`deleteActionInline_${side}`] = (routineType, idx) => { syncCurrentInputs(); if (draftData.actions && draftData.actions[routineType]) draftData.actions[routineType].splice(idx, 1); safeRenderDashboard(); };
 
             const makeEditablePtsHTML = (routineType, pts) => {
@@ -1095,6 +1220,8 @@ function clearDatabase() {
                             <div class="action-edit-header">
                                 <button type="button" onclick="cycleActionStatusDraft(event, '${side}', '${routineType}', ${idx})" class="action-status-button"><i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn"></i></button>
                                 <span class="action-top-badge">Top ${idx + 1}</span><span class="action-status-label text-[10px] font-bold text-slate-400 uppercase">${meta.label}</span><span class="spacer"></span>
+                                <button type="button" onclick="moveActionDraft('${side}', '${routineType}', ${idx}, -1)" class="action-order-btn" ${idx === 0 ? 'disabled' : ''} title="Monter"><i class="fa-solid fa-chevron-up text-[10px]"></i></button>
+                                <button type="button" onclick="moveActionDraft('${side}', '${routineType}', ${idx}, 1)" class="action-order-btn" ${idx === (actionsList || []).length - 1 ? 'disabled' : ''} title="Descendre"><i class="fa-solid fa-chevron-down text-[10px]"></i></button>
                                 <button type="button" onclick="window['deleteActionInline_${side}']('${routineType}', ${idx})" class="text-slate-300 hover:text-rose-500 p-1"><i class="fa-solid fa-trash-can text-[11px]"></i></button>
                             </div>
                             <div class="action-edit-content">
@@ -1255,6 +1382,10 @@ function clearDatabase() {
                 if(rout) draft[rType].routine = rout.value.split(',').map(s => s.trim()).filter(s => s !== "");
                 if(irr) draft[rType].irr = irr.value;
                 if(pos) draft[rType].pos = pos.value;
+            });
+
+            ['daily', 'weekly'].forEach(type => {
+                if (draft.actions?.[type]) draft.actions[type].forEach((a, idx) => a.order = idx + 1);
             });
 
             db[key] = draft;
