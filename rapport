@@ -824,3 +824,103 @@ Validation du standard modulaire : Le concept de boxes adaptables à cloisons mo
 Standard de déport des outillages : La règle de gestion logistique consistant à stocker l'outillage basse fréquence sur la surface récupérée de l'Isogrid est actée, évitant définitivement la réintroduction de Mudas d'encombrement.
 8.3.3. Conclusion du chapitre Boxes Soudure
 Ce projet démontre qu'un projet d'ingénierie Lean ne se déroule pas toujours dans un cadre figé. Face à un besoin capacitaire, la réponse n'est pas seulement technique, elle doit être agile. L'apport majeur de cette étude aura été de refuser le cloisonnement traditionnel au profit d'une solution modulaire innovante, tout en démontrant qu'une gestion intelligente des surfaces inter-îlots permet d'absorber les premières vagues de croissance du programme aéronautique.
+
+
+
+PREMIÈRE PARTIE : CADRE INDUSTRIEL ET SYSTÈME D'EXCELLENCE SYSTÉMIQUE
+CHAPITRE 1 : LE GROUPE AIRBUS ET L'USINE STRATÉGIQUE DE SAINT-ÉLOI
+1.1. Le Groupe Airbus : Leader mondial de l'aviation civile et de la défense
+1.1.1. Organisation macro et activités globales
+Airbus SE s’impose comme le leader mondial de l'aéronautique, de l'espace et des services associés. Le groupe est structuré à l'échelle internationale autour de trois divisions majeures :
+
+Airbus Commercial Aircraft : Consacré aux avions de ligne civils (familles A220, A320, A330, A350), cœur d'activité de mon stage.
+
+Airbus Helicopters : Premier fabricant mondial de pales et de solutions d’hélicoptères civils et militaires.
+
+Airbus Defence and Space : Leader européen de la défense, de l'espace, des lanceurs et des avions de transport militaire (comme l'A400M).
+
+1.1.2. Chiffres clés opérationnels (Données consolidées)
+Présence internationale : Une implantation industrielle mondiale répartie principalement en Europe (France, Allemagne, Espagne, Royaume-Uni), mais aussi aux États-Unis et en Chine.
+
+Capital humain : Plus de 150 000 salariés à travers le monde.
+
+Chiffre d'affaires : Environ 74,4 milliards d'euros consolidés, portés par une cadence de livraison d'avions civils en forte accélération.
+
+Siège social (Headquarters) : Basé de façon centrale à Toulouse (Blagnac), France.
+
+1.2. L'Usine de Saint-Éloi : Un héritage centenaire et une cartographie multi-sites
+1.2.1. Un héritage historique unique au centre de Toulouse
+Fondé en 1920 par le pionnier de l'aviation Émile Dewoitine, le site de Saint-Éloi est le plus ancien site aéronautique de Toulouse encore en activité. Des célèbres chasseurs Dewoitine D.520 aux premiers grands succès d'Aérospatiale (Caravelle, Concorde), Saint-Éloi a traversé plus d'un siècle d'innovations industrielles avant de devenir le pôle d'excellence mondial d'Airbus pour la conception et la fabrication des mâts de réacteurs (pylons).
+
+Cette longévité implique une particularité géographique majeure : l'usine historique est aujourd'hui totalement enclavée dans le cœur urbain et résidentiel de Toulouse. Ne disposant d'aucune possibilité d'extension foncière extérieure, chaque mètre carré y est compté. Cette contrainte historique impose une chasse drastique aux gaspillages d'espace et une optimisation millimétrée des surfaces intérieures, conférant à mes chantiers de réimplantation (Isogrid, Boxes de Soudure) un enjeu hautement stratégique pour absorber les hausses de cadences.
+
+1.2.2. Une configuration industrielle répartie et l'ambition "Saint-Éloi du Futur" (SEF)
+Pour répondre aux défis logistiques et industriels modernes, l'entité Airbus Saint-Éloi s'articule aujourd'hui autour de deux sites opérationnels, complétés par une transformation d'usine d'envergure :
+
+Le site de Saint-Éloi Historique : Situé en centre-ville de Toulouse, il concentre le cœur de l'expertise historique, l'usinage des pièces complexes et une partie de l'assemblage.
+
+Le site de Saint-Éloi Satellite (Blagnac) : Situé à proximité immédiate des lignes d'assemblage final (FAL) d'Airbus à Blagnac, ce site satellite fluidifie les flux logistiques et sécurise les livraisons de mâts réacteurs en juste-à-temps.
+
+Le projet d'avenir SEF (Saint-Éloi du Futur) : Face au besoin massif de modernisation et de montée en cadence (Ramp-up), Airbus déploie actuellement un projet d'usine du futur baptisé SEF, qui sera également localisé vers Blagnac. Ce pôle industriel de rupture intégrera les technologies de pointe de l'industrie 4.0, une automatisation poussée et une optimisation éco-efficiente des flux pour propulser l'outil industriel vers les standards d'excellence des prochaines décennies.
+
+1.2.3. Un positionnement stratégique mondial unique
+Malgré l'éclatement de sa géographie, l'usine de Saint-Éloi occupe une place exclusive au sein du système de production d'Airbus : c'est le seul et unique site fabricant des mâts moteurs d'Airbus au monde pour l'intégralité de la gamme d'avions commerciaux. De plus, l'usine conçoit et assemble également les mâts pour le transporteur militaire gros porteur A400M.
+
+Un mât de réacteur est une pièce de haute technicité mécanique assurant la liaison structurante, l'alimentation énergétique et les flux de fluides entre l'aile et le moteur. De fait, l'usine de Saint-Éloi représente un point de passage obligatoire (Single Point of Failure) : si l'usine s'arrête, toute la production mondiale d'Airbus se fige.
+
+1.2.4. Organisation industrielle du secteur d'accueil : Le pôle ODY
+Pour piloter cette usine globale, la direction industrielle s'articule autour du pôle ODY, lui-même découpé en trois grands sous-secteurs opérationnels complémentaires :
+
+ODYS : Le secteur entièrement dédié à l'assemblage des mâts moteurs pour la famille des monocouloirs (Single Aisle, notamment le programme à succès A320).
+
+ODYL : Le secteur consacré à l'assemblage des mâts moteurs pour les gros-porteurs (Wide Body, à savoir les programmes long-courriers A330 et A350).
+
+ODYE : Le secteur amont de fabrication des pièces élémentaires, qui regroupe la tôlerie lourde, la chaudronnerie et les îlots techniques critiques (Formage, Soudure, Isogrid) sur lesquels ont porté mes missions d'amélioration continue.
+
+CHAPITRE 2 : LE SYSTÈME EXCELLENCE AIRBUS (AOS) ET POSITIONNEMENT DE LA MISSION
+2.1. L'Airbus Operating System (AOS) : Le modèle d'ingénierie Lean
+L'AOS (Airbus Operating System) constitue la philosophie de performance et le système d'excellence opérationnelle propre à Airbus. Fortement inspiré du modèle Lean Manufacturing, il vise à standardiser les processus, à éliminer les gaspillages (Mudas) et à accompagner la transformation de l'outil de production face aux exigences des hauts taux de cadence (Ramp-up).
+
+L'AOS ne se résume pas à l'application d'outils isolés ; il est structuré de façon holistique autour de 6 grands domaines, eux-mêmes subdivisés en briques opérationnelles spécifiques touchant à la logistique, la qualité, la sécurité et la maîtrise des opérations (Réf. image_b362c5.png) :
+
+HSE (Health, Safety, Environment) : Focalisé sur la protection des compagnons et l'ergonomie (Briques : Safety Red Alert, Safety Golden Rules, Environnement).
+
+EEM (Equipment Efficiency Management) : Axé sur l'optimisation des structures humaines et de la polyvalence (Briques : Poly/Poly, Productivity and Improvement Ideas).
+
+PSE (Production System Efficiency) : Le cœur technique de la performance de flux au sol (Briques : 5S, Standardized Work, Production Pace Control (PPC), Andon, SQCDP, Total Productive Maintenance).
+
+QPS (Quality Process Security) : Dédié à la sécurisation de la conformité produit (Briques : Practical Problem Solving, FOD, Control Plan).
+
+PC&L (Production Control & Logistics) : Maîtrise de la distribution des lignes et des stocks (Briques : Lean Warehouse, Line Distribution).
+
+PEM (Performance & Engineering Management) : Pilotage macro de l’amélioration continue (Briques : KPI Tree, Value Stream Analysis).
+
+Mes interventions de stage ont directement consisté à concevoir, déployer ou optimiser plusieurs de ces briques opérationnelles majeures (notamment le PPC pour le Cockpit Digital, et le 5S / Implantation pour les îlots Isogrid et Boxes de Soudure).
+
+2.2. Structure hiérarchique de l'équipe AOS et interfaces
+Pour assurer l'intégration de ces briques sur le terrain, l'équipe AOS est rattachée de manière transverse au Pôle Performance de l'usine, et fonctionne selon la structure hiérarchique directe suivante :
+
+                  GOUVERNANCE ET CASCADING DE L'ÉQUIPE AOS
+                  
+                        ┌────────────────────────┐
+                        │        HO AOS          │  (Head of AOS Site)
+                        └───────────┬────────────┘
+                                    │
+                        ┌───────────▼────────────┐
+                        │      AOS LEADERS       │  (Pilotage par secteurs d'activité)
+                        └───────────┬────────────┘
+                                    │
+                        ┌───────────▼────────────┐
+                        │      AGENTS AOS        │  (Déploiement opérationnel terrain)
+                        └───────────┬────────────┘
+                                    │
+                        ┌───────────▼────────────┐
+                        │      MON STAGE         │  (Support Ingénierie de Performance)
+                        └────────────────────────┘
+HO AOS (Head of AOS) : Assure la direction stratégique, définit la feuille de route de maturité de l'ensemble du site de Saint-Éloi et rend compte des indicateurs au Top Management d'Airbus.
+
+AOS Leaders : Pilotent le déploiement de la feuille de route à l'échelle des grands secteurs (comme le secteur ODY), arbitrent les ressources et valident la conformité des chantiers.
+
+Agents AOS : Experts Lean implantés directement au quotidien sur le terrain. Ils travaillent main dans la main avec les compagnons, les Team Leaders (TL) et les managers de lignes pour animer les chantiers, auditer les briques et lever les verrous de performance.
+
+Mon positionnement de stagiaire Ingénieur Performance s'est articulé en interface directe avec ces agents AOS. J'ai agi comme un facilitateur technique et technologique, apportant des solutions concrètes (digitales et d'implantation) pour concrétiser sur le terrain les objectifs portés par les briques de l'Airbus Operating System.
