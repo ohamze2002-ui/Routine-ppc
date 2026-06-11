@@ -1,740 +1,302 @@
-CHAPITRE 3 : PILOTAGE DE LA CADENCE DE PRODUCTION — CONCEPTION ET DÉPLOIEMENT DU COCKPIT DIGITAL PPC (PRODUCTION PACE CONTROL)
-3.1. PHASE PLAN : Cadrage, Leadership WP1 et Démarche d'Ingénierie de Projet
-3.1.1. Contexte industriel de la brique PPC et enjeux de montée en cadence
-Au sein du référentiel AOS (Airbus Operating System), la maîtrise du rythme industriel repose sur une brique standardisée essentielle : le PPC (Production Pace Control). L'enjeu fondamental de cette brique, déjà établie dans le système de management d'Airbus, est de passer d'une gestion de production réactive à un mode de pilotage prévisif, permettant de garantir le respect du rythme de production (Pace) à l'échelle de chaque site de production.
-La brique PPC impose la stricte application de routines managériales (rituels opérationnels quotidiens Daily et hebdomadaires Weekly). Ces routines structurent les alignements transverses permanents entre la Production, l'Ordonnancement et la Logistique afin de synchroniser le travail de l'atelier avec les systèmes d'information. Face aux défis majeurs de montée en cadence de la production aéronautique (notamment sur la famille A320 Neo), l'équipe AOS de Saint-Éloi a lancé un projet global de redressement pour auditer, structurer et rehausser le niveau de maturité de cette brique PPC, afin d'absorber les augmentations de volumes sans rupture de la chaîne logistique.
-3.1.2. Posture de Leader du Workpackage 1 (WP1) et coordination transverse
+5. Sujet 1 – PPC et standardisation des routines
+PHASE PLAN : Cadrage, Leadership WP1 et Démarche d'Ingénierie de Projet
+1.	Contexte industriel de la brique PPC et enjeux de montée en cadence
+Au sein du référentiel AOS (Airbus Operating System), la maîtrise du rythme industriel repose sur une brique standardisée essentielle : le PPC (Production Pace Control). L'enjeu fondamental de cette brique, déjà établie dans le système de management d'Airbus, est de passer d'une gestion de production réactive à un mode de pilotage prévisif, permettant de garantir le respect du rythme de production à l'échelle de chaque site de production.
+La brique PPC impose la stricte application de routines managériales (Daily et Weekly). Ces routines structurent les alignements transverses permanents entre la Production, l'Ordonnancement, la qualite et la Logistique afin de synchroniser le travail de l'atelier avec les systèmes d'information. Face aux défis majeurs de montée en cadence de la production aéronautique, l'équipe AOS de Saint-Éloi a lancé un projet global de redressement pour auditer, structurer et rehausser le niveau de maturité de cette brique PPC, afin d'absorber les augmentations de volumes sans rupture de la chaîne logistique.
+2.	Posture de Leader du Workpackage 1 (WP1) et coordination transverse
 Au sein de ce projet d'amélioration de la maturité, ma mission s'est immédiatement structurée autour d'un rôle de Leader du Workpackage 1 (WP1 : État des lieux et Diagnostic). Loin d'une simple posture d'exécutant technique, j'ai assumé la responsabilité globale de la coordination de ce lot de travail. Mes prérogatives comprenaient :
 La coordination stratégique : Animation des instances de synchronisation régulières avec les agents AOS et les Performance Leaders des différents secteurs (ODYE, ODYS, ODYL).
 La structuration de la démarche : Définition de la feuille de route pour réaliser l'état des lieux de la maturité des routines PPC sur l'ensemble du site.
 La construction du référentiel : Modélisation des critères d'évaluation du respect de la brique PPC.
 La consolidation inter-WP : Identification, centralisation et formalisation des besoins critiques pour alimenter les Workpackages aval (WP2 à WP6), garantissant la continuité de la trajectoire de maîtrise des cadences de l'usine.
-3.1.3. Méthodologie d'analyse : La démarche d'investigation sur le Gemba
+3.	Méthodologie d'analyse : La démarche d'investigation sur le Gemba
 Avant d'envisager la moindre solution technique, j'ai déployé une démarche d'investigation rigoureuse pour auditer l'application réelle du standard, basée sur les outils de l'amélioration continue :
 Gemba Walks & Observations directes : Conduite de sessions d'observation immersives au cœur des ateliers pour analyser le déroulement réel des rituels PPC Daily et Weekly.
 Entretiens semi-directifs : Réalisation d'interviews approfondies avec les acteurs clés (Team Leaders, agents AOS, Performance Leaders) afin de capter les irritants et de comprendre comment se préparaient et s'exécutaient les routines.
-Comparaison inter-secteurs : Analyse comparative fine entre la fabrication mécanique (PE) et les lignes d'assemblage (Single Aisle, Wide Body) pour identifier les pratiques actuelles de suivi du rythme de production.
-3.1.4. Analyse des outils existants : Recensement pour la cartographie
+Comparaison inter-secteurs : Analyse comparative fine entre les secteurs pour identifier les pratiques actuelles de suivi du rythme de production.
+4.	 Analyse des outils existants : Recensement pour la cartographie
 Au cours de mes réunions avec les agents AOS, les Team Leaders et ma participation aux rituels, j'ai recensé les outils et fichiers réellement utilisés sur le terrain par les secteurs pour préparer et réaliser leurs routines opérationnelles quotidiennes ou hebdomadaires :
 SAP / MES : Outils maîtres exploités par l'atelier pour l'enregistrement transactionnel de la production.
 Skywise : Plateforme de données utilisée pour l'extraction des historiques et des indicateurs de performance.
-Tandem : Application logistique consultée pour le suivi des manquants.
-Google Sheets & Supports PowerPoint locaux : Fichiers partagés et diapositives servant de supports visuels pour l'animation physique des points d'îlots.
-Clarification du périmètre : Ces outils et fichiers appartiennent aux routines propres de chaque secteur. Le Cockpit Digital que j'ai conçu n'intervient pas dans leur fonctionnement quotidien et ne remplace aucun de ces systèmes de production. Son rôle est de centraliser les résultats de mon recensement pour dresser la cartographie de la maturité du projet d'amélioration de l'AOS, comparer les secteurs et centraliser les plans d'actions.
-🔍 EMPLACEMENT VISUEL 3.1 — RELEVÉS TERRAIN
-[INSERER ICI : Figure 3.1 - Cartographie brute des routines de régulation de cadence observées sur le Gemba (Secteurs ODYE/ODYS/ODYL)]
-Légende recommandée : Figure 3.1 : Cartographie des flux d'information et des rituels de régulation des cadences identifiés lors de la phase de Gemba Walk (Données brutes de diagnostic WP1).
-3.2. PHASE DO : Choix Techniques, Intrapreneuriat et Modèle de Maturité
-3.2.1. Analyse des solutions envisagées et critères de choix
-Face au besoin de piloter le projet d'amélioration de la brique PPC, plusieurs trajectoires techniques étaient envisageables pour le WP1. J'ai formalisé une matrice de choix basée sur l'analyse comparative de quatre solutions :
-Solution envisagée
-Avantages
-Inconvénients / Limites
-Décision d'arbitrage
-Google Sheet Partagé
-Collaboratif, mise à jour en temps réel.
-Rigidité de l'interface, vitesse limitée, incapacité à structurer un plan d'actions dynamique.
-Écartée (Insuffisant pour le pilotage)
-Support Google slides
-Standard corporate, adapté aux jalons.
-Données figées, temps de compilation manuel astronomique et sans valeur ajoutée.
-Écartée (Bureaucratie stérile)
-Outil Digital Dédié (Web App)
-Centralisation, calcul automatique, management visuel dynamique (Heatmap), pilotage d'actions intégré.
-Temps de développement initial requis.
-Retenue (Seule solution pérenne et scalable)
+Tandem : Application pour les points ouverts (probleme en cours de resolution) sur la ligne.
+Google Sheets & Slides locaux : Fichiers partagés et diapositives servant de supports visuels pour l'animation physique des points d'îlots.
+Ce recensement a permis d'identifier les différents supports utilisés par les secteurs pour préparer et animer leurs routines PPC. L'analyse a également mis en évidence une dispersion des informations entre plusieurs outils et fichiers locaux, rendant difficile l'obtention d'une vision consolidée de la maturité du projet à l'échelle de l'usine.
+5.	Problématique du projet PPC 
+L'état des lieux réalisé sur les différents secteurs de l'usine a mis en évidence une forte hétérogénéité des pratiques de pilotage PPC. Les données de maturité, les supports d'animation, les irritants et les plans d'actions étaient dispersés dans plusieurs fichiers locaux et présentations indépendantes, limitant la visibilité transverse du projet à l'échelle du site.
+Dans ce contexte, la problématique suivante a été définie :
+Comment passer d'une cartographie statique des routines PPC à un outil digital transverse permettant de piloter la maturité, les écarts et les plans d'actions à l'échelle de l'usine Saint-Éloi ?
 
-💻 EMPLACEMENT VISUEL 3.2 — INTERFACE DU COCKPIT DIGITAL
-[INSERER ICI : Figure 3.2 - Interface d'accueil du Cockpit Digital PPC – Centralisation des données de maturité]
-Légende recommandée : Figure 3.2 : Architecture de l'interface utilisateur du Cockpit Digital PPC (Production Pace Control) permettant de centraliser les évaluations de maturité sans passer par des consolidations manuelles.
-3.2.2. Posture d'intrapreneuriat, désilotage et capitalisation historique (RETEX)
-Encart : Transformation disruptive du livrable
-Le passif industriel (L'historique sur 2 ans) : Deux ans auparavant, l'équipe AOS avait déjà tenté de mener ce projet d'évaluation et de cartographie de la brique PPC, sans succès durable. Ce premier projet s'était soldé par un échec car il reposait sur des fichiers Excel statiques, complexes à maintenir et rapidement abandonnés par les équipes.
-Demande initiale du service : Réaliser une simple cartographie statique de l'existant sous la forme d'une énième matrice Excel locale pour le WP1, listant simplement les outils utilisés en préparation et en routine.
-Solution développée de mon initiative : En analysant ce passif, j'ai compris que refaire le même outil statique mènerait au même résultat. Porté par une posture d'intrapreneur et une force de proposition transverse, j'ai choisi de concevoir et de déployer un Cockpit Digital complet adossé à une base de données relationnelle. Au lieu d'une liste passive, cet outil sert de plateforme de cartographie, de comparaison inter-secteurs et de pilotage, intégrant les irritants, les points positifs et le suivi des plans d'actions pour chaque sous-secteur, secteur et pour l'usine.
-L'un des apports majeurs de cette démarche réside dans le désilotage complet de l'information. Auparavant, chaque secteur conservait ses données de performance de manière totalement isolée. Le Cockpit Digital brise ces barrières logiques en centralisant et en ouvrant la visibilité de manière transverse sur l'ensemble de l'usine. Cette approche disruptive a transformé une simple saisie de diagnostic en un puissant outil d'aide à la décision. Ce travail a été particulièrement bien reçu et validé par l'équipe Performance et AOS, qui a formellement souligné la pertinence et l'utilité de la solution dans un mail de félicitations envoyé à la suite de ma présentation de restitution.
-3.2.3. Versions de développement du Cockpit : Une démarche Agile
-Le développement de cette application de gestion de projet a suivi une démarche Agile en trois versions distinctes :
-Version 1 (Prototype sur Matrice Excel initiale) : Création du cadre logique, test des règles d'agrégation et validation des indicateurs types avec un secteur pilote. Version limitée par le manque de collaboratif simultané.
-Version 2 (Première interface Web de consultation) : Migration vers une interface Web permettant à l'AOS et au management de consulter visuellement l'état d'avancement du diagnostic. Les calculs s'exécutaient via des scripts lancés manuellement.
-Version 3 (Plateforme interactive connectée à une base de données) : Version finale cible. Une application Web dynamique connectée à une base de données centralisée, permettant la saisie directe, la mise à jour des plans d'actions et la génération automatique des indicateurs.
-3.2.4. Architecture technique de la solution numérique
-J'ai développé l'intégralité de l'application au sein de l'écosystème cloud sécurisé de Google Workspace d'Airbus, garantissant un déploiement immédiat et sans coût de licence :
-Front-End (Interface Utilisateur) : Codé en HTML5 pour la structure, CSS3 pour le design responsive adapté aux ordinateurs et tablettes, et JavaScript (manipulation du DOM) pour l'interactivité de la Heatmap, des filtres et des modules de saisie.
-Back-End (Moteur Logique) : Développé en Google Apps Script (GAS) pour programmer les fonctions d'agrégation, les calculs automatiques et le routage des données. La liaison Front/Back s'exécute de manière asynchrone via google.script.run.
-Data Layer (Base de données) : Structuré avec Google Sheets faisant office de base de données relationnelle pour stocker et synchroniser les tables de maturité, les irritants et les plans d'actions.
-3.2.5. Fonctionnement du moteur de calcul et standardisation
-Pour donner une force de décision à l'outil, j'ai construit la logique méthodologique du moteur de calcul pour refléter l'organisation du projet d'amélioration de l'usine :
-Saisie des critères (Daily / Weekly) : Pour chaque sous-secteur, l'application du standard PPC est évaluée sur des critères fixes (ex : respect de la structure de la routine, présence des fonctions supports). La notation est binaire ($0 = \text{Non respecté}$, $1 = \text{Standard appliqué}$).
-Calcul de la maturité du sous-secteur : L'utilisateur saisit directement sur l'interface du Cockpit la maturité de chaque critère. Le score de maturité local du sous-secteur est alors calculé à travers le ratio du nombre de critères validés sur le nombre de critères totaux applicables :
-$$\text{Score}_{\text{Sous-Secteur}} = \frac{\sum \text{Critères validés}}{\text{Total des critères applicables}} \times 100$$
-Agrégation multiniveau et Heatmap automatique : À partir de ces saisies, le calcul de la maturité et des KPI des secteurs, puis de l'usine globale, se fait de manière entièrement automatique. Le script consolide les données par niveau hiérarchique (Sous-Secteur $\rightarrow$ Secteur $\rightarrow$ Grand Secteur $\rightarrow$ Usine). Le cockpit génère alors ces indicateurs de maturité ainsi qu'une Heatmap dynamique (matrice visuelle de couleurs). Cet affichage met en évidence les écarts pour permettre au Top Management et à l'AOS de prendre des décisions immédiates et de prioriser l'allocation des ressources sur les secteurs les plus critiques.
-📊 EMPLACEMENT VISUEL 3.3 — COCKPIT VISUEL ET HEATMAP
-[INSERER ICI : Figure 3.3 - Vue dynamique de la Heatmap de l'usine – Matrice visuelle de décision]
-Légende recommandée : Figure 3.3 : Outil de management visuel intégré (Heatmap sectorielle) calculant automatiquement les niveaux de criticité pour guider les choix du Top Management et de l'équipe AOS.
-3.3. PHASE CHECK : Quantification du travail et Validation Collaborative
-3.3.1. Données quantitatives de l'étude (Le projet en chiffres)
-Le périmètre du diagnostic de maturité consolidé dans la base de données du cockpit digital comprend :
-3 grands secteurs industriels audités et connectés (ODYE, ODYS, ODYL).
-18 sous-secteurs autonomes de production cartographiés.
-45 routines managériales et rituels observés directement sur le terrain.
-32 entretiens approfondis menés avec les opérationnels et les fonctions supports.
-24 critères de maturité standardisés (répartis sur les horizons Daily/Weekly).
-Plus de 50 utilisateurs réguliers (Agents AOS, Managers de Production, Team Leaders, Fonctions supports).
-3.3.2. Processus de co-construction
-L'outil a été co-conduit à travers des cycles courts de retours avec les agents AOS et les Performance Leaders : [Gemba / Écoute besoin] ➔ [Maquette rapide] ➔ [Démonstration] ➔ [Ajustement & Code] ➔ [Déploiement]. Cette démarche itérative a assuré la simplicité d'utilisation des formulaires et la clarté des graphiques de la Heatmap.
-3.4. PHASE ACT : Transfonctionnalité et Valeur Ajoutée pour Airbus
-3.4.1. Un outil de pilotage global au service de tous les Workpackages
-Le Cockpit Digital est devenu la tour de contrôle du projet d'amélioration, agissant comme un lien transfonctionnel entre les différents lots de travail de l'AOS :
-Support WP2 (Compétences) : La Heatmap du projet identifie les faiblesses pour cibler l'accompagnement et la formation des Team Leaders.
-Support WP3 & WP4 (Process & Outils) : Les écarts de maturité relevés orientent la mise à jour des standards et l'optimisation des supports.
-Support WP5 & WP6 (Gouvernance & Routines) : L'outil sert de support visuel direct pour animer les rituels de gouvernance macro du projet avec le Top Management de l'usine, assurant le suivi des plans d'actions du WP6.
-🛠️ EMPLACEMENT VISUEL 3.4 — PILOTAGE DES ACTIONS
-[INSERER ICI : Figure 3.4 - Module de pilotage transfonctionnel – Suivi dynamique des plans d'actions]
-Légende recommandée : Figure 3.4 : Module de maillage inter-Workpackages (WP2 à WP6) permettant d'affecter et de suivre les chantiers d'amélioration continue directement liés au niveau d'application de la brique PPC.
-3.4.2. Synthèse de la valeur ajoutée créée pour l'entreprise
-Désilotage et décloisonnement : Unification des données de performance de l'usine au sein d'une interface unique, mettant fin à la dispersion des informations.
-Éradication de la non-valeur ajoutée : Suppression des tâches chronophages de compilation manuelle pour l'AOS, libérant du temps pour le support direct des rituels sur le terrain.
-Visibilité transverse instantanée : Le Top Management dispose d'une vision claire et consolidée en un clic de la maturité de la brique PPC à l'échelle du site.
-Aide à la décision : La Heatmap permet de prioriser et d'orienter les actions d'accompagnement de l'AOS là où les besoins sont les plus importants.
-Pérennisation : La centralisation des irritants et des plans d'actions dans la base de données évite l'effet "sujet mort" des anciens fichiers PowerPoint locaux.
-3.4.3. Synthèse des compétences d'ingénieur mobilisées (Référentiel UTBM)
-La réussite de ce projet de système de pilotage de la brique PPC m'a permis de valider plusieurs compétences clés du référentiel d'ingénieur de l'UTBM :
-Posture d'intrapreneur et force de proposition : Capacité à analyser un passif industriel (échec d'un outil statique deux ans auparavant) pour proposer, maquetter et déployer de ma propre initiative une solution numérique disruptive et pérenne.
-Ingénierie des systèmes d'information et compétences numériques : Conception complète d'une architecture décentralisée et responsive (HTML5, CSS3, JavaScript) couplée à un moteur logique Back-End (Google Apps Script) et à une base de données relationnelle (Google Sheets).
-Modélisation algorithmique et rigueur scientifique : Structuration mathématique d'un moteur d'agrégation multiniveau ($Secteur \rightarrow Grand Secteur \rightarrow Usine$) traduisant des saisies de maturité terrain en indicateurs macro exploitables.
-Management visuel et aide à la décision : Développement d'une interface dynamique de type Heatmap permettant le désilotage des informations de performance de l'usine et facilitant l'arbitrage stratégique pour le Top Management et l'équipe AOS.
+PHASE DO : Choix Techniques, Intrapreneuriat et Modèle de Maturité
+1.	Analyse des solutions envisagées et critères de choix
+Face au besoin de piloter le projet d'amélioration de la brique PPC, plusieurs trajectoires techniques étaient envisageables pour le WP1. J'ai formalisé une matrice de choix basée sur l'analyse comparative de quatre solutions :
+Solution envisagée	Avantages	Limites identifiées	Décision
+Google Sheets partagé	Collaboration en temps réel, facilité de mise en œuvre	Interface limitée, difficulté de pilotage, faible capacité de structuration des plans d'actions	Écartée
+Google Slides	Support standard utilisé dans l'environnement Airbus, adapté aux revues de jalons	Données statiques, consolidation manuelle, absence d'interactivité	Écartée
+Application Web dédiée (Cockpit Digital)	Centralisation des données, calcul automatique, management visuel dynamique, suivi intégré des actions	Temps de développement initial plus important	Retenue
+L'analyse comparative a montré que l'application Web dédiée constituait la seule solution capable de centraliser les informations, d'automatiser les consolidations et d'offrir une visibilité transverse à l'échelle de l'usine. Ce choix s'est donc imposé comme la solution la plus adaptée aux objectifs du projet PPC.
+2.	Posture d'intrapreneuriat, désilotage et capitalisation historique (RETEX)
+Encart : De la dispersion de l'information à une vision transverse de l'usine
+Deux ans auparavant, l'équipe AOS avait déjà engagé un projet d'évaluation et de cartographie de la maturité PPC. Cette première démarche reposait principalement sur des fichiers Excel locaux et des supports de suivi indépendants. Bien qu'elle ait permis de réaliser un premier état des lieux, elle n'a pas réussi à s'inscrire durablement dans le fonctionnement de l'usine.
+Dans le cadre du WP1, la demande initiale consistait à réaliser une nouvelle cartographie des pratiques PPC sous la forme d'une matrice recensant les outils utilisés par les différents secteurs. En analysant le retour d'expérience du projet précédent, j'ai toutefois constaté qu'une simple mise à jour de fichiers statiques reproduirait les mêmes limites que celles observées par le passé.
+Cette analyse m'a conduit à identifier une contradiction importante : alors que le projet PPC vise à améliorer la visibilité transverse et la coordination entre les acteurs de l'usine, son propre pilotage reposait sur une multitude de fichiers et de supports dispersés. Les informations étaient fragmentées, les consolidations manuelles et la vision globale du projet difficile à obtenir.
+J'ai donc proposé puis développé un Cockpit Digital reposant sur une base de données centralisée. J'ai conçu cette solution afin de regrouper les évaluations de maturité, les irritants, les points positifs et les plans d'actions dans un environnement unique. Au-delà de la simple cartographie demandée initialement, l'outil offre désormais une vision transverse de l'ensemble de l'usine et constitue un véritable support de pilotage du projet PPC.
+3.	Versions de développement du Cockpit : Une démarche Agile
+Afin de sécuriser le développement du Cockpit Digital et de valider progressivement les besoins des utilisateurs, j'ai adopté une démarche itérative inspirée des méthodes Agile. Chaque version a permis de tester de nouvelles fonctionnalités, de recueillir les retours des utilisateurs et d'améliorer progressivement l'outil jusqu'à sa version finale.
+V0	V1	V2	V3
+Maquette PowerPoint	Prototype Excel	Interface Web	Cockpit Digital Opérationnel
+Définition du besoin	Validation de la logique métier	Consultation des résultats	Base de données centralisée
+Validation de l'ergonomie	Test des indicateurs de maturité	Premiers KPI automatiques	Heatmap automatique
+Échanges avec l'équipe AOS	Validation sur un secteur pilote	Recueil des retours utilisateurs	Pilotage transverse du projet
+
+Cette approche progressive m'a permis de valider chaque étape du développement avant de passer à la suivante. Les retours réguliers des utilisateurs ont contribué à faire évoluer l'outil d'une simple maquette de travail vers un véritable cockpit digital de pilotage du projet PPC, utilisé pour centraliser les données de maturité et accompagner la prise de décision de l'équipe AOS.
+4.	Architecture technique de la solution numérique
+Afin de répondre aux besoins identifiés lors de la phase de diagnostic, j'ai développé un Cockpit Digital au sein de l'environnement Google Workspace utilisé par Airbus.
+L'architecture du Cockpit Digital repose sur plusieurs composants complémentaires que j'ai développés afin de collecter, traiter, centraliser et restituer les données de maturité PPC.
+Utilisateurs AOS / Management	➜	Interface Web	➜	Moteur de calcul	➜	Base de données centralisée	➜	Heatmap & KPI
+Saisie des évaluations et consultation des résultats		HTML / CSS / JavaScript : navigation, suivi des actions et visualisation des indicateurs		Google Apps Script : calcul des maturités, consolidation automatique et agrégation multiniveau		Stockage des évaluations, irritants, points positifs et plans d'actions		Management visuel, priorisation et aide à la décision
+
+Les informations saisies par les utilisateurs sont automatiquement consolidées, agrégées et transformées en indicateurs visuels facilitant le pilotage de la maturité, la priorisation des actions et le suivi du projet PPC à l'échelle de l'usine.
+5.	Standardisation de l'évaluation et pilotage visuel de la maturité
+L'un des enjeux majeurs du projet PPC consistait à disposer d'une méthode d'évaluation homogène permettant de comparer objectivement les différents secteurs de l'usine.
+Chaque sous-secteur est évalué à l'aide d'une matrice standard PPC commune à l'ensemble du site. Cette matrice regroupe les critères de maturité associés aux routines Daily et Weekly ainsi que les différents points attendus pour atteindre le niveau de maturité cible défini par l'AOS.
+Afin de rendre ces évaluations comparables et exploitables à l'échelle de l'usine, j'ai développé une logique de calcul permettant de transformer les résultats des matrices locales en indicateurs consolidés de maturité.
+Les évaluations saisies dans le Cockpit Digital sont ensuite automatiquement consolidées selon la structure organisationnelle du projet :
+Critères PPC → Sous-secteur → Secteur → Grand secteur → Usine
+Le moteur de calcul agrège automatiquement les résultats à chaque niveau hiérarchique afin de construire une vision consolidée de la maturité PPC. Cette automatisation supprime les consolidations manuelles et garantit une mise à jour instantanée des indicateurs.
+Les résultats sont restitués sous la forme d'une Heatmap dynamique permettant d'identifier visuellement les secteurs les plus performants ainsi que les zones nécessitant une attention particulière. Cet outil de management visuel facilite la priorisation des actions, l'allocation des ressources et le pilotage global du projet PPC par l'équipe AOS et le management.
+Cette standardisation a permis de passer d'une multitude d'évaluations locales indépendantes à un système unique de pilotage de la maturité PPC à l'échelle de l'usine Saint-Éloi.
+PHASE CHECK : Validation de la solution et mesure de la valeur créée
+1.	Le projet en chiffres
+Le périmètre du diagnostic consolidé dans le Cockpit Digital PPC comprend :
+Indicateur	Valeur
+Grands secteurs industriels audités	3
+Sous-secteurs cartographiés	18
+Routines managériales observées	45
+Entretiens réalisés	32
+Critères de maturité standardisés	24
+Utilisateurs concernés	> 50
+Ces éléments témoignent de l'ampleur du travail de diagnostic réalisé ainsi que du volume d'informations centralisées dans le Cockpit Digital.
+2.	 Validation collaborative de la solution
+Tout au long du développement, plusieurs démonstrations et points d'échange ont été réalisés avec les agents AOS et les Performance Leaders afin de confronter régulièrement l'outil aux besoins du terrain.
+Les retours recueillis ont permis d'ajuster progressivement l'ergonomie, les indicateurs et les modes de restitution des informations. Cette démarche collaborative a également permis de valider la pertinence du Cockpit Digital comme support unique de suivi de la maturité PPC et des plans d'actions associés.
+La restitution finale réalisée auprès de l'équipe AOS a confirmé l'intérêt de disposer d'une vision consolidée du projet à l'échelle de l'usine et a conduit à une validation positive de la solution développée. Les retours recueillis ont également souligné la pertinence de la démarche proposée ainsi que la valeur apportée par la centralisation des informations et le pilotage visuel de la maturité PPC.
+3.	Valeur créée par le Cockpit Digital
+L'évaluation de la solution développée met en évidence plusieurs améliorations significatives :
+Situation initiale	Situation obtenue
+Informations dispersées dans plusieurs fichiers locaux	Centralisation des données dans un environnement unique
+Vision limitée à chaque secteur	Vision transverse à l'échelle de l'usine
+Consolidations manuelles	Consolidation automatique des résultats
+Supports multiples et indépendants	Cockpit unique de pilotage
+Difficulté de comparaison entre secteurs	Référentiel commun de maturité
+Reporting statique	Heatmap dynamique et indicateurs visuels
+Au-delà de la digitalisation du suivi, cette évolution a permis de désiloter l'information et de renforcer la visibilité transverse du projet PPC pour l'ensemble des acteurs concernés.
+4.	Limites identifiées et axes d'amélioration
+À la date de rédaction de ce rapport, l'outil repose encore sur la saisie des évaluations de maturité par les utilisateurs, conformément au fonctionnement actuel du projet PPC.
+Des évolutions futures pourraient consister à automatiser davantage l'alimentation des données et à étendre les principes de pilotage développés dans ce Cockpit Digital à d'autres briques de l'Airbus Operating System.
+3.4. PHASE ACT : Pérennisation et perspectives de déploiement
+1. Un outil de pilotage au service de l'ensemble du projet PPC
+Le Cockpit Digital développé dans le cadre du WP1 dépasse aujourd'hui le simple périmètre du diagnostic initial. Grâce à la centralisation des données de maturité et des plans d'actions, il constitue un support de pilotage transverse pour l'ensemble des Workpackages du projet PPC.
+•	WP2 (Compétences) : identification des secteurs nécessitant un accompagnement ou une montée en compétences des Team Leaders ; 
+•	WP3 et WP4 (Processus et Outils) : priorisation des actions de standardisation et d'amélioration des supports de pilotage ; 
+•	WP5 et WP6 (Gouvernance et Routines) : animation des revues de pilotage et suivi de l'avancement des plans d'actions associés aux écarts de maturité. 
+Le Cockpit Digital contribue ainsi à assurer la cohérence globale du projet et facilite la coordination entre les différents acteurs impliqués.
+2. Pérennisation de la démarche PPC
+L'un des objectifs majeurs de la solution développée était d'éviter les limites observées lors des précédentes tentatives de cartographie PPC. La centralisation des données, des irritants et des plans d'actions dans un environnement unique permet désormais de conserver l'historique des évaluations et d'assurer un suivi continu de la maturité PPC.
+Cette approche réduit le risque d'abandon lié à la multiplication des fichiers locaux et favorise la capitalisation des connaissances acquises au fil du projet. Le Cockpit Digital constitue ainsi un support durable pour le pilotage et l'amélioration continue de la brique PPC.
+3. Perspectives de déploiement
+Au-delà du projet PPC, les principes développés dans le cadre de ce Cockpit Digital pourraient être réutilisés pour d'autres projets d'amélioration nécessitant une évaluation de maturité, un suivi d'actions ou une consolidation multi-niveaux des données.
+L'architecture développée constitue une base réutilisable permettant d'étendre cette logique de pilotage à d'autres briques de l'Airbus Operating System et à d'autres démarches d'amélioration continue menées au sein du site de Saint-Éloi.
 Conclusion du chapitre PPC
 En conclusion, la brique PPC (Production Pace Control), bien qu'ancrée de longue date dans le référentiel de l'AOS, souffrait d'un manque de visibilité transverse et d'outils de pilotage centralisés à l'échelle de l'usine Saint-Éloi. Sous l'impulsion d'une démarche d'intrapreneuriat et d'un leadership affirmé sur le WP1, nous sommes passés d'une mission initiale de simple cartographie statique sur tableur à la création d'un véritable Cockpit Digital de gestion de projet.
-En brisant les silos informationnels entre les secteurs et en automatisant le calcul des indicateurs de maturité, cet outil redonne à l'équipe AOS sa pleine posture de Business Partner technologique et managérial, capable d'orienter les chantiers de transformation là où les dérives de cadence sont les plus critiques.
-
-CHAPITRE 4 : RECONCEPTION DE L'ORGANISATION ET MANAGEMENT DU FLUX PHYSIQUE SUR L'ÎLOT DE MÉTROLOGIE CRITIQUE (TRIDIM IMAGE)
-4.1. PHASE PLAN : Diagnostic Terrain et Investigation Systémique (Data-Driven)
-4.1.1. Contexte industriel et positionnement goulot de la machine IMAGE
-Au sein du secteur ODYE (Pièces Élémentaires) de l'usine Airbus Saint-Éloi, la performance globale de la chaîne de valeur dépend directement de la réactivité des étapes de contrôle géométrique final. Le pôle de métrologie Tridim est un carrefour stratégique équipé de trois machines de mesure tridimensionnelle (MMT) de haute précision : la Silver, la Zeiss, et la machine IMAGE. Chaque pièce de structure aéronautique des programmes phares (A320 Neo PW/CFM, A330 Neo, A350-900/1000, A400M) doit obligatoirement être validée par ce pôle avant sa livraison aux lignes d'assemblage aval : le secteur ODYS pour les monocouloirs (Single Aisle) et le secteur ODYL pour les gros-porteurs (Wide Body).
-Au sein de ce trio de machines, les analyses de performance de l'atelier ont mis en lumière une dérive critique localisée : seule la machine IMAGE se trouvait dans l'incapacité structurelle de tenir son contrat de production hebdomadaire. L'adhérence au contrat oscillait historiquement entre 70% et 75%, signifiant qu'un quart de la production demandée manquait systématiquement à l'appel chaque semaine. Cette dérive générait des encours massifs, des risques majeurs de rupture sur les lignes d'assemblage aval et un climat de travail sous haute tension pour les compagnons. C'est pour sécuriser ce goulot capacitaire qu'un chantier Kaizen ciblé a été déclenché. Chronologiquement, ce travail a constitué ma première grande immersion technique sur le terrain.
+En capitalisant sur le retour d'expérience des démarches précédentes, cette solution a permis de désiloter l'information, de standardiser l'évaluation de la maturité PPC et de centraliser les données du projet dans un environnement unique. L'automatisation des consolidations et la mise en place d'une Heatmap dynamique offrent désormais à l'équipe AOS et au management une vision transverse facilitant la priorisation des actions et la prise de décision.
+Au-delà de l'outil développé, ce projet illustre la capacité à transformer un besoin local en une solution pérenne de pilotage, capable d'accompagner durablement les démarches d'amélioration continue et de montée en cadence de l'usine Saint-Éloi.
+.6. Sujet 2 – Pilotage du WIP et du Temps de Cycle
+Contenu à compléter.
+7. Sujet 3 – Kaizen Machine Image Tridim
+4.1. PHASE PLAN : Diagnostic Terrain et Investigation Systémique 
+4.1.1. Contexte industriel et positionnement de la machine IMAGE
+Au sein du secteur ODYE de l'usine Airbus Saint-Éloi, le pôle de métrologie constitue une étape indispensable du flux de production. Il est composé de trois machines de mesure tridimensionnelle: Silver, Zeiss et IMAGE. Chaque pièce de structure aéronautique destinée aux programmes A320 Neo, A330 Neo, A350 ou A400M doit être contrôlée sur ces équipements avant d'être livrée aux lignes d'assemblage.
+L'analyse des performances du pôle a mis en évidence une situation particulière sur la machine IMAGE. Contrairement aux autres équipements du secteur, cette machine présentait une difficulté récurrente à respecter son contrat de production hebdomadaire. L'adhérence au contrat oscillait historiquement entre 70 % et 75 %, générant des encours importants et des risques de perturbation pour les clients internes aval.
+Face à cette situation, un chantier Kaizen a été lancé afin d'identifier les causes racines de cette sous-performance et de définir les actions nécessaires pour sécuriser durablement la capacité de l'îlot.
+Visuel à ajouter : Flux global du pôle Tridim (Usinage → Tridim → ODYS / ODYL).
 4.1.2. Ma contribution personnelle au chantier
-Ce projet d'amélioration continue a été mené au sein d'une équipe collaborative de trois personnes. Pour répondre aux exigences d'évaluation de l'UTBM, j'ai formalisé le périmètre exact de mes actions individuelles :
-Immersion et observations terrain : Présence physique sur le poste lors des différentes vacations pour analyser les pratiques opératoires et l'environnement de la machine.
-Entretiens et maïeutique : Conduite des discussions avec les compagnons pour recueillir leurs points de vue et identifier les irritants vécus au fil de l'eau.
-Audits de données et chronométrages : Extraction des données SAP/MES, analyse des fichiers locaux des opérateurs et prise en charge exclusive des campagnes de chronométrage sur deux journées complètes.
-Modélisation et calculs de ROI : Traitement statistique de la volatilité, calcul des écarts de temps standards (TAI) et modélisation mathématique des gains de capacité nets.
-Co-construction et restitution : Co-animation du Workshop Kaizen, formalisation des supports visuels de standardisation et participation à la présentation de la restitution finale devant la direction.
-4.1.3. Cadrage initial et démarche d'immersion sur le Gemba
-Pour lancer le chantier sous une gouvernance claire, la première étape a consisté à organiser une grande réunion de cadrage réunissant le Team Leader (TL) de l'îlot, les fonctions supports (Logistique et Ordonnancement) et les opérateurs. Les objectifs de ce point de départ étaient de figer une date limite pour le chantier, de s'accordé sur la feuille de route et d'informer officiellement les équipes de notre présence fréquente sur le terrain. À la suite de ce jalon, je me suis immergé directement sur le Gemba aux côtés des opérateurs lors de leurs vacations (3x8) pour comprendre la réalité du terrain et recenser les causes des dérives selon leur prisme.
-Comme formalisé lors de notre restitution dans la planche image_e4acfb.png, les constats observés étaient sans équivoque : changements fréquents de planning, modifications de priorités en cours de production, séquences non respectées et injection permanente d'urgences dans le flux. Les conséquences concrètes de ces dysfonctionnements se traduisaient par la non-tenue chronique du contrat (pièces réalisées / pièces prévues), une perte de temps conséquente pour les compagnons générant de la frustration, et une baisse globale de l'OEE (perte de performance de la machine).
-4.1.4. L'infirmation de la fausse piste du SMED et le pivot du chantier
-À l'origine, la feuille de route du projet nous orientait vers une approche Lean classique : la réalisation d'un chantier SMED pour réduire la durée physique de montage des outillages sur IMAGE. Cependant, mes observations terrain couplées aux discussions avec les compagnons ont mis en lumière qu'un chantier SMED lourd avait déjà été déployé par le passé. Les gestes techniques étaient optimisés à un excellent niveau (durée standard de 12 minutes). S'obstiner dans cette direction pour tenter de "gratter" quelques secondes aurait représenté un coût de déploiement et une mobilisation bien supérieurs au gain réel espéré.
-En exerçant mon esprit critique d'ingénieur, j'ai démontré à l'équipe que le problème n'était pas la durée du setup, mais sa fréquence. C'était la volatilité continuelle du planning qui forçait l'opérateur à changer d'outillage à un rythme intenable. J'ai donc proposé d'annuler le SMED physique pour réorienter le chantier vers une analyse approfondie de la volatilité du planning et la compréhension des écarts de flux d'information.
-De la même manière, j'ai infirmé une autre fausse piste : celle d'une réorganisation physique ou géométrique de l'espace de travail. L'implantation physique entourant la machine IMAGE était fonctionnelle, propre et ne présentait aucun défaut d'ergonomie ou de cheminement pour les compagnons. L'aménagement de la zone ne posait aucun problème. L'effort devait se concentrer exclusivement sur les règles de gestion du flux.
-Note sur l'esprit critique : L'une des principales contributions du chantier a été de remettre en question la solution initialement envisagée. L'analyse terrain a démontré que la performance n'était pas limitée par la durée des changements de série mais par leur fréquence, orientant ainsi le chantier vers une refonte des règles de gestion du flux plutôt que vers une optimisation locale des gestes opératoires.
-4.1.5. L'investigation des données : Les limites de Skywise et le recours au fichier terrain
-Pour objectiver cette volatilité, notre équipe a cherché à extraire les données d'arrêts et d'aléas de la plateforme Skywise, alimentée par le système MES. C'est ici que nous avons rencontré une difficulté technique majeure : dû à une complexité de saisie, les opérateurs ne déclaraient pas les aléas sur le MES, ou les déclaraient sans les classer. Par conséquent, au lieu d'obtenir une vision catégorisée des heures perdues, la majorité des arrêts apparaissaient sous le libellé "Perte inconnue". Skywise était inexploitable pour notre diagnostic.
-Pour contourner ce blocage, j'ai fouillé les outils locaux des opérateurs et j'ai découvert qu'ils alimentaient au fil de l'eau, de leur propre initiative, un fichier Excel partagé (Sheet) pour suivre la séquence réelle des pièces passées (image_e4bf04.png, image_e4bf64.png). L'analyse de cette cartographie brute a révélé une fragmentation extrême du flux. La machine IMAGE subissait jusqu'à 20 changements de série sur une seule vacation de 24 heures, oscillant de manière chaotique entre des références de bras A320, de cadres A400M et de ferrures A350 de 05h36 à 23h20.
-Pour quantifier scientifiquement cette dérive auprès de la direction, j'ai procédé à des extractions de données sur une période de 2 semaines, à raison de 3 fois par jour, afin de mesurer la volatilité réelle du planning entre les lancements prévus et exécutés (image_e4bbe4.png). Les résultats de cette modélisation ont mis en évidence un taux de volatilité de 12% sur l'objectif de production et culminant à 51% sur la modification des priorités (17 changements de priorité et 4 changements d'objectifs en cours de semaine), matérialisant des courbes d'avancement de contrat en dents de scie.
-4.1.6. Le nœud systémique de l'Ordonnancement : Conflit entre virtuel et physique
-En organisant plusieurs réunions avec l'équipe de l'Ordonnancement (Ordo), j'ai cherché à comprendre l'origine de ces changements de série incessants. Ces sessions de travail ont prouvé que l'Ordo ne modifiait pas le planning par choix, mais parce qu'il subissait des urgences permanentes des clients aval. L'investigation a révélé une boucle de rupture majeure entre le système d'information et le terrain :
-Le biais informatique : L'Ordo construisait le contrat hebdomadaire en se basant sur les priorités et sur la présence des pièces déclarées disponibles dans le système virtuel de SAP.
-L'écart physique : Lorsque l'opérateur sortait de la chambre tridimensionnelle pour charger la pièce demandée au contrat, il constatait qu'elle n'était pas présente physiquement dans la zone (pièce encore bloquée en usinage amont ou en cours de transfert logistique).
-La réaction : Pour ne pas laisser la machine IMAGE vide, l'opérateur prenait une autre pièce disponible physiquement sur la zone (non demandée au contrat), lançait sa mesure, et modifiait le fichier de suivi pour adapter la disponibilité informatique. Ce décalage permanent entre le virtuel système et le physique réel alimentait l'instabilité du flux.
-4.1.7. Audit des Temps Standards (TAI) et dysfonctionnement de la boucle SAP
-Parallèlement, les opérateurs signalaient un écart important entre le temps de mesure théorique inscrit sur le contrat et le temps réel passé sur IMAGE. Pour valider ce point, j'ai pris en charge le chronométrage complet de la machine IMAGE durant deux journées complètes (image_e4bfbe.png). L'analyse de ce fichier d'étude, que j'ai signé conjointement avec les équipes, a confirmé des écarts systématiques entre les Temps d'Allocation Initiaux (TAI) de gamme et la réalité du terrain :
-Exemple A330 Neo (OP 120) : Le TAI théorique SAP de 41,3 min s'élevait en réalité à 58 min au chronomètre, soit un écart de +24,1 min (jusqu'à 79 min avec l'impact qualité).
-Exemple Pyramide A350-1000 : Le TAI théorique de 38,4 min atteignait en réalité 72 min au poste (77,4 min avec manipulation d'outillage), soit un écart brut de +33,6 min.
-En remontant ce fil technique auprès des programmeurs, j'ai découvert que sur les 12 derniers mois, 100 modifications de trajectoires et de stratégies de palpage avaient été réalisées sur un catalogue de 300 programmes existants (soit 33% du parc) (image_e4b7e3.png). Si ces évolutions étaient consignées localement par les programmeurs sur un fichier Sheet, la liaison vers SAP était rompue. L'Ordo planifiait donc l'îlot en extrayant de SAP des données obsolètes, rendant le calcul de charge/capacité faux et le contrat mathématiquement impossible à tenir pour l'atelier.
-4.1.8. Audit des pratiques opératoires (MES) et dérive du traitement des Non-Conformités (NC)
-Pour clore le diagnostic, une revue menée avec le Team Leader a mis en évidence un écart par rapport à la Fiche d'Instruction de Travail (SOI). Le standard stipule que toutes les opérations annexes (nettoyage, préparation, gestion des NC) doivent être réalisées en temps masqué pendant le cycle automatique de la machine IMAGE afin de maintenir le flux de production.
-Or, l'analyse du suivi journalier des NC (image_e4bf04.png) a révélé qu'en cas de défaut qualité, les opérateurs arrêtaient la machine pour traiter administrativement la NC sur le MES. Cette dérive couplée à un taux de Non-Conformités très élevé (64% le 02/04/2025 et 50% le 03/04/2025) immobilisait lourdement et inutilement la machine hors temps masqué.
-4.1.9. La contrainte environnementale : L'impact de la température atelier
-Enfin, le diagnostic a mis en lumière une contrainte physique incontournable : la métrologie tridimensionnelle exige le respect strict d'une température ambiante inférieure à 21°C pour garantir la validité légale des mesures aéronautiques. Lors des périodes de remontées thermiques, l'îlot subissait des pannes de climatisation récurrentes. Lorsque la température dépassait le seuil de tolérance, un arrêt de travail complet de la machine IMAGE s'imposait, détruisant l'OEE disponible.
-4.1.10. Synthèse des causes racines (Ishikawa) et Objectifs du Workshop
-Pour structurer l'ensemble de ces données industrielles de masse, j'ai formalisé le diagramme d'Ishikawa de l'îlot IMAGE, validé lors de notre présentation de restitution (image_e4afc1.png) :
-                               DIAGRAMME D'ISHIKAWA (MACHINE IMAGE)
-   MATIÈRE                                 MATÉRIEL                    MAIN D'ŒUVRE
-   - Pièce non disponible (Gap virtuel/    - Changement outillages     - Écart façon de faire
-     physique de stock)                      hors temps masqué           entre les opérateurs
-   - Qualité des pièces (Taux NC élevé)                                - Activités au-delà
-   - Injection d'urgences (187 / BAU)                                    du poste (3x8)
-         \                                    \                               /
-          \                                    \                             /
-           \                                    \                           /
-  ──────────┴────────────────────────────────────┴─────────────────────────┴─────────► VOLATILITÉ PDP
-           /                                    /                           \          & NON-TENUE
-          /                                    /                             \         DU CONTRAT
-         /                                    /                               \
-   - Écart temps gamme vs terrain (TAI)    - Problème Température (<21°C)      - Communication avec DSI :
-   - Manque communication / Gouvernance    - Place limitée / Zone d'arrivée      Livraison Zone
-     sur mise à jour TAI                     sur-dimensionnée et saturée         d'arrivée / départ
-   - Instabilité des priorités & lancers
-   MÉTHODES                                MILIEU                              INFO / SYSTÈME
-À partir de cette cartographie, les objectifs du Workshop Kaizen de 2 jours ont été précisément cadrés avec la direction de production (image_e4afde.png) : stabiliser le planning de production pour redonner de la sérénité à l'atelier, optimiser la séquence d'ordonnancement via une séquence type afin de minimiser le nombre de changements de série, synchroniser la disponibilité des ressources (matières, outillages) avec le planning, définir les indicateurs de pilotage et la gouvernance pour maintenir la stabilité, et établir les "Règles d'Or" communes entre l'Ordonnancement et la Production.
+Ce projet d'amélioration continue a été réalisé au sein d'une équipe de trois personnes. Afin de clarifier ma contribution individuelle, j'ai principalement pris en charge les activités suivantes :
+•	Réalisation des observations terrain; 
+•	Conduite des échanges avec les compagnons afin d'identifier les irritants opérationnels ; 
+•	Extraction et analyse des données SAP, MES et fichiers de suivi locaux ; 
+•	Réalisation des campagnes de chronométrage sur la machine IMAGE ; 
+•	Analyse des écarts entre les temps standards et les temps réels ; 
+•	Modélisation des gains potentiels et calcul du retour sur investissement ; 
+•	Participation au workshop Kaizen et à la restitution finale. 
+4.1.3. Immersion terrain et premiers constats
+Le chantier a débuté par une réunion de cadrage réunissant le Team Leader, les opérateurs, l'Ordonnancement ainsi que les fonctions supports concernées. Cette réunion a permis de définir les objectifs du chantier, son calendrier ainsi que les modalités d'intervention sur le terrain.
+Une phase d'immersion a ensuite été réalisée directement sur le Gemba afin d'observer le fonctionnement réel de l'îlot sur les différentes équipes. Les observations et échanges avec les compagnons ont rapidement fait apparaître plusieurs dysfonctionnements récurrents :
+•	changements fréquents des priorités de production ; 
+•	modifications permanentes du planning ; 
+•	séquences de production non respectées ; 
+•	intégration continue d'urgences dans le flux. 
+Ces perturbations se traduisaient directement par une forte instabilité du planning, une multiplication des changements de série et une difficulté chronique à respecter le contrat de production.
+4.1.4. Remise en question de la piste SMED
+Lors du lancement du projet, la solution initialement envisagée consistait à réaliser un chantier SMED visant à réduire le temps de changement d'outillage sur la machine IMAGE.
+Les observations terrain ont cependant montré que les opérations de montage étaient déjà fortement optimisées et réalisées en environ 12 minutes. Les gains potentiels d'un nouveau chantier SMED apparaissaient donc limités.
+L'analyse a mis en évidence que le véritable problème ne résidait pas dans la durée des changements de série mais dans leur fréquence. Les modifications permanentes du planning obligeaient les opérateurs à multiplier les changements d'outillage au cours d'une même journée.
+Cette conclusion a conduit l'équipe à réorienter complètement le chantier. L'objectif n'était plus d'optimiser localement un changement de série déjà performant, mais de réduire le nombre de changements imposés par l'instabilité du flux de production.
+Par ailleurs, l'étude de l'environnement de travail a confirmé que l'implantation physique de l'îlot était adaptée et ne constituait pas un facteur limitant pour la performance.
+Visuel à ajouter : Schéma "Hypothèse initiale SMED → Diagnostic terrain → Fréquence des setups → Stabilisation du flux".
+4.1.5. Analyse de la volatilité du planning
+Au cours des observations terrain, un constat récurrent est rapidement apparu : le contrat de production défini en début de semaine évoluait continuellement au fil des jours. Les priorités étaient régulièrement modifiées, certaines pièces disparaissaient du planning tandis que d'autres étaient ajoutées en urgence, générant une forte instabilité dans l'organisation de la production.
+Face à ce constat, j'ai cherché à identifier les causes de ces modifications permanentes du contrat de production. Une première analyse des données disponibles dans Skywise a été réalisée afin de comprendre l'origine des pertes de performance observées sur la machine IMAGE.
+Cependant, ces investigations se sont révélées peu exploitables en raison d'un manque de fiabilité dans la déclaration des aléas sur le MES. Une part importante des arrêts apparaissait sous la catégorie générique « perte inconnue », rendant difficile l'identification des causes réelles des perturbations.
+Afin de poursuivre l'analyse, j'ai exploité un fichier de suivi partagé utilisé quotidiennement par les opérateurs. Ce support permettait de retracer précisément la succession réelle des pièces traitées sur la machine IMAGE et de comparer le planning prévu à la réalité observée sur le terrain.
+L'étude de ces données a mis en évidence une forte volatilité du flux de production, caractérisée par de nombreux changements de priorités et de familles de produits au cours d'une même journée. Des relevés réalisés sur deux semaines ont permis de quantifier cette instabilité et de démontrer son impact direct sur le respect du contrat de production.
+4.1.6. Analyse des interactions avec l'Ordonnancement
+Afin de comprendre l'origine des changements du contrat de la semaine, plusieurs réunions ont été organisées avec l'équipe Ordonnancement.
+L'analyse a montré que les modifications de planning ne résultaient pas d'un manque de rigueur dans la planification mais d'un décalage entre les informations disponibles dans les systèmes et la réalité du terrain.
+L'Ordonnancement construisait le contrat de production à partir des disponibilités déclarées dans SAP. Cependant, lors du lancement des opérations, certaines pièces annoncées comme disponibles n'étaient pas physiquement présentes sur la zone de production.
+Pour éviter l'arrêt de la machine, les opérateurs étaient contraints de modifier la séquence prévue et de traiter d'autres pièces disponibles. Cette situation alimentait un cercle d'instabilité permanent entre le système d'information et le terrain.
+Visuel à ajouter : SAP → Pièce annoncée disponible → Pièce absente physiquement → Changement de priorité → Nouveau setup.
+4.1.7. Analyse des temps standards et des données de planification
+En parallèle, les opérateurs signalaient des écarts importants entre les temps de contrôle prévus et les temps réellement observés sur la machine IMAGE.
+Afin de vérifier cette hypothèse, j'ai réalisé une campagne de chronométrage sur plusieurs références représentatives. Les résultats ont confirmé des écarts significatifs entre les Temps d'Allocation Initiaux (TAI) présents dans SAP et les temps réellement constatés sur le terrain.
+Les investigations menées auprès des programmeurs ont montré que de nombreuses modifications de programmes avaient été réalisées au fil du temps sans mise à jour systématique des données de planification utilisées par l'Ordonnancement.
+Cette situation conduisait à construire des contrats de production sur la base de données partiellement obsolètes, faussant les calculs de charge et de capacité de l'îlot.
+Visuel à ajouter : Tableau comparatif TAI SAP vs Temps réels mesurés.
+4.1.8. Analyse des pratiques opératoires
+Une analyse complémentaire des pratiques de travail a mis en évidence un écart entre les consignes définies dans les standards de production et les pratiques observées sur le terrain.
+En cas de non-conformité détectée lors du contrôle, les opérateurs interrompaient régulièrement la production afin de réaliser immédiatement les déclarations administratives nécessaires dans le MES.
+Cette pratique immobilisait inutilement la machine alors que ces opérations pouvaient être réalisées pendant les cycles automatiques de mesure.
+4.1.9. Contraintes environnementales
+L'analyse a également mis en évidence une contrainte externe importante liée au maintien des conditions environnementales nécessaires à la métrologie tridimensionnelle.
+La validité des mesures exige le respect d'une température strictement maîtrisée dans la chambre de contrôle. Les arrêts occasionnels du système de climatisation pouvaient ainsi entraîner l'arrêt complet de la machine IMAGE et impacter directement sa disponibilité.
+4.1.10. Synthèse des causes racines et objectifs du workshop
+L'ensemble des investigations réalisées a permis de formaliser un diagramme d'Ishikawa mettant en évidence les principales causes de la non-tenue du contrat de production :
+•	instabilité du planning ; 
+•	écart entre disponibilité système et disponibilité physique ; 
+•	temps standards obsolètes ; 
+•	traitement des non-conformités hors temps masqué ; 
+•	contraintes environnementales ; 
+•	manque de synchronisation entre les différents acteurs du flux. 
+À partir de ces constats, les objectifs du workshop Kaizen ont été définis :
+•	stabiliser le planning de production ; 
+•	réduire la fréquence des changements de série ; 
+•	fiabiliser les données de planification ; 
+•	synchroniser les acteurs du flux ; 
+•	définir de nouvelles règles de pilotage et de gouvernance ; 
+•	améliorer durablement l'adhérence au contrat de production. 
+Visuel à ajouter : Diagramme d'Ishikawa simplifié (version propre, non ASCII).
 4.2. PHASE DO : Choix des Solutions, Co-construction et Déploiement des Standards
-4.2.1. Analyse et choix des solutions retenues (Critères UTBM)
-Pour répondre explicitement aux exigences d'ingénierie, l'équipe a formalisé et évalué plusieurs trajectoires de résolution lors du workshop :
-Solution 1 : SMED complémentaire (Optimisation gestuelle) : Viser une réduction supplémentaire de la durée physique du setup outillage. Critères : Impact faible (déjà optimisé à 12 min), faisabilité technique complexe pour un gain marginal. Écartée.
-Solution 2 : Réorganisation physique de la zone : Repenser l'implantation géométrique de l'îlot. Critères : Rapidité forte, mais adhésion terrain neutre car la zone était déjà propre et ergonomique. Écartée (Hors sujet).
-Solution 3 : Réduction des temps de contrôle : Alléger les programmes de palpage tridimensionnel. Critères : Faisabilité réglementaire très lourde (exigences qualité Airbus strictes). Écartée.
-Solution 4 : Stabilisation du flux et règles de gestion (Fréquence des setups) : Agir sur les règles de planification, geler le planning sur 24h et synchroniser le disponible physique avant lancement. Critères : Impact très fort, faisabilité immédiate, forte adhésion terrain. Retenue.
-Arbitrage d'ingénierie : Le choix s'est porté sur la Solution 4. L'équipe a acté qu'il fallait impérativement agir sur la fréquence des setups et non sur leur durée locale, réorientant l'effort sur les processus d'ordonnancement.
-4.2.2. Logique de résolution : Synthèse des Causes, Impacts et Solutions
-Pour matérialiser la cohérence méthodologique du chantier, j'ai synthétisé les arbitrages dans le tableau d'ingénierie suivant :
-Cause racine identifiée
-Impact sur l'îlot IMAGE
-Solution organisationnelle déployée
-Volatilité du planning
-Multiplication chaotique des setups
-Séquence journalière type par famille
-Gap SAP / Stock physique
-Changement de priorités à chaud
-Validation du disponible physique en zone amont
-TAI de gamme obsolètes
-Contrat hebdomadaire irréaliste
-Workflow de mise à jour SAP / FORCE
-Traitement NC machine arrêtée
-Perte de capacité brute sur IMAGE
-Standard MES de traitement en temps masqué
-Urgences permanentes
-Cassure du flux et stress atelier
-Isolement visuel et intégration à $J+1$ (Frozen Zone)
-
-4.2.3. Catégorisation des solutions identifiées (Gouvernance des Zones)
-Pour structurer le plan d'action et définir les responsabilités, j'ai modélisé la matrice de catégorisation des solutions approuvée lors de la restitution (image_e4afa4.png) :
-Zone 1 (Traités pendant le WS) : Problématiques sous le contrôle direct de l'équipe du chantier, déployables immédiatement (Séquencement journalier, rituels de proximité, standards comportementaux opérateurs).
-Zone 2 (Escalade N2 / Besoin support) : Problèmes hors du cercle de contrôle direct des participants, nécessitant une prise en charge et un arbitrage par la hiérarchie ou des services externes (Mise à jour des bases de données SAP, investissement climatisation).
-Zone 3 (Hors scope du chantier) : Idées à forte valeur ajoutée mais nécessitant des études macro-capacitaires long terme, placées dans un "parking à idées" (Étude de l'équilibrage de charge entre les machines Silver, Zeiss et IMAGE ; processus de transfert de charge Zeiss vers Silver avec prise en compte du temps de chargement/déchargement de l'outillage) (image_e4ac7b.png).
-4.2.4. Solutions de Zone 1 : Standard de Pilotage de la Séquence Journalière
-Pour pallier l'absence de planification à courte échéance, j'ai formalisé l’infographie standardisée du nouveau rituel quotidien (image_e4acfb.jpg) :
-Coordonnées du point : Une routine stricte de 15 minutes, de 13h15 à 13h30, 4 fois par semaine (du lundi au jeudi). Le jeudi est spécifiquement dédié à la préparation de la séquence du vendredi et du week-end (VSD). Le point réunit physiquement le Logisticien, l'Ordonnanceur, le Team Leader et le Compagnon devant le panneau visuel de l'îlot.
-L'Agenda du Point (Déroulement en 3 étapes) :
-Bilan J-1 : Vérification des volumes produits et du respect de la séquence. En cas d'écart, réalisation immédiate d'une analyse des causes racines (mini-PPC).
-Disponibilité Pièces : Vérification physique et visuelle des pièces réellement présentes dans la zone intermédiaire de l'îlot (située entre la zone d'arrivée usinage et la machine IMAGE).
-Pilotage : L'Ordo fixe les priorités de production de manière inflexible pour les 24 heures à venir, en se basant uniquement sur ce disponible physique. Les lancements sont regroupés par familles technologiques pour créer des campagnes de contrôle et diluer l'impact des setups.
-Gestion des urgences (Frozen Zone) : Pour protéger la machine IMAGE des perturbations politiques, toute pièce urgente arrivant en cours de journée (plantage client) fait l'objet d'une isolation visuelle et d'une escalade immédiate en Niveau 2. Elle est intégrée dans le flux de production du lendemain ($J+1$) sans rompre la séquence journalière figée. Les avantages validés par le terrain sont immédiats : flux stabilisé, zéro rupture par anticipation, communication claire et diminution du stress pour les compagnons.
-4.2.5. Solutions de Zone 1 : Standard de Gestion des NC par l'opérateur
-Pour réaligner les pratiques avec la fiche d'instruction (SOI) et éliminer les arrêts machine, j'ai formalisé le standard visuel de traitement des défauts qualité sur le système MES (image_e4acdc.jpg) :
-Mesure MMT & Détection NC : Dès qu'une non-conformité est détectée par la machine IMAGE, le flux de production principal est impérativement maintenu. L'opérateur isole la pièce défectueuse dans la zone d'attente dédiée et charge immédiatement la pièce suivante dans la MMT.
-Déclaration après traitement (Temps masqué) :
-Cas A (Dépassement du temps masqué) : L'opérateur réalise l'analyse et la rédaction de la NC sur son poste informatique pendant le cycle automatique de la machine. Si le traitement dépasse le temps masqué disponible, l'opérateur déclare immédiatement un Aléa sur sa tablette pour figer la traçabilité.
-Cas B (Déclaration des temps perdus) : L'opérateur saisit le code de temps perdu précis sur le MES après le traitement, garantissant la remontée de données fiables et exploitables vers Skywise. Le flux de production reste ainsi protégé.
-4.2.6. Actions de Zone 2 : Nouveau Workflow de mise à jour des TAI SAP / FORCE
-Pour résoudre définitivement le dysfonctionnement d'information mis en évidence lors de mes chronométrages, j'ai modélisé le nouveau workflow de synchronisation des données logistiques (image_e4acbf.jpg). L'objectif était d'éradiquer le manque de confiance dans les données de l'ERP qui faussait le contrat de la semaine :
-                     NOUVEAU WORKFLOW DE MISE À JOUR DES TEMPS STANDARDS (TAI)
-   
-   ┌────────────────────────────────┐
-   │ FICHIER "CALCUL TEMPS MMT"     │
-   │  (Géré par les programmeurs)   │
-   └───────────────┬────────────────┘
-                   │
-         Est-ce qu'il est à jour ?
-                   │
-         ┌─────────┴─────────┐
-      OUI│               NON │
-         ▼                   ▼
-   ┌──────────────┐    ┌──────────────────────────────────┐
-   │  STANDARD    │    │ ACTION REQUISE :                 │
-   │              │    │ Mise à jour du fichier local     │
-   │              │    │ avec les bons TAI chronométrés   │
-   └──────┬───────┘    └─────────────────┬────────────────┘
-          │                              │
-          └──────────────┬───────────────┘
-                         │
-                         ▼
-           ┌───────────────────────────┐
-           │ MISE À JOUR DATA SUR SAP  │◄── (Responsabilité Service Méthodes)
-           └─────────────┬─────────────┘
-                         │
-                         ▼
-           ┌───────────────────────────┐
-           │ MISE À JOUR DATA SUR FORCE│
-           └─────────────┬─────────────┘
-                         │
-                         ▼
-           ┌───────────────────────────┐
-           │ CONTRAT DE LA SEMAINE     │
-           │         FIABLE            │
-           └───────────────────────────┘
-Ce point a fait l'objet d'une escalade officielle en Niveau 2 auprès du service des Méthodes. Un protocole a été validé pour purger les TAI obsolètes de SAP et FORCE, garantissant que l'Ordonnancement planifie désormais la charge sur des bases fiables et cohérentes (recalage des gammes de l'A330 Neo et de l'A350). De même, les arrêts liés à la température ont été remontés en Zone 2 pour déclencher une étude d'ingénierie sur le système de climatisation de la chambre Tridim (image_e4aca2.jpg).
+4.2.1. Analyse et choix des solutions retenues
+À l'issue du diagnostic, plusieurs pistes d'amélioration ont été étudiées et évaluées selon leur impact potentiel, leur faisabilité et leur adhésion terrain.
+Solution étudiée	Analyse	Décision
+Optimisation complémentaire du SMED	Temps de changement déjà optimisé (~12 min), gain limité	Écartée
+Réorganisation physique de la zone	Implantation jugée satisfaisante lors des observations terrain	Écartée
+Réduction des temps de contrôle	Contraintes qualité et certification incompatibles avec une simplification des programmes de mesure	Écartée
+Stabilisation du flux et des règles de planification	Impact fort sur la fréquence des setups, faisabilité immédiate et forte adhésion des acteurs	Retenue
+L'analyse a confirmé que la principale source de perte ne provenait pas de la durée des changements de série mais de leur fréquence. Le chantier a donc été réorienté vers la stabilisation du flux de production et l'amélioration des règles de pilotage de l'îlot IMAGE.
+Visuel à ajouter : Tableau comparatif des solutions étudiées.
+4.2.2. Synthèse des causes racines et des actions retenues
+Les investigations réalisées ont permis de relier chaque cause racine à une action corrective spécifique.
+Cause identifiée	Impact observé	Action retenue
+Volatilité du planning	Multiplication des setups	Séquencement journalier par famille
+Écart entre SAP et le stock physique	Changements de priorité en cours de journée	Validation du disponible physique avant lancement
+Temps standards obsolètes	Contrat de production irréaliste	Mise à jour des TAI SAP et FORCE
+Traitement des NC machine arrêtée	Perte de capacité productive	Traitement en temps masqué
+Gestion des urgences	Rupture du flux et instabilité du planning	Mise en place d'une Frozen Zone
+Ce tableau a constitué la base du plan d'actions validé lors du workshop Kaizen.
+4.2.3. Structuration des actions et gouvernance du chantier
+Afin de faciliter le déploiement des solutions, les actions identifiées ont été classées selon leur niveau de responsabilité.
+Zone 1 – Actions déployables immédiatement
+Actions directement maîtrisées par l'équipe projet et pouvant être mises en œuvre sans arbitrage complémentaire :
+•	séquencement journalier ;
+•	standards opératoires ;
+•	rituels de pilotage ;
+•	gestion des non-conformités.
+Zone 2 – Actions nécessitant un support transverse
+Actions nécessitant l'intervention de services externes ou une validation hiérarchique :
+•	mise à jour des bases SAP et FORCE ;
+•	traitement des problématiques liées à la climatisation ;
+•	évolutions des données de planification.
+Zone 3 – Pistes d'amélioration à long terme
+Actions identifiées mais situées hors du périmètre immédiat du chantier :
+•	équilibrage de charge entre les machines IMAGE, Silver et Zeiss ;
+•	études capacitaires globales du pôle Tridim.
+Visuel à ajouter : Matrice Zone 1 / Zone 2 / Zone 3.
+4.2.4. Mise en place du standard de pilotage journalier
+La principale action déployée a consisté à instaurer un rituel quotidien de pilotage réunissant le Team Leader, l'Ordonnanceur, le Logisticien et le Compagnon de l'îlot.
+Ce point quotidien repose sur trois étapes :
+1.	Analyse du respect de la séquence de production de la veille ;
+2.	Vérification du disponible physique présent dans la zone intermédiaire ;
+3.	Construction de la séquence des 24 heures suivantes à partir des pièces réellement disponibles.
+Les priorités sont figées sur un horizon de 24 heures et regroupées par familles de produits afin de limiter les changements de série.
+Afin de protéger le flux de production, les urgences apparues en cours de journée sont isolées dans une Frozen Zone et traitées selon un processus d'escalade défini, sans remettre en cause la séquence validée.
+Visuel à ajouter : Rituel quotidien de pilotage et principe de Frozen Zone.
+4.2.5. Standardisation du traitement des non-conformités
+L'analyse terrain a montré que certaines non-conformités étaient traitées machine arrêtée, entraînant une perte directe de capacité.
+Un standard de travail a été défini afin de réaliser les déclarations administratives et les analyses qualité pendant les cycles automatiques de mesure lorsque cela est possible. Cette organisation permet de préserver le temps productif de la machine tout en garantissant la traçabilité des événements dans le MES.
+Visuel à ajouter : Avant / Après du traitement des non-conformités.
+4.2.6. Fiabilisation des temps standards et des données de planification
+Les écarts observés entre les TAI et les temps réellement mesurés ont conduit à formaliser un nouveau processus de mise à jour des données de référence.
+Les chronométrages réalisés ont servi de base à la révision des données SAP et FORCE afin d'améliorer la fiabilité du contrat de production hebdomadaire. Cette action a fait l'objet d'une escalade auprès du service Méthodes, responsable de la mise à jour des données industrielles.
+En parallèle, les problématiques liées à la température de la chambre de mesure ont été remontées aux services concernés afin de lancer une étude dédiée sur la fiabilité du système de climatisation.
+Visuel à ajouter : Workflow simplifié de mise à jour des TAI SAP / FORCE.
 4.3. PHASE CHECK : Validation Mathématique, Conduite du Changement et ROI
-4.3.1. Roadmap du chantier et Démarche PDCA
-Le projet s'est structuré autour d'une feuille de route rigoureuse matérialisant la logique du cycle d'amélioration continue :
-  [DIAGNOSTIC] ➔ [COLLECTE DONNÉES] ➔ [ANALYSE CAUSES] ➔ [WORKSHOP] ➔ [STANDARDS] ➔ [DÉPLOIEMENT] ➔ [MESURE GAINS]
-     (PLAN)          (Gemba/TAI)        (Ishikawa)       (Kaizen 2j)     (Zone 1 & 2)     (Coaching)       (CHECK/ROI)
-Le déploiement des standards co-construits s'est appuyé sur cette roadmap jalonnée pour accompagner le changement sur le terrain (image_e4ac99.png) :
-Jalon 01 : Présentation officielle des nouveaux processus, des "Règles d'Or" et des infographies standards aux compagnons, aux TL et à l'Ordo.
-Jalon 02 : Finalisation de l'automatisation du fichier partagé "Contrat de la semaine" avant le lancement officiel et validation de l'ergonomie avec le TL et l'Ordo.
-Jalon 03 (Go-Live) : Lancement officiel de la nouvelle organisation fixé au 4 mai.
-Jalon 04 : Accompagnement de proximité durant 2 semaines par l'équipe AOS (participation quotidienne à la routine de 13h15 et coaching sur les postures).
-Jalon 05 : Recueil des feedbacks des compagnons, ajustements et instauration d'une gouvernance bi-mensuelle pour suivre le plan d'action dans le temps.
-4.3.2. Dynamique humaine et conduite du changement
-Pour garantir la pérennité opérationnelle des solutions, le projet a été pensé comme une transformation humaine autant que technique. Le Workshop collaboratif de deux jours a mis en œuvre une démarche de maïeutique industrielle :
-Implication des Compagnons : Intégrés dès le premier jour du diagnostic, leurs remontées sur la frustration liée aux PowerPoints obsolètes et à la ressaisie manuelle ont servi de fondement aux standards. Leurs avis ont directement dicté l'ergonomie des zones d'attente MMT.
-Rôle du Team Leader (TL) : Formé pour devenir le garant de la routine de 13h15, le TL a été repositionné au centre de la gouvernance courte de son îlot, renforçant son leadership de proximité.
-Engagement de l'Ordonnancement : L'Ordo a accepté de figer ses lancements sur un horizon de 24 heures, acceptant la règle de la Frozen Zone pour protéger l'atelier des perturbations externes.
-Cette validation collective et continue lors des revues de maquettes a transformé une potentielle résistance au changement informatique en une adhésion collaborative immédiate sur le terrain.
-4.3.3. Comparaison Synthétique Avant / Après
-L'impact global des solutions sur l'îlot de métrologie IMAGE est résumé visuellement ci-dessous :
-          SITUATION INITIALE (AVANT)                           SITUATION CIBLE (APRÈS)
-  ┌──────────────────────────────────────────┐        ┌──────────────────────────────────────────┐
-  │ • 20 changements de série / jour         │        │ • 4 changements de série / jour          │
-  │ • Planning hautement instable            │        │ • Séquence figée et protégée sur 24h     │
-  │ • Priorités modifiées en permanence      │ ➔➔➔➔   │ • Routine quotidienne fixe à 13h15       │
-  │ • Injection permanente d'urgences        │        │ • Gestion des urgences décalée à J+1     │
-  │ • Adhérence au contrat ≈ 70% - 75%       │        │ • Adhérence finale au contrat ≈ 82%      │
-  │ • Traitement des NC avec machine arrêtée │        │ • Déclaration des NC en temps masqué     │
-  └──────────────────────────────────────────┘        └──────────────────────────────────────────┘
-L'analyse comparative entre la gestion historique (Fichier S18, image_e4b459.png) et le nouvel outil standardisé (Fichier S24, image_e4b743.png) démontre une rupture de performance majeure :
-Situation Initiale (Semaine 18) : L'Ordo planifiait à la semaine sur une base globale de 53 heures de charge à réaliser (dont 17 heures de restes à faire). Sans séquencement journalier ni validation du disponible physique, les compagnons subissaient la volatilité. Le taux d'avancement du contrat était chaotique et l'adhérence finale plafonnait à 75% du volume d'heures prévu.
-Situation Cible (Semaine 24) : Le nouvel outil intègre le Temps Unitaire (en DHT), le Temps Total, la validation de la présence physique (colonne Dispo) et le niveau de priorité (colonne PRIO). Le séquencement est segmenté par vacation (Matin / Intermédiaire / Soir) et protégé par la règle de l'urgence à $J+1$. Les lignes passent au vert dès que la séquence est respectée, et les dérives de TAI sont immédiatement isolées en rouge.
-
-4.3.4. Calcul mathématique du ROI capacitaire
-Le regroupement des lancements par familles technologiques dans la zone intermédiaire a fait chuter le nombre de changements de série de 20 setups par jour à un standard maîtrisé de 4 setups par jour. Le gain de capacité net pour l'usine de Saint-Éloi se calcule comme suit :
-Gain sur la réduction de la fréquence des changements de série (Setups) :
-$$\text{Situation initiale : } 20 \text{ setups/jour} \times 12 \text{ min} = 240 \text{ minutes d'arrêt/jour}$$
-$$\text{Situation cible : } 4 \text{ setups/jour} \times 12 \text{ min} = 48 \text{ minutes d'arrêt/jour}$$
-$$\text{Gain Setups} = 240 \text{ min} - 48 \text{ min} = 192 \text{ minutes récupérées/jour}$$
-Gain sur le traitement des Non-Conformités (NC) en temps masqué :
-La standardisation du workflow MES et le traitement des NC en temps masqué ont éliminé en moyenne 90 minutes par jour d'arrêts machine.
-Calcul du Gain Global Net de l'îlot :
-$$\text{Gain Global} = \text{Gain Setups } (192 \text{ min}) + \text{Gain NC } (90 \text{ min}) = 282 \text{ minutes/jour}$$
-$$\mathbf{\text{ROI Capacitaire} \approx 4,5 \text{ heures de capacité nette restituées par jour à l'usine (soit > 50\% d'une vacation complète)}}$$
-Traduction industrielle du gain : Ces 4,5 heures récupérées chaque jour sur la machine goulot permettent d'absorber la hausse de cadence des programmes d'avions sans aucun investissement matériel, de résorber le bouchon d'encours de la zone intermédiaire de $35\%$, et de sécuriser l'engagement de livraison auprès des lignes d'assemblage final (ODYS/ODYL).
+4.3.1. Déploiement progressif des standards
+Le déploiement des nouvelles règles de fonctionnement a été réalisé de manière progressive afin de sécuriser leur appropriation par les équipes. Après la phase de diagnostic et le workshop Kaizen, les standards de pilotage ont été présentés aux compagnons, aux Team Leaders et à l'Ordonnancement avant leur mise en application sur le terrain.
+Une phase d'accompagnement de proximité a ensuite été menée pendant plusieurs semaines afin de vérifier l'application des nouvelles pratiques, recueillir les retours des utilisateurs et ajuster certains points de fonctionnement. Cette démarche progressive a facilité l'adhésion des équipes et permis d'ancrer durablement les nouveaux standards dans le fonctionnement quotidien de l'îlot IMAGE.
+Visuel à ajouter : Roadmap du chantier (Diagnostic → Analyse → Workshop → Standards → Déploiement → Mesure des gains).
+4.3.2. Conduite du changement et validation terrain
+La réussite du chantier reposait autant sur l'adhésion des équipes que sur la pertinence technique des solutions retenues. L'ensemble des acteurs concernés a donc été impliqué tout au long du projet.
+Les compagnons ont participé aux phases de diagnostic et aux ateliers de travail afin d'identifier les irritants du quotidien et de contribuer à la définition des nouveaux standards. Le Team Leader a été repositionné au centre du pilotage opérationnel à travers l'animation du rituel quotidien, tandis que l'Ordonnancement a validé les nouvelles règles de planification et le principe de la Frozen Zone.
+Cette démarche collaborative a permis de transformer les solutions définies lors du workshop en pratiques opérationnelles acceptées et appliquées par les utilisateurs.
+4.3.3. Évaluation des résultats obtenus
+L'application des standards définis lors du workshop a permis de stabiliser le flux de production, de réduire fortement le nombre de changements de série et d'améliorer la visibilité des acteurs sur le contrat de production.
+Situation initiale	Situation obtenue
+Environ 20 changements de série par jour	Standard de 4 changements de série par jour
+Planning fortement instable	Séquence de production figée sur 24 heures
+Priorités modifiées en permanence	Priorités validées lors du rituel quotidien
+Urgences injectées dans le flux en cours de journée	Gestion des urgences via la Frozen Zone
+Traitement des NC machine arrêtée	Traitement des NC en temps masqué
+Ces résultats confirment que la principale source de perte provenait de l'instabilité du flux et non de la durée des changements de série. La stabilisation du planning et l'amélioration de la coordination entre les acteurs ont permis d'obtenir des gains significatifs sans investissement matériel.
+Visuel à ajouter : Tableau graphique Avant / Après.
+4.3.4. Évaluation du gain capacitaire
+La stabilisation du flux de production et la mise en place des nouveaux standards ont permis de réduire significativement les pertes de capacité observées sur la machine IMAGE.
+Source de gain	Situation initiale	Situation après amélioration	Gain obtenu
+Changements de série	20 setups/jour × 12 min = 240 min/jour	4 setups/jour × 12 min = 48 min/jour	192 min/jour
+Traitement des non-conformités	NC traitées machine arrêtée	NC traitées en temps masqué	90 min/jour
+Gain total	-	-	282 min/jour
+Afin de faciliter l'interprétation des résultats, le gain global peut être synthétisé de la manière suivante :
+Indicateur	Résultat
+Gain quotidien total	282 min/jour
+Équivalent en heures	4,7 h/jour
+Équivalent d'une vacation de 8 h	≈ 59 % d'une vacation
+Impact opérationnel
+Les actions mises en œuvre ont permis de restituer près de 4,7 heures de capacité productive par jour sur la machine IMAGE, sans investissement matériel supplémentaire.
+Cette amélioration contribue directement à :
+•	réduire les encours présents dans la zone intermédiaire ;
+•	fluidifier le flux vers les clients internes ODYS et ODYL ;
+•	sécuriser le respect du contrat de production ;
+•	accompagner la montée en cadence des programmes Airbus sans augmentation de capacité installée.
+Ces résultats confirment que la principale source de perte provenait de l'instabilité du flux et de la fréquence des changements de série, et non d'un manque de capacité intrinsèque de la machine IMAGE.
+Visuel à ajouter : Graphique de répartition des gains capacitaires (Setups = 192 min ; NC = 90 min ; Total = 282 min).
 4.4. PHASE ACT : Standardisation, Limites et Perspectives
-4.4.1. Ancrage des standards AOS et management visuel
-Pour pérenniser ces résultats, les livrables de ce chantier ont été intégrés dans le référentiel des standards officiels de l'AOS Saint-Éloi. Les infographies de pilotage de la séquence de 15 minutes et les règles de comportement MES pour les NC ont été affichées directement sur le panneau de management visuel face à la machine IMAGE.
-4.4.2. Les limites réelles et honnêteté systémique du chantier
-Une analyse d'ingénieur rigoureuse exige de formaliser les limites concrètes rencontrées sur le terrain :
-Dépendance managériale : Le maintien du standard dépend de la discipline collective lors du rituel de 13h15. Si le management cède sous la panique d'un client interne et casse une campagne, les 20 setups réapparaîtront immédiatement.
-Périmètre du système d'information : L'automatisation complète de la mise à jour des profils de planification SAP dépasse le périmètre d'action du workshop court terme et exige une gouvernance transverse au niveau des Key Users du site.
-Contraintes d'infrastructures physiques : Les problèmes de température dans l'atelier ne peuvent pas être résolus par le Lean. Ils nécessitent des investissements budgétaires lourds de la part du Top Management pour la mise en conformité de la climatisation de la chambre Tridim.
-4.4.3. Perspectives d'évolutions futures
-Les résultats de cette première grande immersion ouvrent la voie à plusieurs axes de développement :
-Généralisation de la logique de séquencement par campagnes sur les autres machines du pôle (Silver, Zeiss) ainsi que sur d'autres îlots d'usinage critiques du secteur ODYE subissant des setups fréquents.
-Amélioration continue du workflow SAP en fiabilisant les Temps d'Allocation Initiaux (TAI) pour automatiser la boucle de rétroaction entre les méthodes et l'ordonnancement.
-Suivi des gains dans le temps par l'intégration de l'indicateur d'adhérence au contrat journalier dans les rituels managériaux de l'AOS pour auditer régulièrement la pérennité du standard.
-4.4.4. Synthèse des compétences 
-Ce chantier de performance industrielle complexe m'a permis de valider des compétences clés attendues par l'UTBM :
-Esprit critique et Rigueur scientifique : Capacité à déconstruire une demande initiale erronée (SMED) et une fausse piste physique (réorganisation de zone) en s'appuyant sur l'analyse statistique de données industrielles de masse (Skywise/SAP) et l'observation directe.
-Maîtrise du Lean Industrial Engineering : Application des outils de diagnostic (Ishikawa), chasse aux gaspillages (Mudas de traitement et d'attente) et ingénierie des flux physiques de proximité (gestion de la zone intermédiaire).
-Gestion du changement & Maïeutique : Animation d'un Workshop pluridisciplinaire en univers contraint, gestion de la relation complexe entre l'Ordonnancement et la Production, et déploiement d'une roadmap de coaching de proximité.
-Valorisation du ROI : Capacité à traduire des actions organisationnelles en gains de capacité mathématiques nets et mesurables pour l'entreprise.
-
-
-CHAPITRE 5 : STANDARDISATION DE L'ENCOURS CIBLE (WIP) — ADAPTATION DES KPI DE L'EXCELLENCE OPÉRATIONNELLE AUX SPÉCIFICITÉS DE LA PIÈCE ÉLÉMENTAIRE
-5.1. PHASE PLAN : Diagnostic d'une Rupture d'Équité de Notation (Brique VSA)
-5.1.1. Contexte de la brique VSA et importance stratégique de l'étude
-Au sein du référentiel AOS (Airbus Operating System), l'évaluation de la performance globale et de la maturité d'un secteur industriel repose sur la brique VSA (Value Stream Analysis). Cette brique audite rigoureusement la capacité d'une ligne à maîtriser sa dynamique de flux à travers deux indicateurs clés de performance (KPI) complémentaires :
-Le WIP (Work In Progress) : Le niveau des encours physiques présents dans le flux de production.
-Le TC (Time Cycle) : Le temps de cycle théorique de traversée des pièces.
-Pour obtenir une notation de maturité AOS favorable et valider les jalons d'Excellence Opérationnelle de l'usine, chaque grand secteur d'Airbus Saint-Éloi doit maintenir son niveau d'encours réel au plus près d'un WIP Cible théorique défini par les instances centrales.
-📌 POURQUOI CE SUJET EST STRATÉGIQUE
-Le WIP cible est l'indicateur de référence utilisé pour évaluer la maturité AOS d'un secteur. Une erreur de calcul ou un indicateur mal calibré peut entraîner :
-Une mauvaise évaluation de la performance réelle d'un atelier.
-Des plans d'actions inadaptés ciblant de faux problèmes de stocks.
-Une mauvaise perception de l'efficacité du fonctionnement industriel par le management.
-L'objectif fondamental de ce projet est donc d'améliorer la pertinence du pilotage industriel en garantissant la stricte équité de l'évaluation du secteur ODYE (Pièces Élémentaires), dont la notation globale était historiquement pénalisée par cet indicateur.
-5.1.2. Démarche d'ingénieur face à l'anomalie : Du problème à l'analyse critique
-Pour mener cette étude de manière rigoureuse, j'ai articulé mon travail autour d'une démarche méthodologique structurée suivant les phases du cycle d'amélioration continue (PDCA) :
-      PLAN                                DO
-  ┌──────────────────────────────┐    ┌──────────────────────────────┐
-  │ • Détection de l'anomalie    │    │ • Construction du modèle     │
-  │ • Analyse du standard central│ ➔  │ • Application Loi de Little  │
-  │ • Audit critique des biais   │    │ • Simulations sur data       │
-  └──────────────────────────────┘    └──────────────────────────────┘
-                 ▲                                   │
-                 │                                   ▼
-      ACT                                 CHECK
-  ┌──────────────────────────────┐    ┌──────────────────────────────┐
-  │ • Proposition recalibrage PE │    │ • Comparaison data réelles   │
-  │ • Présentations Performance  │ ◄  │ • Validation des résultats   │
-  │ • Validation équipe AOS      │    │ • Nettoyage Master Data      │
-  └──────────────────────────────┘    └──────────────────────────────┘
-La formule standard historique, imposée de manière transverse par l'organisation centrale pour définir le WIP Cible d'un secteur, s'exprimait ainsi :
-$$\text{WIP}_{\text{Standard}} = \frac{\text{Cycle Théorique (TC)} \times 0{,}78}{7}$$
-En menant une analyse approfondie des hypothèses mathématiques de cette formule, couplée à une phase d'observation directe sur le Gemba de l'usinage, j'ai exercé mon esprit critique pour démontrer un fait majeur : le problème de notation de l'îlot ne venait pas de la performance intrinsèque du secteur, mais du mode de calcul utilisé pour l'évaluer. J'ai isolé deux biais de construction majeurs qui provoquaient cette rupture d'équité :
-Le biais du facteur de compression théorique ($0{,}78$) : Ce coefficient applique d'office une réduction arbitraire de $22\%$ sur le temps de cycle théorique. Si cette compression est atteignable sur un flux d'assemblage principalement manuel (en optimisant l'équilibrage des postes), elle s'avère mathématiquement aberrante sur un pôle de Pièces Élémentaires (PE). Les machines-outils complexes du secteur ODYE (fraisage, tournage, découpe) sont par nature dictées par des paramètres de coupe métallurgiques incompressibles et des temps de réglages (setups) liés à la variété des pièces. Supposer une accélération de $22\%$ sur des broches de machines déjà saturées s'avérait irréaliste.
-L'erreur du lissage calendaire ($/7$) : La formule divise le volume par 7 jours consécutifs. Or, le pôle de fabrication des pièces élémentaires ferme ses portes durant le week-end, contrairement aux lignes d'assemblage final. Diviser par 7 jours au lieu des jours utiles de fonctionnement réel sous-estime structurellement le besoin de protection du flux et s'avère incapable de modéliser les effets de fermeture d'usine (génération de bouchons physiques le lundi matin).
-L'origine de l'anomalie résidait dans une erreur de copie industrielle : le Top Management avait transposé mécaniquement au secteur PE (ODYE) un standard d'encours initialement conçu pour les lignes d'assemblage à flux fluide, manuel et linéaire (ODYS/ODYL). Il était injuste d’évaluer la PE avec les mêmes standards que l’assemblage.
-5.2. PHASE DO : Modélisation Théorique (Loi de Little) et Stratégie de Compromis
-5.2.1. Immersion et pilotage de la démarche de Data Analysis
-Pour porter ce sujet de manière autonome et asseoir ma crédibilité, j'ai initié et animé une série de réunions de synchronisation avec les équipes de calcul et les analystes de performance du site. Ma démarche a consisté à piloter une stratégie complète de Data Analysis pour objectiver la situation par des preuves chiffrées :
-Extraction de données : Extraction massive des historiques de production depuis SAP et le MES (horizon S16 à S23).
-Construction de la base de données : Centralisation des données de débits réels, des temps de gamme industriels et des taux de pannes machine.
-Data Cleaning : Identification et suppression des centres d'usinage hors scope ou obsolètes dont les logs polluaient la Master Data.
-Comparaison analytique : Confrontation systématique entre le Temps de Cycle théorique ($TC_{\text{théo}}$) et le Temps de Cycle réel ($TC_{\text{réel}}$) pour mesurer les débits de sortie physiques par pôle technologique.
-5.2.2. La proposition de rupture : La modélisation par la Loi de Little
-En m'appuyant sur les principes fondamentaux du Lean Industrial Engineering, j'ai développé un nouveau modèle mathématique basé sur la Loi de Little ($\text{Encours} = \text{Débit} \times \text{Temps de cycle}$). J'ai proposé à l'équipe une formule de rupture adaptée aux contraintes physiques de la pièce élémentaire :
-$$\text{WIP}_{\text{Cible}} = \frac{\text{Débit Journalier}}{\text{OEE Cible}} \times \text{TC} \times 1{,}15$$
-Les ajustements structurels de mon modèle reposaient sur trois piliers industriels rigoureux :
-Un Débit Journalier calculé exclusivement sur les jours utiles de production de l'atelier (5 jours de fonctionnement effectif, éliminant le biais de la division par 7).
-Un OEE Cible (Overall Equipment Effectiveness) ajusté à la typologie, aux pannes et à la saturation réelle des machines du secteur ODYE (et non plus un taux idéal d'assemblage).
-Une marge de protection de $15\%$ ($\times 1{,}15$) injectée scientifiquement pour absorber les aléas techniques incompressibles (casses d'outils, dérives géométriques).
-5.2.3. Arbitrage pragmatique : Ma stratégie de compromis
-Lors de la confrontation de ce modèle idéal avec la réalité du système d'information de l'usine, j'ai identifié une barrière technologique majeure : la récupération en temps réel de l'ensemble des données nécessaires au calcul dynamique de cet OEE s'avérait d'une complexité technique extrême pour les bases de données actuelles. Le déploiement total de cette méthode aurait exigé un temps de développement informatique énorme.
-C'est ici que j'ai adopté une véritable posture d'ingénieur conseil, guidé par l'ambition et le pragmatisme : le but n'était pas d'imposer un calcul théorique parfait mais inapplicable, mais de fournir une solution juste, simple et d'impact immédiat.
-J'ai choisi d'utiliser cette formule idéale de Little non pas comme un outil informatique à déployer, mais comme un levier de négociation stratégique par la preuve. En démontrant mathématiquement à l'équipe l'écart entre leur formule injuste et la loi de Little, j'ai légitimé la nécessité absolue de modifier la notation de la PE sans complexifier l'infrastructure informatique de l'usine.
-5.2.4. La solution de compromis : La formule intermédiaire validée
-Pour concrétiser cette avancée de manière pragmatique, j'ai proposé une modification directe des coefficients au niveau de la formule initiale d'Airbus. Nous avons éliminé le facteur de compression pénalisant de $0{,}78$ pour le remplacer par le coefficient de sécurité de $1{,}15$ issu de mon étude de la loi de Little, basculant d'un modèle d'assemblage à un modèle adapté aux contraintes de la pièce élémentaire.
-      ANCIEN MODÈLE (Transposé de l'Assemblage)
-      WIP Cible = (TC × 0,78) / 7
-          │  
-          ▼  [Hypothèses critiques démontrées erronées] :
-          │  - Compression arbitraire de 22% irréaliste sur broches saturées.
-          │  - Division calendaire par 7j ignorant la fermeture du week-end.
-          ▼  
-      NOUVEAU MODÈLE (Ajusté aux contraintes PE)
-      WIP Ajusté PE = (TC / 7) × 1,15
-La formule intermédiaire finale a été formalisée ainsi :
-$$\text{WIP}_{\text{Ajusté PE}} = \frac{\text{TC}}{7} \times 1{,}15$$
-En éliminant le $0{,}78$, on redonne ainsi de l'air au flux pour sécuriser la production. Ce compromis pragmatique a permis d'obtenir une valeur cible proche de la réalité industrielle sans ajouter de charge de calcul informatique pour les équipes du site.
-5.3. PHASE CHECK : Exploration de Données et Résultats de la Simulation
-5.3.1. Exploration de données (Data Mining) et nettoyage de la Master Data
-Pour valider mon modèle intermédiaire avant de le soumettre aux instances de décision, j'ai mené une campagne de Data Mining sur l'ensemble des pôles technologiques du secteur ODYE. J'ai structuré une base de données propre compilant les indicateurs macro de production de chaque pôle machine :
-Les centres d'usinage flexibles (186 OPCN FMS 4A/5A, MORI).
-Les îlots de tournage et fraisage (187 OPCN JUA, MCM, 190 OPCN FAL, SNK, TANDE, TWIST, V4).
-Les procédés de découpe et traitement (222 LASER, PLASMA, TTH).
-Lors de cette phase d'audit algorithmique, j'ai exercé un esprit critique rigoureux en identifiant des anomalies structurelles dans les fichiers d'extraction de l'usine. J'ai isolé et exclu du modèle deux machines obsolètes dont les données de logs polluaient les calculs. Ce filtrage a garanti l'intégrité et la fiabilité des simulations présentées.
-5.3.2. Analyse quantitative de l'écart de cible et simulation graphique
-À partir de cette base épurée, j'ai construit une matrice de simulation dynamique pour mesurer l'impact de la suppression du pré-facteur de compression sur chaque référence de pièce élémentaire (programmes A320 Neo, A330 Neo, A350, A400M).
-📊 FICHES ANALYTIQUES DU RECALIBRAGE DES ENCOURS
-[INSERER ICI : Capture d'écran 5.1 - Tableau d'analyse des dérives TAI et des débits par pôle machine]
-[INSERER ICI : Capture d'écran 5.2 - Matrice de simulation des écarts de WIP cibles avec filtrage des machines obsolètes]
-L'analyse des résultats mathématiques unitaires a mis en évidence un recalibrage majeur des exigences industrielles. Pour les sous-ensembles critiques d'usinage, la cible d'encours tolérée est passée de 362 à 464 pièces, alignant l'indicateur sur la capacité physique réelle de l'atelier. L'analyse de la colonne "écart cible" a démontré que l'ancien modèle classait artificiellement l'atelier en dérive sur la quasi-totalité des lignes de production, générant des écarts négatifs systématiques entre le réel et le théorique.
-Pour matérialiser cette avancée, j'ai développé une simulation visuelle de l'écart de cible sur les données de production (horizon S16 à S23).
-📈 DIAGRAMME DE VISUALISATION DES ÉCARTS DE CIBLE
-[INSERER ICI : Capture d'écran 5.3 - Graphique "Visualisation de l'écart de cible" avec la courbe rouge vs la courbe verte]
-Le graphique met en évidence une distorsion industrielle flagrante :
-L'ancienne WIP Cible (Ligne verte) : Naviguait trop bas (9 000 à 10 000 pièces), coupant systématiquement les barres d'encours réels au milieu et classant l'atelier en anomalie permanente.
-La nouvelle WIP Cible ajustée (Ligne rouge) : Se positionne de manière cohérente au sommet des encours réels (13 000 à 14 000 pièces).
-La preuve par la donnée était faite : l'atelier n'était pas en sur-stock par mauvaise gestion, il naviguait simplement dans son enveloppe physique naturelle de fonctionnement, désormais épousée par la courbe rouge.
-5.4. PHASE ACT : Conduite du Changement et Reconnaissance Méthodologique
-5.4.1. Synthèse de la logique d'ingénierie appliquée
-Pour résumer le raisonnement scientifique appliqué face aux biais du standard central, j'ai formalisé le tableau de confrontation suivant :
-Hypothèse du standard initial
-Constat terrain (Réalité physique)
-Correction proposée (Modèle intermédiaire)
-Compression arbitraire de 22%
-Irréaliste sur des machines-outils saturées aux temps de coupe technologiques incompressibles
-Suppression du coefficient 0,78 et alignement sur les capacités physiques
-Lissage calendaire sur 7 jours
-Atelier fermé le week-end, générant un goulot d'étranglement le lundi matin
-Recalibrage des besoins de protection du flux via un facteur de sécurité
-Logique "Assemblage" uniforme
-Flux PE fortement mécanisé, dépendant des setups et d'aléas de broches complexes
-Adaptation locale du KPI validée par l'équipe Performance et AOS
-
-5.4.2. Processus de validation en cours et animation de la gouvernance
-Ce projet de recalibrage des KPI constitue le livrable de référence de ma mission support. Le processus de validation institutionnelle s'articule autour d'une feuille de route de présentations stratégiques que je pilote :
-Restitution aux équipes AOS : Présentation du modèle mathématique et validation de la cohérence de la formule intermédiaire avec les responsables AOS du site.
-Présentation aux équipes Performance : Animation des sessions de travail avec les analystes performance pour démontrer la robustesse du nettoyage des données (Master Data épurée).
-Échanges avec les analystes centraux : Reconnaissance de la pertinence technique de l'approche, l'équipe Performance ayant salué la justesse et la clarté de cette démonstration.
-5.4.3. Valeur créée pour l'usine de Saint-Éloi
-Au-delà de la simple amélioration de la note du secteur, l'impact de ce travail d'ingénierie se décline sur plusieurs leviers de performance majeurs :
-Équité de notation : Rétablissement d'une évaluation juste et objective du secteur Pièces Élémentaires, mettant fin à la pénalisation historique injustifiée.
-Cohérence avec la réalité industrielle : Alignement du KPI de pilotage sur les contraintes mécaniques, technologiques et métallurgiques réelles des machines-outils.
-Crédibilité du KPI : Restauration de la confiance des équipes de terrain envers les indicateurs de l'Excellence Opérationnelle, autrefois perçus comme déconnectés de l'atelier.
-Aide à la prise de décision : Fourniture d'un outil de pilotage prévisif fiable pour le Top Management, permettant de distinguer les vraies dérives de stocks des variations naturelles du flux.
-5.4.4. Synthèse des compétences d'ingénieur mobilisées (Référentiel UTBM)
-Ce projet d'ingénierie des prévisions m'a permis de valider des compétences clés attendues par l'UTBM :
-Analyse de données industrielles & Data cleaning : Extraction de bases de données de masse SAP/MES, repérage des anomalies structurelles et élimination des points aberrants (machines hors scope).
-Modélisation de flux & Application de la loi de Little : Traduction théorique des dynamiques d'atelier en équations mathématiques calibrées.
-Pilotage par KPI & Amélioration continue : Conception et ajustement d'indicateurs de performance industrielle pour garantir leur représentativité.
-Négociation technique & Argumentation basée sur les données : Porter un sujet de rupture devant des pairs en s'appuyant exclusivement sur la rigueur de la preuve scientifique.
-Conclusion du chapitre WIP Cible
-Ce projet a permis de démontrer qu'un indicateur industriel ne doit pas être appliqué uniformément à tous les secteurs sans tenir compte de leurs spécificités opérationnelles. En remettent en question un standard existant et en proposant une alternative basée sur les données et les principes fondamentaux de l'ingénierie des flux, cette étude a contribué à rendre l'évaluation du secteur Pièces Élémentaires plus représentative de sa réalité industrielle.
-
-CHAPITRE 6 : OPTIMISATION CAPACITAIRE ET RECONCEPTION DE L'ÎLOT DE FORMAGE PAR LA MÉTHODOLOGIE DMAIC
-6.1. DÉFINIR (Define) : Contexte, Cartographie de la Zone et Problématique Goulot
-6.1.1. Description systémique de l'environnement industriel du Formage
-La zone de Formage de l'usine Airbus Saint-Éloi est un pôle industriel lourd et hautement critique. Comme illustré par la cartographie de flux présente dans le document image_40a93b.png, l'îlot est structurellement divisé en deux sous-ensembles opérationnels distincts :
-La zone Panneau : Dédiée au formage des panneaux de structure aéronautique, elle regroupe une ébavureuse, deux presses panneaux, une rouleuse et une zone dédiée au contrôle des panneaux.
-La zone Longeron : Dédiée aux longerons, elle est équipée d'une presse longeron spécifique et d'une zone de contrôle dédiée aux longerons.
- [ FLUX LOGISTIQUE DE L'ÎLOT DE FORMAGE (Réf. image_40a93b.png) ]
- 
-   Arrivée Panneaux ──► [Ébavureuse] ──► [2 Presses Panneaux] ──► [Rouleuse] ──► [Contrôle Panneau] ┐
-                                                                                                  ├──► [DEPART UNIQUE] ──► TRIDIM
-   Arrivée Longeron ───────────────────► [Presse Longeron] ───────────────────► [Contrôle Longeron] ┘
-                                                                                                  ▲
-   [Non-Conformités] ─────────────────────────────────────────────────────────────────────────────┴──► [ZONE NC] ─────► QLS
-Sur le plan logistique, ces deux zones possèdent des zones d'arrivée distinctes, mais partagent une seule et unique zone de départ pour l'évacuation des pièces conformes vers le pôle Tridim, ainsi qu'une zone commune de gestion des Non-Conformités (NC) vers la Qualité Logistique Site (QLS). L'approvisionnement et l'expédition sont transfonctionnels : les pièces arrivent soit de sous-traitants externes, soit de postes internes à l'usine, et repartent selon le même schéma mixte.
-6.1.2. Énoncé du problème capacitaire et objectifs du projet
-Face aux exigences de montée en cadence du plan industriel d'Airbus, les projections de charge du site ont mis en évidence un risque imminent et critique de rupture capacitaire sur la ligne des panneaux au cours de l'année. L'îlot, dans sa configuration actuelle, se trouvait dans l'incapacité technique d'absorber les volumes demandés.
-Pour sécuriser la chaîne de valeur sans impacter les lignes d'assemblage final, la direction a validé le déploiement d'une double stratégie :
-Objectif Court Terme : Identifier et libérer immédiatement de la capacité machine masquée au sein de l'îlot via des actions d'organisation rapides (Quick Wins).
-Objectif Long Terme : Valider un scénario de transformation structurelle (investissement ou délestage complet) et concevoir la future implantation industrielle de la zone.
-Chronologiquement, ma démarche sur ce projet a débuté par une phase d'immersion classique : conduite de réunions sur la zone pour capter les irritants des opérateurs et mise à jour complète de la carte de l'îlot à l'état présent.
-6.2. MESURER (Measure) : Analyse du Flux d'Information et Diagramme Spaghetti
-6.2.1. Cartographie du flux réel et modélisation Spaghetti
-Afin d'objectiver les dysfonctionnements et de mesurer la performance physique réelle de l'îlot, j'ai réalisé un diagramme Spaghetti détaillé de l'ensemble de la zone (reproduit graphiquement sur la base du canevas de l'image_40a93b.png). Cet outil de mesure a mis en évidence des croisements de flux sévères, des ruptures de cheminement logistique et des déplacements excessifs des compagnons entre les différentes machines de la zone panneau (ébavureuse, presses, rouleuse) et la zone unique de départ.
-6.2.2. Recueil et sécurisation des données de charge/capacité
-Parallèlement à cette analyse physique, j'ai audité la base de données de charge/capacité du poste. Pour la solution court terme, j'ai repris et analysé en profondeur une étude de réorganisation de gamme menée sur la zone longeron. En exerçant ma rigueur d'ingénieur, ma mission a consisté à vérifier la cohérence des hypothèses, à recalculer les temps de cycles et à m'assurer de la parfaite véracité et faisabilité réelle de l'étude avant toute présentation aux instances de décision.
-6.3. ANALYSER (Analyze) : Confrontation des Hypothèses Opératoires et Verrous Organi-organisationnels
-6.3.1. Analyse critique des modes opératoires (L'hypothèse de charge)
-Le cœur de l'analyse a reposé sur la confrontation de trois modes opératoires de répartition de charge étudiés pour le poste, détaillés dans le document image_404421.png :
-Hypothèse 1 : Répartition classique des tâches entre deux opérateurs (Opérateur A sur le contrôle amont et le pressage ; Opérateur B sur le contrôle aval).
-Hypothèse 2 (Situation initiale du poste) : Concentration de l'intégralité du flux (Contrôle Avant + Presse + Contrôle Après) sur un seul opérateur (Opérateur A), générant un goulot d'étranglement humain massif (Poste 280).
-Hypothèse 3 (Scénario d'optimisation retenu) : Déchargement partiel de l'opérateur de la presse. L'Opérateur B prend à sa charge exclusive la première opération de Contrôle Avant (Poste 448), tandis que l'Opérateur A se concentre uniquement sur le cycle de Pressage et le Contrôle Après (Poste 280).
-6.3.2. Identification des verrous réglementaires et humains
-L'analyse a révélé que le passage à l'Hypothèse 3 soulevait un problème critique d'autorisation de travail en interne, lié au manque de formation croisée des opérateurs. Cette contrainte réglementaire bloquait la polyvalence nécessaire pour exécuter le standard. Pour lever ce verrou sans délai, j'ai formalisé et escaladé cette problématique au niveau managérial supérieur, permettant de déclencher les plans de formation requis pour sécuriser le déploiement de la solution court terme.
-6.4. INNOVER / AMÉLIORER (Innovate / Improve) : Plan d'Action Court Terme et Workshop d'Implantation Long Terme
-6.4.1. Déploiement de la solution Court Terme : Flexibilité technologique
-La solution court terme a consisté à valider l'Hypothèse 3 en adaptant l'outillage industriel. Pour permettre à la presse longeron d'absorber une partie de la surcharge des panneaux en cas de pic, nous avons intégré l'utilisation d'adaptateurs mécaniques spécifiques. Ce Quick Win a permis de modifier la flexibilité de la machine sans aucune modification de structure lourde.
-6.4.2. Déploiement de la solution Long Terme : Ingénierie de compromis et Workshop Implantation
-Pour le long terme, le chef de projet a mené une étude technico-économique comparative entre deux scénarios : l'investissement dans une nouvelle presse panneau neuve ou le délestage permanent des volumes chez un sous-traitant. L'analyse de rentabilité (ROI) ayant démontré qu'une nouvelle machine était plus rentable pour Airbus, j'ai collaboré activement avec le chef de projet pour concevoir la future implantation.
-Pour placer les opérateurs au centre de la boucle de conception (démarche pro-humaine), j'ai préparé et organisé un Workshop Kaizen d'implantation participatif. En amont, j'ai imprimé à l'échelle sur de grands formats A0 des cartes vierges de l'îlot, des plans de l'état réel actuel et l'ensemble des silhouettes des composants industriels (gabarits des machines, zones de stocks).
-Ce Workshop pluridisciplinaire a réuni autour d'une même table le Team Leader, les Méthodes, le Schéma Directeur, le Chef de Projet, la Sécurité, l'Ergonomie, la Logistique, l'Ordonnancement et les Opérateurs de production. Ensemble, à travers plusieurs itérations et essais de manipulation de maquettes physiques, nous avons co-conçu la nouvelle implantation. La future presse panneau y est intégrée de manière hautement fonctionnelle, optimisant l'ergonomie des postes de travail, sécurisant les flux logistiques et éliminant les croisements mis en évidence par mon diagramme Spaghetti.
-6.5. CONTRÔLER (Control) : Quantification Mathématique des Gains et Pérennisation
-6.5.1. Bilan capacitaire de la solution Court Terme
-Les résultats issus de la réorganisation du processus de travail (Hypothèse 3), validés et consignés dans le tableau de synthèse de l'document image_403c83.png, démontrent l'atteinte des objectifs de sécurisation :
-┌───────────────────────────────────────────────────────────┬───────────┬───────────┐
-│ PARAMÈTRE DE SUIVI CAPACITAIRE                            │  PAR MIN  │  PAR HEURE│
-├───────────────────────────────────────────────────────────┼───────────┼───────────┤
-│ Temps Total d'ouverture du poste / semaine                │   5 400   │   90,000  │
-│ Temps Total pour tous les Longerons dans le poste / semaine│ 4 000,26  │   66,671  │
-│ Temps Total pour la 1ère Inspection Géométrique (I.G)     │  591,36   │    9,856  │
-│ Moyenne du Temps Perdu par les Aléas (1ère OP) / semaine  │  313,75   │    5,229  │
-├───────────────────────────────────────────────────────────┴───────────┴───────────┤
-│ Pourcentage de temps consacré à la 1ère I.G : 14,78%                              │
-│ TEMPS NET GAGNÉ DANS LE POSTE / SEMAINE     : 15,085 h                            │
-└───────────────────────────────────────────────────────────────────────────────────┘
-Le calcul mathématique du gain net se décompose précisément ainsi :
-10 heures libérées grâce à l'élimination de la première opération de contrôle sur le poste 280 (transférée à l'Opérateur B).
-5 heures récupérées par la suppression des temps perdus liés aux aléas logistiques et opératoires.
-Réduction nette du temps de traversée global d'un longeron au poste.
-Ce gain de 15,085 heures par semaine offre à l'usine la capacité d'utilisation de la presse nécessaire pour pallier le goulot à court terme et absorber la hausse des volumes de panneaux.
-6.5.2. Jalons de pérennisation et déploiement de la solution Long Terme
-La solution long terme étant validée, la fabrication et la livraison de la nouvelle presse panneau requièrent un délai industriel standard d'environ une année. Sa mise en place physique interviendra donc après la clôture de mon stage. Pour garantir le contrôle et la continuité du projet, les livrables du Workshop (plans d'implantation A0 validés par l'Ergonomie et la Sécurité) ont été officiellement intégrés au plan directeur de l'usine, et le plan de formation des compagnons a été placé sous la gouvernance du Team Leader.
-Conclusion du chapitre Formage
-Ce chapitre démontre l'intérêt d'une démarche DMAIC combinant des leviers d'action complémentaires. L'optimisation organisationnelle à court terme a permis de libérer immédiatement 15 heures de capacité hebdomadaire sur la presse longeron pour sécuriser les flux de panneaux. En parallèle, la démarche collaborative menée en Workshop A0 a posé les bases physiques de la future implantation industrielle du site, garantissant la performance et la viabilité de l'îlot face aux cadences futures d'Airbus.
-6.5.3. Synthèse des compétences d'ingénieur mobilisées (Référentiel UTBM)
-Le pilotage de ce projet d'optimisation et de reconception de l'îlot de Formage m'a permis de valider plusieurs compétences clés du profil d'ingénieur UTBM :
-Ingénierie des flux et modélisation physique : Capacité à analyser une implantation industrielle complexe par le biais d'outils de mesure terrain (diagramme Spaghetti détaillé) et à cartographier rigoureusement les interactions logistiques (zones d'arrivée/départ, flux de sous-traitance).
-Rigueur scientifique et esprit critique : Aptitude à reprendre, auditer et sécuriser de manière autonome une étude de charge/capacité existante (Hypothèse 3) en confrontant mathématiquement les chronométrages et les modes opératoires pour en garantir la parfaite exactitude.
-Conception industrielle et gestion des contraintes : Collaboration active à la définition d'une nouvelle implantation d'usine à long terme intégrant l'arrivée d'une nouvelle machine lourde, tout en respectant un univers de contraintes strictes (ergonomie des postes, sécurité, flux réglementaires).
-Animation collaborative et démarche pro-humaine : Préparation et co-animation d'un Workshop Kaizen pluridisciplinaire sur support grand format (A0), plaçant les opérateurs au centre de la boucle de conception pour transformer les exigences techniques en standards partagés.
-Escalade managériale et résolution de verrous : Capacité à identifier les blocages organisationnels (problématiques d'autorisation de travail en interne et de formation) et à les remonter au niveau supérieur pour débloquer le déploiement opérationnel d'une solution.
-
-
-
-
-
-
-
-
-CHAPITRE DE GOUVERNANCE : MÉTHODOLOGIE DU STAGE ET DUALITÉ INDUSTRIELLE1. Justification scientifique du choix des cadres de résolutionAfin de démontrer une maturité avancée dans l'application des outils du Lean Industrial Engineering, ce projet de fin d'études ne plaque pas une méthodologie unique de manière uniforme, mais adapte le cadre de résolution à la nature intrinsèque de chaque problématique rencontrée à l'usine Saint-Éloi :┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                                 DUALITÉ MÉTHODOLOGIQUE                                 │
-└───────────────────────────────────────────┬────────────────────────────────────────────┘
-                                            │
-               ┌────────────────────────────┴────────────────────────────┐
-               ▼                                                         ▼
-     [ DÉMARCHE CORTE CYCLES : PDCA ]                         [ PROJET STRUCTURÉ : DMAIC ]
- ┌───────────────────────────────────────┐               ┌───────────────────────────────────────┐
- │ • Focus : Systèmes d'information      │               │ • Focus : Transformation physique     │
- │ • Domaines : PPC, Tridim, WIP Cible   │               │ • Domaine : Îlot de Formage           │
- │ • Nature : Flux info, data, calculs   │               │ • Nature : Implantation, goulot lourd │
- └───────────────────────────────────────┘               └───────────────────────────────────────┘
-L'approche PDCA (Plan-Do-Check-Act) : Déployée sur les chapitres PPC (Chapitre 3), Tridim IMAGE (Chapitre 4) et WIP Cible (Chapitre 5). Ces sujets partagent une forte composante systémique où le problème racine réside dans la distorsion des flux d'information, l'obsolescence des bases de données (SAP/FORCE/MES) ou le manque d'outils de pilotage transverses. Le cycle court du PDCA a permis de diagnostiquer les biais informatiques, de modéliser des algorithmes de calcul intermédiaires, de tester des prototypes numériques agiles et de standardiser des rituels de management visuel au fil de l'eau.L'approche DMAIC (Define-Measure-Analyze-Improve-Control) : Appliquée exclusivement sur l'Îlot de Formage (Chapitre 6). Ce sujet traite d'une problématique capacitaire lourde sur un pôle industriel hautement mécanisé (presses, ébavureuses, rouleuses). La structure rigide du DMAIC était indispensable pour jalonner scientifiquement le projet : définir le risque de rupture capacitaire, mesurer précisément les déplacements physiques par un diagramme Spaghetti, analyser des hypothèses de répartition de charge humaine, innover par le co-conception d'une future implantation d'usine sur support A0, et contrôler mathématiquement le retour sur investissement (ROI) des heures de capacité nette restituées.CHAPITRE 3 : PILOTAGE DE LA CADENCE DE PRODUCTION — CONCEPTION ET DÉPLOIEMENT DU COCKPIT DIGITAL PPC (PRODUCTION PACE CONTROL)3.1. PHASE PLAN : Cadrage, Leadership WP1 et Démarche d'Ingénierie de Projet3.1.1. Contexte industriel de la brique PPC et enjeux de montée en cadenceAu sein du référentiel AOS (Airbus Operating System), la maîtrise du rythme industriel repose sur une brique standardisée essentielle : le PPC (Production Pace Control). L'enjeu fondamental de cette brique, déjà établie dans le système de management d'Airbus, est de passer d'une gestion de production réactive à un mode de pilotage prévisif, permettant de garantir le respect du rythme de production (Pace) à l'échelle de chaque site de production.La brique PPC impose la stricte application de routines managériales (rituels opérationnels quotidiens Daily et hebdomadaires Weekly). Ces routines structurent les alignements transverses permanents entre la Production, l'Ordonnancement et la Logistique afin de synchroniser le travail de l'atelier avec les systèmes d'information. Face aux défis majeurs de montée en cadence de la production aéronautique (notamment sur la famille A320 Neo), l'équipe AOS de Saint-Éloi a lancé un projet global de redressement pour auditer, structurer et rehausser le niveau de maturité de cette brique PPC, afin d'absorber les augmentations de volumes sans rupture de la chaîne logistique.3.1.2. Posture de Leader du Workpackage 1 (WP1) et coordination transverseAu sein de ce projet d'amélioration de la maturité, ma mission s'est immédiatement structurée autour d'un rôle de Leader du Workpackage 1 (WP1 : État des lieux et Diagnostic). Loin d'une simple posture d'exécutant technique, j'ai assumé la responsabilité globale de la coordination de ce lot de travail. Mes prérogatives comprenaient la coordination stratégique des instances de synchronisation régulières avec les agents AOS et les Performance Leaders des différents secteurs (ODYE, ODYS, ODYL), la structuration de la feuille de route pour réaliser l'état des lieux de la maturité des routines PPC sur l'ensemble du site, la construction du référentiel et la modélisation des critères d'évaluation.J'ai assuré la consolidation inter-WP en identifiant, centralisant et formalisant les besoins critiques pour alimenter les Workpackages aval (WP2 à WP6), garantissant la continuité de la trajectoire de maîtrise des cadences de l'usine :                      MAILLAGE TRANSVERSE DU PROJET PPC
-                      
- ┌─────────────────────────┐
- │ WP1 : ÉTAT DES LIEUX    │ ◄─────────────────┐
- │    (Mon Leadership)     │                   │
- └────────────┬────────────┘                   │
-              ▼                                │
- ┌─────────────────────────┐                   │
- │ WP2 : COMPÉTENCES       │                   │
- └────────────┬────────────┘                   │
-              ▼                                │
- ┌─────────────────────────┐                   │    COCKPIT DIGITAL PPC
- │ WP3 : PROCESS           │                   │ ┌──────────────────────────┐
- └────────────┬────────────┘                   ├─┤ • Plateforme centrale    │
-              ▼                                │ │ • Collecte automatisée   │
- ┌─────────────────────────┐                   │ │ • Lien transfonctionnel  │
- │ WP4 : OUTILS            │                   │ │ • Management visuel      │
- └────────────┬────────────┘                   │ └──────────────────────────┘
-              ▼                                │
- ┌─────────────────────────┐                   │
- │ WP5 : GOUVERNANCE       │                   │
- └────────────┬────────────┘                   │
-              ▼                                │
- ┌─────────────────────────┐                   │
- │ WP6 : PÉRENNISATION     │ ◄─────────────────┘
- └─────────────────────────┘
-3.1.3. Méthodologie d'analyse : La démarche d'investigation sur le GembaAvant d'envisager la moindre solution technique, j'ai déployé une démarche d'investigation rigoureuse pour auditer l'application réelle du standard, basée sur les outils de l'amélioration continue :Gemba Walks & Observations directes : Conduite de sessions d'observation immersives au cœur des ateliers pour analyser le déroulement réel des rituels PPC Daily et Weekly.Entretiens semi-directifs : Réalisation d'interviews approfondies avec les acteurs clés (Team Leaders, agents AOS, Performance Leaders) afin de capter les irritants et de comprendre comment se préparaient et s'exécutaient les routines.Comparaison inter-secteurs : Analyse comparative fine entre la fabrication mécanique (PE) et les lignes d'assemblage (Single Aisle, Wide Body) pour identifier les pratiques actuelles de suivi du rythme de production.3.1.4. Analyse des outils existants : Recensement pour la cartographieAu cours de mes réunions avec les agents AOS, les Team Leaders et ma participation aux rituels, j'ai recensé les outils et fichiers réellement utilisés sur le terrain par les secteurs pour préparer et réaliser leurs routines opérationnelles quotidiennes ou hebdomadaires : SAP / MES, Skywise, Tandem, Google Sheets et supports PowerPoint locaux.Clarification du périmètre : Ces outils et fichiers appartiennent aux routines propres de chaque secteur. Le Cockpit Digital que j'ai conçu n'intervient pas dans leur fonctionnement quotidien et ne remplace aucun de ces systèmes de production. Son rôle est de centraliser les résultats de mon recensement pour dresser la cartographie de la maturité du projet d'amélioration de l'AOS, comparer les secteurs et centraliser les plans d'actions.[INSERER ICI : Figure 3.1 - Cartographie brute des routines de régulation de cadence observées sur le Gemba (Secteurs ODYE/ODYS/ODYL)]3.2. PHASE DO : Choix Techniques, Intrapreneuriat et Modèle de Maturité3.2.1. Analyse des solutions envisagées et critères de choixPlusieurs trajectoires techniques étaient envisageables pour le WP1. J'ai formalisé une matrice de choix basée sur l'analyse comparative de trois solutions :Solution envisagéeAvantagesInconvénients / LimitesDécision d'arbitrageGoogle Sheet PartagéCollaboratif, mise à jour en temps réel.Rigidité de l'interface, vitesse limitée, incapacité à structurer un plan d'actions dynamique.Écartée (Insuffisant pour le pilotage)Support Google SlidesStandard corporate, adapté aux jalons.Données figées, temps de compilation manuel astronomique et sans valeur ajoutée.Écartée (Bureaucratie stérile)Outil Digital Dédié (Web App)Centralisation, calcul automatique, management visuel dynamique (Heatmap), pilotage d'actions intégré.Temps de développement initial requis.Retenue (Seule solution pérenne et scalable)[INSERER ICI : Figure 3.2 - Interface d'accueil du Cockpit Digital PPC – Centralisation des données de maturité]3.2.2. Posture d'intrapreneuriat, désilotage et capitalisation historique (RETEX)L'analyse du passif industriel a révélé que deux ans auparavant, l'équipe AOS avait tenté de mener ce projet d'évaluation de la brique PPC, sans succès durable, se soldant par un échec car il reposait sur des fichiers Excel statiques, complexes à maintenir et rapidement abandonnés. La demande initiale du service était de réaliser une simple cartographie statique de l'existant sous la forme d'une énième matrice Excel locale pour le WP1.En analysant ce RETEX, j'ai compris que refaire le même outil statique mènerait au même résultat. Porté par une posture d'intrapreneur, j'ai choisi de concevoir et de déployer un Cockpit Digital complet adossé à une base de données relationnelle, brisant les silos logiques en ouvrant la visibilité de manière transverse. Cette démarche a profondément transformé l'évolution de mon livrable :                       ÉVOLUTION DISRUPTIVE DU LIVRABLE
-                       
-   DEMANDE INITIALE            DIAGNOSTIC               PROTOTYPAGE
- ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
- │   Cartographie   │ ──► │  État des lieux  │ ──► │ Prototype Excel  │
- │   Excel Statique │     │      Terrain     │     │   Cadre Logique  │
- └──────────────────┘     └──────────────────┘     └────────┬─────────┘
-                                                            │
-   OUTIL PILOTAGE            CENTRALISATION                 ▼
- ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
- │ Outil Transverse │ ◄── │ Cockpit Digital  │ ◄── │ Application Web  │
- │   de Pilotage    │     │     PPC (GAS)    │     │    Interactive   │
- └──────────────────┘     └──────────────────┘     └──────────────────┘
-Cette approche disruptive a transformé une simple saisie de diagnostic en un puissant outil d'aide à la décision. Ce travail a été validé par l'équipe Performance et AOS, qui a formellement souligné la pertinence de la solution dans un mail de félicitations envoyé à la suite de ma présentation de restitution.3.2.3. Versions de développement du Cockpit : Une démarche AgileLe développement de cette application de gestion de projet a suivi une démarche Agile en trois versions distinctes :Version 1 (Prototype sur Matrice Excel initiale) : Création du cadre logique, test des règles d'agrégation et validation des indicateurs types avec un secteur pilote. Version limitée par le manque de collaboratif simultané.Version 2 (Première interface Web de consultation) : Migration vers une interface Web permettant à l'AOS et au management de consulter visuellement l'état d'avancement du diagnostic. Les calculs s'exécutaient via des scripts lancés manuellement.Version 3 (Plateforme interactive cible) : Application Web dynamique connectée à une base de données centralisée, permettant la saisie directe, la mise à jour des plans d'actions et la génération automatique des indicateurs.3.2.4. Architecture technique de la solution numériqueJ'ai développé l'intégralité de l'application au sein de l'écosystème cloud sécurisé de Google Workspace d'Airbus, garantissant un déploiement immédiat et sans coût de licence, selon la structure d'architecture suivante :                ARCHITECTURE TECHNIQUE DU COCKPIT DIGITAL
-                
-   ┌─────────────────────────────────────────────────────────────────┐
-   │ FRONT-END (Interface Utilisateur Responsive)                     │
-   │ HTML5 (Structure) | CSS3 (Design) | JavaScript (DOM & Heatmap)  │
-   └────────────────────────────────┬────────────────────────────────┘
-                                    │
-                                    │ (Appel Asynchrone google.script.run)
-                                    ▼
-   ┌─────────────────────────────────────────────────────────────────┐
-   │ BACK-END (Moteur Logique de l'Outil)                             │
-   │ Google Apps Script - GAS (Fonctions d'agrégation et routage)     │
-   └────────────────────────────────┬────────────────────────────────┘
-                                    │
-                                    │ (Liaison Relationnelle)
-                                    ▼
-   ┌─────────────────────────────────────────────────────────────────┐
-   │ DATA LAYER (Stockage Sécurisé)                                  │
-   │ Google Sheets (Tables de maturité, irritants et plans d'actions)│
-   └─────────────────────────────────────────────────────────────────┘
-3.2.5. Fonctionnement du moteur de calcul et standardisationPour donner une force de décision à l'outil, j'ai construit la logique méthodologique du moteur de calcul pour refléter l'organisation du projet d'amélioration de l'usine :Saisie des critères (Daily / Weekly) : Pour chaque sous-secteur, l'application du standard PPC est évaluée sur des critères fixes. La notation est binaire ($0 = \text{Non respecté}$, $1 = \text{Standard appliqué}$). Le score de maturité local du sous-secteur est alors calculé à travers le ratio du nombre de critères validés sur le nombre de critères totaux applicables :$$\text{Score}_{\text{Sous-Secteur}} = \frac{\sum \text{Critères validés}}{\text{Total des critères applicables}} \times 100$$Agrégation multiniveau et Heatmap automatique : Le script consolide automatiquement les données par niveau hiérarchique ($\text{Sous-Secteur} \rightarrow \text{Secteur} \rightarrow \text{Grand Secteur} \rightarrow \text{Usine}$). Le cockpit génère alors ces indicateurs de maturité ainsi qu'une Heatmap dynamique (matrice visuelle de couleurs). Cet affichage met en évidence les écarts pour permettre au Top Management et à l'AOS de prendre des décisions immédiates et de prioriser l'allocation des ressources sur les secteurs les plus critiques.[INSERER ICI : Figure 3.3 - Vue dynamique de la Heatmap de l'usine – Matrice visuelle de décision]3.3. PHASE CHECK : Quantification du travail et Validation Collaborative3.3.1. Données quantitatives de l'étude (Le projet en chiffres)Le périmètre du diagnostic de maturité consolidé dans la base de données du cockpit digital comprend :3 grands secteurs industriels audités et connectés (ODYE, ODYS, ODYL).18 sous-secteurs autonomes de production cartographiés.45 routines managériales et rituels observés directement sur le terrain.32 entretiens approfondis menés avec les opérationnels et les fonctions supports.24 critères de maturité standardisés (répartis sur les horizons Daily/Weekly).Plus de 50 utilisateurs réguliers (Agents AOS, Managers de Production, Team Leaders, Fonctions supports).3.3.2. Processus de co-constructionL'outil a été co-conduit à travers des cycles courts de retours avec les agents AOS et les Performance Leaders : $[\text{Gemba / Écoute besoin}] \rightarrow [\text{Maquette rapide}] \rightarrow [\text{Démonstration}] \rightarrow [\text{Ajustement \& Code}] \rightarrow [\text{Déploiement}]$. Cette démarche itérative a assuré la simplicité d'utilisation des formulaires et la clarté des graphiques de la Heatmap.3.4. PHASE ACT : Transfonctionnalité et Valeur Ajoutée pour Airbus3.4.1. Un outil de pilotage global au service de tous les WorkpackagesLe Cockpit Digital est devenu la tour de contrôle du projet d'amélioration, agissant comme un lien transfonctionnel entre les différents lots de travail de l'AOS :Support WP2 (Compétences) : La Heatmap du projet identifie les faiblesses pour cibler l'accompagnement et la formation des Team Leaders.Support WP3 & WP4 (Process & Outils) : Les écarts de maturité relevés orientent la mise à jour des standards et l'optimisation des supports.Support WP5 & WP6 (Gouvernance & Routines) : L'outil sert de support visuel direct pour animer les rituels de gouvernance macro du projet avec le Top Management de l'usine, assurant le suivi des plans d'actions du WP6.[INSERER ICI : Figure 3.4 - Module de pilotage transfonctionnel – Suivi dynamique des plans d'actions]3.4.2. Valeur ajoutée créée pour l'entrepriseDésilotage et décloisonnement : Unification des données de performance de l'usine au sein d'une interface unique, mettant fin à la dispersion des informations.Éradication de la non-valeur ajoutée : Suppression des tâches chronophages de compilation manuelle pour l'AOS, libérant du temps pour le support direct des rituels sur le terrain.Visibilité transverse instantanée : Le Top Management dispose d'une vision claire et consolidée en un clic de la maturité de la brique PPC à l'échelle du site.Aide à la décision : La Heatmap permet de prioriser et d'orienter les actions d'accompagnement de l'AOS là où les besoins sont les plus importants.Pérennisation : La centralisation des irritants et des plans d'actions dans la base de données évite l'effet "sujet mort" des anciens fichiers PowerPoint locaux.3.4.3. Conclusion du chapitre PPCEn conclusion, la brique PPC (Production Pace Control), bien qu'ancrée de longue date dans le référentiel de l'AOS, souffrait d'un manque de visibilité transverse et d'outils de pilotage centralisés à l'échelle de l'usine Saint-Éloi. Sous l'impulsion d'une démarche d'intrapreneuriat et d'un leadership affirmé sur le WP1, nous sommes passés d'une mission initiale de simple cartographie statique sur tableur à la création d'un véritable Cockpit Digital de gestion de projet. En brisant les silos informationnels entre les secteurs et en automatisant le calcul des indicateurs de maturité, cet outil redonne à l'équipe AOS sa pleine posture de Business Partner technologique et managérial, capable d'orienter les chantiers de transformation là où les dérives de cadence sont les plus critiques.CHAPITRE 4 : RECONCEPTION DE L'ORGANISATION ET MANAGEMENT DU FLUX PHYSIQUE SUR L'ÎLOT DE MÉTROLOGIE CRITIQUE (TRIDIM IMAGE)4.1. PHASE PLAN : Diagnostic Terrain et Investigation Systémique (Data-Driven)4.1.1. Contexte industriel et positionnement goulot de la machine IMAGEAu sein du secteur ODYE (Pièces Élémentaires) de l'usine Airbus Saint-Éloi, la performance globale de la chaîne de valeur dépend directement de la réactivité des étapes de contrôle géométrique final. Le pôle de métrologie Tridim est un carrefour stratégique équipé de trois machines de mesure tridimensionnelle (MMT) de haute précision : la Silver, la Zeiss, et la machine IMAGE. Chaque pièce de structure aéronautique des programmes phares (A320 Neo PW/CFM, A330 Neo, A350-900/1000, A400M) doit obligatoirement être validée par ce pôle avant sa livraison aux lignes d'assemblage aval : le secteur ODYS pour les monocouloirs (Single Aisle) et le secteur ODYL pour les gros-porteurs (Wide Body).Au sein de ce trio de machines, les analyses de performance de l'atelier ont mis en lumière une dérive critique localisée : seule la machine IMAGE se trouvait dans l'incapacité structurelle de tenir son contrat de production hebdomadaire. L'adhérence au contrat oscillait historiquement entre 70 % et 75 %, signifiant qu'un quart de la production demandée manquait systématiquement à l'appel chaque semaine. Cette dérive générait des encours massifs, des risques majeurs de rupture sur les lignes d'assemblage aval et un climat de travail sous haute tension pour les compagnons. C'est pour sécuriser ce goulot capacitaire qu'un chantier Kaizen ciblé a été déclenché. Chronologiquement, ce travail a constitué ma première grande immersion technique sur le terrain.4.1.2. Ma contribution personnelle au chantierCe projet d'amélioration continue a été mené au sein d'une équipe collaborative de trois personnes. Pour répondre aux exigences d'évaluation de l'UTBM, j'ai formalisé le périmètre exact de mes actions individuelles : présence physique sur le poste lors des différentes vacations (3x8) pour analyser les pratiques opératoires ; conduite des discussions maïeutiques avec les compagnons pour recueillir les irritants ; extraction des données SAP/MES et prise en charge exclusive des campagnes de chronométrage sur deux journées complètes ; traitement statistique de la volatilité, calcul des écarts de temps standards (TAI) et co-animation du Workshop Kaizen.4.1.3. Cadrage initial et démarche d'immersion sur le GembaPour lancer le chantier sous une gouvernance claire, la première étape a consisté à organiser une grande réunion de cadrage réunissant le Team Leader (TL) de l'îlot, les fonctions supports (Logistique et Ordonnancement) et les opérateurs. Les objectifs de ce point de départ étaient de figer une date limite pour le chantier, de s'accorder sur la feuille de route et d'informer officiellement les équipes de notre présence fréquente sur le terrain. À la suite de ce jalon, je me suis immergé directement sur le Gemba aux côtés des opérateurs lors de leurs vacations (3x8) pour comprendre la réalité du terrain et recenser les causes des dérives selon leur prisme.Comme formalisé lors de notre restitution dans la planche image_e4acfb.png, les constats observés étaient sans équivoque : changements fréquents de planning, modifications de priorités en cours de production, séquences non respectées et injection permanente d'urgences dans le flux. Les conséquences concrètes de ces dysfonctionnements se traduisaient par la non-tenue chronique du contrat (pièces réalisées / pièces prévues), une perte de temps conséquente pour les compagnons générant de la frustration, et une baisse globale de l'OEE (perte de performance de la machine).4.1.4. L'infirmation de la fausse piste du SMED et le pivot du chantierÀ l'origine, la feuille de route du projet nous orientait vers une approche Lean classique : la réalisation d'un chantier SMED pour réduire la durée physique de montage des outillages sur IMAGE. Cependant, mes observations terrain couplées aux discussions avec les compagnons ont mis en lumière qu'un chantier SMED lourd avait déjà été déployé par le passé. Les gestes techniques étaient optimisés à un excellent niveau (durée standard de 12 minutes). S'obstiner dans cette direction pour tenter de "gratter" quelques secondes aurait représenté un coût de déploiement et une mobilisation bien supérieurs au gain réel espéré.En exerçant mon esprit critique d'ingénieur, j'ai démontré à l'équipe que le problème n'était pas la durée du setup, mais sa fréquence. C'était la volatilité continuelle du planning qui forçait l'opérateur à changer d'outillage à un rythme intenable. J'ai donc proposé d'annuler le SMED physique pour réorienter le chantier vers une analyse approfondie de la volatilité du planning et la compréhension des écarts de flux d'information.De la même manière, j'ai infirmé une autre fausse piste : celle d'une réorganisation physique ou géométrique de l'espace de travail. L'implantation physique entourant la machine IMAGE était fonctionnelle, propre et ne présentait aucun défaut d'ergonomie ou de cheminement pour les compagnons. L'aménagement de la zone ne posait aucun problème. L'effort devait se concentrer exclusivement sur les règles de gestion du flux.                  CHRONOLOGIE ET DÉMARCHE LOGIQUE DU CHANTIER TRIDIM
-                  
-   VOLATILITÉ PDP            20 SETUPS / JOUR           PERTE CAPACITÉ
- ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
- │ Instabilité du  │ ───►  │ Multiples arrêts│ ───►  │ Goulot machine  │
- │ contrat hebdom. │       │ hors temps masq.│       │ Non-tenue OEE   │
- └─────────────────┘       └─────────────────┘       └───────┬─────────┘
-                                                             │
-                                                             ▼
-   REGAIN CAPACITÉ            4 SETUPS / JOUR           NOUVEAU STANDARD
- ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
- │ +4,5h de capa.  │ ◄───  │ Campagnes       │ ◄───  │ Séquence figée  │
- │ nette par jour  │       │ regroupées      │       │ sur horizon 24h │
- └─────────────────┘       └─────────────────┘       └─────────────────┘
-Note fondamentale d'ingénierie (Esprit critique) : L'une des principales contributions de ce chantier a été de remettre en question la solution SMED initialement imposée. L'analyse terrain a démontré que la performance n'était pas limitée par la durée des changements de série mais par leur fréquence. Ce pivot stratégique a évité un investissement lourd et stérile dans l'optimisation de gestes déjà efficients, réorientant l'effort vers une refonte des règles de gestion du flux d'information.4.1.5. L'investigation des données : Les limites de Skywise et le recours au fichier terrainPour objectiver cette volatilité, notre équipe a cherché à extraire les données d'arrêts et d'aléas de la plateforme Skywise, alimentée par le système MES. C'est ici que nous avons rencontré une difficulté technique majeure : dû à une complexité de saisie, les opérateurs ne déclaraient pas les aléas sur le MES, ou les déclaraient sans les classer. Par conséquent, au lieu d'obtenir une vision catégorisée des heures perdues, la majorité des arrêts apparaissaient sous le libellé "Perte inconnue". Skywise était inexploitable pour notre diagnostic.Pour contourner ce blocage, j'ai fouillé les outils locaux des opérateurs et j'ai découvert qu'ils alimentaient au fil de l'eau, de leur propre initiative, un fichier Excel partagé (Sheet) pour suivre la séquence réelle des pièces passées (image_e4bf04.png, image_e4bf64.png). L'analyse de cette cartographie brute a révélé une fragmentation extrême du flux. La machine IMAGE subissait jusqu'à 20 changements de série sur une seule vacation de 24 heures, oscillant de manière chaotique entre des références de bras A320, de cadres A400M et de ferrures A350 de 05h36 à 23h20.Pour quantifier scientifiquement cette dérive auprès de la direction, j'ai procédé à des extractions de données sur une période de 2 semaines, à raison de 3 fois par jour, afin de mesurer la volatilité réelle du planning entre les lancements prévus et exécutés (image_e4bbe4.png). Les résultats de cette modélisation ont mis en évidence un taux de volatilité de 12 % sur l'objectif de production et culminant à 51 % sur la modification des priorités (17 changements de priorité et 4 changements d'objectifs en cours de semaine), matérialisant des courbes d'avancement de contrat en dents de scie.4.1.6. Le nœud systémique de l'Ordonnancement : Conflit entre virtuel et physiqueEn organisant plusieurs réunions avec l'équipe de l'Ordonnancement (Ordo), j'ai cherché à comprendre l'origine de ces changements de série incessants. Ces sessions de travail ont prouvé que l'Ordo ne modifiait pas le planning par choix, mais parce qu'il subissait des urgences permanentes des clients aval. L'investigation a révélé une boucle de rupture majeure entre le système d'information et le terrain :Le biais informatique : L'Ordo construisait le contrat hebdomadaire en se basant sur les priorités et sur la présence des pièces déclarées disponibles dans le système virtuel de SAP.L'écart physique : Lorsque l'opérateur sortait de la chambre tridimensionnelle pour charger la pièce demandée au contrat, il constatait qu'elle n'était pas présente physiquement dans la zone (pièce encore bloquée en usinage amont ou en cours de transfert logistique).La réaction : Pour ne pas laisser la machine IMAGE vide, l'opérateur prenait une autre pièce disponible physiquement sur la zone (non demandée au contrat), lançait sa mesure, et modifiait le fichier de suivi pour adapter la disponibilité informatique. Ce décalage permanent entre le virtuel système et le physique réel alimentait l'instabilité du flux.4.1.7. Audit des Temps Standards (TAI) et dysfonctionnement de la boucle SAPParallèlement, les opérateurs signalaient un écart important entre le temps de mesure théorique inscrit sur le contrat et le temps réel passé sur IMAGE. Pour valider ce point, j'ai pris en charge le chronométrage complet de la machine IMAGE durant deux journées complètes (image_e4bfbe.png). L'analyse de ce fichier d'étude, que j'ai signé conjointement avec les équipes, a confirmé des écarts systématiques entre les Temps d'Allocation Initiaux (TAI) de gamme et la réalité du terrain :Exemple A330 Neo (OP 120) : Le TAI théorique SAP de 41,3 min s'elevait en réalité à 58 min au chronomètre, soit un écart de +16,7 min (jusqu'à 79 min avec l'impact qualité).Exemple Pyramide A350-1000 : Le TAI théorique de 38,4 min atteignait en réalité 72 min au poste (77,4 min avec manipulation d'outillage), soit un écart brut de +33,6 min.En remontant ce fil technique auprès des programmeurs, j'ai découvert que sur les 12 derniers mois, 100 modifications de trajectoires et de stratégies de palpage avaient été réalisées sur un catalogue de 300 programmes existants (soit 33 % du parc) (image_e4b7e3.png). Si ces évolutions étaient consignées localement par les programmeurs sur un fichier Sheet, la liaison vers SAP était rompue. L'Ordo planifiait donc l'îlot en extrayant de SAP des données obsolètes, rendant le calcul de charge/capacité faux et le contrat mathemmatique impossible à tenir pour l'atelier.4.1.8. Audit des pratiques opératoires (MES) et dérive du traitement des Non-Conformités (NC)Pour clore le diagnostic, une revue menée avec le Team Leader a mis en évidence un écart par rapport à la Fiche d'Instruction de Travail (SOI). Le standard stipule que toutes les opérations annexes (nettoyage, préparation, gestion des NC) doivent être réalisées en temps masqué pendant le cycle automatique de la machine IMAGE afin de maintenir le flux de production.Or, l'analyse du suivi journalier des NC (image_e4bf04.png) a révélé qu'en cas de défaut qualité, les opérateurs arrêtaient la machine pour traiter administrativement la NC sur le MES. Cette dérive couplée à un taux de Non-Conformités très élevé (64 % le 02/04/2025 et 50 % le 03/04/2025) immobilisait lourdement et inutilement la machine hors temps masqué.4.1.9. La contrainte environnementale : L'impact de la température atelierEnfin, le diagnostic a mis en lumière une contrainte physique incontournable : la métrologie tridimensionnelle exige le respect strict d'une température ambiante inférieure à 21°C pour garantir la validité légale des mesures aéronautiques. Lors des périodes de remontées thermiques, l'îlot subissait des pannes de climatisation récurrentes. Lorsque la température dépassait le seuil de tolérance, un arrêt de travail complet de la machine IMAGE s'imposait, détruisant l'OEE disponible.4.1.10. Synthèse des causes racines (Synthèse Écart/Impact)Pour structurer l'ensemble de ces données industrielles de masse, les causes raíces issues de l'analyse ont été synthétisées selon la matrice suivante :    CAUSES RACINES ──►              IMPACTS CONCRETS ──►            SOLUTIONS DÉPLOYÉES
- ┌──────────────────┐             ┌──────────────────┐             ┌──────────────────┐
- │ Volatilité du    │ ──────────► │ Multiplication   │ ──────────► │ Séquence type    │
- │ planning (PDP)   │             │ des setups outill│             │ par famille 24h  │
- └──────────────────┘             └──────────────────┘             └──────────────────┘
- ┌──────────────────┐             ┌──────────────────┐             ┌──────────────────┐
- │ Gap virtuel/phys.│ ──────────► │ Rupture contrat  │ ──────────► │ Contrôle du dispo│
- │ de stock (SAP)   │             │ lancements à chaud             │ amont (Gouvern.) │
- └──────────────────┘             └──────────────────┘             └──────────────────┘
- ┌──────────────────┐             ┌──────────────────┐             ┌──────────────────┐
- │ TAI obsolètes    │ ──────────► │ Équilibrage de   │ ──────────► │ Workflow Méthodes│
- │ en base ERP      │             │ charge faussé    │             │ de synchro SAP   │
- └──────────────────┘             └──────────────────┘             └──────────────────┘
- ┌──────────────────┐             ┌──────────────────┐             ┌──────────────────┐
- │ Traitement NC    │ ──────────► │ Arrêt machine    │ ──────────► │ Standard MES en  │
- │ hors temps masqué│             │ capacité détruite│             │ temps masqué     │
- └──────────────────┘             └──────────────────┘             └──────────────────┘
-À partir de cette cartographie, les objectifs du Workshop Kaizen de 2 jours ont été précisément cadrés avec la direction de production (image_e4afde.png) : stabiliser le planning de production pour redonner de la sérénité à l'atelier, optimiser la séquence d'ordonnancement via une séquence type afin de minimiser le nombre de changements de série, synchroniser la disponibilité des ressources (matières, outillages) avec le planning, définir les indicateurs de pilotage et la gouvernance pour maintenir la stabilité, et établir les "Règles d'Or" communes entre l'Ordonnancement et la Production.4.2. PHASE DO : Choix des Solutions, Co-construction et Déploiement des Standards4.2.1. Analyse et choix des solutions retenues (Critères UTBM)Pour répondre explicitement aux exigences d'ingénierie, l'équipe a formalisé et évalué plusieurs trajectoires de résolution lors du workshop :Solution 1 : SMED complémentaire (Optimisation gestuelle) : Viser une réduction supplémentaire de la durée physique du setup outillage. Critères : Impact faible (déjà optimisé à 12 min), faisabilité technique complexe pour un gain marginal. Écartée.Solution 2 : Réorganisation physique de la zone : Repenser l'implantation géométrique de l'îlot. Critères : Rapidité forte, mais adhésion terrain neutre car la zone était déjà propre et ergonomique. Écartée (Hors scope).Solution 3 : Réduction des temps de contrôle : Alléger les programmes de palpage tridimensionnel. Critères : Faisabilité réglementaire très lourde (exigences qualité Airbus strictes). Écartée.Solution 4 : Stabilisation du flux et règles de gestion (Fréquence des setups) : Agir sur les règles de planification, geler le planning sur 24h et synchroniser le disponible physique avant lancement. Critères : Impact très fort, faisabilité immédiate, forte adhésion terrain. Retenue.4.2.2. Catégorisation des solutions identifiées (Gouvernance des Zones)Pour structurer le plan d'action et définir les responsabilités, j'ai modélisé la matrice de catégorisation des solutions approuvée lors de la restitution (image_e4afa4.png) :Zone 1 (Traités pendant le WS) : Problématiques sous le contrôle direct de l'équipe du chantier, déployables immédiatement (Séquencement journalier, rituels de proximité, standards comportementaux opérateurs).Zone 2 (Escalade N2 / Besoin support) : Problèmes hors du cercle de contrôle direct des participants, nécessitant une prise en charge et un arbitrage par la hiérarchie ou des services externes (Mise à jour des bases de données SAP, investissement climatisation).Zone 3 (Hors scope du chantier) : Idées à forte valeur ajoutée mais nécessitant des études macro-capacitaires long terme, placées dans un "parking à idées" (Étude de l'équilibrage de charge entre les machines Silver, Zeiss et IMAGE ; processus de transfert de charge Zeiss vers Silver avec prise en compte du temps de chargement/déchargement de l'outillage) (image_e4ac7b.png).4.2.3. Solutions de Zone 1 : Standard de Pilotage de la Séquence JournalièrePour pallier l'absence de planification à courte échéance, j'ai formalisé l’infographie standardisée du nouveau rituel quotidien (image_e4acfb.jpg) :Coordonnées du point : Routine stricte de 15 minutes, de 13h15 à 13h30, 4 fois par semaine (du lundi au jeudi). Le jeudi est spécifiquement dédié à la préparation de la séquence du vendredi et du week-end (VSD). Le point réunit physiquement le Logisticien, l'Ordonnanceur, le Team Leader et le Compagnon devant le panneau visuel de l'îlot.L'Agenda du Point (Déroulement en 3 étapes) :Bilan J-1 : Vérification des volumes produits et du respect de la séquence. En cas d'écart, réalisation immédiate d'une analyse des causes racines (mini-PPC).Disponibilité Pièces : Vérification physique et visuelle des pièces réellement présentes dans la zone intermédiaire de l'îlot (située entre la zone d'arrivée usinage et la machine IMAGE).Pilotage : L'Ordo fixe les priorités de production de manière inflexible pour les 24 heures à venir, en se basant uniquement sur ce disponible physique. Les lancements sont regroupés par familles technologiques pour créer des campagnes de contrôle et diluer l'impact des setups.Gestion des urgences (Frozen Zone) : Toute pièce urgente arrivant en cours de journée (plantage client) fait l'objet d'une isolation visuelle et d'une escalade immédiate en Niveau 2. Elle est intégrée dans le flux de production du lendemain ($J+1$) sans rompre la séquence journalière figée. Les avantages validés par le terrain sont immédiats : flux stabilisé, zéro rupture par anticipation, communication claire et diminution du stress pour les compagnons.4.2.4. Solutions de Zone 1 : Standard de Gestion des NC par l'opérateurPour réaligner les pratiques avec la fiche d'instruction (SOI) et éliminer les arrêts machine, j'ai formalisé le standard visuel de traitement des défauts qualité sur le système MES (image_e4acdc.jpg) :Mesure MMT & Détection NC : Dès qu'une non-conformité est détectée par la machine IMAGE, le flux de production principal est impérativement maintenu. L'opérateur isole la pièce défectueuse dans la zone d'attente dédiée et charge immédiatement la pièce suivante dans la MMT.Déclaration après traitement (Temps masqué) :Cas A (Dépassement du temps masqué) : L'opérateur réalise l'analyse et la rédaction de la NC sur son poste informatique pendant le cycle automatique de la machine. Si le traitement dépasse le temps masqué disponible, l'opérateur déclare immédiatement un Aléa sur sa tablette pour figer la traçabilité.Cas B (Déclaration des temps perdus) : L'opérateur saisit le code de temps perdu précis sur le MES après le traitement, garantissant la remontée de données fiables et exploitables vers Skywise. Le flux de production reste ainsi protégé.4.2.5. Actions de Zone 2 : Nouveau Workflow de mise à jour des TAI SAP / FORCECe point a fait l'objet d'une escalade officielle en Niveau 2 auprès du service des Méthodes. Un protocole a été validé pour purger les TAI obsolètes de SAP et FORCE, garantissant que l'Ordonnancement planifie désormais la charge sur des bases fiables et cohérentes (recalage des gammes de l'A330 Neo et de l'A350). De même, les arrêts liés à la température ont été remontés en Zone 2 pour déclencher une étude d'ingénierie sur le système de climatisation de la chambre Tridim (image_e4aca2.jpg).4.3. PHASE CHECK : Validation Mathématique, Conduite du Changement et ROI4.3.1. Roadmap du chantier et Démarche PDCALe déploiement des standards co-construits s'est appuyé sur une roadmap jalonnée pour accompagner le changement sur le terrain (image_e4ac99.png) :Jalon 01-02 : Présentation officielle des nouveaux processus et finalisation de l'automatisation du fichier partagé "Contrat de la semaine" avant le lancement officiel.Jalon 03 (Go-Live) : Lancement officiel de la nouvelle organisation fixé au 4 mai.Jalon 04-05 : Accompagnement de proximité durant 2 semaines par l'équipe AOS (coaching sur les postures) et recueil des feedbacks pour ajustements.4.3.2. Dynamique humaine et conduite du changementLe Workshop collaboratif de deux jours a mis en œuvre une démarche de maïeutique industrielle :Implication des Compagnons : Intégrés dès le premier jour, leurs remontées sur la frustration liée aux PowerPoints obsolètes et à la ressaisie manuelle ont servi de fondement aux standards.Rôle du Team Leader (TL) : Formé pour devenir le garant de la routine de 13h15, le TL a été repositionné au centre de la gouvernance courte de son îlot.Engagement de l'Ordonnancement : L'Ordo a accepté de figer ses lancements sur un horizon de 24 heures, acceptant la règle de la Frozen Zone.4.3.3. Calcul mathématique du ROI capacitaire (Infographie des gains)Le regroupement des lancements par familles technologiques dans la zone intermédiaire a fait chuter le nombre de changements de série de 20 setups par jour à un standard maîtrisé de 4 setups par jour. Le bilan quantitatif s'établit ainsi :                  BILAN NET QUANTITATIF (ROI MACHINE IMAGE)
-                  
-        SITUATION INITIALE (AVANT)                 SITUATION CIBLE (APRÈS)
-     ┌─────────────────────────────┐            ┌─────────────────────────────┐
-     │  • 20 changements / jour    │            │  • 4 changements / jour     │
-     │  • Machine arrêtée pour NC  │            │  • Traitement temps masqué  │
-     └─────────────────────────────┘            └─────────────────────────────┘
-                                   \            /
-                                    ▼          ▼
-                      ┌───────────────────────────────────────┐
-                      │ GAIN SETUPS : 192 min / jour          │
-                      │ GAIN TRAITEMENT NC : +90 min / jour   │
-                      ├───────────────────────────────────────┤
-                      │ GAIN TOTAL MACHINE : 282 min / jour   │
-                      │ ROI INDUSTRIEL     : ~4,5 heures/jour │
-                      └───────────────────────────────────────┘
-Gain sur la réduction de la fréquence des changements de série (Setups) :$$\text{Situation initiale : } 20 \text{ setups/jour} \times 12 \text{ min} = 240 \text{ minutes d'arrêt/jour}$$$$\text{Situation cible : } 4 \text{ setups/jour} \times 12 \text{ min} = 48 \text{ minutes d'arrêt/jour}$$$$\text{Gain Setups} = 240 \text{ min} - 48 \text{ min} = 192 \text{ minutes récupérées/jour}$$Gain sur le traitement des Non-Conformités (NC) en temps masqué : La standardisation du workflow MES et le traitement des NC en temps masqué ont éliminé en moyenne 90 minutes par jour d'arrêts machine.Calcul du Gain Global Net de l'îlot :$$\text{Gain Global} = \text{Gain Setups } (192 \text{ min}) + \text{Gain NC } (90 \text{ min}) = 282 \text{ minutes/jour}$$$$\mathbf{\text{ROI Capacitaire} \approx 4,5 \text{ heures de capacité nette restituées par jour à l'usine (soit > 50 \% d'une vacation complète)}}$$L'analyse comparative entre la gestion historique (Fichier S18, image_e4b459.png) et le nouvel outil standardisé (Fichier S24, image_e4b743.png) démontre une rupture de performance majeure. En éliminant le $0{,}78$, on redonne de l'air au flux pour sécuriser la production.4.4. PHASE ACT : Standardisation, Limites et Perspectives4.4.1. Ancrage des standards AOS et management visuelPour pérenniser ces résultats, les livrables de ce chantier ont été intégrés dans le référentiel des standards officiels de l'AOS Saint-Éloi. Les infographies de pilotage de la séquence de 15 minutes et les règles de comportement MES pour les NC ont été affichées directement sur le panneau de management visuel face à la machine IMAGE.4.4.2. Les limites réelles et honnêteté systémique du chantierUne analyse d'ingénieur rigoureuse exige de formaliser les limites concrètes rencontrées sur le terrain : la dépendance managériale au maintien de la routine de 13h15, le périmètre d'action du workshop court terme qui exclut la refonte globale de SAP, et les contraintes d'infrastructures physiques (climatisation) exigeant des investissements budgétaires lourds du Top Management.4.4.3. Perspectives d'évolutions futuresLes résultats ouvrent la voie à la généralisation de la logique de séquencement par campagnes sur les autres machines du pôle (Silver, Zeiss), à l'amélioration continue du workflow SAP en fiabilisant les Temps d'Allocation Initiaux (TAI), et au suivi de l'indicateur d'adhérence au contrat journalier dans les rituels de l'AOS.CHAPITRE 5 : STANDARDISATION DE L'ENCOURS CIBLE (WIP) — ADAPTATION DES KPI DE L'EXCELLENCE OPÉRATIONNELLE AUX SPÉCIFICITÉS DE LA PIÈCE ÉLÉMENTAIRE5.1. PHASE PLAN : Diagnostic d'une Rupture d'Équité de Notation (Brique VSA)5.1.1. Contexte de la brique VSA et importance stratégique de l'étudeAu sein du référentiel AOS (Airbus Operating System), l'évaluation de la performance globale et de la maturité d'un secteur industriel repose sur la brique VSA (Value Stream Analysis). Cette brique audite rigoureusement la capacité d'une ligne à maîtriser sa dynamique de flux à travers deux indicateurs clés de performance (KPI) complémentaires : le WIP (Work In Progress : niveau des encours physiques) et le TC (Time Cycle : temps de cycle théorique). Pour obtenir une notation de maturité AOS favorable et valider les jalons d'Excellence Opérationnelle de l'usine, chaque grand secteur d'Airbus Saint-Éloi doit maintenir son niveau d'encours réel au plus près d'un WIP Cible théorique défini par les instances centrales.Une erreur de calcul ou un indicateur mal calibré entraîne une mauvaise évaluation de la performance réelle d'un atelier, des plans d'actions inadaptés ciblant de faux problèmes de stocks, et une mauvaise perception de l'efficacité industrielle par le management. L'objectif fondamental de ce projet est donc d'améliorer la pertinence du pilotage industriel en garantissant la stricte équité de l'évaluation du secteur ODYE (Pièces Élémentaires), dont la notation globale était historiquement pénalisée par cet indicateur.5.1.2. Démarche d'ingénieur face à l'anomalie : Du problème à l'analyse critiqueLa formule standard historique, imposée de manière transverse par l'organisation centrale pour définir le WIP Cible d'un secteur, s'exprimait ainsi :$$\text{WIP}_{\text{Standard}} = \frac{\text{Cycle Théorique (TC)} \times 0{,}78}{7}$$En menant une analyse approfondie des hypothèses mathématiques de cette formule, couplée à une phase d'observation directe sur le Gemba de l'usinage, j'ai exercé mon esprit critique pour démontrer un fait majeur : le problème de notation de l'îlot ne venait pas de la performance intrinsèque du secteur, mais du mode de calcul utilisé pour l'évaluer. Mon cheminement scientifique a suivi la trajectoire logique suivante :                    CHEMINEMENT RAISONNÉ DU RECALIBRAGE WIP
-                    
- ┌───────────────────────────────────────────────────────────────────────┐
- │ ANCIEN STANDARD : Formula Centrale Airbus                             │
- │ WIP = (TC × 0,78) / 7                                                 │
- └──────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    ▼
- ┌───────────────────────────────────────────────────────────────────────┐
- │ ANALYSE CRITIQUE DES BIAIS                                            │
- │ • Biais 1 : Coef. 0,78 (Inapplicable sur broches machines saturées)   │
- │ • Biais 2 : Division /7 (Ignore la fermeture de l'atelier le weekend) │
- └──────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    ▼
- ┌───────────────────────────────────────────────────────────────────────┐
- │ APPLICATION LOI DE LITTLE & COMPROMIS                                 │
- │ Encours = Débit × Temps de cycle                                      │
- │ Compromis : Éviter l'asphyxie informatique, utiliser la preuve math.  │
- └──────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    ▼
- ┌───────────────────────────────────────────────────────────────────────┐
- │ NOUVEAU STANDARD VALIDÉ PIÈCES ÉLÉMENTAIRES                           │
- │ WIP Ajusté PE = (TC / 7) × 1,15                                       │
- └───────────────────────────────────────────────────────────────────────┘
-Le biais du facteur de compression théorique ($0{,}78$) : Ce coefficient applique d'office une réduction arbitraire de $22\%$ sur le temps de cycle théorique. Si cette compression est atteignable sur un flux d'assemblage principalement manuel (en optimisant l'équilibrage des postes), elle s'avère mathématiquement aberrante sur un pôle de Pièces Élémentaires (PE). Les machines-outils complexes du secteur ODYE (fraisage, tournage, découpe) sont par nature dictées par des paramètres de coupe métallurgiques incompressibles et des temps de réglages (setups) liés à la variété des pièces. Supposer une accélération de $22\%$ sur des broches de machines déjà saturées s'avérait irréaliste.L'erreur du lissage calendaire ($/7$) : La formule divise le volume par 7 jours consécutifs. Or, le pôle de fabrication des pièces élémentaires ferme ses portes durant le week-end, contrairement aux lignes d'assemblage final. Diviser par 7 jours au lieu des jours utiles de fonctionnement réel sous-estime structurellement le besoin de protection du flux et s'avère incapable de modéliser les effets de fermeture d'usine (génération de bouchons physiques le lundi matin).L'origine de l'anomalie résidait dans une erreur de copie industrielle : le Top Management avait transposé mécaniquement au secteur PE (ODYE) un standard d'encours initialement conçu pour les lignes d'assemblage à flux fluide, manuel et linéaire (ODYS/ODYL).5.2. PHASE DO : Modélisation Théorique (Loi de Little) et Stratégie de Compromis5.2.1. Immersion et pilotage de la démarche de Data AnalysisPour porter ce sujet de manière autonome, j'ai initié et animé une série de réunions de synchronisation avec les équipes de calcul et les analystes de performance du site. Ma démarche a consisté à piloter une stratégie complète de Data Analysis pour objectiver la situation par des preuves chiffrées : extraction massive des historiques de production depuis SAP/MES (S16 à S23), centralisation des débits réels, Data Cleaning pour supprimer les logs des centres d'usinage obsolètes, et confrontation systématique entre le $TC_{\text{théo}}$ et le $TC_{\text{réel}}$.5.2.2. La proposition de rupture : La modélisation par la Loi de LittleEn m'appuyant sur les principes fondamentaux du Lean Industrial Engineering, j'ai développé un nouveau modèle mathématique basé sur la Loi de Little ($\text{Encours} = \text{Débit} \times \text{Temps de cycle}$). J'ai proposé à l'équipe une formule de rupture adaptée aux contraintes physiques de la pièce élémentaire :$$\text{WIP}_{\text{Cible}} = \frac{\text{Débit Journalier}}{\text{OEE Cible}} \times \text{TC} \times 1{,}15$$Les ajustements structurels de mon modèle reposaient sur trois piliers industriels rigoureux : un Débit Journalier calculé exclusivement sur les jours utiles de production (5 jours), un OEE Cible ajusté à la typologie et aux pannes des machines du secteur ODYE, et une marge de protection de $15\%$ ($\times 1{,}15$) injectée scientifiquement pour absorber les aléas incompressibles (casses d'outils).5.2.3. Arbitrage pragmatique et formule de compromisLors de la confrontation de ce modèle idéal avec le système d'information de l'usine, j'ai identifié une barrière technologique majeure : la récupération en temps réel des données pour le calcul dynamique de cet OEE s'avérait d'une complexité technique extrême, exigeant un temps de développement informatique énorme. C'est ici que j'ai adopté une véritable posture d'ingénieur conseil, guidé par l'ambition et le pragmatisme : le but n'était pas d'imposer un calcul théorique parfait mais inapplicable, mais de fournir une solution juste, simple et d'impact immédiat. J'ai choisi d'utiliser cette formule idéale de Little comme un levier de négociation stratégique par la preuve.Pour concrétiser cette avancée de manière pragmatique, j'ai proposé une modification directe des coefficients au niveau de la formule initiale d'Airbus. Nous avons éliminé le facteur de compression pénalisant de $0{,}78$ pour le remplacer par le coefficient de sécurité de $1{,}15$ issu de mon étude de la loi de Little, basculant d'un modèle d'assemblage à un modèle adapté aux contraintes de la pièce élémentaire. La formule intermédiaire finale a été formalisée ainsi :$$\text{WIP}_{\text{Ajusté PE}} = \frac{\text{TC}}{7} \times 1{,}15$$5.3. PHASE CHECK : Exploration de Données et Résultats de la Simulation5.3.1. Exploration de données (Data Mining) et nettoyage de la Master DataPour valider mon modèle intermédiaire avant de le soumettre aux instances de décision, j'ai mené une campagne de Data Mining sur l'ensemble des pôles technologiques du secteur ODYE (centres d'usinage flexibles, îlots de tournage/fraisage, procédés de découpe). Lors de cette phase d'audit algorithmique, j'ai exercé un esprit critique rigoureux en isolant et excluant du modèle deux machines obsolètes dont les données de logs polluaient les calculs, garantissant l'intégrité des simulations.5.3.2. Analyse quantitative de l'écart de cible et simulation graphiqueL'analyse des résultats mathématiques unitaires a mis en évidence un recalibrage majeur des exigences industrielles. Pour les sous-ensembles critiques d'usinage, la cible d'encours tolérée est passée de 362 à 464 pièces, alignant l'indicateur sur la capacité physique réelle de l'atelier.[INSERER ICI : Capture d'écran 5.1 - Tableau d'analyse des dérives TAI et des débits par pôle machine][INSERER ICI : Capture d'écran 5.2 - Matrice de simulation des écarts de WIP cibles avec filtrage des machines obsolètes]Pour matérialiser cette avancée, j'ai développé une simulation visuelle de l'écart de cible sur les données de production (horizon S16 à S23), validée graphiquement ci-dessous :                  SIMULATION DES ENCOURS ET RECALIBRAGE DES CIBLES
-                  
-  Encours (Pcs)
-    14 000 |-------------------------------------------------- ◄── [NOUVELLE CIBLE AJUSTÉE]
-           |   /\      /\      /\      /\      /\      /\         (Courbe Rouge : Cohérente)
-    12 000 |──/──\────/──\────/──\────/──\────/──\────/──\────
-           | /    \  /    \  /    \  /    \  /    \  /    \    ◄── [ENCOURS RÉELS TERRAIN]
-    10 000 |/──────\/──────\/──────\/──────\/──────\/──────\──
-           |-------------------------------------------------- ◄── [ANCIENNE CIBLE CENTRALISÉE]
-     8 000 |                                                      (Courbe Verte : Injuste)
-           └──────────────────────────────────────────────────
-            S16     S17     S18     S19     S20     S21    S22
-Le graphique met en évidence une distorsion industrielle flagrante : l'ancienne cible (ligne verte) naviguait trop bas (9 000 à 10 000 pièces), classant l'atelier en anomalie permanente. La nouvelle cible ajustée (ligne rouge) se positionne de manière cohérente au sommet des encours réels (13 000 à 14 000 pièces). La preuve par la donnée était faite : l'atelier n'était pas en sur-stock, il naviguait simplement dans son enveloppe physique naturelle de fonctionnement.5.4. PHASE ACT : Conduite du Changement et Reconnaissance Méthodologique5.4.1. Processus de validation en cours, gouvernance et prochaines étapesCe projet de recalibrage des KPI constitue le livrable de référence de ma mission support. Le processus de validation institutionnelle et l'état d'avancement réel de la gouvernance sont rigoureusement jalonnés selon la feuille de route suivante :                 AVANCEMENT ET GOUVERNANCE DU RECALIBRAGE WIP
-                 
- ┌─────────────────────────┐
- │ STEP 1 : RESTITUTION    │ ──► Validé avec les Responsables AOS du site.
- │    ÉQUIPE AOS SITE      │     (Accord complet sur la formule intermédiaire)
- └─────────────────────────┘
-              │
-              ▼
- ┌─────────────────────────┐
- │ STEP 2 : VALIDATION     │ ──► Validé avec les Analystes Performance de l'usine.
- │   RESPONSABLE PERF.     │     (Salué pour la clarté de la démonstration)
- └─────────────────────────┘
-              │
-              ▼
- ┌─────────────────────────┐
- │ STEP 3 : AUDIT CENTRAL  │ ──► EN COURS. Présentation finale planifiée avec
- │    ANALYSTES AIRBUS     │     les instances de gouvernance centrale Airbus.
- └────────────┬────────────┘
-              │
-              ▼
- ┌─────────────────────────┐
- │ STEP 4 : PROCHAINES     │ ──► Déploiement informatique automatique du KPI
- │  ÉTAPES (POST-STAGE)    │     ajusté dans SAP pour le secteur ODYE.
- └─────────────────────────┘
-5.4.2. Valeur créée pour l'usine de Saint-ÉloiÉquité de notation : Rétablissement d'une évaluation juste et objective du secteur Pièces Élémentaires, mettant fin à la pénalisation historique injustifiée.Cohérence avec la réalité industrielle : Alignement du KPI de pilotage sur les contraintes mécaniques, technologiques et métallurgiques réelles des machines-outils.Crédibilité du KPI : Restauration de la confiance des équipes de terrain envers les indicateurs de l'Excellence Opérationnelle.Aide à la prise de décision : Vision fiable pour le Top Management, permettant de distinguer les vraies dérives de stocks des variations naturelles du flux.CHAPITRE 6 : OPTIMISATION CAPACITAIRE ET RECONCEPTION DE L'ÎLOT DE FORMAGE PAR LA MÉTHODOLOGIE DMAIC6.1. DÉFINIR (Define) : Contexte, Cartographie de la Zone et Problématique Goulot6.1.1. Description systémique de l'environnement industriel du FormageLa zone de Formage de l'usine Airbus Saint-Éloi est un pôle industriel lourd et hautement critique. L'îlot est structurellement divisé en deux sous-ensembles opérationnels distincts : la zone Panneau (ébavureuse, deux presses panneaux, rouleuse, zone de contrôle) et la zone Longeron (presse longeron spécifique, zone de contrôle).    Arrivée Panneaux ──► [Ébavureuse] ──► [2 Presses Panneaux] ──► [Rouleuse] ──► [Contrôle Panneau] ┐
-                                                                                                    ├──► [DEPART UNIQUE] ──► TRIDIM
-    Arrivée Longeron ───────────────────► [Presse Longeron] ───────────────────► [Contrôle Longeron] ┘
-                                                                                                    ▲
-    [Non-Conformités] ─────────────────────────────────────────────────────────────────────────────┴──► [ZONE NC] ─────► QLS
-Sur le plan logistique, ces deux zones possèdent des tampons d'arrivée distincts, mais partagent une seule zone de départ vers le pôle Tridim, ainsi qu'une zone commune de gestion des Non-Conformités (NC) vers la Qualité Logistique Site (QLS).6.1.2. Énoncé du problème capacitaire et objectifs du projetFace aux exigences de montée en cadence du plan industriel d'Airbus, les projections de charge du site ont mis en évidence un risque imminent et critique de rupture capacitaire sur la ligne des panneaux au cours de l'année. L'îlot, dans sa configuration actuelle, se trouvait dans l'incapacité technique d'absorber les volumes demandés. Pour sécuriser la chaîne de valeur, la direction a validé le déploiement de la démarche structurée DMAIC suivante :                  JALONNEMENT JURIDIQUE DU CHANTIER FORMAGE
-                  
-   [ DEFINE ] ──────────► [ MEASURE ] ──────────► [ ANALYZE ]
- ┌──────────────┐       ┌──────────────┐       ┌──────────────┐
- │ Risque de    │       │ Diagramme    │       │ Évaluation   │
- │ rupture capa.│       │ Spaghetti &  │       │ de 3 hypoth. │
- │ sur panneaux │       │ Étude Charge │       │ de charge    │
- └──────────────┘       └──────┬───────┘       └──────┬───────┘
-                               │                      │
-   [ CONTROL ] ◄────────── [ IMPROVE ] ◄──────────────┘
- ┌──────────────┐       ┌──────────────┐
- │ ROI (+15h/s) │       │ Quick Win    │
- │ Implantation │       │ + Nouvelle   │
- │ intégrée     │       │ Presse A0    │
- └──────────────┘       └──────────────┘
-6.2. MESURER (Measure) : Analyse du Flux d'Information et Diagramme Spaghetti6.2.1. Cartographie du flux réel et modélisation SpaghettiAfin d'objectiver les dysfonctionnements, j'ai réalisé un diagramme Spaghetti détaillé de l'ensemble de la zone. Cet outil de mesure a mis en évidence des croisements de flux sévères, des ruptures de cheminement logistique et des déplacements excessifs des compagnons entre les différentes machines de la zone panneau (ébavureuse, presses, rouleuse) et la zone unique de départ.6.2.2. Ma contribution personnelle à la sécurisation des données de charge/capacitéParallèlement à l'analyse physique, j'ai audité la base de données de charge/capacité du poste. Ma contribution personnelle s'est structurée autour d'un rôle d'audit critique : j'ai repris et analysé en profondeur une étude de réorganisation de gamme initialement menée sur la zone longeron. En exerçant ma rigueur d'ingénieur, j'ai vérifié manuellement la cohérence de l'intégralité des hypothèses mathématiques, recalculé les temps de cycles machine, et intégré les taux d'aléas réels constatés au poste afin de m'assurer de la parfaite véracité et faisabilité industrielle de l'étude avant toute présentation aux instances de décision.6.3. ANALYSER (Analyze) : Confrontation des Hypothèses Opératoires et Verrous Organisationnels6.3.1. Analyse critique des modes opératoires (L'hypothèse de charge)Le cœur de l'analyse a reposé sur ma confrontation de trois modes opératoires de répartition de charge étudiés pour le poste, détaillés dans le document image_404421.png :Hypothèse 1 : Répartition classique des tâches entre deux opérateurs (Opérateur A sur le contrôle amont et le pressage ; Opérateur B sur le contrôle aval).Hypothèse 2 (Situation initiale) : Concentration de l'intégralité du flux (Contrôle Avant + Presse + Contrôle Après) sur un seul opérateur (Opérateur A), générant un goulot d'étranglement humain massif (Poste 280).Hypothèse 3 (Scénario d'optimisation retenu) : Déchargement partiel de l'opérateur de la presse. L'Opérateur B prend à sa charge exclusive la première opération de Contrôle Avant (Poste 448), tandis que l'Opérateur A se concentre uniquement sur le cycle de Pressage et le Contrôle Après (Poste 280).6.3.2. Identification des verrous réglementaires et humainsL'analyse a révélé que le passage à l'Hypothèse 3 soulevait un problème critique d'autorisation de travail en interne, lié au manque de formation croisée des opérateurs. Cette contrainte réglementaire bloquait la polyvalence nécessaire pour exécuter le standard. Pour lever ce verrou sans délai, j'ai formalisé et escaladé cette problématique au niveau managérial supérieur, permettant de déclencher les plans de formation requis pour sécuriser le déploiement de la solution court terme.6.4. INNOVER / AMÉLIORER (Innovate / Improve) : Plan d'Action Court Terme et Workshop d'Implantation Long Terme6.4.1. Déploiement de la solution Court Terme : Flexibilité technologiqueLa solution court terme a consisté à valider l'Hypothèse 3 en adaptant l'outillage industriel. Pour permettre à la presse longeron d'absorber une partie de la surcharge des panneaux en cas de pic, nous avons intégré l'utilisation d'adaptateurs mécaniques spécifiques. Ce Quick Win a modifié la flexibilité de la machine sans aucune modification de structure lourde.6.4.2. Déploiement de la solution Long Terme : Workshop Implantation et mon rôle dans la conception futurePour le long terme, l'analyse de rentabilité (ROI) ayant démontré qu'une nouvelle machine était plus rentable pour Airbus que le délestage permanent, j'ai collaboré activement à la conception de la future implantation industrielle. Pour placer les opérateurs au centre de la boucle, j'ai préparé de manière autonome l'organisation d'un Workshop Kaizen d'implantation participatif. J'ai pris en charge l'impression à l'échelle sur de grands formats A0 des cartes vierges de l'îlot, la modélisation des plans réels et la création physique de l'ensemble des silhouettes et gabarits des composants (gabarits des machines neuves, zones de stocks de protection).Ce Workshop pluridisciplinaire a réuni le Team Leader, les Méthodes, le Schéma Directeur, la Sécurité, l'Ergonomie et les Opérateurs. Ensemble, à travers la manipulation de mes maquettes physiques, j'ai guidé le groupe pour co-concevoir la nouvelle implantation. La future presse panneau y est intégrée de manière hautement fonctionnelle, optimisant l'ergonomie, sécurisant les flux et éliminant les croisements mis en évidence par mon diagramme Spaghetti.                      PLAN D'ACTION TECHNIQUE GLOBAL
-                      
- ┌───────────────────────────────────────┐
- │ COURT TERME (Organisationnel)         │
- │ • Validation Hypothèse 3              │ ──► [SÉCURISATION CADENCE IMMÉDIATE]
- │ • Adaptateurs mécaniques presses      │     (Libération de +15 h / semaine)
- └───────────────────────────────────────┘
- ┌───────────────────────────────────────┐
- │ LONG TERME (Structurel)               │
- │ • Co-conception Implantation A0       │ ──► [CAPACITÉ FUTURE SÉCURISÉE]
- │ • Intégration nouvelle Presse Panneau │     (Zéro croisement de flux Spaghetti)
- └───────────────────────────────────────┘
-6.5. CONTRÔLER (Control) : Quantification Mathématique des Gains et Pérennisation6.5.1. Bilan capacitaire de la solution Court TermeLes résultats issus de la réorganisation du processus de travail (Hypothèse 3), validés et consignés dans le tableau de synthèse du document image_403c83.png, démontrent l'atteinte des objectifs de sécurisation :PARAMÈTRE DE SUIVI CAPACITAIREPAR MINPAR HEURETemps Total d'ouverture du poste / semaine5 40090,000Temps Total pour tous les Longerons dans le poste / semaine4 000,2666,671Temps Total pour la 1ère Inspection Géométrique (I.G)591,369,856Moyenne du Temps Perdu par les Aléas (1ère OP) / semaine313,755,229$$\text{Pourcentage de temps consacré à la 1ère I.G} = 14{,}78\%$$$$\textbf{TEMPS NET GAGNÉ DANS LE POSTE / SEMAINE : 15,085 h}$$Le calcul mathématique du gain net se décompose précisément ainsi : 10 heures libérées grâce à l'élimination de la première opération de contrôle sur le poste 280 (transférée à l'Opérateur B) et 5 heures récupérées par la suppression des temps perdus liés aux aléas. Ce gain de 15,085 heures par semaine offre à l'usine la capacité nécessaire pour pallier le goulot à court terme.6.5.2. Jalons de pérennisation et conclusion du chapitreLa fabrication et la livraison de la nouvelle presse panneau requièrent un délai industriel standard d'environ une année. Sa mise en place physique interviendra donc après la clôture de mon stage. Pour garantir le contrôle et la continuité du projet, les livrables du Workshop (plans d'implantation A0 validés par l'Ergonomie et la Sécurité) ont été officiellement intégrés au plan directeur de l'usine, et le plan de formation des compagnons a été placé sous la gouvernance du Team Leader.CHAPITRE FINAL : SYNTHÈSE DES COMPÉTENCES DÉVELOPPÉES (RÉFÉRENTIEL UTBM)Conformément aux exigences du profil d'ingénieur de l'UTBM, ce chapitre récapitule de manière centralisée les compétences techniques, méthodologiques et humaines développées et validées tout au long de mon immersion industrielle au sein de l'usine Airbus Saint-Éloi :Thématique du projetCompétences d'ingénieur majeures validées (Référentiel UTBM)Chapitre 3 : Cockpit Digital PPC• Posture d'intrapreneur & Force de proposition : Capacité à analyser un RETEX d'échec sur tableur pour concevoir de ma propre initiative une solution applicative disruptive.• Ingénierie des systèmes d'information : Conception d'une architecture numérique complète responsive (HTML5/CSS3/JS) couplée à un moteur logique Back-End (Google Apps Script) et une base relationnelle.• Algorithmique & Management visuel : Structuration mathématique d'un moteur d'agrégation multiniveau pour automatiser le calcul d'une Heatmap de décision stratégique.Chapitre 4 : Kaizen Tridim• Rigueur scientifique & Esprit critique : Déconstruction d'un besoin initial erroné (SMED outillage) en s'appuyant sur l'analyse statistique de données de masse (Skywise/SAP) et le chronométrage terrain (TAI).• Maîtrise du Lean Industrial Engineering : Analyse fine des causes racines (Ishikawa), éradication des Mudas de traitement hors temps masqué et synchronisation des flux d'information ERP.• Maïeutique & Conduite du changement : Animation d'un workshop pluridisciplinaire en univers contraint et formalisation de rituels comportementaux partagés.Chapitre 5 : Recalibrage WIP Cible• Exploration de données & Data Cleaning : Traitement de bases de données transactionnelles massives, détection des anomalies structurelles et filtrage des machines obsolètes dans la Master Data.• Modélisation mathématique de flux : Application rigoureuse de la Loi de Little théorique pour contester scientifiquement un standard industriel inadapté.• Négociation stratégique & Posture conseil : Porter un sujet de rupture devant des experts du site en s'appuyant sur le pragmatisme d'un compromis industriel applicable immédiatement.Chapitre 6 : Îlot de Formage• Ingénierie des flux physiques : Analyse d'une implantation d'usine lourde par le biais d'un diagramme Spaghetti terrain détaillé pour traquer les croisements de flux.• Conception industrielle sous contraintes : Collaboration à la définition d'une implantation future intégrant une machine lourde (Presse Panneau) dans le respect des normes d'ergonomie et de sécurité.• Animation collaborative pro-humaine : Préparation, modélisation et co-animation d'un Workshop Kaizen sur grand format (A0), plaçant les opérateurs au cœur de la conception technique.
-
-
+4.4.1. Pérennisation des standards et ancrage dans l'AOS
+Afin de garantir la durabilité des améliorations obtenues, les standards développés au cours du chantier ont été intégrés aux pratiques de management de proximité du secteur. Les règles de pilotage de la séquence journalière, le principe de la Frozen Zone ainsi que le standard de traitement des non-conformités ont été formalisés sous forme de supports visuels et affichés à proximité de la machine IMAGE.
+Le rituel quotidien réunissant le Team Leader, l'Ordonnancement, la Logistique et les opérateurs constitue désormais le principal levier de maintien de la stabilité du flux. Cette routine permet de vérifier le respect des priorités, d'anticiper les écarts potentiels et de garantir l'application des nouvelles règles de fonctionnement.
+Visuel à ajouter : Photo du panneau de management visuel ou des standards déployés.
+4.4.2. Limites identifiées du chantier
+Malgré les résultats obtenus, plusieurs limites ont été identifiées lors du déploiement des solutions.
+La première concerne la discipline d'application des standards. Le maintien des gains repose sur le respect des règles de séquencement et sur la capacité des différents acteurs à préserver la stabilité du planning. Une remise en cause fréquente des priorités ou un contournement de la Frozen Zone conduirait rapidement à la réapparition des changements de série excessifs observés avant le chantier.
+La seconde limite concerne les systèmes d'information. La mise à jour et la fiabilisation des Temps d'Allocation Initiaux nécessitent une gouvernance transverse impliquant les Méthodes, les programmeurs et les Key Users SAP. Cette problématique dépasse le périmètre d'action d'un chantier Kaizen local.
+Enfin, certaines causes identifiées relèvent directement des infrastructures industrielles. Les contraintes liées à la climatisation de la chambre de mesure ne peuvent être résolues par des actions organisationnelles et nécessitent des investissements spécifiques afin de garantir la disponibilité de l'équipement dans la durée.
+4.4.3. Perspectives d'amélioration
+Les résultats obtenus sur la machine IMAGE ouvrent plusieurs perspectives de développement à l'échelle du pôle Tridim et du secteur ODYE.
+Une première piste consiste à étendre les principes de séquencement par campagnes aux autres moyens de mesure du secteur, notamment les machines Silver et Zeiss, afin d'harmoniser les pratiques de pilotage et de réduire les changements de série sur l'ensemble du pôle.
+Une seconde perspective concerne la poursuite de la fiabilisation des données de planification. La mise en place d'un processus systématique de mise à jour des Temps d'Allocation Initiaux permettrait d'améliorer durablement la qualité des contrats de production et la pertinence des calculs de charge-capacité.
+Enfin, l'intégration d'indicateurs de suivi spécifiques dans les routines de management de l'AOS permettrait de mesurer dans le temps la stabilité du flux, le respect des séquences planifiées et l'adhérence au contrat de production, afin de garantir la pérennité des gains obtenus.
+Conclusion du chapitre Tridim
+Ce chantier Kaizen a permis de démontrer que les difficultés de performance de la machine IMAGE n'étaient pas liées à un manque de capacité intrinsèque de l'équipement, mais principalement à une instabilité des règles de gestion du flux de production.
+L'analyse terrain, les observations réalisées auprès des équipes et l'exploitation des données de production ont permis d'identifier les causes racines des pertes de performance et de réorienter le projet vers des actions à forte valeur ajoutée. La stabilisation du planning, la réduction du nombre de changements de série et la standardisation des pratiques ont permis de restituer près de 4,7 heures de capacité productive par jour sans investissement matériel supplémentaire.
+Au-delà des gains opérationnels obtenus, ce chantier a renforcé la coordination entre la Production, l'Ordonnancement, la Logistique et les fonctions supports. Il a également permis de mettre en place des standards de pilotage pérennes contribuant à sécuriser le respect du contrat de production dans un contexte de montée en cadence des programmes Airbus.
 
 CHAPITRE 7 : RECONCEPTION DU FLUX ET OPTIMISATION DES SURFACES DE L'ÎLOT DES PANNEAUX ISOGRID (PROGRAMME A350)
 7.1. PHASE PLAN : Diagnostic Terrain, Cartographie Spaghetti et Verrous Logistiques
