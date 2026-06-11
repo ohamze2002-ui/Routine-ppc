@@ -1,4 +1,77 @@
-5. Sujet 1 – PPC et standardisation des routines
+PREMIÈRE PARTIE : CADRE INDUSTRIEL ET SYSTÈME D'EXCELLENCE SYSTÉMIQUE
+CHAPITRE 1 : LE GROUPE AIRBUS ET L'USINE STRATÉGIQUE DE SAINT-ÉLOI
+1.1. Le Groupe Airbus : Leader mondial de l'aviation civile et de la défense
+1.1.1. Organisation macro et activités globales
+Airbus SE s’impose comme le leader mondial de l'aéronautique, de l'espace et des services associés. Le groupe est structuré à l'échelle internationale autour de trois divisions majeures :
+Airbus Commercial Aircraft : Consacré aux avions de ligne civils (familles A220, A320, A330, A350), cœur d'activité de mon stage.
+Airbus Helicopters : Premier fabricant mondial de pales et de solutions d’hélicoptères civils et militaires.
+Airbus Defence and Space : Leader européen de la défense, de l'espace, des lanceurs et des avions de transport militaire (comme l'A400M).
+1.1.2. Chiffres clés opérationnels (Données consolidées)
+Présence internationale : Une implantation industrielle mondiale répartie principalement en Europe (France, Allemagne, Espagne, Royaume-Uni), mais aussi aux États-Unis et en Chine.
+Capital humain : Plus de 150 000 salariés à travers le monde.
+Chiffre d'affaires : Environ 74,4 milliards d'euros consolidés, portés par une cadence de livraison d'avions civils en forte accélération.
+Siège social (Headquarters) : Basé de façon centrale à Toulouse (Blagnac), France.
+1.2. L'Usine de Saint-Éloi : Un héritage centenaire et une cartographie multi-sites
+1.2.1. Un héritage historique unique au centre de Toulouse
+Fondé en 1920 par le pionnier de l'aviation Émile Dewoitine, le site de Saint-Éloi est le plus ancien site aéronautique de Toulouse encore en activité. Des célèbres chasseurs Dewoitine D.520 aux premiers grands succès d'Aérospatiale (Caravelle, Concorde), Saint-Éloi a traversé plus d'un siècle d'innovations industrielles avant de devenir le pôle d'excellence mondial d'Airbus pour la conception et la fabrication des mâts de réacteurs (pylons).
+Cette longévité implique une particularité géographique majeure : l'usine historique est aujourd'hui totalement enclavée dans le cœur urbain et résidentiel de Toulouse. Ne disposant d'aucune possibilité d'extension foncière extérieure, chaque mètre carré y est compté. Cette contrainte historique impose une chasse drastique aux gaspillages d'espace et une optimisation millimétrée des surfaces intérieures, conférant à mes chantiers de réimplantation (Isogrid, Boxes de Soudure) un enjeu hautement stratégique pour absorber les hausses de cadences.
+1.2.2. Une configuration industrielle répartie et l'ambition "Saint-Éloi du Futur" (SEF)
+Pour répondre aux défis logistiques et industriels modernes, l'entité Airbus Saint-Éloi s'articule aujourd'hui autour de deux sites opérationnels, complétés par une transformation d'usine d'envergure :
+Le site de Saint-Éloi Historique : Situé en centre-ville de Toulouse, il concentre le cœur de l'expertise historique, l'usinage des pièces complexes et une partie de l'assemblage.
+Le site de Saint-Éloi Satellite (Blagnac) : Situé à proximité immédiate des lignes d'assemblage final (FAL) d'Airbus à Blagnac, ce site satellite fluidifie les flux logistiques et sécurise les livraisons de mâts réacteurs en juste-à-temps.
+Le projet d'avenir SEF (Saint-Éloi du Futur) : Face au besoin massif de modernisation et de montée en cadence (Ramp-up), Airbus déploie actuellement un projet d'usine du futur baptisé SEF, qui sera également localisé vers Blagnac. Ce pôle industriel de rupture intégrera les technologies de pointe de l'industrie 4.0, une automatisation poussée et une optimisation éco-efficiente des flux pour propulser l'outil industriel vers les standards d'excellence des prochaines décennies.
+1.2.3. Un positionnement stratégique mondial unique
+Malgré l'éclatement de sa géographie, l'usine de Saint-Éloi occupe une place exclusive au sein du système de production d'Airbus : c'est le seul et unique site fabricant des mâts moteurs d'Airbus au monde pour l'intégralité de la gamme d'avions commerciaux. De plus, l'usine conçoit et assemble également les mâts pour le transporteur militaire gros porteur A400M.
+Un mât de réacteur est une pièce de haute technicité mécanique assurant la liaison structurante, l'alimentation énergétique et les flux de fluides entre l'aile et le moteur. De fait, l'usine de Saint-Éloi représente un point de passage obligatoire (Single Point of Failure) : si l'usine s'arrête, toute la production mondiale d'Airbus se fige.
+1.2.4. Organisation industrielle du secteur d'accueil : Le pôle ODY
+Pour piloter cette usine globale, la direction industrielle s'articule autour du pôle ODY, lui-même découpé en trois grands sous-secteurs opérationnels complémentaires :
+ODYS : Le secteur entièrement dédié à l'assemblage des mâts moteurs pour la famille des monocouloirs (Single Aisle, notamment le programme à succès A320).
+ODYL : Le secteur consacré à l'assemblage des mâts moteurs pour les gros-porteurs (Wide Body, à savoir les programmes long-courriers A330 et A350).
+ODYE : Le secteur amont de fabrication des pièces élémentaires, qui regroupe la tôlerie lourde, la chaudronnerie et les îlots techniques critiques (Formage, Soudure, Isogrid) sur lesquels ont porté mes missions d'amélioration continue.
+CHAPITRE 2 : LE SYSTÈME EXCELLENCE AIRBUS (AOS) ET POSITIONNEMENT DE LA MISSION
+2.1. L'Airbus Operating System (AOS) : Le modèle d'ingénierie Lean
+L'AOS (Airbus Operating System) constitue la philosophie de performance et le système d'excellence opérationnelle propre à Airbus. Fortement inspiré du modèle Lean Manufacturing, il vise à standardiser les processus, à éliminer les gaspillages (Mudas) et à accompagner la transformation de l'outil de production face aux exigences des hauts taux de cadence (Ramp-up).
+L'AOS ne se résume pas à l'application d'outils isolés ; il est structuré de façon holistique autour de 6 grands domaines, eux-mêmes subdivisés en briques opérationnelles spécifiques touchant à la logistique, la qualité, la sécurité et la maîtrise des opérations (Réf. image_b362c5.png) :
+HSE (Health, Safety, Environment) : Focalisé sur la protection des compagnons et l'ergonomie (Briques : Safety Red Alert, Safety Golden Rules, Environnement).
+EEM (Equipment Efficiency Management) : Axé sur l'optimisation des structures humaines et de la polyvalence (Briques : Poly/Poly, Productivity and Improvement Ideas).
+PSE (Production System Efficiency) : Le cœur technique de la performance de flux au sol (Briques : 5S, Standardized Work, Production Pace Control (PPC), Andon, SQCDP, Total Productive Maintenance).
+QPS (Quality Process Security) : Dédié à la sécurisation de la conformité produit (Briques : Practical Problem Solving, FOD, Control Plan).
+PC&L (Production Control & Logistics) : Maîtrise de la distribution des lignes et des stocks (Briques : Lean Warehouse, Line Distribution).
+PEM (Performance & Engineering Management) : Pilotage macro de l’amélioration continue (Briques : KPI Tree, Value Stream Analysis).
+Mes interventions de stage ont directement consisté à concevoir, déployer ou optimiser plusieurs de ces briques opérationnelles majeures (notamment le PPC pour le Cockpit Digital, et le 5S / Implantation pour les îlots Isogrid et Boxes de Soudure).
+
+
+
+2.2. Structure hiérarchique de l'équipe AOS et interfaces
+Pour assurer l'intégration de ces briques sur le terrain, l'équipe AOS est rattachée de manière transverse au Pôle Performance de l'usine, et fonctionne selon la structure hiérarchique directe suivante :
+
+                  GOUVERNANCE ET CASCADING DE L'ÉQUIPE AOS
+                  
+                        ┌────────────────────────┐
+                        │        HO AOS          │  (Head of AOS Site)
+                        └───────────┬────────────┘
+                                    │
+                        ┌───────────▼────────────┐
+                        │      AOS LEADERS       │  (Pilotage par secteurs d'activité)
+                        └───────────┬────────────┘
+                                    │
+                        ┌───────────▼────────────┐
+                        │      AGENTS AOS        │  (Déploiement opérationnel terrain)
+                        └───────────┬────────────┘
+                                    │
+                        ┌───────────▼────────────┐
+                        │      MON STAGE         │  (Support Ingénierie de Performance)
+                        └────────────────────────┘
+HO AOS (Head of AOS) : Assure la direction stratégique, définit la feuille de route de maturité de l'ensemble du site de Saint-Éloi et rend compte des indicateurs au Top Management d'Airbus.
+
+AOS Leaders : Pilotent le déploiement de la feuille de route à l'échelle des grands secteurs (comme le secteur ODY), arbitrent les ressources et valident la conformité des chantiers.
+Agents AOS : Experts Lean implantés directement au quotidien sur le terrain. Ils travaillent main dans la main avec les compagnons, les Team Leaders (TL) et les managers de lignes pour animer les chantiers, auditer les briques et lever les verrous de performance.
+Mon positionnement de stagiaire Ingénieur Performance s'est articulé en interface directe avec ces agents AOS. J'ai agi comme un facilitateur technique et technologique, apportant des solutions concrètes (digitales et d'implantation) pour concrétiser sur le terrain les objectifs portés par les briques de l'Airbus Operating System.
+CHAPITRE 3 : CARTOGRAPHIE, PLANIFICATION ET CADRAGE MÉTHODOLOGIQUE DES PROJETS
+3.1. Approche méthodologique globale : DMAIC et PDCAPour garantir la rigueur scientifique et l'efficacité opérationnelle de mes interventions sur le secteur ODYE, j'ai structuré mes projets autour de deux standards incontournables du Lean Manufacturing et du Six Sigma. Le choix de la méthodologie a été dicté par la nature de chaque sujet :Le Cycle PDCA (Pilotage Rythmé & Chantiers Agiles) : Appliqué pour le développement du Cockpit Digital (PPC), ainsi que pour les chantiers d'implantation physique Isogrid A350 et Boxes de Soudure. Cette approche dynamique (Plan-Do-Check-Act) a permis de concevoir rapidement l'outil digital, de vérifier son adoption sur le terrain via les rituels visuels, et d'ajuster instantanément les implantations physiques face aux contraintes mouvantes du Ramp-up.La Démarche DMAIC (Projets Long Terme / Complexes) : Appliquée spécifiquement pour l'optimisation de l'îlot Formage et l'analyse de capacité du Tridim. Ce cycle rigoureux a permis de Définir les objectifs de productivité, Mesurer précisément les Temps d'Allocation Initiaux (TAI) et les chronométrages réels, Analyser les causes racines des dysfonctionnements (bugs informatiques, goulots machines), Innover en proposant des standards cibles (actions SMED), et Contrôler la pérennité des gains.
+3.2. Secteurs affectés et Cartographie des impactsMes missions se sont concentrées au cœur du secteur ODYE (Pièces élémentaires). L'objectif était de créer une dynamique de performance inter-îlots : chaque action menée sur un poste devait servir ou débloquer le poste suivant.Projet / MissionSecteur Physique AffectéBrique AOS PiloteType d'Impact Industriel1. Cockpit Digital (PPC)Macro-Secteur ODY (Transverse)PSE : Production Pace ControlDigitalisation, Pilotage flux & Management visuel2. Tridim IMAGEÎlot Tridimensionnel ODYEPEM : Value Stream AnalysisCapacité machine, Ordonnancement & Flux SI3. WIP CibleFlux Logistique ODYEPC&L / PEM : KPI TreeAnalyse de données & Standardisation de notation4. Îlot FormageLigne Formage ODYEPSE : Standardized WorkFlux de pièces, Ergonomie & SMED5. Îlot IsogridSurface de stockage ODYEPSE : 5S / ImplantationLibération d'espace & Valorisation financière6. Boxes de SoudureZone Soudure ODYEPSE / HSE : Implantation / SécuritéExtension capacitaire & Flexibilité modulaire
+3.3. Planification macro : Le Diagramme de Gantt des projets[Note pour l'intégration Word : Insérer ici ton visuel de Diagramme de Gantt]La gestion simultanée de ces 6 chantiers a nécessité une planification rigoureuse pour respecter les jalons du stage. Mon activité s'est découpée en trois grandes phases temporelles :Semaines 1 à 6 (Cadrage & Diagnostic) : Prise en main de l'environnement, immersion sur le Gemba, réunions avec les compagnons et relevés des chronométrages (Tridim, Formage) et des flux (Spaghetti Soudure).Semaines 7 à 18 (Développement & Déploiement) : Codage de l'outil PPC, développement du Cockpit Digital, négociation avec la QLS pour l'Isogrid et co-conception des boxes modulaires de soudure.Semaines 19 à 24 (Pérennisation & Clôture) : Standardisation des processus, chiffrage des ROI finaux, passation des outils aux agents AOS et transfert du dossier Soudure dans le plan macro du bâtiment.
+Sujet 1 – PPC et standardisation des routines
 PHASE PLAN : Cadrage, Leadership WP1 et Démarche d'Ingénierie de Projet
 1.	Contexte industriel de la brique PPC et enjeux de montée en cadence
 Au sein du référentiel AOS (Airbus Operating System), la maîtrise du rythme industriel repose sur une brique standardisée essentielle : le PPC (Production Pace Control). L'enjeu fondamental de cette brique, déjà établie dans le système de management d'Airbus, est de passer d'une gestion de production réactive à un mode de pilotage prévisif, permettant de garantir le respect du rythme de production à l'échelle de chaque site de production.
@@ -18,7 +91,7 @@ Comparaison inter-secteurs : Analyse comparative fine entre les secteurs pour id
 Au cours de mes réunions avec les agents AOS, les Team Leaders et ma participation aux rituels, j'ai recensé les outils et fichiers réellement utilisés sur le terrain par les secteurs pour préparer et réaliser leurs routines opérationnelles quotidiennes ou hebdomadaires :
 SAP / MES : Outils maîtres exploités par l'atelier pour l'enregistrement transactionnel de la production.
 Skywise : Plateforme de données utilisée pour l'extraction des historiques et des indicateurs de performance.
-Tandem : Application pour les points ouverts (probleme en cours de resolution) sur la ligne.
+Tandem : Application pour les points ouverts (problème en cours de résolution) sur la ligne.
 Google Sheets & Slides locaux : Fichiers partagés et diapositives servant de supports visuels pour l'animation physique des points d'îlots.
 Ce recensement a permis d'identifier les différents supports utilisés par les secteurs pour préparer et animer leurs routines PPC. L'analyse a également mis en évidence une dispersion des informations entre plusieurs outils et fichiers locaux, rendant difficile l'obtention d'une vision consolidée de la maturité du projet à l'échelle de l'usine.
 5.	Problématique du projet PPC 
@@ -110,9 +183,9 @@ Conclusion du chapitre PPC
 En conclusion, la brique PPC (Production Pace Control), bien qu'ancrée de longue date dans le référentiel de l'AOS, souffrait d'un manque de visibilité transverse et d'outils de pilotage centralisés à l'échelle de l'usine Saint-Éloi. Sous l'impulsion d'une démarche d'intrapreneuriat et d'un leadership affirmé sur le WP1, nous sommes passés d'une mission initiale de simple cartographie statique sur tableur à la création d'un véritable Cockpit Digital de gestion de projet.
 En capitalisant sur le retour d'expérience des démarches précédentes, cette solution a permis de désiloter l'information, de standardiser l'évaluation de la maturité PPC et de centraliser les données du projet dans un environnement unique. L'automatisation des consolidations et la mise en place d'une Heatmap dynamique offrent désormais à l'équipe AOS et au management une vision transverse facilitant la priorisation des actions et la prise de décision.
 Au-delà de l'outil développé, ce projet illustre la capacité à transformer un besoin local en une solution pérenne de pilotage, capable d'accompagner durablement les démarches d'amélioration continue et de montée en cadence de l'usine Saint-Éloi.
-.6. Sujet 2 – Pilotage du WIP et du Temps de Cycle
-Contenu à compléter.
-7. Sujet 3 – Kaizen Machine Image Tridim
+
+
+Sujet 2 – Kaizen Machine Image Tridim
 4.1. PHASE PLAN : Diagnostic Terrain et Investigation Systémique 
 4.1.1. Contexte industriel et positionnement de la machine IMAGE
 Au sein du secteur ODYE de l'usine Airbus Saint-Éloi, le pôle de métrologie constitue une étape indispensable du flux de production. Il est composé de trois machines de mesure tridimensionnelle: Silver, Zeiss et IMAGE. Chaque pièce de structure aéronautique destinée aux programmes A320 Neo, A330 Neo, A350 ou A400M doit être contrôlée sur ces équipements avant d'être livrée aux lignes d'assemblage.
@@ -298,7 +371,21 @@ Ce chantier Kaizen a permis de démontrer que les difficultés de performance de
 L'analyse terrain, les observations réalisées auprès des équipes et l'exploitation des données de production ont permis d'identifier les causes racines des pertes de performance et de réorienter le projet vers des actions à forte valeur ajoutée. La stabilisation du planning, la réduction du nombre de changements de série et la standardisation des pratiques ont permis de restituer près de 4,7 heures de capacité productive par jour sans investissement matériel supplémentaire.
 Au-delà des gains opérationnels obtenus, ce chantier a renforcé la coordination entre la Production, l'Ordonnancement, la Logistique et les fonctions supports. Il a également permis de mettre en place des standards de pilotage pérennes contribuant à sécuriser le respect du contrat de production dans un contexte de montée en cadence des programmes Airbus.
 
-CHAPITRE 7 : RECONCEPTION DU FLUX ET OPTIMISATION DES SURFACES DE L'ÎLOT DES PANNEAUX ISOGRID (PROGRAMME A350)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sujet 4- panneau Isogrid
 7.1. PHASE PLAN : Diagnostic Terrain, Cartographie Spaghetti et Verrous Logistiques
 7.1.1. Contexte industriel et criticité des panneaux Isogrid A350
 Au sein du secteur ODYE de l'usine Airbus Saint-Éloi, l'îlot dédié à la fabrication des panneaux Isogrid pour le programme A350 représente une ligne à très haute valeur ajoutée. La technologie Isogrid, caractérisée par une structure triangulaire intégrée usinée dans la masse pour optimiser le ratio poids/résistance, exige une succession d'opérations physiques, thermiques et chimiques extrêmement strictes. La performance de cet îlot est aujourd'hui bridée par une saturation des surfaces et une complexité sévère des flux logistiques.
@@ -337,12 +424,7 @@ Standardisation visuelle des racks épurés par le chantier 5S.
 7.4.2. Conclusion du chapitre Isogrid
 Ce chapitre démontre qu'une contrainte de place n'exige pas nécessairement une extension des bâtiments, mais une chasse rigoureuse aux zones de stagnation passives. En osant remettre en question une zone de Non-Conformités historique vieille de 5 ans, ce projet a permis de libérer 80 m² de surface critique, de sécuriser l'ergonomie des compagnons par la suppression des transports vers le stock éloigné, et d'offrir une solution d'implantation clé en main pour optimiser l'îlot adjacent des Boxes de Soudure
 
-
-
-
-
-
-CHAPITRE 8 : EXTENSION CAPACITAIRE ET CONFIGURATION MODULAIRE DE LA ZONE DE SOUDURE (PROGRAMME HAUTE CADENCE)
+Sujet 4- EXTENSION CAPACITAIRE ET CONFIGURATION MODULAIRE DE LA ZONE DE SOUDURE (PROGRAMME HAUTE CADENCE)
 8.1. PHASE PLAN : Contrainte du Ramp-up, Cartographie Spaghetti et Saturation des Surfaces
 8.1.1. Enjeu industriel : Répondre aux exigences du plan de charge (Ramp-up)
 Pour honorer les engagements de livraison d'Airbus face à l'augmentation des cadences de production (Ramp-up), le secteur de soudure du site de Saint-Éloi doit impérativement accroître sa capacité de passage. L'analyse capacitaire des Méthodes a démontré la nécessité théorique d'intégrer deux nouveaux boxes de soudure manuels (Boxes 5 et 6) au sein d'une zone déjà fortement sollicitée.
@@ -365,17 +447,6 @@ La réparation des outillages de type PAF (Palonnier d'Aide à la Fabrication).
 Une zone de dépannage et de délestagelogistique en cas de panne critique du robot de soudure principal.
 Implanter des boxes fermés classiques avec des cloisons fixes ou des murs en dur aurait définitivement supprimé ces fonctions, créant un nouveau goulot d'étranglement.
 Pour résoudre cette équation, j'ai proposé une solution conceptuelle agile : une configuration modulaire basée sur des séparations physiques mobiles et faciles à déplacer. En lieu et place d'un cloisonnement figé, cette flexibilité permet d'adapter instantanément la géométrie de l'atelier en fonction du besoin opérationnel : configuration fermée lors des phases de soudure manuelle (confinement des arcs et protection HSE), ou configuration ouverte pour accueillir des outillages volumineux en cas de panne du robot ou de retouche Yaskawa.
-                  CONCEPT DE ZONE MODULAIRE AGILLE
-                  
-  [ CLOISONS DÉPLOYÉES (Mode Soudure) ]    [ CLOISONS REPLIÉES (Mode Dépannage) ]
- ┌─────────────────┬─────────────────┐    ┌─────────────────────────────────────┐
- │                 │                 │    │                                     │
- │     BOX 5       │     BOX 6       │    │      ZONE OUVERTE MULTI-USAGE       │
- │ (Soudure Manu)  │ (Soudure Manu)  │    │  (Retouche Yaskawa / Panne Robot)   │
- │                 │                 │    │                                     │
- └───────▲─────────┴───────▲─────────┘    └──────────────────▲──────────────────┘
-         │                 │                                 │
-     [Cloison]         [Cloison]               [Séparations mobiles repliées]
 8.3. PHASE CHECK & ACT : Gestion du Changement, Reprise de Projet et Standardisation
 8.3.1. Évolution du périmètre macro : Le projet face au méga-ramp-up
 Au cours du déploiement de l'étude, l'annonce de nouvelles demandes d'accélération des cadences (Mega Ramp-up) associées à l'arrivée programmée de nouvelles machines de production a modifié le cadre stratégique du site. La zone doit désormais faire face à une réimplantation industrielle globale de bien plus grande envergure.
@@ -389,107 +460,5 @@ Ce projet démontre qu'un projet d'ingénierie Lean ne se déroule pas toujours 
 
 
 
-PREMIÈRE PARTIE : CADRE INDUSTRIEL ET SYSTÈME D'EXCELLENCE SYSTÉMIQUE
-CHAPITRE 1 : LE GROUPE AIRBUS ET L'USINE STRATÉGIQUE DE SAINT-ÉLOI
-1.1. Le Groupe Airbus : Leader mondial de l'aviation civile et de la défense
-1.1.1. Organisation macro et activités globales
-Airbus SE s’impose comme le leader mondial de l'aéronautique, de l'espace et des services associés. Le groupe est structuré à l'échelle internationale autour de trois divisions majeures :
-
-Airbus Commercial Aircraft : Consacré aux avions de ligne civils (familles A220, A320, A330, A350), cœur d'activité de mon stage.
-
-Airbus Helicopters : Premier fabricant mondial de pales et de solutions d’hélicoptères civils et militaires.
-
-Airbus Defence and Space : Leader européen de la défense, de l'espace, des lanceurs et des avions de transport militaire (comme l'A400M).
-
-1.1.2. Chiffres clés opérationnels (Données consolidées)
-Présence internationale : Une implantation industrielle mondiale répartie principalement en Europe (France, Allemagne, Espagne, Royaume-Uni), mais aussi aux États-Unis et en Chine.
-
-Capital humain : Plus de 150 000 salariés à travers le monde.
-
-Chiffre d'affaires : Environ 74,4 milliards d'euros consolidés, portés par une cadence de livraison d'avions civils en forte accélération.
-
-Siège social (Headquarters) : Basé de façon centrale à Toulouse (Blagnac), France.
-
-1.2. L'Usine de Saint-Éloi : Un héritage centenaire et une cartographie multi-sites
-1.2.1. Un héritage historique unique au centre de Toulouse
-Fondé en 1920 par le pionnier de l'aviation Émile Dewoitine, le site de Saint-Éloi est le plus ancien site aéronautique de Toulouse encore en activité. Des célèbres chasseurs Dewoitine D.520 aux premiers grands succès d'Aérospatiale (Caravelle, Concorde), Saint-Éloi a traversé plus d'un siècle d'innovations industrielles avant de devenir le pôle d'excellence mondial d'Airbus pour la conception et la fabrication des mâts de réacteurs (pylons).
-
-Cette longévité implique une particularité géographique majeure : l'usine historique est aujourd'hui totalement enclavée dans le cœur urbain et résidentiel de Toulouse. Ne disposant d'aucune possibilité d'extension foncière extérieure, chaque mètre carré y est compté. Cette contrainte historique impose une chasse drastique aux gaspillages d'espace et une optimisation millimétrée des surfaces intérieures, conférant à mes chantiers de réimplantation (Isogrid, Boxes de Soudure) un enjeu hautement stratégique pour absorber les hausses de cadences.
-
-1.2.2. Une configuration industrielle répartie et l'ambition "Saint-Éloi du Futur" (SEF)
-Pour répondre aux défis logistiques et industriels modernes, l'entité Airbus Saint-Éloi s'articule aujourd'hui autour de deux sites opérationnels, complétés par une transformation d'usine d'envergure :
-
-Le site de Saint-Éloi Historique : Situé en centre-ville de Toulouse, il concentre le cœur de l'expertise historique, l'usinage des pièces complexes et une partie de l'assemblage.
-
-Le site de Saint-Éloi Satellite (Blagnac) : Situé à proximité immédiate des lignes d'assemblage final (FAL) d'Airbus à Blagnac, ce site satellite fluidifie les flux logistiques et sécurise les livraisons de mâts réacteurs en juste-à-temps.
-
-Le projet d'avenir SEF (Saint-Éloi du Futur) : Face au besoin massif de modernisation et de montée en cadence (Ramp-up), Airbus déploie actuellement un projet d'usine du futur baptisé SEF, qui sera également localisé vers Blagnac. Ce pôle industriel de rupture intégrera les technologies de pointe de l'industrie 4.0, une automatisation poussée et une optimisation éco-efficiente des flux pour propulser l'outil industriel vers les standards d'excellence des prochaines décennies.
-
-1.2.3. Un positionnement stratégique mondial unique
-Malgré l'éclatement de sa géographie, l'usine de Saint-Éloi occupe une place exclusive au sein du système de production d'Airbus : c'est le seul et unique site fabricant des mâts moteurs d'Airbus au monde pour l'intégralité de la gamme d'avions commerciaux. De plus, l'usine conçoit et assemble également les mâts pour le transporteur militaire gros porteur A400M.
-
-Un mât de réacteur est une pièce de haute technicité mécanique assurant la liaison structurante, l'alimentation énergétique et les flux de fluides entre l'aile et le moteur. De fait, l'usine de Saint-Éloi représente un point de passage obligatoire (Single Point of Failure) : si l'usine s'arrête, toute la production mondiale d'Airbus se fige.
-
-1.2.4. Organisation industrielle du secteur d'accueil : Le pôle ODY
-Pour piloter cette usine globale, la direction industrielle s'articule autour du pôle ODY, lui-même découpé en trois grands sous-secteurs opérationnels complémentaires :
-
-ODYS : Le secteur entièrement dédié à l'assemblage des mâts moteurs pour la famille des monocouloirs (Single Aisle, notamment le programme à succès A320).
-
-ODYL : Le secteur consacré à l'assemblage des mâts moteurs pour les gros-porteurs (Wide Body, à savoir les programmes long-courriers A330 et A350).
-
-ODYE : Le secteur amont de fabrication des pièces élémentaires, qui regroupe la tôlerie lourde, la chaudronnerie et les îlots techniques critiques (Formage, Soudure, Isogrid) sur lesquels ont porté mes missions d'amélioration continue.
-
-CHAPITRE 2 : LE SYSTÈME EXCELLENCE AIRBUS (AOS) ET POSITIONNEMENT DE LA MISSION
-2.1. L'Airbus Operating System (AOS) : Le modèle d'ingénierie Lean
-L'AOS (Airbus Operating System) constitue la philosophie de performance et le système d'excellence opérationnelle propre à Airbus. Fortement inspiré du modèle Lean Manufacturing, il vise à standardiser les processus, à éliminer les gaspillages (Mudas) et à accompagner la transformation de l'outil de production face aux exigences des hauts taux de cadence (Ramp-up).
-
-L'AOS ne se résume pas à l'application d'outils isolés ; il est structuré de façon holistique autour de 6 grands domaines, eux-mêmes subdivisés en briques opérationnelles spécifiques touchant à la logistique, la qualité, la sécurité et la maîtrise des opérations (Réf. image_b362c5.png) :
-
-HSE (Health, Safety, Environment) : Focalisé sur la protection des compagnons et l'ergonomie (Briques : Safety Red Alert, Safety Golden Rules, Environnement).
-
-EEM (Equipment Efficiency Management) : Axé sur l'optimisation des structures humaines et de la polyvalence (Briques : Poly/Poly, Productivity and Improvement Ideas).
-
-PSE (Production System Efficiency) : Le cœur technique de la performance de flux au sol (Briques : 5S, Standardized Work, Production Pace Control (PPC), Andon, SQCDP, Total Productive Maintenance).
-
-QPS (Quality Process Security) : Dédié à la sécurisation de la conformité produit (Briques : Practical Problem Solving, FOD, Control Plan).
-
-PC&L (Production Control & Logistics) : Maîtrise de la distribution des lignes et des stocks (Briques : Lean Warehouse, Line Distribution).
-
-PEM (Performance & Engineering Management) : Pilotage macro de l’amélioration continue (Briques : KPI Tree, Value Stream Analysis).
-
-Mes interventions de stage ont directement consisté à concevoir, déployer ou optimiser plusieurs de ces briques opérationnelles majeures (notamment le PPC pour le Cockpit Digital, et le 5S / Implantation pour les îlots Isogrid et Boxes de Soudure).
-
-2.2. Structure hiérarchique de l'équipe AOS et interfaces
-Pour assurer l'intégration de ces briques sur le terrain, l'équipe AOS est rattachée de manière transverse au Pôle Performance de l'usine, et fonctionne selon la structure hiérarchique directe suivante :
-
-                  GOUVERNANCE ET CASCADING DE L'ÉQUIPE AOS
-                  
-                        ┌────────────────────────┐
-                        │        HO AOS          │  (Head of AOS Site)
-                        └───────────┬────────────┘
-                                    │
-                        ┌───────────▼────────────┐
-                        │      AOS LEADERS       │  (Pilotage par secteurs d'activité)
-                        └───────────┬────────────┘
-                                    │
-                        ┌───────────▼────────────┐
-                        │      AGENTS AOS        │  (Déploiement opérationnel terrain)
-                        └───────────┬────────────┘
-                                    │
-                        ┌───────────▼────────────┐
-                        │      MON STAGE         │  (Support Ingénierie de Performance)
-                        └────────────────────────┘
-HO AOS (Head of AOS) : Assure la direction stratégique, définit la feuille de route de maturité de l'ensemble du site de Saint-Éloi et rend compte des indicateurs au Top Management d'Airbus.
-
-AOS Leaders : Pilotent le déploiement de la feuille de route à l'échelle des grands secteurs (comme le secteur ODY), arbitrent les ressources et valident la conformité des chantiers.
-
-Agents AOS : Experts Lean implantés directement au quotidien sur le terrain. Ils travaillent main dans la main avec les compagnons, les Team Leaders (TL) et les managers de lignes pour animer les chantiers, auditer les briques et lever les verrous de performance.
-
-Mon positionnement de stagiaire Ingénieur Performance s'est articulé en interface directe avec ces agents AOS. J'ai agi comme un facilitateur technique et technologique, apportant des solutions concrètes (digitales et d'implantation) pour concrétiser sur le terrain les objectifs portés par les briques de l'Airbus Operating System.
 
 
-
-
-
-
-CHAPITRE 3 : CARTOGRAPHIE, PLANIFICATION ET CADRAGE MÉTHODOLOGIQUE DES PROJETS3.1. Approche méthodologique globale : DMAIC et PDCAPour garantir la rigueur scientifique et l'efficacité opérationnelle de mes interventions sur le secteur ODYE, j'ai structuré mes projets autour de deux standards incontournables du Lean Manufacturing et du Six Sigma. Le choix de la méthodologie a été dicté par la nature de chaque sujet :Le Cycle PDCA (Pilotage Rythmé & Chantiers Agiles) : Appliqué pour le développement du Cockpit Digital (PPC), ainsi que pour les chantiers d'implantation physique Isogrid A350 et Boxes de Soudure. Cette approche dynamique (Plan-Do-Check-Act) a permis de concevoir rapidement l'outil digital, de vérifier son adoption sur le terrain via les rituels visuels, et d'ajuster instantanément les implantations physiques face aux contraintes mouvantes du Ramp-up.La Démarche DMAIC (Projets Long Terme / Complexes) : Appliquée spécifiquement pour l'optimisation de l'îlot Formage et l'analyse de capacité du Tridim. Ce cycle rigoureux a permis de Définir les objectifs de productivité, Mesurer précisément les Temps d'Allocation Initiaux (TAI) et les chronométrages réels, Analyser les causes racines des dysfonctionnements (bugs informatiques, goulots machines), Innover en proposant des standards cibles (actions SMED), et Contrôler la pérennité des gains.3.2. Secteurs affectés et Cartographie des impactsMes missions se sont concentrées au cœur du secteur ODYE (Pièces élémentaires). L'objectif était de créer une dynamique de performance inter-îlots : chaque action menée sur un poste devait servir ou débloquer le poste suivant.Projet / MissionSecteur Physique AffectéBrique AOS PiloteType d'Impact Industriel1. Cockpit Digital (PPC)Macro-Secteur ODY (Transverse)PSE : Production Pace ControlDigitalisation, Pilotage flux & Management visuel2. Tridim IMAGEÎlot Tridimensionnel ODYEPEM : Value Stream AnalysisCapacité machine, Ordonnancement & Flux SI3. WIP CibleFlux Logistique ODYEPC&L / PEM : KPI TreeAnalyse de données & Standardisation de notation4. Îlot FormageLigne Formage ODYEPSE : Standardized WorkFlux de pièces, Ergonomie & SMED5. Îlot IsogridSurface de stockage ODYEPSE : 5S / ImplantationLibération d'espace & Valorisation financière6. Boxes de SoudureZone Soudure ODYEPSE / HSE : Implantation / SécuritéExtension capacitaire & Flexibilité modulaire3.3. Planification macro : Le Diagramme de Gantt des projets[Note pour l'intégration Word : Insérer ici ton visuel de Diagramme de Gantt]La gestion simultanée de ces 6 chantiers a nécessité une planification rigoureuse pour respecter les jalons du stage. Mon activité s'est découpée en trois grandes phases temporelles :Semaines 1 à 6 (Cadrage & Diagnostic) : Prise en main de l'environnement, immersion sur le Gemba, réunions avec les compagnons et relevés des chronométrages (Tridim, Formage) et des flux (Spaghetti Soudure).Semaines 7 à 18 (Développement & Déploiement) : Codage de l'outil PPC, développement du Cockpit Digital, négociation avec la QLS pour l'Isogrid et co-conception des boxes modulaires de soudure.Semaines 19 à 24 (Pérennisation & Clôture) : Standardisation des processus, chiffrage des ROI finaux, passation des outils aux agents AOS et transfert du dossier Soudure dans le plan macro du bâtiment.
