@@ -469,9 +469,14 @@
         </div>
        
         <div class="flex items-center gap-3">
-            <button onclick="openGraphPointModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
-                <i class="fa-solid fa-chart-line text-xs"></i> Ajouter un point graphique
-            </button>
+        
+            <button onclick="openGuideModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
+    <i class="fa-solid fa-book-open text-xs"></i> Guide utilisateur
+</button>
+
+<button onclick="openGraphPointModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
+    <i class="fa-solid fa-chart-line text-xs"></i> Ajouter un point graphique
+</button>
         </div>
     </header>
 
@@ -581,12 +586,26 @@
             </div>
             <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
                 <button onclick="closeSafeConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
-                <button onclick="confirmSafeAction()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Supprimer</button>
+                <button id="safe-confirm-submit" onclick="confirmSafeAction(this)" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2">Supprimer</button>
             </div>
         </div>
     </div>
 
-
+<div id="guide-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[80] p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
+        <div class="p-5 flex flex-col items-center text-center gap-3">
+            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center text-xl shadow-sm border border-indigo-100">
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">Ouvrir le guide utilisateur ?</h3>
+            <p class="text-sm text-slate-500">Vous allez être redirigé vers le guide utilisateur du Cockpit Digital PPC.</p>
+        </div>
+        <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
+            <button onclick="closeGuideModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Non</button>
+            <button onclick="openUserGuide()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Oui</button>
+        </div>
+    </div>
+</div>
     <div id="graph-point-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl border border-slate-200 fade-in flex flex-col overflow-hidden max-h-[88vh]">
             <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
@@ -614,7 +633,7 @@
                         </div>
                     </div>
                     <div class="flex justify-end mt-4">
-                        <button onclick="captureGraphPoint()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition shadow-sm">
+                        <button onclick="captureGraphPoint(this)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition shadow-sm">
                             <i class="fa-solid fa-camera"></i> Capturer l'état actuel
                         </button>
                     </div>
@@ -663,7 +682,7 @@
                         </div>
                         <div class="flex items-center justify-between mt-3">
                             <span class="text-[11px] text-slate-400">Définir un point de départ puis ajouter les jalons de progression. Maximum recommandé : 5 points.</span>
-                            <button onclick="addRoadmapMilestone()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition shadow-sm">
+                            <button onclick="addRoadmapMilestone(this)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition shadow-sm">
                                 <i class="fa-solid fa-plus"></i> Ajouter
                             </button>
                         </div>
@@ -678,8 +697,9 @@
                 </div>
             </div>
             <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50/50">
-                <button id="roadmap-edit-toggle" onclick="toggleRoadmapEditMode()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2"><i class="fa-solid fa-pen"></i> Modifier</button>
+                <button id="roadmap-edit-toggle" onclick="toggleRoadmapEditMode()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2"><i class="fa-solid fa-pen"></i> Modifier</button> 
                 <button onclick="closeRoadmapModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Fermer</button>
+               
             </div>
         </div>
     </div>
@@ -923,13 +943,33 @@
             ];
         }
 
-        function saveDbSilently(onSuccess) {
+        function setButtonLoading(button, isLoading, loadingText) {
+            if (!button) return;
+            if (isLoading) {
+                if (!button.dataset.originalHtml) button.dataset.originalHtml = button.innerHTML;
+                button.disabled = true;
+                button.classList.add('opacity-75', 'cursor-not-allowed');
+                button.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${loadingText || 'Enregistrement...'}`;
+            } else {
+                button.disabled = false;
+                button.classList.remove('opacity-75', 'cursor-not-allowed');
+                if (button.dataset.originalHtml) {
+                    button.innerHTML = button.dataset.originalHtml;
+                    delete button.dataset.originalHtml;
+                }
+            }
+        }
+
+        function saveDbSilently(onSuccess, onFailure) {
             enrichDatabase(db);
             const payload = getSerializableDb();
             if (isAppsScriptRuntime()) {
                 google.script.run
                     .withSuccessHandler(() => { if (onSuccess) onSuccess(); })
-                    .withFailureHandler(e => alert('Erreur de sauvegarde : ' + (e.message || e)))
+                    .withFailureHandler(e => {
+                        if (onFailure) onFailure(e);
+                        else alert('Erreur de sauvegarde : ' + (e.message || e));
+                    })
                     .saveData(payload);
             } else {
                 localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(payload));
@@ -1841,7 +1881,7 @@
             document.getElementById('graph-point-modal')?.classList.add('hidden');
         }
 
-        function captureGraphPoint() {
+        function captureGraphPoint(button) {
             const points = getGraphPoints();
             const titleInput = document.getElementById('graph-point-title');
             const dateInput = document.getElementById('graph-point-date');
@@ -1860,12 +1900,17 @@
                 values: captureSnapshotValues()
             });
 
+            setButtonLoading(button, true, 'Capture...');
             saveDbSilently(() => {
+                setButtonLoading(button, false);
                 if (titleInput) titleInput.value = '';
                 if (dateInput) dateInput.value = getTodayIso();
                 if (commentInput) commentInput.value = '';
                 renderGraphPointsList();
                 safeRenderDashboard();
+            }, (e) => {
+                setButtonLoading(button, false);
+                alert('Erreur de sauvegarde : ' + (e.message || e));
             });
         }
 
@@ -1923,6 +1968,11 @@
             const modal = document.getElementById('safe-confirm-modal');
             if (titleEl) titleEl.textContent = title || 'Confirmer la suppression';
             if (msgEl) msgEl.innerHTML = message || 'Cette action est irréversible.';
+            const btn = document.getElementById('safe-confirm-submit');
+            if (btn) {
+                setButtonLoading(btn, false);
+                btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Supprimer';
+            }
             if (modal) modal.classList.remove('hidden');
         }
 
@@ -1932,10 +1982,9 @@
             if (modal) modal.classList.add('hidden');
         }
 
-        function confirmSafeAction() {
+        function confirmSafeAction(button) {
             const action = pendingSafeConfirmAction;
-            closeSafeConfirmModal();
-            if (typeof action === 'function') action();
+            if (typeof action === 'function') action(button);
         }
 
         function deleteGraphPoint(id) {
@@ -1945,11 +1994,17 @@
             openSafeConfirmModal(
                 'Supprimer ce point graphique ?',
                 `Voulez-vous vraiment supprimer <span class="font-bold text-slate-800">${label}</span> ?<br><span class="text-xs text-rose-500 font-semibold">Cette action est irréversible.</span>`,
-                () => {
+                (button) => {
+                    setButtonLoading(button, true, 'Suppression...');
                     db._graphPoints = getGraphPoints().filter(p => p.id !== id);
                     saveDbSilently(() => {
+                        setButtonLoading(button, false);
+                        closeSafeConfirmModal();
                         renderGraphPointsList();
                         safeRenderDashboard();
+                    }, (e) => {
+                        setButtonLoading(button, false);
+                        alert('Erreur de sauvegarde : ' + (e.message || e));
                     });
                 }
             );
@@ -2081,7 +2136,7 @@
             `).join('');
         }
 
-        function addRoadmapMilestone() {
+        function addRoadmapMilestone(button) {
             const sectorKey = document.getElementById('roadmap-sector-key')?.value;
             const routineType = document.getElementById('roadmap-routine-type')?.value;
             const period = (document.getElementById('roadmap-new-period')?.value || '').trim();
@@ -2102,9 +2157,14 @@
             if (p) p.value = '';
             if (t) t.value = '';
 
+            setButtonLoading(button, true, 'Ajout...');
             saveDbSilently(() => {
+                setButtonLoading(button, false);
                 renderRoadmapModalContent();
                 safeRenderDashboard();
+            }, (e) => {
+                setButtonLoading(button, false);
+                alert('Erreur de sauvegarde : ' + (e.message || e));
             });
         }
 
@@ -2143,19 +2203,39 @@
             openSafeConfirmModal(
                 'Supprimer ce jalon ?',
                 `Voulez-vous vraiment supprimer <span class="font-bold text-slate-800">${label}</span> ?<br><span class="text-xs text-rose-500 font-semibold">Cette action est irréversible.</span>`,
-                () => {
+                (button) => {
+                    setButtonLoading(button, true, 'Suppression...');
                     list.splice(idx, 1);
                     list.forEach((m, i) => m.order = i + 1);
                     saveDbSilently(() => {
+                        setButtonLoading(button, false);
+                        closeSafeConfirmModal();
                         renderRoadmapModalContent();
                         safeRenderDashboard();
+                    }, (e) => {
+                        setButtonLoading(button, false);
+                        alert('Erreur de sauvegarde : ' + (e.message || e));
                     });
                 }
             );
         }
 
+const USER_GUIDE_URL = "https://drive.google.com/file/d/1O8QHaJUyRtI8gu3uTRVfjJYehUGVHmvm/view?usp=drive_link";
 
+function openGuideModal() {
+    document.getElementById('guide-modal')?.classList.remove('hidden');
+}
+
+function closeGuideModal() {
+    document.getElementById('guide-modal')?.classList.add('hidden');
+}
+
+function openUserGuide() {
+    closeGuideModal();
+    window.open(USER_GUIDE_URL, '_blank');
+}
         window.onload = function() { initApp(); };
     </script>
+ 
 </body>
 </html>
