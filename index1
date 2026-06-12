@@ -107,6 +107,17 @@
             border-radius: 8px;
             padding: 7px 9px;
         }
+        .action-list-scroll {
+            max-height: 118px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 4px;
+            margin-top: 2px;
+        }
+        .action-list-scroll.edit {
+            max-height: 285px;
+            padding-right: 5px;
+        }
         .action-row {
             display: flex;
             align-items: flex-start;
@@ -322,6 +333,303 @@
             opacity: .35;
             cursor: not-allowed;
         }
+
+        .graph-point-card {
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+        }
+        .roadmap-btn {
+            border: 1px solid #dbeafe;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-radius: 7px;
+            padding: 3px 7px;
+            font-size: 10px;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all .15s ease;
+        }
+        .roadmap-btn:hover { background:#dbeafe; border-color:#93c5fd; }
+        /* Roadmap Gantt propre */
+        .roadmap-btn {
+            border: 1px solid #dbeafe;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-radius: 7px;
+            padding: 3px 7px;
+            font-size: 10px;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all .15s ease;
+        }
+        .roadmap-btn:hover { background:#dbeafe; border-color:#93c5fd; }
+
+        .roadmap-gantt-wrap {
+            border: 1px solid #dbeafe;
+            background: #ffffff;
+            border-radius: 14px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            box-shadow: inset 0 0 0 1px rgba(219,234,254,.25);
+        }
+        .roadmap-gantt {
+            position: relative;
+            min-height: 230px;
+            padding-bottom: 16px;
+        }
+        .roadmap-month-row {
+            position: relative;
+            height: 46px;
+            border-bottom: 1px solid #dbeafe;
+            background: #f8fbff;
+        }
+        .roadmap-month-cell {
+            position: absolute;
+            top: 0;
+            height: 46px;
+            border-left: 1px solid #dbeafe;
+            padding: 14px 12px 0 12px;
+            font-size: 11px;
+            font-weight: 900;
+            color: #475569;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .roadmap-body-area {
+            position: relative;
+        }
+        .roadmap-grid-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #dbeafe;
+        }
+        .roadmap-today-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #ef4444;
+            z-index: 8;
+            box-shadow: 0 0 0 1px rgba(239,68,68,.08);
+        }
+        .roadmap-today-label {
+            position: absolute;
+            top: 6px;
+            transform: translateX(-50%);
+            background: #fff1f2;
+            color: #e11d48;
+            border: 1px solid #fecdd3;
+            border-radius: 999px;
+            padding: 2px 9px;
+            font-size: 9px;
+            font-weight: 900;
+            z-index: 12;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(239,68,68,.08);
+        }
+        .roadmap-bar {
+            position: absolute;
+            height: 28px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 0 10px;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 900;
+            box-shadow: 0 9px 18px rgba(15,23,42,.12);
+            z-index: 5;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: help;
+        }
+        .roadmap-bar-title {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1 1 auto;
+        }
+        .roadmap-bar-owner {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border-radius: 999px;
+            padding: 2px 7px;
+            background: rgba(255,255,255,.20);
+            border: 1px solid rgba(255,255,255,.25);
+            font-size: 10px;
+            font-weight: 900;
+            max-width: 76px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .roadmap-index {
+            flex: 0 0 auto;
+            width: 18px;
+            height: 18px;
+            border-radius: 7px;
+            background: rgba(15,23,42,.20);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 900;
+        }
+        .roadmap-status-ongoing { background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%); }
+        .roadmap-status-done { background: linear-gradient(90deg, #059669 0%, #34d399 100%); }
+        .roadmap-status-planned { background: linear-gradient(90deg, #475569 0%, #64748b 100%); }
+        .roadmap-status-late { background: linear-gradient(90deg, #ef4444 0%, #fb7185 100%); }
+        .roadmap-legend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            border: 1px dashed #bfdbfe;
+            background: #f8fbff;
+            border-radius: 12px;
+            padding: 8px 10px;
+            margin-top: 12px;
+        }
+        .roadmap-legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #475569;
+            white-space: nowrap;
+        }
+        .roadmap-legend-color {
+            width: 20px;
+            height: 10px;
+            border-radius: 999px;
+            display: inline-block;
+        }
+        .roadmap-help {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            color: #64748b;
+            font-size: 11px;
+            line-height: 1.35;
+            margin-top: 10px;
+        }
+        .roadmap-form-card {
+            border: 1px solid #bfdbfe;
+            background: #f8fbff;
+            border-radius: 14px;
+            padding: 14px;
+        }
+        .roadmap-form-grid {
+            display: grid;
+            grid-template-columns: 1.45fr .75fr .82fr .82fr .9fr auto;
+            gap: 10px;
+            align-items: end;
+        }
+        .roadmap-list-card {
+            border: 1px solid #dbeafe;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 10px;
+        }
+        .roadmap-list-grid {
+            display: grid;
+            grid-template-columns: 1.4fr .75fr .8fr .8fr .9fr auto;
+            gap: 8px;
+            align-items: end;
+        }
+        .roadmap-status-select {
+            width: 100%;
+            border: 1px solid #bfdbfe;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-radius: 8px;
+            padding: 7px 9px;
+            font-size: 12px;
+            font-weight: 900;
+            outline: none;
+        }
+        .roadmap-status-select.status-done { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+        .roadmap-status-select.status-planned { background:#f8fafc; color:#475569; border-color:#cbd5e1; }
+        .roadmap-status-select.status-late { background:#fff1f2; color:#e11d48; border-color:#fecdd3; }
+        .roadmap-date-field {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .roadmap-date-display {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 7px 34px 7px 9px;
+            font-size: 12px;
+            color: #334155;
+            outline: none;
+            background: #ffffff;
+        }
+        .roadmap-date-display:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37,99,235,.10);
+        }
+        .roadmap-date-native {
+            position: absolute;
+            right: 6px;
+            width: 24px;
+            height: 24px;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .roadmap-date-icon {
+            position: absolute;
+            right: 9px;
+            color: #64748b;
+            pointer-events: none;
+            font-size: 12px;
+        }
+        .roadmap-delete-btn {
+            width: 34px;
+            height: 34px;
+            border: 1px solid #fecdd3;
+            background: #fff;
+            color: #ef4444;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: .15s ease;
+        }
+        .roadmap-delete-btn:hover { background:#fff1f2; }
+        #roadmap-list {
+            max-height: 260px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .mini-input {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 7px 9px;
+            font-size: 12px;
+            color: #334155;
+            outline: none;
+            background: #ffffff;
+        }
+        .mini-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, .10);
+        }
+
     </style>
 </head>
 <body class="h-screen w-screen flex flex-col overflow-hidden bg-slate-50 text-slate-800">
@@ -338,12 +646,14 @@
         </div>
        
         <div class="flex items-center gap-3">
-            <button onclick="openAddSectorModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
-                <i class="fa-solid fa-plus text-xs"></i> Ajouter un secteur
-            </button>
-            <button onclick="openResetConfirmModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-800 px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
-                <i class="fa-solid fa-arrow-rotate-left text-xs"></i> Réinitialiser les données
-            </button>
+        
+            <button onclick="openGuideModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
+    <i class="fa-solid fa-book-open text-xs"></i> Guide utilisateur
+</button>
+
+<button onclick="openGraphPointModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
+    <i class="fa-solid fa-chart-line text-xs"></i> Ajouter un point graphique
+</button>
         </div>
     </header>
 
@@ -360,7 +670,6 @@
                             <th class="py-3 px-4">Élément</th>
                             <th class="py-3 px-2 text-center">Zoom 1</th>
                             <th class="py-3 px-2 text-center">Zoom 2</th>
-                            <th class="py-3 pr-4 text-right">Action</th>
                         </tr>
                     </thead>
                     <tbody id="sectors-table-body" class="divide-y divide-slate-100"></tbody>
@@ -440,6 +749,159 @@
             <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
                 <button onclick="closeReferenceConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
                 <button onclick="confirmSetReferenceAsCurrent()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="safe-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[70] p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
+            <div class="p-5 flex flex-col items-center text-center gap-3">
+                <div class="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center text-xl shadow-sm border border-rose-100"><i class="fa-solid fa-trash-can"></i></div>
+                <h3 id="safe-confirm-title" class="font-bold text-slate-800 text-lg">Confirmer la suppression</h3>
+                <p id="safe-confirm-message" class="text-sm text-slate-500 leading-relaxed">Cette action est irréversible.</p>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
+                <button onclick="closeSafeConfirmModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Annuler</button>
+                <button id="safe-confirm-submit" onclick="confirmSafeAction(this)" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+<div id="guide-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[80] p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm border border-slate-200 fade-in flex flex-col overflow-hidden">
+        <div class="p-5 flex flex-col items-center text-center gap-3">
+            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center text-xl shadow-sm border border-indigo-100">
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">Ouvrir le guide utilisateur ?</h3>
+            <p class="text-sm text-slate-500">Vous allez être redirigé vers le guide utilisateur du Cockpit Digital PPC.</p>
+        </div>
+        <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-center gap-3 bg-slate-50/50">
+            <button onclick="closeGuideModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Non</button>
+            <button onclick="openUserGuide()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition text-sm font-semibold shadow-sm">Oui</button>
+        </div>
+    </div>
+</div>
+    <div id="graph-point-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl border border-slate-200 fade-in flex flex-col overflow-hidden max-h-[88vh]">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                <div>
+                    <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2"><i class="fa-solid fa-chart-line text-blue-600"></i> Points graphiques d'évolution</h3>
+                    <p class="text-xs text-slate-500 mt-1">Chaque point capture automatiquement les maturités actuelles de tous les sous-secteurs.</p>
+                </div>
+                <button onclick="closeGraphPointModal()" class="text-slate-400 hover:text-slate-600 transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-5 overflow-y-auto flex flex-col gap-5">
+                <div class="border border-blue-100 bg-blue-50/40 rounded-xl p-4">
+                    <h4 class="font-extrabold text-blue-700 text-xs uppercase tracking-wider mb-3">Créer un nouveau point</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Titre du point (optionnel)</label>
+                            <input id="graph-point-title" type="text" class="mini-input" placeholder="Ex : T1 - Revue juin">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Date (optionnelle)</label>
+                            <input id="graph-point-date" type="date" class="mini-input">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Commentaire (optionnel)</label>
+                            <input id="graph-point-comment" type="text" class="mini-input" placeholder="Ex : Après mise à jour des actions prioritaires">
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <button onclick="captureGraphPoint(this)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition shadow-sm">
+                            <i class="fa-solid fa-camera"></i> Capturer l'état actuel
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="font-extrabold text-slate-700 text-xs uppercase tracking-wider">Points existants</h4>
+                        <span class="text-[11px] text-slate-400">Titre, date et commentaire restent modifiables. Les maturités capturées ne le sont pas.</span>
+                    </div>
+                    <div id="graph-points-list" class="flex flex-col gap-2"></div>
+                </div>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50/50">
+                <button onclick="closeGraphPointModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="roadmap-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-4xl border border-slate-200 fade-in flex flex-col overflow-hidden max-h-[90vh]">
+            <input type="hidden" id="roadmap-sector-key">
+            <input type="hidden" id="roadmap-routine-type">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                <div>
+                    <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2"><i class="fa-solid fa-route text-blue-600"></i> Roadmap</h3>
+                    <p id="roadmap-context" class="text-xs text-slate-500 mt-1"></p>
+                </div>
+                <button onclick="closeRoadmapModal()" class="text-slate-400 hover:text-slate-600 transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-5 overflow-y-auto flex flex-col gap-5">
+                <div id="roadmap-visual" class="border border-slate-200 rounded-xl bg-slate-50/60 p-4"></div>
+
+                <div id="roadmap-edit-panel" class="hidden flex flex-col gap-5">
+                    <div class="roadmap-form-card">
+                        <h4 class="font-extrabold text-blue-700 text-xs uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-plus"></i> Planifier un nouveau chantier
+                        </h4>
+                        <div class="roadmap-form-grid">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Nom du chantier</label>
+                                <input id="roadmap-new-title" type="text" class="mini-input" placeholder="Ex : Standardisation Daily PPC">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Porteur</label>
+                                <input id="roadmap-new-owner" type="text" class="mini-input" placeholder="Ex : AOS">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Début</label>
+                                <div class="roadmap-date-field">
+                                    <input id="roadmap-new-start-display" type="text" class="roadmap-date-display" placeholder="jj/mm/aaaa" oninput="syncRoadmapTextDateToNative('roadmap-new-start-display','roadmap-new-start')">
+                                    <input id="roadmap-new-start" type="date" class="roadmap-date-native" onchange="syncRoadmapNativeDateToText('roadmap-new-start','roadmap-new-start-display')">
+                                    <i class="fa-solid fa-calendar-days roadmap-date-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Fin</label>
+                                <div class="roadmap-date-field">
+                                    <input id="roadmap-new-end-display" type="text" class="roadmap-date-display" placeholder="jj/mm/aaaa" oninput="syncRoadmapTextDateToNative('roadmap-new-end-display','roadmap-new-end')">
+                                    <input id="roadmap-new-end" type="date" class="roadmap-date-native" onchange="syncRoadmapNativeDateToText('roadmap-new-end','roadmap-new-end-display')">
+                                    <i class="fa-solid fa-calendar-days roadmap-date-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Statut</label>
+                                <select id="roadmap-new-status" class="roadmap-status-select" onchange="applyRoadmapStatusClass(this)">
+                                    <option value="ongoing">En cours</option>
+                                    <option value="done">Terminé</option>
+                                    <option value="planned">À venir</option>
+                                    <option value="late">En retard</option>
+                                </select>
+                            </div>
+                            <button onclick="addRoadmapMilestone(this)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition shadow-sm h-[34px]">
+                                <i class="fa-solid fa-plus"></i> Planifier
+                            </button>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-3">Chaque barre représente un chantier avec une date de début et une date de fin. Le nom et le porteur sont affichés directement dans la barre.</p>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-extrabold text-slate-700 text-xs uppercase tracking-wider">Chantiers / groupes d’actions</h4>
+                            <span class="text-[11px] text-slate-400">Modifier ou supprimer un chantier.</span>
+                        </div>
+                        <div id="roadmap-list" class="flex flex-col gap-2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50/50">
+                <button id="roadmap-edit-toggle" onclick="toggleRoadmapEditMode()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2"><i class="fa-solid fa-pen"></i> Modifier</button>
+                <button onclick="closeRoadmapModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Fermer</button>
             </div>
         </div>
     </div>
@@ -535,17 +997,32 @@
         }
 
         function enrichDatabase(database) {
-            // CORRECTION 1 : On boucle en premier sur tous les sous-secteurs pour que les totaux soient calculés avant d'attaquer les synthèses
+            if (!database || typeof database !== 'object') return;
+            if (!database._graphPoints || !Array.isArray(database._graphPoints)) database._graphPoints = [];
+
+            // On enrichit uniquement les vrais sous-secteurs. Les objets système commencent par "_".
             Object.keys(database).forEach(key => {
-                if (GROUP_STRUCTURE[key]) return;
+                if (key.startsWith('_') || GROUP_STRUCTURE[key]) return;
                 const sector = database[key];
-                if (!sector) return;
+                if (!sector || typeof sector !== 'object') return;
+
                 sector.group = ((sector.name || '').replace(/\s+/g,'').toLowerCase().match(/ody[els]/)?.[0] || '').toUpperCase();
                 sector.superGroup = 'ODY';
                 sector.isGroup = false;
-                if (!sector.maturity) sector.maturity = { daily: generateMaturityFromRoutine(sector.daily, 'daily'), weekly: generateMaturityFromRoutine(sector.weekly, 'weekly') };
+
+                if (!sector.maturity) {
+                    sector.maturity = {
+                        daily: generateMaturityFromRoutine(sector.daily, 'daily'),
+                        weekly: generateMaturityFromRoutine(sector.weekly, 'weekly')
+                    };
+                }
+
                 if (!sector.maturityGrade) sector.maturityGrade = gradeFromScore(getOverallScore(sector.maturity));
                 if (!sector.actions) sector.actions = defaultActionsForSector(sector);
+                if (!sector.roadmap) sector.roadmap = { daily: [], weekly: [] };
+                if (!Array.isArray(sector.roadmap.daily)) sector.roadmap.daily = [];
+                if (!Array.isArray(sector.roadmap.weekly)) sector.roadmap.weekly = [];
+
                 if (!sector.reference) {
                     sector.reference = {
                         dailyInitial: getRoutineScore(sector.maturity, 'daily'),
@@ -553,15 +1030,22 @@
                         referenceDate: getTodayIso()
                     };
                 }
+
                 ['daily', 'weekly'].forEach(type => {
                     if (!sector.actions[type]) sector.actions[type] = [];
                     sector.actions[type].forEach((a, idx) => {
                         if (typeof a.order !== 'number') a.order = idx + 1;
                     });
                     sector.actions[type].sort((a, b) => (a.order || 9999) - (b.order || 9999));
+
+                    sector.roadmap[type].forEach((m, idx) => {
+                        if (!m.id) m.id = 'rm_' + key + '_' + type + '_' + Date.now() + '_' + idx;
+                        if (typeof m.order !== 'number') m.order = idx + 1;
+                    });
+                    sector.roadmap[type].sort((a, b) => (a.order || 9999) - (b.order || 9999));
                 });
             });
-            // Étape 2 : On compile maintenant les synthèses à l'ouverture, tout est déjà pré-calculé !
+
             Object.keys(GROUP_STRUCTURE).forEach(groupKey => { database[groupKey] = buildGroupNode(groupKey, database); });
         }
 
@@ -592,7 +1076,7 @@
 
         function orderedKeysForSidebar() {
             const order = ['ody', 'odye', 'odye1', 'odye2', 'odys', 'odys1', 'odys2', 'odys3', 'odys41', 'odys42', 'odyl', 'odyl1', 'odyl2', 'odyl3'];
-            return order.filter(k => db[k]).concat(Object.keys(db).filter(k => !order.includes(k)));
+            return order.filter(k => db[k]).concat(Object.keys(db).filter(k => !order.includes(k) && !k.startsWith('_') && db[k] && typeof db[k] === 'object' && !Array.isArray(db[k])));
         }
 
         let db = {};
@@ -602,7 +1086,98 @@
         let editDrafts = { left: null, right: null };
         let isServerReady = false;
         let evolutionVisible = {};
+        let roadmapEditMode = false;
         const EVOLUTION_COLORS = ['#2563eb', '#0d9488', '#f97316', '#7c3aed', '#dc2626', '#0891b2', '#65a30d', '#be185d'];
+
+        function getAllLeafKeys() {
+            return Object.keys(db || {}).filter(k => db[k] && !db[k].isGroup && !k.startsWith('_'));
+        }
+
+        function getGraphPoints() {
+            if (!db._graphPoints || !Array.isArray(db._graphPoints)) db._graphPoints = [];
+            return db._graphPoints;
+        }
+
+        function captureSnapshotValues() {
+            const values = {};
+            getAllLeafKeys().forEach(k => {
+                const s = db[k];
+                if (!s || s.isGroup) return;
+                values[k] = {
+                    daily: getRoutineScore(s.maturity, 'daily'),
+                    weekly: getRoutineScore(s.maturity, 'weekly')
+                };
+            });
+            return values;
+        }
+
+        function graphPointLabel(point, idx) {
+            return point?.title || point?.date || `Point ${idx + 1}`;
+        }
+
+        function getSnapshotScore(point, key, type) {
+            if (!point) return 0;
+            if (db[key]?.isGroup) {
+                const leaves = getLeafChildren(key);
+                return average(leaves.map(lk => getSnapshotScore(point, lk, type)));
+            }
+            const val = point.values?.[key]?.[type];
+            return typeof val === 'number' ? val : null;
+        }
+
+        function getFallbackGraphPoints() {
+            const refValues = {};
+            const currValues = {};
+            getAllLeafKeys().forEach(k => {
+                refValues[k] = {
+                    daily: getInitialScore(k, 'daily'),
+                    weekly: getInitialScore(k, 'weekly')
+                };
+                currValues[k] = {
+                    daily: getCurrentScore(k, 'daily'),
+                    weekly: getCurrentScore(k, 'weekly')
+                };
+            });
+            return [
+                { id: 'fallback_reference', title: 'Référence', date: getReferenceDateForGroup(activeLeftKey) || getTodayIso(), comment: '', values: refValues, fallback: true },
+                { id: 'fallback_current', title: "Aujourd'hui", date: getTodayIso(), comment: '', values: currValues, fallback: true }
+            ];
+        }
+
+        function setButtonLoading(button, isLoading, loadingText) {
+            if (!button) return;
+            if (isLoading) {
+                if (!button.dataset.originalHtml) button.dataset.originalHtml = button.innerHTML;
+                button.disabled = true;
+                button.classList.add('opacity-75', 'cursor-not-allowed');
+                button.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${loadingText || 'Enregistrement...'}`;
+            } else {
+                button.disabled = false;
+                button.classList.remove('opacity-75', 'cursor-not-allowed');
+                if (button.dataset.originalHtml) {
+                    button.innerHTML = button.dataset.originalHtml;
+                    delete button.dataset.originalHtml;
+                }
+            }
+        }
+
+        function saveDbSilently(onSuccess, onFailure) {
+            enrichDatabase(db);
+            const payload = getSerializableDb();
+            if (isAppsScriptRuntime()) {
+                google.script.run
+                    .withSuccessHandler(() => { if (onSuccess) onSuccess(); })
+                    .withFailureHandler(e => {
+                        if (onFailure) onFailure(e);
+                        else alert('Erreur de sauvegarde : ' + (e.message || e));
+                    })
+                    .saveData(payload);
+            } else {
+                localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(payload));
+                if (onSuccess) onSuccess();
+            }
+        }
+
 
         function isAppsScriptRuntime() { return typeof google !== 'undefined' && google.script && google.script.run; }
 
@@ -703,7 +1278,6 @@
                     </td>
                     <td class="py-3 px-2 text-center"><input type="radio" name="zoom1" value="${key}" class="sheets-checkbox" ${key === activeLeftKey ? 'checked' : ''} onchange="selectSector('left', '${key}')"></td>
                     <td class="py-3 px-2 text-center"><input type="radio" name="zoom2" value="${key}" class="sheets-checkbox" ${key === activeRightKey ? 'checked' : ''} onchange="selectSector('right', '${key}')"></td>
-                    <td class="py-3 pr-4 text-right">${item.isGroup ? '<span class="text-slate-300 text-xs">—</span>' : `<button onclick="confirmDeleteSector('${key}')" class="text-slate-300 hover:text-rose-500 p-1 rounded transition opacity-0 group-hover:opacity-100 focus:opacity-100"><i class="fa-solid fa-trash-can text-sm"></i></button>`}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -795,11 +1369,19 @@
         }
 
         function renderActions(actions, side, key, routineType) {
-            if (!actions || actions.length === 0) return `<div class="action-card border-dashed border-slate-200 bg-slate-50/50"><div class="flex items-center gap-1.5 text-slate-400 font-extrabold text-[10px] uppercase tracking-wider"><i class="fa-solid fa-list-ol"></i> Actions</div><p class="text-[11px] text-slate-400 italic mt-1">Aucune action définie</p></div>`;
+            const roadmapButton = `<button type="button" onclick="openRoadmapModal('${key}', '${routineType}')" class="roadmap-btn" title="Ouvrir la roadmap"><i class="fa-solid fa-route"></i> Roadmap</button>`;
+            const header = `<div class="flex items-center justify-between mb-1"><div class="flex items-center gap-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider"><i class="fa-solid fa-list-ol"></i> Actions</div>${roadmapButton}</div>`;
+
+            if (!actions || actions.length === 0) {
+                return `<div class="action-card border-dashed border-slate-200 bg-slate-50/50">${header}<p class="text-[11px] text-slate-400 italic mt-1">Aucune action définie</p></div>`;
+            }
+
             return `
                 <div class="action-card">
-                    <div class="flex items-center justify-between mb-1"><div class="flex items-center gap-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider"><i class="fa-solid fa-list-ol"></i> Actions</div></div>
-                    ${actions.map((a, idx) => { const meta = getActionStatusMeta(a.status); return `<div class="action-row"><i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn"></i><span class="action-top-badge">Top ${idx + 1}</span><div class="action-text"><span class="action-criteria">${a.criteria || 'Critère'}</span><span class="text-slate-400 mx-1">—</span><span>${a.action || ''}</span></div></div>`; }).join('')}
+                    ${header}
+                    <div class="action-list-scroll">
+                        ${actions.map((a, idx) => { const meta = getActionStatusMeta(a.status); return `<div class="action-row"><i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn"></i><span class="action-top-badge">Top ${idx + 1}</span><div class="action-text"><span class="action-criteria">${a.criteria || 'Critère'}</span><span class="text-slate-400 mx-1">—</span><span>${a.action || ''}</span></div></div>`; }).join('')}
+                    </div>
                 </div>
             `;
         }
@@ -916,28 +1498,60 @@
         function renderEvolutionChart(groupKey, type) {
             const allRows = getEvolutionRows(groupKey);
             if (!allRows.length) return '';
+
+            const points = getGraphPoints();
             const visibleRows = getVisibleEvolutionKeys(groupKey);
-            const w = 420, h = 142, left = 40, right = 20, top = 16, bottom = 30;
-            const x0 = left + 20;
-            const x1 = w - right - 20;
-            const y = (v) => top + (100 - Math.max(0, Math.min(100, v))) * (h - top - bottom) / 100;
-            const refDate = getReferenceDateForGroup(groupKey) || '—';
-            const today = getTodayIso();
             const title = type === 'daily' ? 'Évolution Daily' : 'Évolution Weekly';
             const icon = type === 'daily' ? 'fa-clock text-blue-600' : 'fa-calendar-week text-emerald-600';
 
+            if (!points.length) {
+                return `
+                    <div class="evolution-card">
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-xs uppercase flex items-center gap-2"><i class="fa-solid ${icon}"></i>${title}</h3>
+                                <p class="text-[10px] text-slate-400 mt-1">Aucun point graphique capturé</p>
+                            </div>
+                        </div>
+                        <div class="h-[168px] mt-2 border border-dashed border-slate-200 rounded-xl bg-slate-50/50 flex items-center justify-center text-xs text-slate-400 font-semibold">
+                            Ajouter un point graphique pour afficher l'évolution.
+                        </div>
+                    </div>
+                `;
+            }
+
+            const w = 520, h = 168, left = 40, right = 24, top = 16, bottom = 42;
+            const plotW = w - left - right;
+            const xFor = (idx) => points.length <= 1 ? (left + plotW / 2) : (left + (idx * plotW / (points.length - 1)));
+            const y = (v) => top + (100 - Math.max(0, Math.min(100, v))) * (h - top - bottom) / 100;
+
+            const pointLabels = points.map((p, idx) => {
+                const x = xFor(idx);
+                const label = graphPointLabel(p, idx);
+                const shortLabel = label.length > 14 ? label.slice(0, 13) + '…' : label;
+                return `
+                    <line x1="${x}" y1="${top}" x2="${x}" y2="${h-bottom}" stroke="#f1f5f9" stroke-width="1"></line>
+                    <text x="${x}" y="${h-16}" text-anchor="middle" fill="#64748b" font-size="8" font-weight="800">${escapeHtml(shortLabel)}</text>
+                `;
+            }).join('');
+
             const lines = visibleRows.map((rk) => {
-                const init = getInitialScore(rk, type);
-                const curr = getCurrentScore(rk, type);
                 const color = getEvolutionColor(groupKey, rk);
                 const name = db[rk]?.name || rk;
+                const values = points.map(p => getSnapshotScore(p, rk, type));
+                const valid = values.map((v, idx) => ({ v, idx })).filter(o => typeof o.v === 'number');
+                if (!valid.length) return '';
+
+                const poly = valid.map(o => `${xFor(o.idx)},${y(o.v)}`).join(' ');
+                const circles = valid.map(o => `
+                    <circle cx="${xFor(o.idx)}" cy="${y(o.v)}" r="3.8" fill="${color}"></circle>
+                    <text x="${xFor(o.idx)}" y="${y(o.v)-7}" text-anchor="middle" fill="${color}" font-size="8" font-weight="800">${o.v}%</text>
+                `).join('');
+
                 return `
-                    <line x1="${x0}" y1="${y(init)}" x2="${x1}" y2="${y(curr)}" stroke="${color}" stroke-width="3" stroke-linecap="round"></line>
-                    <circle cx="${x0}" cy="${y(init)}" r="4" fill="${color}"></circle>
-                    <circle cx="${x1}" cy="${y(curr)}" r="4" fill="${color}"></circle>
-                    <text x="${x0}" y="${y(init)-7}" text-anchor="middle" fill="${color}" font-size="9" font-weight="800">${init}%</text>
-                    <text x="${x1}" y="${y(curr)-7}" text-anchor="middle" fill="${color}" font-size="9" font-weight="800">${curr}%</text>
-                    <title>${name} : ${init}% → ${curr}%</title>
+                    <polyline points="${poly}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>
+                    ${circles}
+                    <title>${name}</title>
                 `;
             }).join('');
 
@@ -957,17 +1571,19 @@
                 `;
             }).join('');
 
+            const footer = `${points.length} point${points.length > 1 ? 's' : ''} graphique${points.length > 1 ? 's' : ''} capturé${points.length > 1 ? 's' : ''}`;
+
             return `
                 <div class="evolution-card">
                     <div class="flex items-start justify-between gap-3">
                         <div>
                             <h3 class="font-bold text-slate-800 text-xs uppercase flex items-center gap-2"><i class="fa-solid ${icon}"></i>${title}</h3>
-                            <p class="text-[10px] text-slate-400 mt-1">Réf. : ${refDate} · MAJ : ${today}</p>
+                            <p class="text-[10px] text-slate-400 mt-1">${footer}</p>
                         </div>
                     </div>
                     ${allRows.length > 3 ? `<div class="evolution-filter">${filters}</div>` : ''}
                     <div class="overflow-x-auto mt-2">
-                        <svg viewBox="0 0 ${w} ${h}" class="w-full min-w-[330px] h-[150px]">
+                        <svg viewBox="0 0 ${w} ${h}" class="w-full min-w-[390px] h-[168px]">
                             <line x1="${left}" y1="${top}" x2="${left}" y2="${h-bottom}" stroke="#cbd5e1" stroke-width="1"></line>
                             <line x1="${left}" y1="${h-bottom}" x2="${w-right}" y2="${h-bottom}" stroke="#cbd5e1" stroke-width="1"></line>
                             <line x1="${left}" y1="${y(50)}" x2="${w-right}" y2="${y(50)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4 4"></line>
@@ -975,8 +1591,7 @@
                             <text x="${left-6}" y="${y(100)+4}" text-anchor="end" fill="#94a3b8" font-size="9">100%</text>
                             <text x="${left-6}" y="${y(75)+4}" text-anchor="end" fill="#94a3b8" font-size="9">75%</text>
                             <text x="${left-6}" y="${y(50)+4}" text-anchor="end" fill="#94a3b8" font-size="9">50%</text>
-                            <text x="${x0}" y="${h-10}" text-anchor="middle" fill="#64748b" font-size="9" font-weight="800">Référence</text>
-                            <text x="${x1}" y="${h-10}" text-anchor="middle" fill="#64748b" font-size="9" font-weight="800">Aujourd'hui</text>
+                            ${pointLabels}
                             ${lines}
                         </svg>
                     </div>
@@ -992,9 +1607,8 @@
                     <div class="flex items-center justify-between gap-3">
                         <div>
                             <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-chart-line text-blue-600"></i>Évolution de la maturité</h3>
-                            <p class="text-xs text-slate-400 mt-0.5">Suivi entre la situation de référence et la situation actuelle.</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Suivi multi-points des maturités capturées dans le temps.</p>
                         </div>
-                        <button type="button" onclick="setReferenceAsCurrent('${groupKey}')" class="reference-btn" title="Mettre l'état actuel comme nouvelle référence"><i class="fa-solid fa-thumbtack"></i> Définir l'actuel comme référence</button>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         ${renderEvolutionChart(groupKey, 'daily')}
@@ -1231,7 +1845,7 @@
                         </div>
                     `;
                 });
-                return `<div class="action-card">${html}<button type="button" onclick="window['addActionInline_${side}']('${routineType}')" class="mt-2 text-blue-600 font-bold text-[11px] flex items-center gap-1"><i class="fa-solid fa-circle-plus"></i> Ajouter une action</button></div>`;
+                return `<div class="action-card"><div class="action-list-scroll edit">${html}</div><button type="button" onclick="window['addActionInline_${side}']('${routineType}')" class="mt-2 text-blue-600 font-bold text-[11px] flex items-center gap-1"><i class="fa-solid fa-circle-plus"></i> Ajouter une action</button></div>`;
             };
 
             return `
@@ -1454,7 +2068,608 @@
         function autoResizeTextarea(el) { if (!el) return; el.style.height = 'auto'; el.style.height = Math.max(42, el.scrollHeight) + 'px'; }
         function resizeAllActionTextareas() { document.querySelectorAll('.action-edit-action').forEach(autoResizeTextarea); }
 
+
+        function openGraphPointModal() {
+            const title = document.getElementById('graph-point-title');
+            const date = document.getElementById('graph-point-date');
+            const comment = document.getElementById('graph-point-comment');
+            if (title) title.value = '';
+            if (date) date.value = getTodayIso();
+            if (comment) comment.value = '';
+            renderGraphPointsList();
+            document.getElementById('graph-point-modal')?.classList.remove('hidden');
+        }
+
+        function closeGraphPointModal() {
+            document.getElementById('graph-point-modal')?.classList.add('hidden');
+        }
+
+        function captureGraphPoint(button) {
+            const points = getGraphPoints();
+            const titleInput = document.getElementById('graph-point-title');
+            const dateInput = document.getElementById('graph-point-date');
+            const commentInput = document.getElementById('graph-point-comment');
+
+            const nextNumber = points.length + 1;
+            const title = (titleInput?.value || '').trim() || `Point ${nextNumber}`;
+            const date = (dateInput?.value || '').trim() || getTodayIso();
+            const comment = (commentInput?.value || '').trim();
+
+            points.push({
+                id: 'gp_' + Date.now() + '_' + Math.random().toString(16).slice(2),
+                title,
+                date,
+                comment,
+                values: captureSnapshotValues()
+            });
+
+            setButtonLoading(button, true, 'Capture...');
+            saveDbSilently(() => {
+                setButtonLoading(button, false);
+                if (titleInput) titleInput.value = '';
+                if (dateInput) dateInput.value = getTodayIso();
+                if (commentInput) commentInput.value = '';
+                renderGraphPointsList();
+                safeRenderDashboard();
+            }, (e) => {
+                setButtonLoading(button, false);
+                alert('Erreur de sauvegarde : ' + (e.message || e));
+            });
+        }
+
+        function renderGraphPointsList() {
+            const container = document.getElementById('graph-points-list');
+            if (!container) return;
+            const points = getGraphPoints();
+
+            if (!points.length) {
+                container.innerHTML = `<div class="text-xs text-slate-400 italic border border-dashed border-slate-200 rounded-lg p-3 bg-slate-50">Aucun point capturé pour le moment.</div>`;
+                return;
+            }
+
+            container.innerHTML = points.map((p, idx) => `
+                <div class="graph-point-card">
+                    <div class="grid grid-cols-12 gap-2 items-center">
+                        <div class="col-span-3">
+                            <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Titre</label>
+                            <input class="mini-input" value="${escapeAttr(p.title || '')}" onchange="updateGraphPointMeta('${p.id}', 'title', this.value)">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Date</label>
+                            <input type="date" class="mini-input" value="${escapeAttr(p.date || '')}" onchange="updateGraphPointMeta('${p.id}', 'date', this.value)">
+                        </div>
+                        <div class="col-span-5">
+                            <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Commentaire</label>
+                            <input class="mini-input" value="${escapeAttr(p.comment || '')}" onchange="updateGraphPointMeta('${p.id}', 'comment', this.value)">
+                        </div>
+                        <div class="col-span-2 flex items-end justify-end h-full pt-4">
+                            <button onclick="deleteGraphPoint('${p.id}')" class="text-rose-500 hover:bg-rose-50 border border-rose-100 px-3 py-2 rounded-lg text-xs font-bold transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateGraphPointMeta(id, field, value) {
+            const point = getGraphPoints().find(p => p.id === id);
+            if (!point || !['title', 'date', 'comment'].includes(field)) return;
+            point[field] = String(value || '').trim();
+            saveDbSilently(() => {
+                renderGraphPointsList();
+                safeRenderDashboard();
+            });
+        }
+
+        let pendingSafeConfirmAction = null;
+
+        function openSafeConfirmModal(title, message, onConfirm) {
+            pendingSafeConfirmAction = typeof onConfirm === 'function' ? onConfirm : null;
+            const titleEl = document.getElementById('safe-confirm-title');
+            const msgEl = document.getElementById('safe-confirm-message');
+            const modal = document.getElementById('safe-confirm-modal');
+            if (titleEl) titleEl.textContent = title || 'Confirmer la suppression';
+            if (msgEl) msgEl.innerHTML = message || 'Cette action est irréversible.';
+            const btn = document.getElementById('safe-confirm-submit');
+            if (btn) {
+                setButtonLoading(btn, false);
+                btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Supprimer';
+            }
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeSafeConfirmModal() {
+            pendingSafeConfirmAction = null;
+            const modal = document.getElementById('safe-confirm-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function confirmSafeAction(button) {
+            const action = pendingSafeConfirmAction;
+            if (typeof action === 'function') action(button);
+        }
+
+        function deleteGraphPoint(id) {
+            const point = getGraphPoints().find(p => p.id === id);
+            if (!point) return;
+            const label = escapeHtml(point.title || point.date || 'ce point');
+            openSafeConfirmModal(
+                'Supprimer ce point graphique ?',
+                `Voulez-vous vraiment supprimer <span class="font-bold text-slate-800">${label}</span> ?<br><span class="text-xs text-rose-500 font-semibold">Cette action est irréversible.</span>`,
+                (button) => {
+                    setButtonLoading(button, true, 'Suppression...');
+                    db._graphPoints = getGraphPoints().filter(p => p.id !== id);
+                    saveDbSilently(() => {
+                        setButtonLoading(button, false);
+                        closeSafeConfirmModal();
+                        renderGraphPointsList();
+                        safeRenderDashboard();
+                    }, (e) => {
+                        setButtonLoading(button, false);
+                        alert('Erreur de sauvegarde : ' + (e.message || e));
+                    });
+                }
+            );
+        }
+
+        function getRoadmapList(sectorKey, routineType) {
+            const s = db[sectorKey];
+            if (!s || s.isGroup) return [];
+            if (!s.roadmap) s.roadmap = { daily: [], weekly: [] };
+            if (!Array.isArray(s.roadmap[routineType])) s.roadmap[routineType] = [];
+            s.roadmap[routineType].forEach((m, idx) => normalizeRoadmapItem(m, idx));
+            s.roadmap[routineType].sort((a, b) => (a.order || 9999) - (b.order || 9999));
+            return s.roadmap[routineType];
+        }
+
+        function normalizeRoadmapItem(item, idx) {
+            if (!item.id) item.id = 'rm_' + Date.now() + '_' + Math.random().toString(16).slice(2);
+            if (typeof item.order !== 'number') item.order = idx + 1;
+
+            if (!item.title && item.period) item.title = item.period;
+            if (!item.title) item.title = `Chantier ${idx + 1}`;
+
+            if (!item.owner) item.owner = item.porteur || item.responsable || '';
+            if (!item.status) item.status = normalizeRoadmapStatus(item.state || item.avancement || 'ongoing');
+
+            if (!item.startDate && item.start) item.startDate = item.start;
+            if (!item.endDate && item.end) item.endDate = item.end;
+
+            if (!isIsoDate(item.startDate)) item.startDate = '';
+            if (!isIsoDate(item.endDate)) item.endDate = '';
+        }
+
+        function normalizeRoadmapStatus(status) {
+            const s = String(status || '').toLowerCase();
+            if (s.includes('termin') || s.includes('fait') || s.includes('done')) return 'done';
+            if (s.includes('retard') || s.includes('late')) return 'late';
+            if (s.includes('venir') || s.includes('planned') || s.includes('not')) return 'planned';
+            return 'ongoing';
+        }
+
+        function getRoadmapStatusMeta(status) {
+            const s = normalizeRoadmapStatus(status);
+            if (s === 'done') return { label: 'Terminé', cls: 'roadmap-status-done', selectCls: 'status-done' };
+            if (s === 'planned') return { label: 'À venir', cls: 'roadmap-status-planned', selectCls: 'status-planned' };
+            if (s === 'late') return { label: 'En retard', cls: 'roadmap-status-late', selectCls: 'status-late' };
+            return { label: 'En cours', cls: 'roadmap-status-ongoing', selectCls: 'status-ongoing' };
+        }
+
+        function applyRoadmapStatusClass(selectEl) {
+            if (!selectEl) return;
+            selectEl.classList.remove('status-done', 'status-planned', 'status-late', 'status-ongoing');
+            selectEl.classList.add(getRoadmapStatusMeta(selectEl.value).selectCls);
+        }
+
+        function isIsoDate(value) {
+            return /^\d{4}-\d{2}-\d{2}$/.test(String(value || ''));
+        }
+
+        function parseIsoDate(value) {
+            if (!isIsoDate(value)) return null;
+            const [y, m, d] = value.split('-').map(Number);
+            const dt = new Date(y, m - 1, d);
+            return Number.isNaN(dt.getTime()) ? null : dt;
+        }
+
+        function toIsoDateFromFrench(value) {
+            const v = String(value || '').trim();
+            const match = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+            if (!match) return '';
+            const d = Number(match[1]);
+            const m = Number(match[2]);
+            const y = Number(match[3]);
+            const dt = new Date(y, m - 1, d);
+            if (Number.isNaN(dt.getTime()) || dt.getFullYear() !== y || dt.getMonth() !== m - 1 || dt.getDate() !== d) return '';
+            return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        }
+
+        function formatFrenchDate(value) {
+            const dt = parseIsoDate(value);
+            if (!dt) return '';
+            return `${String(dt.getDate()).padStart(2, '0')}/${String(dt.getMonth() + 1).padStart(2, '0')}/${dt.getFullYear()}`;
+        }
+
+        function syncRoadmapNativeDateToText(nativeId, textId) {
+            const native = document.getElementById(nativeId);
+            const textInput = document.getElementById(textId);
+            if (native && textInput) textInput.value = formatFrenchDate(native.value);
+        }
+
+        function syncRoadmapTextDateToNative(textId, nativeId) {
+            const textInput = document.getElementById(textId);
+            const native = document.getElementById(nativeId);
+            if (!textInput || !native) return;
+            const iso = toIsoDateFromFrench(textInput.value);
+            if (iso) native.value = iso;
+        }
+
+        function monthStart(date) {
+            return new Date(date.getFullYear(), date.getMonth(), 1);
+        }
+
+        function monthEnd(date) {
+            return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        }
+
+        function addMonths(date, nb) {
+            return new Date(date.getFullYear(), date.getMonth() + nb, 1);
+        }
+
+        function daysBetween(a, b) {
+            const oneDay = 24 * 60 * 60 * 1000;
+            return Math.round((monthStartLike(b).getTime() - monthStartLike(a).getTime()) / oneDay);
+        }
+
+        function monthStartLike(date) {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        }
+
+        function getMonthLabel(date) {
+            const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+            return `${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        function getRoadmapRange(items) {
+            const today = new Date();
+            const dates = [today];
+            items.forEach(item => {
+                const s = parseIsoDate(item.startDate);
+                const e = parseIsoDate(item.endDate);
+                if (s) dates.push(s);
+                if (e) dates.push(e);
+            });
+            const min = new Date(Math.min(...dates.map(d => d.getTime())));
+            const max = new Date(Math.max(...dates.map(d => d.getTime())));
+            return {
+                start: monthStart(addMonths(min, -1)),
+                end: monthEnd(addMonths(max, 1))
+            };
+        }
+
+        function assignRoadmapLanes(items) {
+            const valid = items
+                .map((item, idx) => ({ item, idx, start: parseIsoDate(item.startDate), end: parseIsoDate(item.endDate) }))
+                .filter(x => x.start && x.end)
+                .map(x => {
+                    if (x.end < x.start) [x.start, x.end] = [x.end, x.start];
+                    return x;
+                })
+                .sort((a, b) => a.start - b.start || a.end - b.end || a.idx - b.idx);
+
+            const lanes = [];
+            valid.forEach(x => {
+                let laneIndex = lanes.findIndex(lastEnd => x.start > lastEnd);
+                if (laneIndex === -1) {
+                    laneIndex = lanes.length;
+                    lanes.push(x.end);
+                } else {
+                    lanes[laneIndex] = x.end;
+                }
+                x.lane = laneIndex;
+            });
+            return { valid, laneCount: Math.max(1, lanes.length) };
+        }
+
+        function renderRoadmapVisual(list) {
+            const validItems = (list || []).filter(m => parseIsoDate(m.startDate) && parseIsoDate(m.endDate));
+
+            if (!validItems.length) {
+                return `<div class="text-xs text-slate-400 italic text-center py-8">Aucun chantier planifié. Passez en mode modification pour ajouter une date de début et une date de fin.</div>`;
+            }
+
+            const range = getRoadmapRange(validItems);
+            const pxPerDay = 9;
+            const totalDays = Math.max(1, Math.ceil((range.end - range.start) / (24 * 60 * 60 * 1000)) + 1);
+            const timelineWidth = Math.max(660, totalDays * pxPerDay);
+            const { valid, laneCount } = assignRoadmapLanes(validItems);
+            const rowH = 46;
+            const bodyH = Math.max(150, laneCount * rowH + 42);
+            const today = new Date();
+            const todayX = Math.max(0, Math.min(timelineWidth, Math.round((today - range.start) / (24 * 60 * 60 * 1000) * pxPerDay)));
+
+            const months = [];
+            for (let m = monthStart(range.start); m <= range.end; m = addMonths(m, 1)) {
+                const monthX = Math.round((m - range.start) / (24 * 60 * 60 * 1000) * pxPerDay);
+                const next = addMonths(m, 1);
+                const monthW = Math.round((next - m) / (24 * 60 * 60 * 1000) * pxPerDay);
+                months.push({ x: monthX, w: monthW, label: getMonthLabel(m) });
+            }
+
+            const bars = valid.map(x => {
+                const meta = getRoadmapStatusMeta(x.item.status);
+                const start = x.start;
+                const end = x.end < x.start ? x.start : x.end;
+                const left = Math.max(0, Math.round((start - range.start) / (24 * 60 * 60 * 1000) * pxPerDay));
+                // La largeur affichée est strictement liée aux dates.
+                // On garde seulement un minimum technique très faible pour qu'une durée d'un jour reste visible.
+                const realWidth = Math.max(12, Math.round(((end - start) / (24 * 60 * 60 * 1000) + 1) * pxPerDay));
+                const width = realWidth;
+                const top = 24 + x.lane * rowH;
+                const title = escapeHtml(x.item.title || `Chantier ${x.idx + 1}`);
+                const owner = escapeHtml(x.item.owner || '');
+                const rawTitle = String(x.item.title || `Chantier ${x.idx + 1}`);
+                const rawOwner = String(x.item.owner || '');
+                const tooltip = `${rawTitle} | Porteur : ${rawOwner || 'Non renseigné'} | Début : ${formatFrenchDate(x.item.startDate)} | Fin : ${formatFrenchDate(x.item.endDate)} | Statut : ${meta.label}`;
+
+                // Affichage interne volontairement simple :
+                // - si la barre est trop courte, on ne force pas de texte afin de ne pas fausser la perception de durée ;
+                // - le porteur ne s'affiche que s'il y a vraiment de la place ;
+                // - toutes les informations restent accessibles au survol de la souris.
+                const showIndex = width >= 34;
+                const showTitle = width >= 82;
+                const showOwner = owner && width >= 178;
+
+                return `
+                    <div class="roadmap-bar ${meta.cls}" title="${escapeAttr(tooltip)}" style="left:${left}px; top:${top}px; width:${width}px;">
+                        ${showIndex ? `<span class="roadmap-index">${x.idx + 1}</span>` : ''}
+                        ${showTitle ? `<span class="roadmap-bar-title">${title}</span>` : ''}
+                        ${showOwner ? `<span class="roadmap-bar-owner"><i class="fa-solid fa-user"></i>${owner}</span>` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            const monthCells = months.map(m => `<div class="roadmap-month-cell" style="left:${m.x}px;width:${m.w}px;">${m.label}</div>`).join('');
+            const gridLines = months.map(m => `<span class="roadmap-grid-line" style="left:${m.x}px;"></span>`).join('');
+
+            return `
+                <div class="roadmap-gantt-wrap">
+                    <div class="roadmap-gantt" style="width:${timelineWidth}px; min-width:${timelineWidth}px;">
+                        <div class="roadmap-month-row">
+                            ${monthCells}
+                        </div>
+                        <div class="roadmap-body-area" style="height:${bodyH}px;">
+                            ${gridLines}
+                            <span class="roadmap-today-line" style="left:${todayX}px;"></span>
+                            <span class="roadmap-today-label" style="left:${todayX}px;">Aujourd'hui</span>
+                            ${bars}
+                        </div>
+                    </div>
+                </div>
+                <div class="roadmap-legend">
+                    <span class="roadmap-legend-item"><span class="roadmap-legend-color roadmap-status-ongoing"></span>En cours</span>
+                    <span class="roadmap-legend-item"><span class="roadmap-legend-color roadmap-status-done"></span>Terminé</span>
+                    <span class="roadmap-legend-item"><span class="roadmap-legend-color roadmap-status-planned"></span>À venir</span>
+                    <span class="roadmap-legend-item"><span class="roadmap-legend-color roadmap-status-late"></span>En retard</span>
+                </div>
+                <div class="roadmap-help">
+                    <i class="fa-solid fa-circle-info text-blue-500 mt-0.5"></i>
+                    <span>La longueur de chaque barre est calculée à partir des dates réelles. Pour les durées courtes, le texte n'est pas forcé dans la barre afin de conserver la vraie longueur. Survolez une barre pour voir le chantier, le porteur, les dates et le statut.</span>
+                </div>
+            `;
+        }
+
+        function openRoadmapModal(sectorKey, routineType) {
+            const s = db[sectorKey];
+            if (!s || s.isGroup) return;
+
+            const keyInput = document.getElementById('roadmap-sector-key');
+            const typeInput = document.getElementById('roadmap-routine-type');
+            if (keyInput) keyInput.value = sectorKey;
+            if (typeInput) typeInput.value = routineType;
+
+            const ctx = document.getElementById('roadmap-context');
+            if (ctx) ctx.textContent = `${s.name || sectorKey} — ${routineType === 'daily' ? 'Daily' : 'Weekly'}`;
+
+            roadmapEditMode = false;
+            clearRoadmapNewInputs();
+            renderRoadmapModalContent();
+            document.getElementById('roadmap-modal')?.classList.remove('hidden');
+        }
+
+        function closeRoadmapModal() {
+            document.getElementById('roadmap-modal')?.classList.add('hidden');
+        }
+
+        function toggleRoadmapEditMode() {
+            roadmapEditMode = !roadmapEditMode;
+            renderRoadmapModalContent();
+        }
+
+        function clearRoadmapNewInputs() {
+            ['roadmap-new-title', 'roadmap-new-owner', 'roadmap-new-start', 'roadmap-new-end', 'roadmap-new-start-display', 'roadmap-new-end-display'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            const status = document.getElementById('roadmap-new-status');
+            if (status) {
+                status.value = 'ongoing';
+                applyRoadmapStatusClass(status);
+            }
+        }
+
+        function renderRoadmapModalContent() {
+            const sectorKey = document.getElementById('roadmap-sector-key')?.value;
+            const routineType = document.getElementById('roadmap-routine-type')?.value;
+            const list = getRoadmapList(sectorKey, routineType);
+
+            const visual = document.getElementById('roadmap-visual');
+            if (visual) visual.innerHTML = renderRoadmapVisual(list);
+
+            const panel = document.getElementById('roadmap-edit-panel');
+            const toggle = document.getElementById('roadmap-edit-toggle');
+
+            if (panel) panel.classList.toggle('hidden', !roadmapEditMode);
+            if (toggle) {
+                toggle.innerHTML = roadmapEditMode
+                    ? '<i class="fa-solid fa-eye"></i> Voir la roadmap'
+                    : '<i class="fa-solid fa-pen"></i> Modifier';
+                toggle.className = roadmapEditMode
+                    ? 'px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2'
+                    : 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2';
+            }
+
+            const container = document.getElementById('roadmap-list');
+            if (!container) return;
+
+            if (!list.length) {
+                container.innerHTML = `<div class="text-xs text-slate-400 italic border border-dashed border-slate-200 rounded-lg p-3 bg-slate-50">Aucun chantier planifié.</div>`;
+                return;
+            }
+
+            container.innerHTML = list.map((m, idx) => {
+                const meta = getRoadmapStatusMeta(m.status);
+                return `
+                    <div class="roadmap-list-card">
+                        <div class="roadmap-list-grid">
+                            <div>
+                                <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Nom du chantier</label>
+                                <input class="mini-input" value="${escapeAttr(m.title || '')}" onchange="updateRoadmapMilestone(${idx}, 'title', this.value)">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Porteur</label>
+                                <input class="mini-input" value="${escapeAttr(m.owner || '')}" onchange="updateRoadmapMilestone(${idx}, 'owner', this.value)">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Début</label>
+                                <div class="roadmap-date-field">
+                                    <input id="roadmap-start-display-${idx}" type="text" class="roadmap-date-display" value="${escapeAttr(formatFrenchDate(m.startDate))}" placeholder="jj/mm/aaaa" oninput="syncRoadmapTextDateToNative('roadmap-start-display-${idx}','roadmap-start-${idx}'); updateRoadmapMilestone(${idx}, 'startDate', document.getElementById('roadmap-start-${idx}').value, true)">
+                                    <input id="roadmap-start-${idx}" type="date" class="roadmap-date-native" value="${escapeAttr(m.startDate || '')}" onchange="syncRoadmapNativeDateToText('roadmap-start-${idx}','roadmap-start-display-${idx}'); updateRoadmapMilestone(${idx}, 'startDate', this.value)">
+                                    <i class="fa-solid fa-calendar-days roadmap-date-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Fin</label>
+                                <div class="roadmap-date-field">
+                                    <input id="roadmap-end-display-${idx}" type="text" class="roadmap-date-display" value="${escapeAttr(formatFrenchDate(m.endDate))}" placeholder="jj/mm/aaaa" oninput="syncRoadmapTextDateToNative('roadmap-end-display-${idx}','roadmap-end-${idx}'); updateRoadmapMilestone(${idx}, 'endDate', document.getElementById('roadmap-end-${idx}').value, true)">
+                                    <input id="roadmap-end-${idx}" type="date" class="roadmap-date-native" value="${escapeAttr(m.endDate || '')}" onchange="syncRoadmapNativeDateToText('roadmap-end-${idx}','roadmap-end-display-${idx}'); updateRoadmapMilestone(${idx}, 'endDate', this.value)">
+                                    <i class="fa-solid fa-calendar-days roadmap-date-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Statut</label>
+                                <select class="roadmap-status-select ${meta.selectCls}" onchange="applyRoadmapStatusClass(this); updateRoadmapMilestone(${idx}, 'status', this.value)">
+                                    <option value="ongoing" ${normalizeRoadmapStatus(m.status)==='ongoing'?'selected':''}>En cours</option>
+                                    <option value="done" ${normalizeRoadmapStatus(m.status)==='done'?'selected':''}>Terminé</option>
+                                    <option value="planned" ${normalizeRoadmapStatus(m.status)==='planned'?'selected':''}>À venir</option>
+                                    <option value="late" ${normalizeRoadmapStatus(m.status)==='late'?'selected':''}>En retard</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-end">
+                                <button onclick="deleteRoadmapMilestone(${idx})" class="roadmap-delete-btn" title="Supprimer"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addRoadmapMilestone(button) {
+            const sectorKey = document.getElementById('roadmap-sector-key')?.value;
+            const routineType = document.getElementById('roadmap-routine-type')?.value;
+            const title = (document.getElementById('roadmap-new-title')?.value || '').trim();
+            const owner = (document.getElementById('roadmap-new-owner')?.value || '').trim();
+            const startDate = document.getElementById('roadmap-new-start')?.value || toIsoDateFromFrench(document.getElementById('roadmap-new-start-display')?.value);
+            const endDate = document.getElementById('roadmap-new-end')?.value || toIsoDateFromFrench(document.getElementById('roadmap-new-end-display')?.value);
+            const status = document.getElementById('roadmap-new-status')?.value || 'ongoing';
+
+            if (!sectorKey || !routineType) return;
+            if (!title) return alert('Merci de renseigner le nom du chantier.');
+            if (!isIsoDate(startDate) || !isIsoDate(endDate)) return alert('Merci de renseigner une date de début et une date de fin au format jj/mm/aaaa.');
+
+            const list = getRoadmapList(sectorKey, routineType);
+            list.push({
+                id: 'rm_' + Date.now() + '_' + Math.random().toString(16).slice(2),
+                title,
+                owner,
+                startDate,
+                endDate,
+                status,
+                order: list.length + 1
+            });
+
+            setButtonLoading(button, true, 'Ajout...');
+            saveDbSilently(() => {
+                setButtonLoading(button, false);
+                clearRoadmapNewInputs();
+                renderRoadmapModalContent();
+                safeRenderDashboard();
+            }, (e) => {
+                setButtonLoading(button, false);
+                alert('Erreur de sauvegarde : ' + (e.message || e));
+            });
+        }
+
+        function updateRoadmapMilestone(idx, field, value, skipRender) {
+            const sectorKey = document.getElementById('roadmap-sector-key')?.value;
+            const routineType = document.getElementById('roadmap-routine-type')?.value;
+            const list = getRoadmapList(sectorKey, routineType);
+            const allowed = ['title', 'owner', 'startDate', 'endDate', 'status'];
+            if (!list[idx] || !allowed.includes(field)) return;
+
+            if ((field === 'startDate' || field === 'endDate') && value && !isIsoDate(value)) return;
+
+            list[idx][field] = String(value || '').trim();
+            saveDbSilently(() => {
+                if (!skipRender) renderRoadmapModalContent();
+                safeRenderDashboard();
+            });
+        }
+
+        function deleteRoadmapMilestone(idx) {
+            const sectorKey = document.getElementById('roadmap-sector-key')?.value;
+            const routineType = document.getElementById('roadmap-routine-type')?.value;
+            const list = getRoadmapList(sectorKey, routineType);
+            if (!list[idx]) return;
+            const label = escapeHtml(list[idx].title || 'ce chantier');
+            openSafeConfirmModal(
+                'Supprimer ce chantier ?',
+                `Voulez-vous vraiment supprimer <span class="font-bold text-slate-800">${label}</span> ?<br><span class="text-xs text-rose-500 font-semibold">Cette action est irréversible.</span>`,
+                (button) => {
+                    setButtonLoading(button, true, 'Suppression...');
+                    list.splice(idx, 1);
+                    list.forEach((m, i) => m.order = i + 1);
+                    saveDbSilently(() => {
+                        setButtonLoading(button, false);
+                        closeSafeConfirmModal();
+                        renderRoadmapModalContent();
+                        safeRenderDashboard();
+                    }, (e) => {
+                        setButtonLoading(button, false);
+                        alert('Erreur de sauvegarde : ' + (e.message || e));
+                    });
+                }
+            );
+        }
+
+
+const USER_GUIDE_URL = "https://drive.google.com/file/d/1O8QHaJUyRtI8gu3uTRVfjJYehUGVHmvm/view?usp=drive_link";
+
+function openGuideModal() {
+    document.getElementById('guide-modal')?.classList.remove('hidden');
+}
+
+function closeGuideModal() {
+    document.getElementById('guide-modal')?.classList.add('hidden');
+}
+
+function openUserGuide() {
+    closeGuideModal();
+    window.open(USER_GUIDE_URL, '_blank');
+}
         window.onload = function() { initApp(); };
     </script>
+ 
 </body>
 </html>
