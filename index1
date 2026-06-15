@@ -107,17 +107,16 @@
             border-radius: 8px;
             padding: 7px 9px;
         }
+        
+        /* -- NOUVEAUTÉ CIBLÉE : Scroll sur la liste des actions (Mode vue) -- */
         .action-list-scroll {
-            max-height: 118px;
+            max-height: 130px; /* Hauteur limitée pour ~3 ou 4 actions */
             overflow-y: auto;
             overflow-x: hidden;
             padding-right: 4px;
             margin-top: 2px;
         }
-        .action-list-scroll.edit {
-            max-height: 285px;
-            padding-right: 5px;
-        }
+
         .action-row {
             display: flex;
             align-items: flex-start;
@@ -341,280 +340,6 @@
             padding: 10px;
             box-shadow: 0 1px 2px rgba(15,23,42,0.04);
         }
-        .roadmap-btn {
-            border: 1px solid #dbeafe;
-            background: #eff6ff;
-            color: #1d4ed8;
-            border-radius: 7px;
-            padding: 3px 7px;
-            font-size: 10px;
-            font-weight: 900;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: all .15s ease;
-        }
-        .roadmap-btn:hover { background:#dbeafe; border-color:#93c5fd; }
-        /* Roadmap Gantt propre */
-        .roadmap-btn {
-            border: 1px solid #dbeafe;
-            background: #eff6ff;
-            color: #1d4ed8;
-            border-radius: 7px;
-            padding: 3px 7px;
-            font-size: 10px;
-            font-weight: 900;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: all .15s ease;
-        }
-        .roadmap-btn:hover { background:#dbeafe; border-color:#93c5fd; }
-
-        .roadmap-gantt-wrap {
-            border: 1px solid #dbeafe;
-            background: #ffffff;
-            border-radius: 14px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            box-shadow: inset 0 0 0 1px rgba(219,234,254,.25);
-        }
-        .roadmap-gantt {
-            position: relative;
-            min-height: 230px;
-            padding-bottom: 16px;
-        }
-        .roadmap-month-row {
-            position: relative;
-            height: 46px;
-            border-bottom: 1px solid #dbeafe;
-            background: #f8fbff;
-        }
-        .roadmap-month-cell {
-            position: absolute;
-            top: 0;
-            height: 46px;
-            border-left: 1px solid #dbeafe;
-            padding: 14px 12px 0 12px;
-            font-size: 11px;
-            font-weight: 900;
-            color: #475569;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        .roadmap-body-area {
-            position: relative;
-        }
-        .roadmap-grid-line {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: #dbeafe;
-        }
-        .roadmap-today-line {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: #ef4444;
-            z-index: 8;
-            box-shadow: 0 0 0 1px rgba(239,68,68,.08);
-        }
-        .roadmap-today-label {
-            position: absolute;
-            top: 6px;
-            transform: translateX(-50%);
-            background: #fff1f2;
-            color: #e11d48;
-            border: 1px solid #fecdd3;
-            border-radius: 999px;
-            padding: 2px 9px;
-            font-size: 9px;
-            font-weight: 900;
-            z-index: 12;
-            white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(239,68,68,.08);
-        }
-        .roadmap-bar {
-            position: absolute;
-            height: 28px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            padding: 0 10px;
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 900;
-            box-shadow: 0 9px 18px rgba(15,23,42,.12);
-            z-index: 5;
-            overflow: hidden;
-            white-space: nowrap;
-            cursor: help;
-        }
-        .roadmap-bar-title {
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex: 1 1 auto;
-        }
-        .roadmap-bar-owner {
-            flex: 0 0 auto;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            border-radius: 999px;
-            padding: 2px 7px;
-            background: rgba(255,255,255,.20);
-            border: 1px solid rgba(255,255,255,.25);
-            font-size: 10px;
-            font-weight: 900;
-            max-width: 76px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .roadmap-index {
-            flex: 0 0 auto;
-            width: 18px;
-            height: 18px;
-            border-radius: 7px;
-            background: rgba(15,23,42,.20);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 900;
-        }
-        .roadmap-status-ongoing { background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%); }
-        .roadmap-status-done { background: linear-gradient(90deg, #059669 0%, #34d399 100%); }
-        .roadmap-status-planned { background: linear-gradient(90deg, #475569 0%, #64748b 100%); }
-        .roadmap-status-late { background: linear-gradient(90deg, #ef4444 0%, #fb7185 100%); }
-        .roadmap-legend {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 18px;
-            border: 1px dashed #bfdbfe;
-            background: #f8fbff;
-            border-radius: 12px;
-            padding: 8px 10px;
-            margin-top: 12px;
-        }
-        .roadmap-legend-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 11px;
-            font-weight: 800;
-            color: #475569;
-            white-space: nowrap;
-        }
-        .roadmap-legend-color {
-            width: 20px;
-            height: 10px;
-            border-radius: 999px;
-            display: inline-block;
-        }
-        .roadmap-help {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            color: #64748b;
-            font-size: 11px;
-            line-height: 1.35;
-            margin-top: 10px;
-        }
-        .roadmap-form-card {
-            border: 1px solid #bfdbfe;
-            background: #f8fbff;
-            border-radius: 14px;
-            padding: 14px;
-        }
-        .roadmap-form-grid {
-            display: grid;
-            grid-template-columns: 1.45fr .75fr .82fr .82fr .9fr auto;
-            gap: 10px;
-            align-items: end;
-        }
-        .roadmap-list-card {
-            border: 1px solid #dbeafe;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 10px;
-        }
-        .roadmap-list-grid {
-            display: grid;
-            grid-template-columns: 1.4fr .75fr .8fr .8fr .9fr auto;
-            gap: 8px;
-            align-items: end;
-        }
-        .roadmap-status-select {
-            width: 100%;
-            border: 1px solid #bfdbfe;
-            background: #eff6ff;
-            color: #1d4ed8;
-            border-radius: 8px;
-            padding: 7px 9px;
-            font-size: 12px;
-            font-weight: 900;
-            outline: none;
-        }
-        .roadmap-status-select.status-done { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
-        .roadmap-status-select.status-planned { background:#f8fafc; color:#475569; border-color:#cbd5e1; }
-        .roadmap-status-select.status-late { background:#fff1f2; color:#e11d48; border-color:#fecdd3; }
-        .roadmap-date-field {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        .roadmap-date-display {
-            width: 100%;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 7px 34px 7px 9px;
-            font-size: 12px;
-            color: #334155;
-            outline: none;
-            background: #ffffff;
-        }
-        .roadmap-date-display:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 2px rgba(37,99,235,.10);
-        }
-        .roadmap-date-native {
-            position: absolute;
-            right: 6px;
-            width: 24px;
-            height: 24px;
-            opacity: 0;
-            cursor: pointer;
-        }
-        .roadmap-date-icon {
-            position: absolute;
-            right: 9px;
-            color: #64748b;
-            pointer-events: none;
-            font-size: 12px;
-        }
-        .roadmap-delete-btn {
-            width: 34px;
-            height: 34px;
-            border: 1px solid #fecdd3;
-            background: #fff;
-            color: #ef4444;
-            border-radius: 9px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: .15s ease;
-        }
-        .roadmap-delete-btn:hover { background:#fff1f2; }
-        #roadmap-list {
-            max-height: 260px;
-            overflow-y: auto;
-            padding-right: 4px;
-        }
         .mini-input {
             width: 100%;
             border: 1px solid #e2e8f0;
@@ -629,6 +354,48 @@
             border-color: #2563eb;
             box-shadow: 0 0 0 2px rgba(37, 99, 235, .10);
         }
+
+        /* --- NOUVEAUTÉ CIBLÉE : STYLES ROADMAP GANTT --- */
+        .roadmap-btn { border: 1px solid #dbeafe; background: #eff6ff; color: #1d4ed8; border-radius: 7px; padding: 3px 7px; font-size: 10px; font-weight: 900; display: inline-flex; align-items: center; gap: 5px; transition: all .15s ease; }
+        .roadmap-btn:hover { background:#dbeafe; border-color:#93c5fd; }
+        
+        .roadmap-gantt-wrap { border: 1px solid #dbeafe; background: #ffffff; border-radius: 14px; overflow-x: auto; overflow-y: hidden; box-shadow: inset 0 0 0 1px rgba(219,234,254,.25); }
+        .roadmap-gantt { position: relative; min-height: 230px; padding-bottom: 16px; }
+        .roadmap-month-row { position: relative; height: 46px; border-bottom: 1px solid #dbeafe; background: #f8fbff; }
+        .roadmap-month-cell { position: absolute; top: 0; height: 46px; border-left: 1px solid #dbeafe; padding: 14px 12px 0 12px; font-size: 11px; font-weight: 900; color: #475569; text-transform: uppercase; white-space: nowrap; }
+        .roadmap-body-area { position: relative; }
+        .roadmap-grid-line { position: absolute; top: 0; bottom: 0; width: 1px; background: #dbeafe; }
+        .roadmap-today-line { position: absolute; top: 0; bottom: 0; width: 2px; background: #ef4444; z-index: 8; box-shadow: 0 0 0 1px rgba(239,68,68,.08); }
+        .roadmap-today-label { position: absolute; top: 6px; transform: translateX(-50%); background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; border-radius: 999px; padding: 2px 9px; font-size: 9px; font-weight: 900; z-index: 12; white-space: nowrap; box-shadow: 0 4px 10px rgba(239,68,68,.08); }
+        .roadmap-bar { position: absolute; height: 28px; border-radius: 10px; display: flex; align-items: center; gap: 7px; padding: 0 10px; color: #ffffff; font-size: 11px; font-weight: 900; box-shadow: 0 9px 18px rgba(15,23,42,.12); z-index: 5; overflow: hidden; white-space: nowrap; cursor: help; }
+        .roadmap-bar-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; flex: 1 1 auto; }
+        .roadmap-bar-owner { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 4px; border-radius: 999px; padding: 2px 7px; background: rgba(255,255,255,.20); border: 1px solid rgba(255,255,255,.25); font-size: 10px; font-weight: 900; max-width: 76px; overflow: hidden; text-overflow: ellipsis; }
+        .roadmap-index { flex: 0 0 auto; width: 18px; height: 18px; border-radius: 7px; background: rgba(15,23,42,.20); display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; }
+        .roadmap-status-ongoing { background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%); }
+        .roadmap-status-done { background: linear-gradient(90deg, #059669 0%, #34d399 100%); }
+        .roadmap-status-planned { background: linear-gradient(90deg, #475569 0%, #64748b 100%); }
+        .roadmap-status-late { background: linear-gradient(90deg, #ef4444 0%, #fb7185 100%); }
+        .roadmap-legend { display: flex; align-items: center; justify-content: center; gap: 18px; border: 1px dashed #bfdbfe; background: #f8fbff; border-radius: 12px; padding: 8px 10px; margin-top: 12px; }
+        .roadmap-legend-item { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 800; color: #475569; white-space: nowrap; }
+        .roadmap-legend-color { width: 20px; height: 10px; border-radius: 999px; display: inline-block; }
+        
+        .roadmap-form-card { border: 1px solid #bfdbfe; background: #f8fbff; border-radius: 14px; padding: 14px; }
+        .roadmap-form-grid { display: grid; grid-template-columns: 1.45fr .75fr .82fr .82fr .9fr auto; gap: 10px; align-items: end; }
+        .roadmap-list-card { border: 1px solid #dbeafe; background: #ffffff; border-radius: 12px; padding: 10px; }
+        .roadmap-list-grid { display: grid; grid-template-columns: 1.4fr .75fr .8fr .8fr .9fr auto; gap: 8px; align-items: end; }
+        .roadmap-status-select { width: 100%; border: 1px solid #bfdbfe; background: #eff6ff; color: #1d4ed8; border-radius: 8px; padding: 7px 9px; font-size: 12px; font-weight: 900; outline: none; }
+        .roadmap-status-select.status-done { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+        .roadmap-status-select.status-planned { background:#f8fafc; color:#475569; border-color:#cbd5e1; }
+        .roadmap-status-select.status-late { background:#fff1f2; color:#e11d48; border-color:#fecdd3; }
+        .roadmap-date-field { position: relative; display: flex; align-items: center; }
+        .roadmap-date-display { width: 100%; border: 1px solid #e2e8f0; border-radius: 8px; padding: 7px 34px 7px 9px; font-size: 12px; color: #334155; outline: none; background: #ffffff; }
+        .roadmap-date-display:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,.10); }
+        .roadmap-date-native { position: absolute; right: 6px; width: 24px; height: 24px; opacity: 0; cursor: pointer; }
+        .roadmap-date-icon { position: absolute; right: 9px; color: #64748b; pointer-events: none; font-size: 12px; }
+        .roadmap-delete-btn { width: 34px; height: 34px; border: 1px solid #fecdd3; background: #fff; color: #ef4444; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; transition: .15s ease; }
+        .roadmap-delete-btn:hover { background:#fff1f2; }
+        #roadmap-list { max-height: 260px; overflow-y: auto; padding-right: 4px; }
+        /* -------------------------------------------------------- */
 
     </style>
 </head>
@@ -900,11 +667,12 @@
                 </div>
             </div>
             <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50/50">
-                <button id="roadmap-edit-toggle" onclick="toggleRoadmapEditMode()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2"><i class="fa-solid fa-pen"></i> Modifier</button>
+                <button id="roadmap-edit-toggle" onclick="toggleRoadmapEditMode()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2"><i class="fa-solid fa-pen"></i> Modifier</button> 
                 <button onclick="closeRoadmapModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition text-sm font-semibold">Fermer</button>
             </div>
         </div>
     </div>
+
 
     <script>
         const DEFAULT_DATABASE = {
@@ -1230,6 +998,8 @@
                                 enrichDatabase(db);
                                 const payload = getSerializableDb();
                                 if (isAppsScriptRuntime()) google.script.run.saveData(payload);
+                                renderSidebar();
+                                renderDashboard();
                             }
                         } catch (e) { applyLoadedDatabase(null); }
                     })
@@ -1368,6 +1138,7 @@
             const s = normalizeActionStatus(status); return s === 'not_started' ? 'ongoing' : (s === 'ongoing' ? 'done' : 'not_started');
         }
 
+        /* --- NOUVEAUTÉ CIBLÉE : Rendu des actions avec le Scroll (Mode Vue) --- */
         function renderActions(actions, side, key, routineType) {
             const roadmapButton = `<button type="button" onclick="openRoadmapModal('${key}', '${routineType}')" class="roadmap-btn" title="Ouvrir la roadmap"><i class="fa-solid fa-route"></i> Roadmap</button>`;
             const header = `<div class="flex items-center justify-between mb-1"><div class="flex items-center gap-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider"><i class="fa-solid fa-list-ol"></i> Actions</div>${roadmapButton}</div>`;
@@ -1379,7 +1150,7 @@
             return `
                 <div class="action-card">
                     ${header}
-                    <div class="action-list-scroll">
+                    <div class="action-list-scroll" data-preserve-scroll="act-${side}-${routineType}">
                         ${actions.map((a, idx) => { const meta = getActionStatusMeta(a.status); return `<div class="action-row"><i class="fa-solid ${meta.icon} ${meta.cls} action-status-btn"></i><span class="action-top-badge">Top ${idx + 1}</span><div class="action-text"><span class="action-criteria">${a.criteria || 'Critère'}</span><span class="text-slate-400 mx-1">—</span><span>${a.action || ''}</span></div></div>`; }).join('')}
                     </div>
                 </div>
@@ -1691,7 +1462,6 @@
             `;
         }
 
-        // CORRECTION 2 : MASQUAGE DU SÉLECTEUR DE MATURITÉ SUR LES GRANDS SECTEURS
         function renderGroupEditModeCard(side, key, data) {
             const grade = data.maturityGrade || gradeFromScore(getOverallScore(data.maturity));
 
@@ -1770,7 +1540,6 @@
         }
 
         function renderEditModeCard(side, key, draftData) {
-            // CORRECTION 3 : APPAREIL PHOTO GLOBAL COMPLET (Empêche toute interférence de suppression)
             const syncCurrentInputs = () => {
                 const titleInput = document.getElementById(`edit-title-${side}`);
                 if (titleInput) draftData.title = titleInput.value;
@@ -1845,7 +1614,7 @@
                         </div>
                     `;
                 });
-                return `<div class="action-card"><div class="action-list-scroll edit">${html}</div><button type="button" onclick="window['addActionInline_${side}']('${routineType}')" class="mt-2 text-blue-600 font-bold text-[11px] flex items-center gap-1"><i class="fa-solid fa-circle-plus"></i> Ajouter une action</button></div>`;
+                return `<div class="action-card"><div class="action-list-scroll edit" data-preserve-scroll="edit-act-${side}-${routineType}">${html}</div><button type="button" onclick="window['addActionInline_${side}']('${routineType}')" class="mt-2 text-blue-600 font-bold text-[11px] flex items-center gap-1"><i class="fa-solid fa-circle-plus"></i> Ajouter une action</button></div>`;
             };
 
             return `
@@ -2213,11 +1982,14 @@
             );
         }
 
+        // --- NOUVEAUTÉ CIBLÉE : ROADMAP GANTT (AVEC CALCUL AUTOMATIQUE "EN RETARD") ---
+
         function getRoadmapList(sectorKey, routineType) {
             const s = db[sectorKey];
             if (!s || s.isGroup) return [];
             if (!s.roadmap) s.roadmap = { daily: [], weekly: [] };
             if (!Array.isArray(s.roadmap[routineType])) s.roadmap[routineType] = [];
+            
             s.roadmap[routineType].forEach((m, idx) => normalizeRoadmapItem(m, idx));
             s.roadmap[routineType].sort((a, b) => (a.order || 9999) - (b.order || 9999));
             return s.roadmap[routineType];
@@ -2226,30 +1998,40 @@
         function normalizeRoadmapItem(item, idx) {
             if (!item.id) item.id = 'rm_' + Date.now() + '_' + Math.random().toString(16).slice(2);
             if (typeof item.order !== 'number') item.order = idx + 1;
-
+            
             if (!item.title && item.period) item.title = item.period;
             if (!item.title) item.title = `Chantier ${idx + 1}`;
-
-            if (!item.owner) item.owner = item.porteur || item.responsable || '';
-            if (!item.status) item.status = normalizeRoadmapStatus(item.state || item.avancement || 'ongoing');
-
-            if (!item.startDate && item.start) item.startDate = item.start;
-            if (!item.endDate && item.end) item.endDate = item.end;
-
+            if (!item.owner) item.owner = item.porteur || '';
+            
+            const baseStatus = String(item.status || item.state || 'ongoing').toLowerCase();
+            if (baseStatus.includes('termin') || baseStatus.includes('fait') || baseStatus.includes('done')) {
+                item.status = 'done';
+            } else {
+                if (item.endDate) {
+                    const end = parseIsoDate(item.endDate) || parseIsoDate(toIsoDateFromFrench(item.period)); // fallback old period format
+                    if (end) {
+                        const today = new Date();
+                        today.setHours(0,0,0,0);
+                        end.setHours(0,0,0,0);
+                        item.status = end < today ? 'late' : (baseStatus.includes('venir') || baseStatus.includes('planned') ? 'planned' : 'ongoing');
+                    } else {
+                        item.status = baseStatus.includes('late') ? 'late' : (baseStatus.includes('venir') || baseStatus.includes('planned') ? 'planned' : 'ongoing');
+                    }
+                } else {
+                    item.status = baseStatus.includes('late') ? 'late' : (baseStatus.includes('venir') || baseStatus.includes('planned') ? 'planned' : 'ongoing');
+                }
+            }
+            
             if (!isIsoDate(item.startDate)) item.startDate = '';
             if (!isIsoDate(item.endDate)) item.endDate = '';
         }
 
-        function normalizeRoadmapStatus(status) {
-            const s = String(status || '').toLowerCase();
-            if (s.includes('termin') || s.includes('fait') || s.includes('done')) return 'done';
-            if (s.includes('retard') || s.includes('late')) return 'late';
-            if (s.includes('venir') || s.includes('planned') || s.includes('not')) return 'planned';
-            return 'ongoing';
+        function getEffectiveRoadmapStatus(item) {
+            return item.status || 'ongoing';
         }
 
-        function getRoadmapStatusMeta(status) {
-            const s = normalizeRoadmapStatus(status);
+        function getRoadmapStatusMeta(item) {
+            const s = getEffectiveRoadmapStatus(item);
             if (s === 'done') return { label: 'Terminé', cls: 'roadmap-status-done', selectCls: 'status-done' };
             if (s === 'planned') return { label: 'À venir', cls: 'roadmap-status-planned', selectCls: 'status-planned' };
             if (s === 'late') return { label: 'En retard', cls: 'roadmap-status-late', selectCls: 'status-late' };
@@ -2259,44 +2041,36 @@
         function applyRoadmapStatusClass(selectEl) {
             if (!selectEl) return;
             selectEl.classList.remove('status-done', 'status-planned', 'status-late', 'status-ongoing');
-            selectEl.classList.add(getRoadmapStatusMeta(selectEl.value).selectCls);
+            const fakeItem = { status: selectEl.value }; 
+            selectEl.classList.add(getRoadmapStatusMeta(fakeItem).selectCls);
         }
 
-        function isIsoDate(value) {
-            return /^\d{4}-\d{2}-\d{2}$/.test(String(value || ''));
-        }
-
+        function isIsoDate(value) { return /^\d{4}-\d{2}-\d{2}$/.test(String(value || '')); }
         function parseIsoDate(value) {
             if (!isIsoDate(value)) return null;
             const [y, m, d] = value.split('-').map(Number);
             const dt = new Date(y, m - 1, d);
             return Number.isNaN(dt.getTime()) ? null : dt;
         }
-
         function toIsoDateFromFrench(value) {
             const v = String(value || '').trim();
             const match = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
             if (!match) return '';
-            const d = Number(match[1]);
-            const m = Number(match[2]);
-            const y = Number(match[3]);
+            const d = Number(match[1]), m = Number(match[2]), y = Number(match[3]);
             const dt = new Date(y, m - 1, d);
             if (Number.isNaN(dt.getTime()) || dt.getFullYear() !== y || dt.getMonth() !== m - 1 || dt.getDate() !== d) return '';
             return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         }
-
         function formatFrenchDate(value) {
             const dt = parseIsoDate(value);
             if (!dt) return '';
             return `${String(dt.getDate()).padStart(2, '0')}/${String(dt.getMonth() + 1).padStart(2, '0')}/${dt.getFullYear()}`;
         }
-
         function syncRoadmapNativeDateToText(nativeId, textId) {
             const native = document.getElementById(nativeId);
             const textInput = document.getElementById(textId);
             if (native && textInput) textInput.value = formatFrenchDate(native.value);
         }
-
         function syncRoadmapTextDateToNative(textId, nativeId) {
             const textInput = document.getElementById(textId);
             const native = document.getElementById(nativeId);
@@ -2305,27 +2079,9 @@
             if (iso) native.value = iso;
         }
 
-        function monthStart(date) {
-            return new Date(date.getFullYear(), date.getMonth(), 1);
-        }
-
-        function monthEnd(date) {
-            return new Date(date.getFullYear(), date.getMonth() + 1, 0);
-        }
-
-        function addMonths(date, nb) {
-            return new Date(date.getFullYear(), date.getMonth() + nb, 1);
-        }
-
-        function daysBetween(a, b) {
-            const oneDay = 24 * 60 * 60 * 1000;
-            return Math.round((monthStartLike(b).getTime() - monthStartLike(a).getTime()) / oneDay);
-        }
-
-        function monthStartLike(date) {
-            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        }
-
+        function monthStart(date) { return new Date(date.getFullYear(), date.getMonth(), 1); }
+        function monthEnd(date) { return new Date(date.getFullYear(), date.getMonth() + 1, 0); }
+        function addMonths(date, nb) { return new Date(date.getFullYear(), date.getMonth() + nb, 1); }
         function getMonthLabel(date) {
             const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
             return `${months[date.getMonth()]} ${date.getFullYear()}`;
@@ -2342,10 +2098,7 @@
             });
             const min = new Date(Math.min(...dates.map(d => d.getTime())));
             const max = new Date(Math.max(...dates.map(d => d.getTime())));
-            return {
-                start: monthStart(addMonths(min, -1)),
-                end: monthEnd(addMonths(max, 1))
-            };
+            return { start: monthStart(addMonths(min, -1)), end: monthEnd(addMonths(max, 1)) };
         }
 
         function assignRoadmapLanes(items) {
@@ -2361,12 +2114,8 @@
             const lanes = [];
             valid.forEach(x => {
                 let laneIndex = lanes.findIndex(lastEnd => x.start > lastEnd);
-                if (laneIndex === -1) {
-                    laneIndex = lanes.length;
-                    lanes.push(x.end);
-                } else {
-                    lanes[laneIndex] = x.end;
-                }
+                if (laneIndex === -1) { laneIndex = lanes.length; lanes.push(x.end); } 
+                else { lanes[laneIndex] = x.end; }
                 x.lane = laneIndex;
             });
             return { valid, laneCount: Math.max(1, lanes.length) };
@@ -2398,31 +2147,23 @@
             }
 
             const bars = valid.map(x => {
-                const meta = getRoadmapStatusMeta(x.item.status);
+                const meta = getRoadmapStatusMeta(x.item);
                 const start = x.start;
                 const end = x.end < x.start ? x.start : x.end;
                 const left = Math.max(0, Math.round((start - range.start) / (24 * 60 * 60 * 1000) * pxPerDay));
-                // La largeur affichée est strictement liée aux dates.
-                // On garde seulement un minimum technique très faible pour qu'une durée d'un jour reste visible.
                 const realWidth = Math.max(12, Math.round(((end - start) / (24 * 60 * 60 * 1000) + 1) * pxPerDay));
-                const width = realWidth;
                 const top = 24 + x.lane * rowH;
+                
                 const title = escapeHtml(x.item.title || `Chantier ${x.idx + 1}`);
                 const owner = escapeHtml(x.item.owner || '');
-                const rawTitle = String(x.item.title || `Chantier ${x.idx + 1}`);
-                const rawOwner = String(x.item.owner || '');
-                const tooltip = `${rawTitle} | Porteur : ${rawOwner || 'Non renseigné'} | Début : ${formatFrenchDate(x.item.startDate)} | Fin : ${formatFrenchDate(x.item.endDate)} | Statut : ${meta.label}`;
+                const tooltip = `${x.item.title} | Porteur : ${x.item.owner || 'N/A'} | Début : ${formatFrenchDate(x.item.startDate)} | Fin : ${formatFrenchDate(x.item.endDate)} | Statut : ${meta.label}`;
 
-                // Affichage interne volontairement simple :
-                // - si la barre est trop courte, on ne force pas de texte afin de ne pas fausser la perception de durée ;
-                // - le porteur ne s'affiche que s'il y a vraiment de la place ;
-                // - toutes les informations restent accessibles au survol de la souris.
-                const showIndex = width >= 34;
-                const showTitle = width >= 82;
-                const showOwner = owner && width >= 178;
+                const showIndex = realWidth >= 34;
+                const showTitle = realWidth >= 82;
+                const showOwner = owner && realWidth >= 178;
 
                 return `
-                    <div class="roadmap-bar ${meta.cls}" title="${escapeAttr(tooltip)}" style="left:${left}px; top:${top}px; width:${width}px;">
+                    <div class="roadmap-bar ${meta.cls}" title="${escapeAttr(tooltip)}" style="left:${left}px; top:${top}px; width:${realWidth}px;">
                         ${showIndex ? `<span class="roadmap-index">${x.idx + 1}</span>` : ''}
                         ${showTitle ? `<span class="roadmap-bar-title">${title}</span>` : ''}
                         ${showOwner ? `<span class="roadmap-bar-owner"><i class="fa-solid fa-user"></i>${owner}</span>` : ''}
@@ -2436,9 +2177,7 @@
             return `
                 <div class="roadmap-gantt-wrap">
                     <div class="roadmap-gantt" style="width:${timelineWidth}px; min-width:${timelineWidth}px;">
-                        <div class="roadmap-month-row">
-                            ${monthCells}
-                        </div>
+                        <div class="roadmap-month-row">${monthCells}</div>
                         <div class="roadmap-body-area" style="height:${bodyH}px;">
                             ${gridLines}
                             <span class="roadmap-today-line" style="left:${todayX}px;"></span>
@@ -2452,10 +2191,6 @@
                     <span class="roadmap-legend-item"><span class="roadmap-legend-color roadmap-status-done"></span>Terminé</span>
                     <span class="roadmap-legend-item"><span class="roadmap-legend-color roadmap-status-planned"></span>À venir</span>
                     <span class="roadmap-legend-item"><span class="roadmap-legend-color roadmap-status-late"></span>En retard</span>
-                </div>
-                <div class="roadmap-help">
-                    <i class="fa-solid fa-circle-info text-blue-500 mt-0.5"></i>
-                    <span>La longueur de chaque barre est calculée à partir des dates réelles. Pour les durées courtes, le texte n'est pas forcé dans la barre afin de conserver la vraie longueur. Survolez une barre pour voir le chantier, le porteur, les dates et le statut.</span>
                 </div>
             `;
         }
@@ -2473,7 +2208,6 @@
             if (ctx) ctx.textContent = `${s.name || sectorKey} — ${routineType === 'daily' ? 'Daily' : 'Weekly'}`;
 
             roadmapEditMode = false;
-            clearRoadmapNewInputs();
             renderRoadmapModalContent();
             document.getElementById('roadmap-modal')?.classList.remove('hidden');
         }
@@ -2485,18 +2219,6 @@
         function toggleRoadmapEditMode() {
             roadmapEditMode = !roadmapEditMode;
             renderRoadmapModalContent();
-        }
-
-        function clearRoadmapNewInputs() {
-            ['roadmap-new-title', 'roadmap-new-owner', 'roadmap-new-start', 'roadmap-new-end', 'roadmap-new-start-display', 'roadmap-new-end-display'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = '';
-            });
-            const status = document.getElementById('roadmap-new-status');
-            if (status) {
-                status.value = 'ongoing';
-                applyRoadmapStatusClass(status);
-            }
         }
 
         function renderRoadmapModalContent() {
@@ -2512,24 +2234,20 @@
 
             if (panel) panel.classList.toggle('hidden', !roadmapEditMode);
             if (toggle) {
-                toggle.innerHTML = roadmapEditMode
-                    ? '<i class="fa-solid fa-eye"></i> Voir la roadmap'
-                    : '<i class="fa-solid fa-pen"></i> Modifier';
-                toggle.className = roadmapEditMode
-                    ? 'px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2'
-                    : 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2';
+                toggle.innerHTML = roadmapEditMode ? '<i class="fa-solid fa-eye"></i> Voir la roadmap' : '<i class="fa-solid fa-pen"></i> Modifier';
+                toggle.className = roadmapEditMode ? 'px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2' : 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-semibold shadow-sm flex items-center gap-2';
             }
 
             const container = document.getElementById('roadmap-list');
             if (!container) return;
 
             if (!list.length) {
-                container.innerHTML = `<div class="text-xs text-slate-400 italic border border-dashed border-slate-200 rounded-lg p-3 bg-slate-50">Aucun chantier planifié.</div>`;
+                container.innerHTML = `<div class="text-xs text-slate-400 italic border border-dashed border-slate-200 rounded-lg p-3 bg-slate-50">Aucun jalon défini.</div>`;
                 return;
             }
 
             container.innerHTML = list.map((m, idx) => {
-                const meta = getRoadmapStatusMeta(m.status);
+                const meta = getRoadmapStatusMeta(m);
                 return `
                     <div class="roadmap-list-card">
                         <div class="roadmap-list-grid">
@@ -2560,10 +2278,10 @@
                             <div>
                                 <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Statut</label>
                                 <select class="roadmap-status-select ${meta.selectCls}" onchange="applyRoadmapStatusClass(this); updateRoadmapMilestone(${idx}, 'status', this.value)">
-                                    <option value="ongoing" ${normalizeRoadmapStatus(m.status)==='ongoing'?'selected':''}>En cours</option>
-                                    <option value="done" ${normalizeRoadmapStatus(m.status)==='done'?'selected':''}>Terminé</option>
-                                    <option value="planned" ${normalizeRoadmapStatus(m.status)==='planned'?'selected':''}>À venir</option>
-                                    <option value="late" ${normalizeRoadmapStatus(m.status)==='late'?'selected':''}>En retard</option>
+                                    <option value="ongoing" ${m.status==='ongoing'?'selected':''}>En cours</option>
+                                    <option value="done" ${m.status==='done'?'selected':''}>Terminé</option>
+                                    <option value="planned" ${m.status==='planned'?'selected':''}>À venir</option>
+                                    <option value="late" ${m.status==='late'?'selected':''}>En retard</option>
                                 </select>
                             </div>
                             <div class="flex justify-end">
@@ -2585,24 +2303,22 @@
             const status = document.getElementById('roadmap-new-status')?.value || 'ongoing';
 
             if (!sectorKey || !routineType) return;
-            if (!title) return alert('Merci de renseigner le nom du chantier.');
-            if (!isIsoDate(startDate) || !isIsoDate(endDate)) return alert('Merci de renseigner une date de début et une date de fin au format jj/mm/aaaa.');
-
+            
             const list = getRoadmapList(sectorKey, routineType);
             list.push({
                 id: 'rm_' + Date.now() + '_' + Math.random().toString(16).slice(2),
-                title,
-                owner,
-                startDate,
-                endDate,
-                status,
-                order: list.length + 1
+                title, owner, startDate, endDate, status, order: list.length + 1
             });
 
+            const p = document.getElementById('roadmap-new-period');
+            const t = document.getElementById('roadmap-new-title');
+            if (p) p.value = '';
+            if (t) t.value = '';
+
+            // Utilisation exacte de votre fonction de loading
             setButtonLoading(button, true, 'Ajout...');
             saveDbSilently(() => {
                 setButtonLoading(button, false);
-                clearRoadmapNewInputs();
                 renderRoadmapModalContent();
                 safeRenderDashboard();
             }, (e) => {
@@ -2615,9 +2331,9 @@
             const sectorKey = document.getElementById('roadmap-sector-key')?.value;
             const routineType = document.getElementById('roadmap-routine-type')?.value;
             const list = getRoadmapList(sectorKey, routineType);
+            
             const allowed = ['title', 'owner', 'startDate', 'endDate', 'status'];
             if (!list[idx] || !allowed.includes(field)) return;
-
             if ((field === 'startDate' || field === 'endDate') && value && !isIsoDate(value)) return;
 
             list[idx][field] = String(value || '').trim();
@@ -2632,6 +2348,7 @@
             const routineType = document.getElementById('roadmap-routine-type')?.value;
             const list = getRoadmapList(sectorKey, routineType);
             if (!list[idx]) return;
+            
             const label = escapeHtml(list[idx].title || 'ce chantier');
             openSafeConfirmModal(
                 'Supprimer ce chantier ?',
@@ -2652,7 +2369,6 @@
                 }
             );
         }
-
 
 const USER_GUIDE_URL = "https://drive.google.com/file/d/1O8QHaJUyRtI8gu3uTRVfjJYehUGVHmvm/view?usp=drive_link";
 
