@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AOS Cockpit - Version complète</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{
+  --airbus:#002f6c;
+  --airbus-2:#004b93;
+  --blue:#2563eb;
+  --green:#16a34a;
+  --red:#dc2626;
+  --orange:#f59e0b;
+  --dark:#344054;
+  --grey:#64748b;
+  --bg:#eef3f9;
+  --card:#ffffff;
+  --soft:#eaf2ff;
+  --line:#d9e3f0;
+  --text:#0f1f35;
+  --muted:#66758d;
+  --shadow:0 18px 55px rgba(0,47,108,.10);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Inter,system-ui,sans-serif;
+}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+.app{
+  min-height:100vh;
+  border:1px solid #d5dde8;
+  background:var(--bg);
+}
+.header{
+  height:78px;
+  background:white;
+  border-bottom:1px solid var(--line);
+  display:grid;
+  grid-template-columns:260px 1fr 430px;
+  align-items:center;
+  padding:0 32px;
+  gap:20px;
+}
+.airbus{
+  color:var(--airbus);
+  font-weight:900;
+  line-height:.85;
+}
+.airbus .big{
+  font-size:34px;
+  letter-spacing:-2px;
+}
+.airbus .small{
+  font-size:14px;
+  margin-top:4px;
+}
+.center-title{
+  text-align:center;
+}
+.center-title h1{
+  margin:0;
+  color:var(--airbus);
+  font-size:28px;
+  letter-spacing:-.03em;
+}
+.center-title div{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+  margin-top:3px;
+}
+.header-actions{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:10px;
+}
+.btn{
+  border:0;
+  border-radius:13px;
+  padding:12px 18px;
+  font-weight:900;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  transition:.15s;
+  white-space:nowrap;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-navy{background:var(--airbus);color:white}
+.btn-white{background:white;color:var(--airbus);border:1px solid #c5d4e8}
+.btn-blue{background:var(--blue);color:white}
+.btn-red{background:#fff1f2;color:var(--red);border:1px solid #fecdd3}
+.icon-btn{
+  width:44px;
+  height:44px;
+  border-radius:13px;
+  border:1px solid #c5d4e8;
+  background:white;
+  color:var(--airbus);
+  font-size:18px;
+  position:relative;
+}
+.badge{
+  position:absolute;
+  top:-7px;
+  right:-7px;
+  background:#d60000;
+  color:white;
+  width:23px;
+  height:23px;
+  border-radius:50%;
+  font-size:12px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.view{display:none}
+.view.active{display:block}
+
+/* HOME - validated */
+.home{
+  min-height:calc(100vh - 79px);
+  padding:70px 40px;
+}
+.home h2{
+  text-align:center;
+  color:var(--airbus);
+  font-size:42px;
+  letter-spacing:.03em;
+  margin:0 0 16px;
+  font-weight:900;
+}
+.home-sub{
+  text-align:center;
+  color:var(--airbus);
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:60px;
+}
+.home-kpis{
+  display:grid;
+  grid-template-columns:repeat(3,270px);
+  justify-content:center;
+  gap:24px;
+  margin-bottom:38px;
+}
+.home-kpi{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:18px;
+  height:110px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 10px 28px rgba(0,47,108,.04);
+}
+.home-kpi .num{
+  color:var(--airbus);
+  font-size:42px;
+  line-height:1;
+  font-weight:900;
+}
+.home-kpi .label{
+  margin-top:8px;
+  color:#5d6a7f;
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.home-tiles{
+  display:grid;
+  grid-template-columns:repeat(3,300px);
+  justify-content:center;
+  gap:40px;
+}
+.home-tile{
+  height:170px;
+  background:#e6eef9;
+  border:1px solid #d3dff0;
+  border-radius:8px;
+  color:var(--airbus);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:.18s;
+}
+.home-tile:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 40px rgba(0,47,108,.12);
+  background:#deebff;
+}
+.home-tile i{
+  font-size:30px;
+  margin-bottom:12px;
+}
+.home-tile h3{
+  margin:0;
+  font-size:30px;
+  font-weight:900;
+}
+.home-tile p{
+  margin:8px 0 0;
+  font-size:14px;
+  font-weight:900;
+}
+
+/* inner pages */
+.page{
+  padding:36px;
+}
+.page-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:20px;
+  margin-bottom:24px;
+}
+.page-head h2{
+  margin:0;
+  color:var(--airbus);
+  font-size:32px;
+  line-height:1.1;
+}
+.page-head p{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-weight:700;
+}
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+input,select,textarea{
+  border:1px solid var(--line);
+  background:white;
+  color:#24364d;
+  border-radius:12px;
+  padding:11px 12px;
+  outline:none;
+  font-weight:700;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(37,99,235,.12);
+}
+.search{min-width:240px}
+.card{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  padding:24px;
+}
+.card-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--airbus);
+  font-weight:900;
+  font-size:17px;
+  margin-bottom:18px;
+}
+.card-title i{color:var(--blue)}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th{
+  text-align:left;
+  font-size:12px;
+  color:#5f6f89;
+  text-transform:uppercase;
+  padding:12px;
+  border-bottom:2px solid var(--line);
+}
+td{
+  padding:13px 12px;
+  border-bottom:1px solid #eef2f7;
+  font-weight:700;
+}
+tr:hover{background:#fbfdff}
+.chip{
+  display:inline-flex;
+  border-radius:999px;
+  padding:5px 10px;
+  font-size:12px;
+  font-weight:900;
+}
+.s-ongoing{background:#eaf2ff;color:#1d4ed8}
+.s-done{background:#dcfce7;color:#15803d}
+.s-late{background:#fee2e2;color:#dc2626}
+.s-planned{background:#f1f5f9;color:#475569}
+.s-blocked{background:#e5e7eb;color:#111827}
+.s-risk{background:#ffedd5;color:#c2410c}
+.progress{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.track{
+  width:92px;
+  height:7px;
+  background:#e4ebf5;
+  border-radius:999px;
+  overflow:hidden;
+}
+.fill{
+  height:100%;
+  border-radius:999px;
+  background:var(--blue);
+}
+
+/* modals */
+.modal,.road-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(16,28,41,.62);
+  backdrop-filter:blur(7px);
+  z-index:80;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+}
+.modal.show,.road-modal.show{display:flex}
+.panel{
+  background:white;
+  border-radius:28px;
+  box-shadow:0 30px 90px rgba(0,0,0,.30);
+  overflow:hidden;
+}
+.simple-panel{
+  width:min(1020px,95vw);
+  max-height:90vh;
+}
+.form-panel{
+  width:min(680px,95vw);
+  max-height:90vh;
+}
+.modal-head{
+  padding:24px 28px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+}
+.modal-head h2{
+  margin:0;
+  color:var(--airbus);
+  font-size:28px;
+}
+.modal-sub{
+  margin-top:6px;
+  color:var(--muted);
+  font-weight:700;
+}
+.modal-body{
+  padding:28px;
+  max-height:73vh;
+  overflow:auto;
+}
+.grid2{
+  display:grid;
+  grid-template-columns:1.4fr .8fr;
+  gap:18px;
+}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.full{grid-column:1/-1}
+.box{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+}
+.box h4{
+  margin:0 0 12px;
+  color:#65758e;
+  text-transform:uppercase;
+  font-size:12px;
+}
+textarea{
+  width:100%;
+  min-height:95px;
+}
+.line{
+  border:1px solid #edf2f7;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:9px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+}
+.hist{
+  border-left:3px solid #bfdbfe;
+  padding-left:12px;
+  margin-bottom:11px;
+  font-size:13px;
+}
+.toast{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  background:#071b3a;
+  color:white;
+  padding:12px 16px;
+  border-radius:14px;
+  display:none;
+  z-index:140;
+  font-weight:900;
+}
+.toast.show{display:block}
+
+/* Roadmap */
+.road-panel{
+  background:white;
+  width:96vw;
+  height:92vh;
+  border-radius:28px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  box-shadow:0 30px 90px rgba(0,0,0,.30);
+}
+.road-head{
+  padding:22px 26px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.road-head h2{
+  margin:0;
+  color:var(--airbus);
+  font-size:30px;
+}
+.road-body{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+.road-filters{
+  padding:14px 18px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.legend{
+  display:flex;
+  gap:15px;
+  color:#65758e;
+  font-size:12px;
+  font-weight:900;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  display:inline-block;
+  margin-right:5px;
+}
+.gantt-wrap{
+  flex:1;
+  overflow:auto;
+  padding:28px;
+  background:#f8fbff;
+}
+.gantt{
+  min-width:1480px;
+  position:relative;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+}
+.g-head{
+  height:58px;
+  position:sticky;
+  top:0;
+  background:#fbfdff;
+  border-bottom:1px solid var(--line);
+  z-index:20;
+}
+.g-left-head{
+  position:sticky;
+  left:0;
+  top:0;
+  z-index:25;
+  width:410px;
+  height:58px;
+  background:#fbfdff;
+  border-right:1px solid var(--line);
+  display:grid;
+  grid-template-columns:270px 140px;
+  align-items:center;
+}
+.g-left-head span{
+  padding-left:18px;
+  font-size:12px;
+  color:#52637d;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.month{
+  position:absolute;
+  height:58px;
+  border-left:1px dashed #d8e2f0;
+  padding:18px 12px 0;
+  font-size:12px;
+  text-transform:uppercase;
+  color:#52637d;
+  font-weight:900;
+  text-align:center;
+}
+.row{
+  height:64px;
+  position:relative;
+  border-bottom:1px solid #eef3f8;
+  background:#fff;
+}
+.project-header{
+  height:52px;
+  background:#f7faff;
+  border-top:1px solid #d8e2f0;
+  border-bottom:1px solid #d8e2f0;
+  position:relative;
+}
+.project-title{
+  position:sticky;
+  left:0;
+  z-index:12;
+  height:52px;
+  width:410px;
+  background:#f7faff;
+  border-right:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  padding:0 18px;
+  gap:10px;
+  font-weight:900;
+  color:var(--airbus);
+}
+.row-label{
+  position:sticky;
+  left:0;
+  z-index:10;
+  width:410px;
+  height:64px;
+  background:rgba(255,255,255,.99);
+  border-right:1px solid var(--line);
+  display:grid;
+  grid-template-columns:270px 140px;
+  align-items:center;
+}
+.row-label strong{
+  font-size:14px;
+  padding-left:38px;
+  color:#14233a;
+}
+.row-label span{
+  font-size:12px;
+  color:#8190a8;
+  font-weight:800;
+  padding-left:16px;
+}
+.gridline{
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:#eef3f8;
+}
+.gridline.major{
+  background:#dce5f2;
+}
+.today{
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:2px;
+  background:#ff1744;
+  z-index:8;
+}
+.today-label{
+  position:absolute;
+  top:8px;
+  transform:translateX(-50%);
+  background:#fff1f2;
+  color:#dc2626;
+  border:1px solid #fecdd3;
+  border-radius:999px;
+  padding:2px 9px;
+  font-size:9px;
+  font-weight:900;
+  z-index:30;
+}
+.bar{
+  position:absolute;
+  top:17px;
+  height:30px;
+  border:0;
+  border-radius:999px;
+  color:white;
+  padding:0 12px;
+  font-size:11px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  box-shadow:0 8px 18px rgba(6,43,99,.16);
+  white-space:nowrap;
+  overflow:hidden;
+}
+.bar:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+}
+.blue{background:var(--blue)}
+.green{background:var(--green)}
+.red{background:var(--red)}
+.grey{background:#667085}
+.dark{background:#344054}
+.mark{
+  background:rgba(255,255,255,.25);
+  border-radius:999px;
+  padding:1px 7px;
+  margin-left:auto;
+}
+.admin-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+.mini{
+  padding:10px;
+  border:1px solid #edf2f7;
+  border-radius:14px;
+  margin-bottom:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+@media print{
+  .header,.actions,.btn,.icon-btn{display:none!important}
+  .app{background:white}
+  .view{display:block!important}
+  .modal,.road-modal{display:none!important}
+}
+@media(max-width:900px){
+  .header{display:block;height:auto;padding:20px}
+  .header-actions{justify-content:flex-start;margin-top:14px}
+  .home-kpis,.home-tiles,.admin-grid,.form-grid,.grid2{grid-template-columns:1fr}
+  .home{padding:40px 20px}
+  .page-head{display:block}
+  .actions{margin-top:12px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+  <div class="airbus">
+    <div class="big">AIRBUS</div>
+    <div class="small">Saint-ELOI</div>
+  </div>
+  <div class="center-title">
+    <h1>AOS Cockpit</h1>
+    <div>Dernière modification : <span id="lastUpdate">-</span></div>
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" title="Notifications" onclick="openNotifications()"><i class="fa-solid fa-bell"></i><span class="badge" id="notifCount">0</span></button>
+    <button class="icon-btn" title="Historique" onclick="openHistory()"><i class="fa-solid fa-clock-rotate-left"></i></button>
+    <button class="btn btn-white" onclick="openGuide()"><i class="fa-solid fa-book-open"></i> Guide</button>
+    <button class="btn btn-white" onclick="openExport()"><i class="fa-solid fa-ellipsis"></i> Exporter</button>
+    <button class="btn btn-white" onclick="showView('home')">Accueil</button>
+    <button class="btn btn-navy" onclick="showView('projects')">Projets</button>
+    <button class="btn btn-navy" onclick="showView('people')">Équipe</button>
+    <button class="btn btn-navy" onclick="askAdmin()">Admin</button>
+  </div>
+</header>
+
+<section id="home" class="view active home">
+  <h2>AOS COCKPIT</h2>
+  <div class="home-sub">Pilotage et suivi des projets de l'équipe AOS</div>
+  <div class="home-kpis" id="homeKpis"></div>
+  <div class="home-tiles">
+    <button class="home-tile" onclick="showView('projects')"><i class="fa-solid fa-folder-open"></i><h3>Projets</h3><p>Pilotage des projets et WP</p></button>
+    <button class="home-tile" onclick="showView('people')"><i class="fa-solid fa-users"></i><h3>Équipe</h3><p>Actions par membre</p></button>
+    <button class="home-tile" onclick="askAdmin()"><i class="fa-solid fa-lock"></i><h3>Administration</h3><p>Structure du cockpit</p></button>
+  </div>
+</section>
+
+<section id="projects" class="view page">
+  <div class="page-head">
+    <div><h2>Projets</h2><p>Vue synthèse des projets de l'équipe</p></div>
+    <div class="actions"><input id="projectSearch" class="search" placeholder="🔎 Rechercher..." oninput="renderProjects()"><button class="btn btn-navy" onclick="openRoadmap('projects')">Roadmap</button></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-folder-open"></i> Tous les projets</div>
+    <table><thead><tr><th>Nom</th><th>Secteur(s)</th><th>Statut</th><th>Avancement</th><th>Responsable</th></tr></thead><tbody id="projectsRows"></tbody></table>
+  </div>
+</section>
+
+<section id="people" class="view page">
+  <div class="page-head">
+    <div><h2>Membres</h2><p>Vue synthèse des membres de l'équipe</p></div>
+    <div class="actions"><input id="peopleSearch" class="search" placeholder="🔎 Rechercher..." oninput="renderPeople()"><button class="btn btn-navy" onclick="openRoadmap('people')">Roadmap</button></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-users"></i> Tous les membres</div>
+    <table><thead><tr><th>Nom</th><th>Fonction</th><th>Projets</th><th>Actions ouvertes</th><th>Statut</th><th>Avancement</th></tr></thead><tbody id="peopleRows"></tbody></table>
+  </div>
+</section>
+
+<section id="admin" class="view page">
+  <div class="page-head">
+    <div><h2>Administration</h2><p>Administration = création et configuration des grandes lignes</p></div>
+    <button class="btn btn-white" onclick="changePassword()">Modifier mot de passe</button>
+  </div>
+  <div class="admin-grid">
+    <div class="card">
+      <h3>Créer / prioriser les projets</h3>
+      <div class="form-grid">
+        <input id="apName" placeholder="Nom projet">
+        <select id="apOwner"></select>
+        <input id="apSector" placeholder="Secteur(s)" oninput="this.value=this.value.toUpperCase()">
+        <select id="apPriority"><option>Haute</option><option selected>Moyenne</option><option>Basse</option></select>
+        <button class="btn btn-blue full" onclick="addProject()">Créer projet</button>
+      </div>
+      <div id="adminProjects" style="margin-top:18px"></div>
+    </div>
+    <div class="card">
+      <h3>Gérer les utilisateurs</h3>
+      <div class="form-grid">
+        <input id="auName" placeholder="Nom utilisateur">
+        <input id="auRole" placeholder="Fonction">
+        <button class="btn btn-blue full" onclick="addUser()">Ajouter utilisateur</button>
+      </div>
+      <div id="adminUsers" style="margin-top:18px"></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div id="roadModal" class="road-modal">
+  <div class="road-panel">
+    <div class="road-head"><h2 id="roadTitle">Roadmap</h2><button class="btn btn-white" onclick="closeRoadmap()">Fermer</button></div>
+    <div class="road-body">
+      <div class="road-filters">
+        <div class="legend">
+          <span><i class="dot" style="background:var(--blue)"></i>En cours</span>
+          <span><i class="dot" style="background:var(--green)"></i>Terminé</span>
+          <span><i class="dot" style="background:var(--red)"></i>Retard auto</span>
+          <span><i class="dot" style="background:#667085"></i>À venir</span>
+          <span><i class="dot" style="background:#344054"></i>Bloqué</span>
+          <span>✎ Modifié</span>
+        </div>
+        <div class="actions" id="roadFilters"></div>
+      </div>
+      <div class="gantt-wrap"><div class="gantt" id="gantt"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="modal" class="modal">
+  <div class="panel simple-panel">
+    <div class="modal-head">
+      <div><span id="modalBadge" class="chip s-ongoing">Détail</span><h2 id="modalTitle" style="margin-top:8px">Titre</h2><div id="modalSub" class="modal-sub"></div></div>
+      <button class="btn btn-white" onclick="closeModal()">Fermer</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div id="formModal" class="modal">
+  <div class="panel form-panel">
+    <div class="modal-head"><h2 id="formTitle">Formulaire</h2><button class="btn btn-white" onclick="closeForm()">Fermer</button></div>
+    <div class="modal-body" id="formBody"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const KEY='aos_cockpit_validated_home_v1';
+let db=load();
+let roadMode='projects';
+let adminOK=false;
+
+function demo(){
+  return {
+    password:'aos2026',
+    last:new Date().toLocaleString('fr-FR'),
+    history:[
+      {date:'26/06/2026 09:15',user:'Omar Hamzé',object:'Action "Réunion de cadrage"',old:'En cours',new:'Terminé',reason:'Validation de la réunion'},
+      {date:'25/06/2026 14:30',user:'Omar Hamzé',object:'WP "Benchmark Nantes"',old:'En cours',new:'Bloqué',reason:'Attente retour externe'},
+      {date:'24/06/2026 11:00',user:'Omar Hamzé',object:'Action "Création des maquettes"',old:'-',new:'Ajoutée',reason:'Structuration du projet'}
+    ],
+    users:[
+      {id:'u1',name:'Omar Hamzé',role:'AOS'},
+      {id:'u2',name:'Lucas Martin',role:'AOS'},
+      {id:'u3',name:'Sarah Moreau',role:'AOS'}
+    ],
+    projects:[
+      {id:'p1',name:'AOS Cockpit',owner:'u1',sector:'AOS',priority:'Haute',archived:false},
+      {id:'p2',name:'KPI WIP',owner:'u1',sector:'PE',priority:'Moyenne',archived:false},
+      {id:'p3',name:'Déploiement 5S',owner:'u2',sector:'ODYL',priority:'Moyenne',archived:false},
+      {id:'p4',name:'Standardisation routines',owner:'u3',sector:'ODYS',priority:'Basse',archived:false}
+    ],
+    wps:[
+      {id:'w1',project:'p1',name:'Cadrage du besoin',owner:'u1',start:'2026-06-22',end:'2026-06-28',status:'done',comment:'Définir le besoin métier.',modified:true,history:['Création WP','Date modifiée · Motif : réunion équipe']},
+      {id:'w2',project:'p1',name:'Maquette visuelle',owner:'u1',start:'2026-06-29',end:'2026-07-08',status:'ongoing',comment:'Construire la forme cible.',modified:false,history:['Création WP']},
+      {id:'w3',project:'p2',name:'Benchmark Nantes',owner:'u1',start:'2026-06-26',end:'2026-07-05',status:'blocked',comment:'Échange avec Nantes.',modified:true,history:['Contact lancé']},
+      {id:'w4',project:'p3',name:'Diagnostic terrain',owner:'u2',start:'2026-06-18',end:'2026-06-25',status:'ongoing',comment:'Audit initial.',modified:false,history:['Création WP']}
+    ],
+    actions:[
+      {id:'a1',wp:'w1',title:'Formaliser besoins équipe',start:'2026-06-22',end:'2026-06-24',status:'done',people:['u1','u2'],comment:'Préparer réunion.',blockCause:'',history:['Création action']},
+      {id:'a2',wp:'w2',title:'Design cockpit',start:'2026-06-29',end:'2026-07-04',status:'ongoing',people:['u1'],comment:'Maquette V2.',blockCause:'',history:['Création action']},
+      {id:'a3',wp:'w3',title:'Synthèse benchmark',start:'2026-07-01',end:'2026-07-08',status:'blocked',people:['u1'],comment:'Attente retour Nantes.',blockCause:'Retour Nantes non reçu',history:['Création action']},
+      {id:'a4',wp:'w4',title:'Visite terrain',start:'2026-06-18',end:'2026-06-25',status:'ongoing',people:['u2','u3'],comment:'En retard.',blockCause:'',history:['Création action']}
+    ]
+  }
+}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||demo()}catch(e){return demo()}}
+function save(msg){
+  db.last=new Date().toLocaleString('fr-FR');
+  localStorage.setItem(KEY,JSON.stringify(db));
+  renderAll();
+  toast(msg||'Enregistré');
+}
+function uid(p){return p+Date.now()+Math.random().toString(16).slice(2)}
+function activeProjects(){return db.projects.filter(p=>!p.archived)}
+function user(id){return db.users.find(u=>u.id===id)||{name:'N/A',role:''}}
+function project(id){return db.projects.find(p=>p.id===id)}
+function wp(id){return db.wps.find(w=>w.id===id)}
+function actionsOfWp(wid){return db.actions.filter(a=>a.wp===wid)}
+function effectiveStatus(x){
+  return x.status!=='done'&&x.status!=='blocked'&&x.end&&new Date(x.end+'T23:59:59')<new Date()?'late':x.status;
+}
+function stTxt(s){return {ongoing:'en cours',done:'terminé',late:'retard',planned:'à venir',blocked:'bloqué'}[s]||s}
+function stClass(s){return 's-'+s}
+function barClass(s){return s==='done'?'green':s==='late'?'red':s==='blocked'?'dark':s==='planned'?'grey':'blue'}
+function fmt(d){if(!d)return'';let [y,m,day]=d.split('-');return `${day}/${m}/${y}`}
+function pctByStatus(s){return s==='done'?100:s==='blocked'?20:s==='late'?35:s==='planned'?5:60}
+function pctProject(pid){
+  let w=db.wps.filter(x=>x.project===pid);
+  if(!w.length)return 0;
+  return Math.round(w.reduce((a,x)=>a+pctByStatus(effectiveStatus(x)),0)/w.length);
+}
+function pctUser(uid){
+  let a=db.actions.filter(x=>x.people.includes(uid));
+  if(!a.length)return 0;
+  return Math.round(a.reduce((s,x)=>s+pctByStatus(effectiveStatus(x)),0)/a.length);
+}
+function addHistory(object,oldVal,newVal,reason,userName='Omar Hamzé'){
+  db.history.unshift({date:new Date().toLocaleString('fr-FR'),user:userName,object,old:oldVal,new:newVal,reason});
+}
+function reason(){
+  let r=prompt('Motif obligatoire :');
+  return r&&r.trim()?r.trim():null;
+}
+function toast(t){
+  let e=document.getElementById('toast');
+  e.textContent=t;
+  e.classList.add('show');
+  setTimeout(()=>e.classList.remove('show'),1800);
+}
+function showView(v){
+  if(v==='admin'&&!adminOK)return askAdmin();
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  document.getElementById(v).classList.add('active');
+}
+function askAdmin(){
+  let c=prompt('Code responsable :');
+  if(c===db.password){adminOK=true;showView('admin')}
+  else if(c!==null)alert('Code incorrect');
+}
+function renderAll(){
+  lastUpdate.textContent=db.last||'-';
+  renderHome();
+  renderProjects();
+  renderPeople();
+  renderAdmin();
+  notifCount.textContent=alerts().length;
+  if(roadModal.classList.contains('show'))renderRoadmap();
+}
+function renderHome(){
+  let open=db.actions.filter(a=>a.status!=='done').length;
+  homeKpis.innerHTML=`<div class="home-kpi"><div class="num">${activeProjects().length}</div><div class="label">Projets actifs</div></div><div class="home-kpi"><div class="num">${db.users.length}</div><div class="label">Membres équipe</div></div><div class="home-kpi"><div class="num">${open}</div><div class="label">Actions en cours</div></div>`;
+}
+function renderProjects(){
+  let q=(projectSearch?.value||'').toLowerCase();
+  projectsRows.innerHTML=activeProjects().filter(p=>p.name.toLowerCase().includes(q)||p.sector.toLowerCase().includes(q)||user(p.owner).name.toLowerCase().includes(q)).map(p=>{
+    let pc=pctProject(p.id),late=db.wps.some(w=>w.project===p.id&&effectiveStatus(w)==='late'),blocked=db.wps.some(w=>w.project===p.id&&effectiveStatus(w)==='blocked'),s=pc>=100?'done':blocked?'blocked':late?'late':'ongoing';
+    return `<tr><td>${p.name}</td><td>${p.sector}</td><td><span class="chip ${stClass(s)}">${stTxt(s)}</span></td><td><div class="progress"><div class="track"><div class="fill" style="width:${pc}%;background:${s==='late'?'var(--red)':pc>=100?'var(--green)':s==='blocked'?'var(--dark)':'var(--blue)'}"></div></div>${pc}%</div></td><td>${user(p.owner).name}</td></tr>`;
+  }).join('');
+}
+function renderPeople(){
+  let q=(peopleSearch?.value||'').toLowerCase();
+  peopleRows.innerHTML=db.users.filter(u=>u.name.toLowerCase().includes(q)||u.role.toLowerCase().includes(q)).map(u=>{
+    let a=db.actions.filter(x=>x.people.includes(u.id)),pids=[...new Set(a.map(x=>wp(x.wp)?.project).filter(Boolean))],pc=pctUser(u.id),late=a.some(x=>effectiveStatus(x)==='late'),blocked=a.some(x=>effectiveStatus(x)==='blocked'),s=pc>=100?'done':blocked?'blocked':late?'late':'ongoing';
+    return `<tr><td>${u.name}</td><td>${u.role}</td><td>${pids.length}</td><td>${a.filter(x=>x.status!=='done').length}</td><td><span class="chip ${stClass(s)}">${stTxt(s)}</span></td><td><div class="progress"><div class="track"><div class="fill" style="width:${pc}%;background:${s==='late'?'var(--red)':pc>=100?'var(--green)':s==='blocked'?'var(--dark)':'var(--blue)'}"></div></div>${pc}%</div></td></tr>`;
+  }).join('');
+}
+function renderAdmin(){
+  apOwner.innerHTML=db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('');
+  adminProjects.innerHTML=activeProjects().map(p=>`<div class="mini"><div><b>${p.name}</b><br><span style="color:var(--muted);font-size:12px">${p.sector} · ${p.priority} · ${user(p.owner).name}</span></div><div class="actions"><button class="btn btn-white" onclick="openProjectForm('${p.id}')">Modifier</button><button class="btn btn-red" onclick="archiveProject('${p.id}')">Archiver</button></div></div>`).join('');
+  adminUsers.innerHTML=db.users.map(u=>`<div class="mini"><div><b>${u.name}</b><br><span style="color:var(--muted);font-size:12px">${u.role}</span></div><button class="btn btn-white" onclick="openUserForm('${u.id}')">Modifier</button></div>`).join('');
+}
+function addProject(){
+  if(!apName.value.trim())return toast('Nom projet obligatoire');
+  let p={id:uid('p'),name:apName.value.trim(),owner:apOwner.value,sector:(apSector.value||'AOS').toUpperCase(),priority:apPriority.value,archived:false};
+  db.projects.push(p);
+  addHistory(`Projet "${p.name}"`,'-','Création','Création depuis Administration');
+  apName.value='';apSector.value='';
+  save('Projet créé');
+}
+function addUser(){
+  if(!auName.value.trim())return toast('Nom utilisateur obligatoire');
+  let u={id:uid('u'),name:auName.value.trim(),role:auRole.value||'AOS'};
+  db.users.push(u);
+  addHistory(`Utilisateur "${u.name}"`,'-','Création','Création depuis Administration');
+  auName.value='';auRole.value='';
+  save('Utilisateur ajouté');
+}
+function openProjectForm(pid){
+  let p=project(pid);
+  formTitle.textContent='Modifier projet';
+  formBody.innerHTML=`<div class="form-grid"><input id="fpName" class="full" value="${p.name}"><select id="fpOwner">${db.users.map(u=>`<option value="${u.id}" ${p.owner===u.id?'selected':''}>${u.name}</option>`).join('')}</select><select id="fpPriority"><option ${p.priority==='Haute'?'selected':''}>Haute</option><option ${p.priority==='Moyenne'?'selected':''}>Moyenne</option><option ${p.priority==='Basse'?'selected':''}>Basse</option></select><input id="fpSector" class="full" value="${p.sector}" oninput="this.value=this.value.toUpperCase()"><button class="btn btn-blue full" onclick="saveProjectForm('${pid}')">Enregistrer</button></div>`;
+  formModal.classList.add('show');
+}
+function saveProjectForm(pid){
+  let p=project(pid),r=reason();if(!r)return;
+  addHistory(`Projet "${p.name}"`,`${p.name} / ${p.sector} / ${user(p.owner).name}`,`${fpName.value} / ${fpSector.value.toUpperCase()} / ${user(fpOwner.value).name}`,r);
+  p.name=fpName.value;p.owner=fpOwner.value;p.priority=fpPriority.value;p.sector=fpSector.value.toUpperCase();
+  closeForm();save('Projet modifié');
+}
+function archiveProject(pid){
+  let p=project(pid),r=reason();if(!r)return;
+  p.archived=true;
+  addHistory(`Projet "${p.name}"`,'Actif','Archivé',r);
+  save('Projet archivé');
+}
+function openUserForm(uid){
+  let u=db.users.find(x=>x.id===uid);
+  formTitle.textContent='Modifier utilisateur';
+  formBody.innerHTML=`<div class="form-grid"><input id="fuName" value="${u.name}"><input id="fuRole" value="${u.role}"><button class="btn btn-blue full" onclick="saveUserForm('${uid}')">Enregistrer</button></div>`;
+  formModal.classList.add('show');
+}
+function saveUserForm(uid){
+  let u=db.users.find(x=>x.id===uid),r=reason();if(!r)return;
+  addHistory(`Utilisateur "${u.name}"`,`${u.name} / ${u.role}`,`${fuName.value} / ${fuRole.value}`,r);
+  u.name=fuName.value;u.role=fuRole.value;
+  closeForm();save('Utilisateur modifié');
+}
+function changePassword(){
+  let n=prompt('Nouveau code responsable :');
+  if(n){db.password=n;addHistory('Mot de passe responsable','Ancien code','Nouveau code','Modification responsable');save('Mot de passe modifié')}
+}
+function alerts(){
+  return [...db.actions.filter(a=>effectiveStatus(a)==='late'||effectiveStatus(a)==='blocked'),...db.wps.filter(w=>effectiveStatus(w)==='blocked')];
+}
+function openNotifications(){
+  let rows=alerts().map(x=>{
+    if(x.title){let w=wp(x.wp);return `<div class="line"><span>${new Date().toISOString().slice(0,10)}</span><b>⚠ Action "${x.title}" en ${stTxt(effectiveStatus(x))} (WP ${w?.name})</b></div>`}
+    return `<div class="line"><span>${new Date().toISOString().slice(0,10)}</span><b>🔔 WP "${x.name}" bloqué</b></div>`
+  }).join('')||'<p>Aucune alerte.</p>';
+  openSimple('Notifications',rows);
+}
+function openHistory(){
+  let rows=db.history.map(h=>`<div class="line"><span>${h.date}</span><b>${h.object}</b><span>${h.old} → ${h.new}</span><em>${h.reason}</em></div>`).join('')||'<p>Aucun historique.</p>';
+  openSimple('Historique des modifications',rows);
+}
+function openGuide(){
+  openSimple('Guide utilisateur',`<div class="box"><h4>Accueil</h4><p>Vue globale : projets, membres, actions ouvertes et dernière mise à jour.</p></div><div class="box"><h4>Projets</h4><p>Liste des projets et accès à la roadmap des WP.</p></div><div class="box"><h4>Équipe</h4><p>Liste des membres et roadmap des actions par personne.</p></div><div class="box"><h4>Administration</h4><p>Création des projets et utilisateurs. Accès protégé par code responsable.</p></div><div class="box"><h4>Historique</h4><p>Toute modification importante demande un motif et alimente l'historique.</p></div>`);
+}
+function openExport(){
+  openSimple('Exporter / Imprimer',`<div class="actions"><button class="btn btn-blue" onclick="window.print()">Imprimer</button><button class="btn btn-white" onclick="exportJson()">Exporter JSON</button><button class="btn btn-white" onclick="exportCsv()">Exporter CSV</button></div>`);
+}
+function exportJson(){download('aos-cockpit.json',JSON.stringify(db,null,2),'application/json')}
+function exportCsv(){
+  let rows=[['Type','Nom','Projet/WP','Statut','Début','Fin'],...db.wps.map(w=>['WP',w.name,project(w.project)?.name,stTxt(effectiveStatus(w)),w.start,w.end]),...db.actions.map(a=>['Action',a.title,wp(a.wp)?.name,stTxt(effectiveStatus(a)),a.start,a.end])];
+  download('aos-cockpit.csv',rows.map(r=>r.map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(';')).join('\\n'),'text/csv');
+}
+function download(name,content,type){
+  let blob=new Blob([content],{type});
+  let a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=name;
+  a.click();
+}
+function openRoadmap(mode){
+  roadMode=mode;
+  roadModal.classList.add('show');
+  renderRoadmap();
+}
+function closeRoadmap(){roadModal.classList.remove('show')}
+function renderRoadmap(){
+  roadTitle.textContent=roadMode==='projects'?'Roadmap projets':'Roadmap équipe';
+  roadFilters.innerHTML=roadMode==='projects'
+  ? `<select id="fProj" onchange="drawGantt()"><option value="">Tous les projets</option>${activeProjects().map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select><select id="fOwner" onchange="drawGantt()"><option value="">Tous responsables</option>${db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('')}</select><select id="fStatus" onchange="drawGantt()"><option value="">Tous statuts</option><option value="ongoing">En cours</option><option value="done">Terminé</option><option value="late">Retard</option><option value="blocked">Bloqué</option><option value="planned">À venir</option></select><button class="btn btn-blue" onclick="openWpForm()">+ Ajouter WP</button>`
+  : `<select id="fPerson" onchange="drawGantt()">${db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('')}</select><select id="fPProject" onchange="drawGantt()"><option value="">Tous projets</option>${activeProjects().map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select><select id="fPStatus" onchange="drawGantt()"><option value="">Tous statuts</option><option value="ongoing">En cours</option><option value="done">Terminé</option><option value="late">Retard</option><option value="blocked">Bloqué</option><option value="planned">À venir</option></select><button class="btn btn-blue" onclick="openActionForm()">+ Ajouter action</button>`;
+  drawGantt();
+}
+const base=new Date('2026-06-01'),left=410,px=10;
+function days(a,b){return Math.round((b-a)/86400000)}
+function xpos(d){return left+days(base,new Date(d))*px}
+function wpx(s,e){return Math.max(72,(days(new Date(s),new Date(e))+1)*px)}
+function months(){
+  return `<div class="g-left-head"><span>Élément</span><span>Responsable</span></div>
+  <div class="month" style="left:410px;width:300px">Juin 2026</div>
+  <div class="month" style="left:710px;width:310px">Juillet 2026</div>
+  <div class="month" style="left:1020px;width:310px">Août 2026</div>
+  <div class="month" style="left:1330px;width:300px">Septembre 2026</div>
+  <span class="today-label" style="left:${left+days(base,new Date())*px}px">Aujourd'hui</span>`;
+}
+function grids(){
+  return `<span class="gridline major" style="left:410px"></span>
+  <span class="gridline major" style="left:710px"></span>
+  <span class="gridline major" style="left:1020px"></span>
+  <span class="gridline major" style="left:1330px"></span>
+  <span class="gridline" style="left:560px"></span>
+  <span class="gridline" style="left:865px"></span>
+  <span class="gridline" style="left:1175px"></span>
+  <span class="gridline" style="left:1480px"></span>
+  <span class="today" style="left:${left+days(base,new Date())*px}px"></span>`;
+}
+function groupBy(items,key){
+  let map={};
+  items.forEach(i=>{let k=key(i)||'Autre';(map[k]=map[k]||[]).push(i)});
+  return map;
+}
+function initials(name){
+  return (name||'').split(' ').filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+}
+function drawGantt(){
+  let items=[];
+  if(roadMode==='projects'){
+    let pf=fProj?.value||'',of=fOwner?.value||'',sf=fStatus?.value||'';
+    items=db.wps
+      .filter(w=>activeProjects().some(p=>p.id===w.project))
+      .filter(w=>(!pf||w.project===pf)&&(!of||w.owner===of)&&(!sf||effectiveStatus(w)===sf))
+      .map(w=>({type:'wp',id:w.id,title:w.name,start:w.start,end:w.end,status:effectiveStatus(w),project:project(w.project)?.name,owner:user(w.owner).name,meta:'WP',mod:w.modified}));
+  }else{
+    let uid=fPerson?.value||db.users[0]?.id,pf=fPProject?.value||'',sf=fPStatus?.value||'';
+    items=db.actions
+      .filter(a=>a.people.includes(uid))
+      .filter(a=>!pf||project(wp(a.wp)?.project)?.id===pf)
+      .filter(a=>!sf||effectiveStatus(a)===sf)
+      .map(a=>{let w=wp(a.wp),p=project(w?.project);return{type:'action',id:a.id,title:a.title,start:a.start,end:a.end,status:effectiveStatus(a),project:p?.name,owner:a.people.map(u=>user(u).name).join(', '),meta:'WP : '+(w?.name||''),people:a.people.length}});
+  }
+  let grouped=groupBy(items,it=>it.project);
+  let html=`<div class="g-head">${months()}</div><div style="position:relative;min-height:420px">${grids()}`;
+  let y=0;
+  Object.entries(grouped).forEach(([projectName,arr])=>{
+    html+=`<div class="project-header"><div class="project-title"><i class="fa-solid fa-folder"></i>${projectName}</div></div>`;
+    y+=52;
+    arr.forEach(it=>{
+      let ownerInitials = roadMode==='projects' ? initials(it.owner) : (it.people>1 ? it.people+'P' : initials(it.owner));
+      html+=`<div class="row">
+        <div class="row-label"><strong>${it.title}</strong><span>${it.owner||''}</span></div>
+        <button class="bar ${barClass(it.status)}" style="left:${xpos(it.start)}px;width:${wpx(it.start,it.end)}px" onclick="${it.type==='wp'?`openWp('${it.id}')`:`openAction('${it.id}')`}">
+          ${it.title}
+          <span class="mark">${ownerInitials}</span>
+          ${it.mod?'<span class="mark">✎</span>':''}
+        </button>
+      </div>`;
+      y+=64;
+    });
+  });
+  if(!items.length)html+='<div style="padding:80px 450px;color:#8b98ad;font-weight:900">Aucun élément selon les filtres.</div>';
+  html+='</div>';
+  gantt.style.height=(y+58)+'px';
+  gantt.innerHTML=html;
+}
+function openWp(id){
+  let w=wp(id),p=project(w.project),a=actionsOfWp(id);
+  modalBadge.textContent='Work Package';modalBadge.className='chip s-ongoing';
+  modalTitle.textContent=w.name;modalSub.textContent=`${p.name} · ${fmt(w.start)} → ${fmt(w.end)}`;
+  modalBody.innerHTML=`<div class="grid2"><div><div class="box"><h4>Commentaire</h4><textarea onchange="editWpComment('${id}',this.value)">${w.comment||''}</textarea></div><div class="box"><h4>Actions liées</h4><table><thead><tr><th>Action</th><th>Responsable</th><th>Statut</th><th>Avancement</th><th>Dates</th><th></th></tr></thead><tbody>${a.map(x=>`<tr><td>${x.title}</td><td>${x.people.map(u=>user(u).name).join(', ')}</td><td><span class="chip ${stClass(effectiveStatus(x))}">${stTxt(effectiveStatus(x))}</span></td><td>${pctByStatus(effectiveStatus(x))}%</td><td>${fmt(x.start)} → ${fmt(x.end)}</td><td><button class="btn btn-white" onclick="openAction('${x.id}')">Modifier</button></td></tr>`).join('')}</tbody></table></div></div><div><div class="box"><h4>Pilotage</h4><p><b>Projet :</b> ${p.name}</p><p><b>Responsable :</b> ${user(w.owner).name}</p><p><b>Statut :</b> ${stTxt(effectiveStatus(w))}</p></div><div class="box"><h4>Historique</h4>${(w.history||[]).map(h=>`<div class="hist">${h}</div>`).join('')}</div><button class="btn btn-blue" onclick="openActionForm('${id}')">Ajouter action</button></div></div>`;
+  modal.classList.add('show');
+}
+function openAction(id){
+  let a=db.actions.find(x=>x.id===id),w=wp(a.wp),p=project(w.project);
+  modalBadge.textContent='Action';modalBadge.className='chip s-ongoing';
+  modalTitle.textContent=a.title;modalSub.textContent=`${p.name} · WP : ${w.name} · ${fmt(a.start)} → ${fmt(a.end)}`;
+  modalBody.innerHTML=`<div class="grid2"><div><div class="box"><h4>Commentaire</h4><textarea onchange="editActionComment('${id}',this.value)">${a.comment||''}</textarea></div><div class="box"><h4>Cause blocage</h4><textarea id="blockCause_${id}" onchange="editBlockCause('${id}',this.value)">${a.blockCause||''}</textarea></div></div><div><div class="box"><h4>Pilotage</h4><p><b>Statut :</b> <select onchange="editActionStatus('${id}',this.value)"><option value="planned"${a.status==='planned'?' selected':''}>À venir</option><option value="ongoing"${a.status==='ongoing'?' selected':''}>En cours</option><option value="done"${a.status==='done'?' selected':''}>Terminé</option><option value="blocked"${a.status==='blocked'?' selected':''}>Bloqué</option></select></p><p><b>Responsables :</b> ${a.people.map(u=>user(u).name).join(', ')}</p></div><div class="box"><h4>Historique</h4>${(a.history||[]).map(h=>`<div class="hist">${h}</div>`).join('')}</div></div></div>`;
+  modal.classList.add('show');
+}
+function closeModal(){modal.classList.remove('show')}
+function closeForm(){formModal.classList.remove('show')}
+function editWpComment(id,val){
+  let r=reason();if(!r)return;
+  let w=wp(id),old=w.comment||'';
+  w.comment=val;w.modified=true;
+  w.history.push(`${new Date().toLocaleString('fr-FR')} · Commentaire modifié · Motif : ${r}`);
+  addHistory(`WP "${w.name}" commentaire`,old,val,r);
+  save('WP modifié');
+}
+function editActionComment(id,val){
+  let r=reason();if(!r)return;
+  let a=db.actions.find(x=>x.id===id),old=a.comment||'';
+  a.comment=val;
+  a.history.push(`${new Date().toLocaleString('fr-FR')} · Commentaire modifié · Motif : ${r}`);
+  addHistory(`Action "${a.title}" commentaire`,old,val,r);
+  save('Action modifiée');
+}
+function editBlockCause(id,val){
+  let r=reason();if(!r)return;
+  let a=db.actions.find(x=>x.id===id),old=a.blockCause||'';
+  a.blockCause=val;
+  a.history.push(`${new Date().toLocaleString('fr-FR')} · Cause blocage modifiée · Motif : ${r}`);
+  addHistory(`Action "${a.title}" cause blocage`,old,val,r);
+  save('Cause blocage modifiée');
+}
+function editActionStatus(id,val){
+  let a=db.actions.find(x=>x.id===id);
+  if(val==='blocked'&&!a.blockCause){
+    let c=prompt('Cause du blocage obligatoire :');
+    if(!c)return;
+    a.blockCause=c;
+  }
+  let r=reason();if(!r)return;
+  let old=a.status;
+  a.status=val;
+  a.history.push(`${new Date().toLocaleString('fr-FR')} · Statut ${stTxt(old)} → ${stTxt(val)} · Motif : ${r}`);
+  addHistory(`Action "${a.title}" statut`,stTxt(old),stTxt(val),r);
+  save('Statut modifié');
+}
+function openWpForm(){
+  formTitle.textContent='Ajouter un Work Package';
+  formBody.innerHTML=`<div class="form-grid"><select id="fwProject" class="full">${activeProjects().map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select><input id="fwName" class="full" placeholder="Nom WP"><select id="fwOwner">${db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('')}</select><select id="fwStatus"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option><option value="blocked">Bloqué</option></select><input id="fwStart" type="date"><input id="fwEnd" type="date"><textarea id="fwComment" class="full" placeholder="Commentaire"></textarea><button class="btn btn-blue full" onclick="saveWp()">Ajouter WP</button></div>`;
+  formModal.classList.add('show');
+}
+function saveWp(){
+  if(!fwName.value||!fwStart.value||!fwEnd.value)return toast('Champs obligatoires');
+
+  let w={
+    id:uid('w'),
+    project:fwProject.value,
+    name:fwName.value,
+    owner:fwOwner.value,
+    start:fwStart.value,
+    end:fwEnd.value,
+    status:fwStatus.value,
+    comment:fwComment.value,
+    modified:false,
+    history:['Création WP']
+  };
+
+  db.wps.push(w);
+
+  /*
+    Liaison automatique Projet → WP → Équipe :
+    La vue Équipe affiche les ACTIONS. Donc lorsqu’un WP est créé,
+    on crée automatiquement une action de suivi liée à ce WP, affectée
+    au responsable du WP. Elle reprend les dates du WP pour que le WP
+    soit visible immédiatement dans la roadmap personne.
+  */
+  let a={
+    id:uid('a'),
+    wp:w.id,
+    title:'Suivi - '+w.name,
+    start:w.start,
+    end:w.end,
+    status:w.status,
+    people:[w.owner],
+    comment:'Action automatique créée à partir du WP pour alimenter la vue Équipe.',
+    blockCause:'',
+    history:['Création automatique depuis le WP']
+  };
+
+  db.actions.push(a);
+
+  addHistory(`WP "${w.name}"`,'-','Création','Création depuis Roadmap');
+  addHistory(`Action "${a.title}"`,'-','Création automatique',`Liaison avec le WP "${w.name}"`);
+
+  closeForm();
+  save('WP ajouté et lié à la vue Équipe');
+}
+function openActionForm(wid=''){
+  formTitle.textContent='Ajouter une action';
+  formBody.innerHTML=`<div class="form-grid"><select id="faWp" class="full">${db.wps.map(w=>`<option value="${w.id}" ${w.id===wid?'selected':''}>${project(w.project)?.name} · ${w.name}</option>`).join('')}</select><input id="faTitle" class="full" placeholder="Nom action"><input id="faStart" type="date"><input id="faEnd" type="date"><select id="faStatus"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option><option value="blocked">Bloqué</option></select><div class="full">${db.users.map(u=>`<label style="margin-right:12px"><input class="assignee" type="checkbox" value="${u.id}"> ${u.name}</label>`).join('')}</div><textarea id="faComment" class="full" placeholder="Commentaire"></textarea><textarea id="faBlock" class="full" placeholder="Cause blocage si statut bloqué"></textarea><button class="btn btn-blue full" onclick="saveAction()">Ajouter action</button></div>`;
+  formModal.classList.add('show');
+}
+function saveAction(){
+  let people=[...document.querySelectorAll('.assignee:checked')].map(x=>x.value),w=wp(faWp.value);
+  if(!faTitle.value||!faStart.value||!faEnd.value||!people.length)return toast('Champs obligatoires');
+  if(new Date(faStart.value)<new Date(w.start)||new Date(faEnd.value)>new Date(w.end)){alert('Action hors période du WP : impossible.');return}
+  if(faStatus.value==='blocked'&&!faBlock.value.trim()){alert('Cause du blocage obligatoire.');return}
+  let a={id:uid('a'),wp:faWp.value,title:faTitle.value,start:faStart.value,end:faEnd.value,status:faStatus.value,people,comment:faComment.value,blockCause:faBlock.value,history:['Création action']};
+  db.actions.push(a);
+  addHistory(`Action "${a.title}"`,'-','Création','Création depuis Roadmap');
+  checkWpCoverage(w.id);
+  closeForm();save('Action ajoutée');
+}
+function checkWpCoverage(wid){
+  let w=wp(wid),a=actionsOfWp(wid);
+  if(!a.length)return;
+  let min=a.reduce((m,x)=>x.start<m?x.start:m,a[0].start),max=a.reduce((m,x)=>x.end>m?x.end:m,a[0].end);
+  if(min!==w.start||max!==w.end){alert('Avertissement cohérence : la première action doit commencer au début du WP et la dernière action doit finir à la fin du WP.')}
+}
+function openSimple(t,body){
+  modalBadge.textContent='Cockpit';
+  modalBadge.className='chip s-ongoing';
+  modalTitle.textContent=t;
+  modalSub.textContent='';
+  modalBody.innerHTML=body;
+  modal.classList.add('show');
+}
+renderAll();
+</script>
+</body>
+</html>
