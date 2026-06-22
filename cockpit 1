@@ -3,200 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AOS Cockpit - Version Pro Transverse</title>
+<title>AOS Cockpit - CDT Multi & Gantt illimité</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
 :root{
-  --airbus:#002f6c;
-  --blue:#2563eb;
-  --green:#16a34a;
-  --red:#dc2626;
-  --orange:#f59e0b;
-  --dark:#344054;
-  --grey:#64748b;
-  --bg:#f8fafc;
-  --line:#e2e8f0;
-  --text:#0f172a;
-  --muted:#64748b;
+  --airbus:#002f6c;--blue:#2563eb;--green:#16a34a;--red:#dc2626;--orange:#f59e0b;--dark:#344054;
+  --bg:#f8fafc;--line:#e2e8f0;--text:#0f172a;--muted:#64748b;
 }
 *{box-sizing:border-box}
-body{ margin:0; background:var(--bg); color:var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-button,input,select,textarea{font-family:inherit}
-button{cursor:pointer}
-.app{ min-height:100vh; display: flex; flex-direction: column; }
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',Arial,sans-serif}
+button,input,select,textarea{font-family:inherit}button{cursor:pointer}
+.app{min-height:100vh;display:flex;flex-direction:column}
+.header{height:78px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 32px;gap:20px;box-shadow:0 1px 3px rgba(0,0,0,.02);z-index:200;position:relative}
+.airbus{color:var(--airbus);font-weight:900;line-height:.85;flex-shrink:0}.airbus .big{font-size:34px;letter-spacing:-2px}.airbus .small{font-size:14px;margin-top:4px}
+.center-title{flex:1;text-align:center;min-width:220px}.center-title h1{margin:0;color:var(--airbus);font-size:26px;letter-spacing:-.03em}.center-title div{color:var(--muted);font-size:12px;font-weight:700;margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
+.header-actions{display:flex;justify-content:flex-end;align-items:center;gap:10px;flex-shrink:0}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.15s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 6px rgba(0,0,0,.05)}
+.btn-navy{background:var(--airbus);color:#fff}.btn-white{background:#fff;color:var(--airbus);border:1px solid #cbd5e1}.btn-blue{background:var(--blue);color:#fff}.btn-red{background:#fff1f2;color:var(--red);border:1px solid #fecdd3}.btn-green{background:#ecfdf3;color:#047857;border:1px solid #bbf7d0}
+.icon-btn{width:40px;height:40px;border-radius:10px;border:1px solid #cbd5e1;background:#fff;color:var(--airbus);font-size:16px;position:relative;display:inline-flex;align-items:center;justify-content:center;transition:.15s}.icon-btn:hover{background:#f8fafc}
+.badge{position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 4px rgba(239,68,68,.3)}
+.view{display:none;flex:1}.view.active{display:block}.d-none{display:none!important}
 
-/* HEADER EPURÉ */
-.header{ height:78px; background:white; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; padding:0 32px; gap:20px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); z-index: 200; position: relative;}
-.airbus{ color:var(--airbus); font-weight:900; line-height:.85; flex-shrink:0; }
-.airbus .big{ font-size:34px; letter-spacing:-2px; }
-.airbus .small{ font-size:14px; margin-top:4px; }
-.center-title{ flex:1; text-align:center; min-width:200px; }
-.center-title h1{ margin:0; color:var(--airbus); font-size:26px; letter-spacing:-.03em; }
-.center-title div{ color:var(--muted); font-size:12px; font-weight:700; margin-top:3px; text-transform: uppercase; letter-spacing: 0.05em;}
-.header-actions{ display:flex; justify-content:flex-end; align-items:center; gap:10px; flex-shrink:0; }
+/* HOME validée */
+.home{padding:60px 40px}.home h2{text-align:center;color:var(--airbus);font-size:40px;letter-spacing:-.02em;margin:0 0 12px;font-weight:900}.home-sub{text-align:center;color:var(--muted);font-size:16px;font-weight:600;margin-bottom:50px}
+.home-kpis{display:flex;justify-content:center;gap:20px;margin-bottom:40px;flex-wrap:wrap}.home-kpi{background:#fff;border:1px solid var(--line);border-radius:16px;width:260px;height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,.03)}
+.home-kpi .num{color:var(--airbus);font-size:38px;line-height:1;font-weight:900}.home-kpi .label{margin-top:6px;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.home-tiles{display:flex;justify-content:center;gap:30px;flex-wrap:wrap}.home-tile{width:280px;height:160px;background:#fff;border:1px solid var(--line);border-radius:16px;color:var(--airbus);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.2s;box-shadow:0 4px 15px rgba(0,0,0,.03);cursor:pointer}
+.home-tile:hover{transform:translateY(-4px);box-shadow:0 12px 25px rgba(0,47,108,.08);border-color:#bfdbfe;background:#f8fbff}.home-tile i{font-size:32px;margin-bottom:12px;color:var(--blue)}.home-tile h3{margin:0;font-size:24px;font-weight:900}.home-tile p{margin:6px 0 0;font-size:13px;font-weight:600;color:var(--muted)}
 
-.btn{ border:0; border-radius:10px; padding:10px 16px; font-size: 13px; font-weight:800; display:inline-flex; align-items:center; gap:8px; transition:.15s; white-space:nowrap; }
-.btn:hover{transform:translateY(-1px); box-shadow: 0 4px 6px rgba(0,0,0,0.05);}
-.btn-navy{background:var(--airbus);color:white}
-.btn-white{background:white;color:var(--airbus);border:1px solid #cbd5e1}
-.btn-blue{background:var(--blue);color:white}
-.btn-red{background:#fff1f2;color:var(--red);border:1px solid #fecdd3}
-.icon-btn{ width:40px; height:40px; border-radius:10px; border:1px solid #cbd5e1; background:white; color:var(--airbus); font-size:16px; position:relative; display:inline-flex; align-items:center; justify-content:center; transition:.15s;}
-.icon-btn:hover{ background: #f8fafc; }
-.badge{ position:absolute; top:-6px; right:-6px; background:#ef4444; color:white; width:20px; height:20px; border-radius:50%; font-size:10px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow: 0 2px 4px rgba(239,68,68,0.3);}
+/* PAGES */
+.page{padding:30px;max-width:1500px;margin:0 auto;width:100%}.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:20px}.page-head h2{margin:0;color:var(--text);font-size:28px;font-weight:900}.page-head p{margin:6px 0 0;color:var(--muted);font-weight:600;font-size:14px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input,select,textarea{border:1px solid #cbd5e1;background:#fff;color:var(--text);border-radius:8px;padding:10px 12px;font-size:13px;outline:none;font-weight:600;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.12)}.search{min-width:240px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 15px rgba(0,0,0,.02);padding:20px}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;padding:12px 16px;border-bottom:2px solid var(--line);letter-spacing:.05em;font-weight:800}td{padding:14px 16px;border-bottom:1px solid #f1f5f9;font-weight:600;font-size:13px;color:var(--text)}
+.row-hover:hover{background:#f8fafc;cursor:pointer}.chip{display:inline-flex;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.02em}
+.s-ongoing{background:#dbeafe;color:#1e40af}.s-done{background:#dcfce7;color:#166534}.s-late{background:#fee2e2;color:#b91c1c}.s-planned{background:#f1f5f9;color:#475569}.s-blocked{background:#e2e8f0;color:#1e293b}
+.progress{display:flex;align-items:center;gap:12px;font-weight:800;font-size:12px}.track{width:100px;height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden}.fill{height:100%;border-radius:999px;background:var(--blue);transition:width .3s}
 
-.view{display:none; flex: 1;}
-.view.active{display:block}
-.d-none{display:none!important;}
+/* MODALS */
+.modal,.road-modal{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(4px);z-index:900;display:none;align-items:center;justify-content:center;padding:20px}.modal.show,.road-modal.show{display:flex}
+.panel{background:var(--bg);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.20);overflow:hidden;display:flex;flex-direction:column}.simple-panel{width:min(1100px,95vw);max-height:92vh}.form-panel{width:min(680px,95vw);max-height:92vh}
+.modal-head{padding:20px 28px;border-bottom:1px solid var(--line);background:#fff;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}.modal-head h2{margin:0;color:var(--text);font-size:24px;font-weight:900}.modal-sub{margin-top:4px;color:var(--muted);font-weight:600;font-size:13px}.modal-body{padding:24px 28px;overflow-y:auto;flex:1}
+.grid2{display:grid;grid-template-columns:1.6fr 1fr;gap:24px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}
+.box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 2px 4px rgba(0,0,0,.02)}.box h4{margin:0 0 16px;color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:.05em;font-weight:900;border-bottom:1px solid var(--line);padding-bottom:8px}
+.mini-form-group{margin-bottom:16px}.mini-form-label{display:block;font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:6px}.mini-input{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;outline:none;color:var(--text);background:#f8fafc;transition:.2s}.mini-input:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;border-radius:8px;padding:12px;font-size:13px;color:var(--text);background:#f8fafc;font-weight:500;line-height:1.5}
+.modal-table{width:100%;border-collapse:collapse;margin-top:8px}.modal-table th{font-size:10px;color:var(--muted);padding:8px;border-bottom:1px solid var(--line);text-transform:uppercase;font-weight:800;text-align:left}.modal-table td{font-size:12px;color:var(--text);padding:8px;border-bottom:1px solid #f1f5f9;font-weight:600}
+.hist{border-left:3px solid #bfdbfe;padding-left:12px;margin-bottom:12px;font-size:12px;line-height:1.4;color:#475569}
+.toast{position:fixed;right:24px;bottom:24px;background:#1e293b;color:#fff;padding:14px 20px;border-radius:10px;display:none;z-index:1000;font-weight:800;font-size:13px;box-shadow:0 10px 25px rgba(0,0,0,.2)}.toast.show{display:block;animation:slideUp .3s}@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-/* HOME */
-.home{ padding:60px 40px; }
-.home h2{ text-align:center; color:var(--airbus); font-size:40px; letter-spacing:-.02em; margin:0 0 12px; font-weight:900; }
-.home-sub{ text-align:center; color:var(--muted); font-size:16px; font-weight:600; margin-bottom:50px; }
-.home-kpis{ display:flex; justify-content:center; gap:20px; margin-bottom:40px; flex-wrap: wrap;}
-.home-kpi{ background:white; border:1px solid var(--line); border-radius:16px; width: 260px; height:100px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 4px 15px rgba(0,0,0,.03); }
-.home-kpi .num{ color:var(--airbus); font-size:38px; line-height:1; font-weight:900; }
-.home-kpi .label{ margin-top:6px; color:var(--muted); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em;}
-.home-tiles{ display:flex; justify-content:center; gap:30px; flex-wrap: wrap;}
-.home-tile{ width: 280px; height:160px; background:white; border:1px solid var(--line); border-radius:16px; color:var(--airbus); display:flex; flex-direction:column; align-items:center; justify-content:center; transition:.2s; box-shadow:0 4px 15px rgba(0,0,0,.03); cursor:pointer;}
-.home-tile:hover{ transform:translateY(-4px); box-shadow:0 12px 25px rgba(0,47,108,.08); border-color: #bfdbfe; background: #f8fbff;}
-.home-tile i{ font-size:32px; margin-bottom:12px; color: var(--blue);}
-.home-tile h3{ margin:0; font-size:24px; font-weight:900; }
-.home-tile p{ margin:6px 0 0; font-size:13px; font-weight:600; color: var(--muted);}
+/* Admin multi */
+.admin-triple-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:10px}.mini{padding:10px;border:1px solid #edf2f7;border-radius:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fff}
+.checkbox-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px}.multi-select{min-height:92px;background:#f8fafc}.help-text{font-size:10px;color:var(--muted);font-weight:700;margin-top:5px;line-height:1.35}.check-pill{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--text);padding:7px 8px;border-radius:7px;background:#fff;border:1px solid #e2e8f0}.check-pill input{accent-color:var(--blue)}.cdt-chip-list{display:flex;flex-wrap:wrap;gap:5px}
 
-/* PAGES & TABLES */
-.page{ padding:30px; max-width: 1400px; margin: 0 auto; width: 100%;}
-.page-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:20px; margin-bottom:20px; }
-.page-head h2{ margin:0; color:var(--text); font-size:28px; font-weight: 900;}
-.page-head p{ margin:6px 0 0; color:var(--muted); font-weight:600; font-size: 14px;}
-.actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-input,select,textarea{ border:1px solid #cbd5e1; background:white; color:var(--text); border-radius:8px; padding:10px 12px; font-size:13px; outline:none; font-weight:600; transition:.2s; }
-input:focus,select:focus,textarea:focus{ border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.12); }
-.search{ min-width:240px; }
-.card{ background:white; border:1px solid var(--line); border-radius:16px; box-shadow:0 4px 15px rgba(0,0,0,.02); padding:20px; }
-table{ width:100%; border-collapse:collapse; }
-th{ text-align:left; font-size:11px; color:var(--muted); text-transform:uppercase; padding:12px 16px; border-bottom:2px solid var(--line); letter-spacing: 0.05em; font-weight: 800;}
-td{ padding:14px 16px; border-bottom:1px solid #f1f5f9; font-weight:600; font-size: 13px; color: var(--text);}
-.row-hover:hover{ background:#f8fafc; cursor:pointer; }
-.chip{ display:inline-flex; border-radius:6px; padding:4px 8px; font-size:11px; font-weight:800; text-transform: uppercase; letter-spacing: 0.02em;}
-
-.s-ongoing{background:#dbeafe;color:#1e40af}
-.s-done{background:#dcfce7;color:#166534}
-.s-late{background:#fee2e2;color:#b91c1c}
-.s-planned{background:#f1f5f9;color:#475569}
-.s-blocked{background:#e2e8f0;color:#1e293b}
-
-.progress{ display:flex; align-items:center; gap:12px; font-weight: 800; font-size: 12px; color: var(--text);}
-.track{ width:100px; height:8px; background:#e2e8f0; border-radius:999px; overflow:hidden; }
-.fill{ height:100%; border-radius:999px; background:var(--blue); transition: width 0.3s ease; }
-
-/* MODALS PRO */
-.modal,.road-modal{ position:fixed; inset:0; background:rgba(15,23,42,.6); backdrop-filter:blur(4px); z-index:900; display:none; align-items:center; justify-content:center; padding:20px; transition:opacity 0.2s; }
-.modal.show,.road-modal.show{ display:flex; }
-.panel{ background:var(--bg); border-radius:20px; box-shadow:0 20px 60px rgba(0,0,0,.20); overflow:hidden; display: flex; flex-direction: column;}
-.simple-panel{ width:min(1100px,95vw); max-height:92vh; }
-.form-panel{ width:min(600px,95vw); max-height:92vh; }
-.modal-head{ padding:20px 28px; border-bottom:1px solid var(--line); background:white; display:flex; justify-content:space-between; align-items:center; flex-shrink: 0;}
-.modal-head h2{ margin:0; color:var(--text); font-size:24px; font-weight: 900;}
-.modal-sub{ margin-top:4px; color:var(--muted); font-weight:600; font-size: 13px;}
-.modal-body{ padding:24px 28px; overflow-y:auto; flex: 1; }
-.grid2{ display:grid; grid-template-columns:1.6fr 1fr; gap:24px; }
-.form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.full{ grid-column:1/-1; }
-.box{ background:white; border:1px solid var(--line); border-radius:12px; padding:20px; margin-bottom:16px; box-shadow:0 2px 4px rgba(0,0,0,0.02); }
-.box h4{ margin:0 0 16px; color:var(--muted); text-transform:uppercase; font-size:11px; letter-spacing: 0.05em; font-weight: 900; border-bottom: 1px solid var(--line); padding-bottom: 8px;}
-
-/* Design des formulaires internes */
-.mini-form-group { margin-bottom: 16px; }
-.mini-form-label { display: block; font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
-.mini-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; font-size: 13px; font-weight: 600; outline: none; color: var(--text); background: #f8fafc; transition: 0.2s; }
-.mini-input:focus { border-color: var(--blue); background: white; box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
-textarea{ width:100%; min-height:110px; resize: vertical; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; font-size: 13px; color: var(--text); background: #f8fafc; font-weight: 500; line-height: 1.5;}
-textarea:focus { border-color: var(--blue); background: white; }
-
-.modal-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-.modal-table th { font-size: 10px; color: var(--muted); padding: 8px; border-bottom: 1px solid var(--line); text-transform: uppercase; font-weight: 800; text-align: left;}
-.modal-table td { font-size: 12px; color: var(--text); padding: 8px; border-bottom: 1px solid #f1f5f9; font-weight: 600;}
-
-.hist{ border-left:3px solid #bfdbfe; padding-left:12px; margin-bottom:12px; font-size:12px; line-height: 1.4; color: #475569;}
-.toast{ position:fixed; right:24px; bottom:24px; background:#1e293b; color:white; padding:14px 20px; border-radius:10px; display:none; z-index:1000; font-weight:800; font-size: 13px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);}
-.toast.show{ display:block; animation: slideUp 0.3s ease; }
-@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-/* ROADMAP & GANTT ENGINE (LE MUR ETANCHE) */
-.road-panel{ background:white; width:98vw; height:96vh; border-radius:20px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 30px 90px rgba(0,0,0,.30); }
-.road-head{ padding:20px 24px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; flex-shrink: 0;}
-.road-head h2{ margin:0; color:var(--text); font-size:24px; font-weight: 900;}
-.road-body{ flex:1; display:flex; flex-direction:column; min-height:0; background: #f8fafc;}
-.road-filters{ padding:12px 24px; border-bottom:1px solid var(--line); background: white; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; flex-shrink: 0; align-items: center;}
-.legend{ display:flex; gap:16px; color:var(--muted); font-size:11px; font-weight:800; flex-wrap:wrap; align-items:center; text-transform: uppercase; letter-spacing: 0.05em;}
-.dot{ width:10px; height:10px; border-radius:3px; display:inline-block; margin-right:6px; }
-
-/* Conteneur Scrollable MAÎTRE */
-.gantt-container { flex:1; padding: 24px; display: flex; flex-direction: column; min-height: 0; }
-.gantt{ flex: 1; overflow: auto; position: relative; background: white; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); scroll-behavior: smooth; }
-
-.g-head{ height:50px; position:sticky; top:0; background:#ffffff; border-bottom:1px solid var(--line); z-index:80; border-top-left-radius: 12px; }
-
-/* COLONNE GAUCHE ÉTANCHE (Z-INDEX FORT, FOND OPAQUE, OMBRE PORTÉE) */
-.g-left-head{ position:sticky; left:0; top:0; z-index:110 !important; width:280px; height:50px; background:#f1f5f9 !important; border-right:1px solid var(--line); display:grid; grid-template-columns:160px 100px; align-items:center; border-top-left-radius: 12px; border-bottom: 1px solid var(--line); box-shadow: 4px 0 10px rgba(0,0,0,0.06);}
-.g-left-head span{ padding-left:16px; font-size:10px; color:var(--muted); font-weight:900; text-transform:uppercase; letter-spacing: 0.05em;}
-
-.month{ position:absolute; top:0; height:50px; display:flex; justify-content:center; align-items:center; font-size:11px; text-transform:uppercase; color:var(--text); font-weight:800; letter-spacing: 0.05em; border-right: 1px dashed var(--line);}
-
-.row{ height:56px; position:relative; border-bottom:1px solid #f1f5f9; background:#fff; }
-.project-header{ height:46px; background:#f8fafc; border-top:1px solid var(--line); border-bottom:1px solid var(--line); position:relative; }
-
-/* TITRES FIXÉS (LE MUR) */
-.project-title{ position:sticky; left:0; z-index:90 !important; height:46px; width:280px; background:#f8fafc !important; border-right:1px solid var(--line); display:flex; align-items:center; padding:0 16px; gap:10px; font-weight:900; color:var(--airbus); font-size: 13px; box-shadow: 4px 0 8px rgba(0,0,0,0.04);}
-.row-label{ position:sticky; left:0; z-index:80 !important; width:280px; height:56px; background:#ffffff !important; border-right:1px solid var(--line); display:grid; grid-template-columns:160px 100px; align-items:center; box-shadow: 4px 0 8px rgba(0,0,0,0.04);}
-.row-label strong{ font-size:12px; padding-left:16px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight: 800;}
-.row-label span{ font-size:11px; color:var(--muted); font-weight:700; padding-left:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-
-/* Lignes de repères (Arrière plan) */
-.gridline{ position:absolute; top:0; bottom:0; width:1px; background:#f1f5f9; z-index: 5; pointer-events: none; }
-.gridline.major{ background:#e2e8f0; }
-.today{ position:absolute; top:0; bottom:0; width:2px; background:#ef4444; z-index: 15; pointer-events: none; }
-.today-label{ position:absolute; top:6px; transform:translateX(-50%); background:#fef2f2; color:#ef4444; border:1px solid #fecaca; border-radius:4px; padding:4px 8px; font-size:9px; font-weight:900; z-index:55; pointer-events: none; text-transform: uppercase; letter-spacing: 0.05em;}
-
-/* BARRES GRAPHIQUES (Z-INDEX BAS) */
-.bar{ position:absolute; top:14px; height:28px; border:0; border-radius:6px; color:white; font-size:11px; font-weight:800; box-shadow:0 4px 6px rgba(0,0,0,.1); overflow:hidden; z-index: 10; cursor:pointer; }
-.bar:hover{ transform:translateY(-1px); filter:brightness(1.05); box-shadow:0 6px 12px rgba(0,0,0,.15); z-index: 20; }
-.bar-progress { position:absolute; top:0; left:0; bottom:0; background:rgba(0,0,0,0.25); z-index:1; }
-.bar-content { position:relative; z-index:2; padding:0 10px; display:flex; align-items:center; gap:8px; width:100%; height:100%; white-space:nowrap;}
-
-.bar-grad-ongoing { background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%); }
-.bar-grad-done { background: linear-gradient(90deg, #059669 0%, #34d399 100%); }
-.bar-grad-planned { background: linear-gradient(90deg, #475569 0%, #64748b 100%); }
-.bar-grad-late { background: linear-gradient(90deg, #e11d48 0%, #fb7185 100%); }
-.bar-grad-blocked { background: linear-gradient(90deg, #334155 0%, #94a3b8 100%); }
-
-.mark{ background:rgba(255,255,255,.25); border-radius:4px; padding:2px 6px; margin-left:auto; font-size: 9px; font-weight: 900;}
-.admin-triple-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 10px; }
-
-@media(max-width:1250px){
-  .header-actions .btn span { display:none; }
-  .header-actions .btn { padding:10px 14px; }
-}
+/* ROADMAP PRO */
+.road-panel{background:#fff;width:98vw;height:96vh;border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.30)}.road-head{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}.road-head h2{margin:0;color:var(--text);font-size:24px;font-weight:900}.road-body{flex:1;display:flex;flex-direction:column;min-height:0;background:#f8fafc}
+.road-filters{padding:12px 24px;border-bottom:1px solid var(--line);background:#fff;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;flex-shrink:0;align-items:center}
+.legend{display:flex;gap:16px;color:var(--muted);font-size:11px;font-weight:800;flex-wrap:wrap;align-items:center;text-transform:uppercase;letter-spacing:.05em}.dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:6px}
+.gantt-container{flex:1;padding:24px;display:flex;flex-direction:column;min-height:0}.gantt{flex:1;overflow:auto;position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,.02);scroll-behavior:smooth}.gantt-inner{position:relative;min-height:420px}
+.g-head{height:50px;position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:80;border-top-left-radius:12px}.g-left-head{position:sticky;left:0;top:0;z-index:110!important;width:300px;height:50px;background:#f1f5f9!important;border-right:1px solid var(--line);display:grid;grid-template-columns:185px 95px;align-items:center;border-top-left-radius:12px;border-bottom:1px solid var(--line);box-shadow:4px 0 10px rgba(0,0,0,.06)}.g-left-head span{padding-left:16px;font-size:10px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+.month{position:absolute;top:0;height:50px;display:flex;justify-content:center;align-items:center;font-size:11px;text-transform:uppercase;color:var(--text);font-weight:800;letter-spacing:.05em;border-right:1px dashed var(--line)}
+.row{height:56px;position:relative;border-bottom:1px solid #f1f5f9;background:#fff}.cdt-header{height:46px;background:#eef6ff;border-top:1px solid #dbeafe;border-bottom:1px solid #dbeafe;position:relative}.project-header{height:40px;background:#f8fafc;border-bottom:1px solid var(--line);position:relative}
+.project-title,.cdt-title{position:sticky;left:0;z-index:90!important;width:300px;border-right:1px solid var(--line);display:flex;align-items:center;gap:10px;font-weight:900;color:var(--airbus);box-shadow:4px 0 8px rgba(0,0,0,.04)}.cdt-title{height:46px;background:#eef6ff!important;padding:0 16px;font-size:13px;text-transform:uppercase}.project-title{height:40px;background:#f8fafc!important;padding:0 26px;font-size:12px}
+.row-label{position:sticky;left:0;z-index:80!important;width:300px;height:56px;background:#fff!important;border-right:1px solid var(--line);display:grid;grid-template-columns:185px 95px;align-items:center;box-shadow:4px 0 8px rgba(0,0,0,.04)}.row-label strong{font-size:12px;padding-left:34px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800}.row-label span{font-size:11px;color:var(--muted);font-weight:700;padding-left:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gridline{position:absolute;top:0;bottom:0;width:1px;background:#f1f5f9;z-index:5;pointer-events:none}.gridline.major{background:#e2e8f0}.today{position:absolute;top:0;bottom:0;width:2px;background:#ef4444;z-index:15;pointer-events:none}.today-label{position:absolute;top:6px;transform:translateX(-50%);background:#fef2f2;color:#ef4444;border:1px solid #fecaca;border-radius:4px;padding:4px 8px;font-size:9px;font-weight:900;z-index:55;pointer-events:none;text-transform:uppercase;letter-spacing:.05em}
+.bar{position:absolute;top:14px;height:28px;border:0;border-radius:6px;color:#fff;font-size:11px;font-weight:800;box-shadow:0 4px 6px rgba(0,0,0,.1);overflow:hidden;z-index:10;cursor:pointer}.bar:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.15);z-index:20}.bar-progress{position:absolute;top:0;left:0;bottom:0;background:rgba(0,0,0,.25);z-index:1}.bar-content{position:relative;z-index:2;padding:0 10px;display:flex;align-items:center;gap:8px;width:100%;height:100%;white-space:nowrap}.bar-grad-ongoing{background:linear-gradient(90deg,#2563eb 0%,#60a5fa 100%)}.bar-grad-done{background:linear-gradient(90deg,#059669 0%,#34d399 100%)}.bar-grad-planned{background:linear-gradient(90deg,#475569 0%,#64748b 100%)}.bar-grad-late{background:linear-gradient(90deg,#e11d48 0%,#fb7185 100%)}.bar-grad-blocked{background:linear-gradient(90deg,#334155 0%,#94a3b8 100%)}.mark{background:rgba(255,255,255,.25);border-radius:4px;padding:2px 6px;margin-left:auto;font-size:9px;font-weight:900}
+@media(max-width:1250px){.header-actions .btn span{display:none}.header-actions .btn{padding:10px 14px}.admin-triple-grid{grid-template-columns:1fr}.grid2,.form-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="header">
-  <div class="airbus">
-    <div class="big">AIRBUS</div>
-    <div class="small">Saint-ELOI</div>
-  </div>
-  <div class="center-title">
-    <h1>AOS Cockpit</h1>
-    <div>Dernière modification : <span id="lastUpdate">-</span></div>
-  </div>
+  <div class="airbus"><div class="big">AIRBUS</div><div class="small">Saint-ELOI</div></div>
+  <div class="center-title"><h1>AOS Cockpit</h1><div>Dernière modification : <span id="lastUpdate">-</span></div></div>
   <div class="header-actions">
     <button id="btnNotif" class="icon-btn" title="Notifications" onclick="openNotifications()"><i class="fa-solid fa-bell"></i><span class="badge" id="notifCount">0</span></button>
     <button id="btnHist" class="icon-btn" title="Historique" onclick="openHistory()"><i class="fa-solid fa-clock-rotate-left"></i></button>
     <button id="btnGuide" class="btn btn-white" onclick="openGuide()"><i class="fa-solid fa-book-open"></i> <span>Guide</span></button>
-    
     <button id="nav-home" class="btn btn-white" onclick="showView('home')"><i class="fa-solid fa-house"></i> <span>Accueil</span></button>
     <button id="nav-projects" class="btn btn-navy" onclick="showView('projects')"><i class="fa-solid fa-folder"></i> <span>Projets</span></button>
     <button id="nav-people" class="btn btn-navy" onclick="showView('people')"><i class="fa-solid fa-users"></i> <span>Équipe</span></button>
@@ -211,69 +97,51 @@ textarea:focus { border-color: var(--blue); background: white; }
   <div class="home-tiles">
     <button class="home-tile" onclick="showView('projects')"><i class="fa-solid fa-folder-open"></i><h3>Projets</h3><p>Pilotage des projets et WP</p></button>
     <button class="home-tile" onclick="showView('people')"><i class="fa-solid fa-users"></i><h3>Équipe</h3><p>Actions par membre</p></button>
-    <button class="home-tile" onclick="showView('admin')"><i class="fa-solid fa-lock"></i><h3>Administration</h3><p>Configuration globale</p></button>
+    <button class="home-tile" onclick="askAdmin()"><i class="fa-solid fa-lock"></i><h3>Administration</h3><p>Configuration globale</p></button>
   </div>
 </section>
 
 <section id="projects" class="view page">
-  <div class="page-head">
-    <div><h2>Projets</h2><p>Vue synthèse des projets de l'équipe</p></div>
-    <div class="actions"><input id="projectSearch" class="search" placeholder="🔎 Rechercher un projet..." oninput="renderProjects()"><button class="btn btn-navy" onclick="openRoadmap('project', '')"><i class="fa-solid fa-route"></i> Roadmap Unique</button></div>
-  </div>
-  <div class="card">
-    <div class="card-title"><i class="fa-solid fa-folder-open"></i> Tous les projets</div>
-    <table><thead><tr><th>Nom</th><th>Secteur(s)</th><th>CDT Usine</th><th>Statut</th><th>Avancement</th><th>Responsable</th></tr></thead><tbody id="projectsRows"></tbody></table>
-  </div>
+  <div class="page-head"><div><h2>Projets</h2><p>Vue synthèse des projets de l'équipe</p></div><div class="actions"><input id="projectSearch" class="search" placeholder="🔎 Rechercher un projet..." oninput="renderProjects()"><button class="btn btn-navy" onclick="openRoadmap('project','')"><i class="fa-solid fa-route"></i> Roadmap unique</button></div></div>
+  <div class="card"><table><thead><tr><th>Nom</th><th>Secteur AOS</th><th>CDT Usine</th><th>Statut</th><th>Avancement</th><th>Responsable</th></tr></thead><tbody id="projectsRows"></tbody></table></div>
 </section>
 
 <section id="people" class="view page">
-  <div class="page-head">
-    <div><h2>Membres</h2><p>Vue synthèse des actions par membre de l'équipe</p></div>
-    <div class="actions"><input id="peopleSearch" class="search" placeholder="🔎 Rechercher un membre..." oninput="renderPeople()"><button class="btn btn-navy" onclick="openRoadmap('person', '')"><i class="fa-solid fa-route"></i> Roadmap Unique</button></div>
-  </div>
-  <div class="card">
-    <div class="card-title"><i class="fa-solid fa-users"></i> Tous les membres</div>
-    <table><thead><tr><th>Nom</th><th>Fonction</th><th>Projets impliqués</th><th>Actions ouvertes</th><th>Statut</th><th>Avancement moyen</th></tr></thead><tbody id="peopleRows"></tbody></table>
-  </div>
+  <div class="page-head"><div><h2>Membres</h2><p>Vue synthèse des actions par membre de l'équipe</p></div><div class="actions"><input id="peopleSearch" class="search" placeholder="🔎 Rechercher un membre..." oninput="renderPeople()"><button class="btn btn-navy" onclick="openRoadmap('person','')"><i class="fa-solid fa-route"></i> Roadmap unique</button></div></div>
+  <div class="card"><table><thead><tr><th>Nom</th><th>Fonction</th><th>Projets impliqués</th><th>Actions ouvertes</th><th>Statut</th><th>Avancement moyen</th></tr></thead><tbody id="peopleRows"></tbody></table></div>
 </section>
 
 <section id="admin" class="view page">
-  <div class="page-head">
-    <div><h2>Administration</h2><p>Création et configuration globale de l'outil et référentiels usine</p></div>
-    <div class="actions">
-      <button class="btn btn-white" onclick="openExport()"><i class="fa-solid fa-download"></i> Exporter</button>
-      <button class="btn btn-white" onclick="changePassword()"><i class="fa-solid fa-key"></i> Code Admin</button>
-    </div>
-  </div>
+  <div class="page-head"><div><h2>Administration</h2><p>Création et configuration globale de l'outil et référentiels usine</p></div><div class="actions"><button class="btn btn-white" onclick="openExport()"><i class="fa-solid fa-download"></i> Exporter</button><button class="btn btn-white" onclick="changePassword()"><i class="fa-solid fa-key"></i> Code Admin</button></div></div>
   <div class="admin-triple-grid">
     <div class="card">
-      <h3 style="margin-top:0; color:var(--airbus); font-size:16px; font-weight:900; margin-bottom:16px;">Créer un projet</h3>
+      <h3 style="margin-top:0;color:var(--airbus);font-size:16px;font-weight:900;margin-bottom:16px;">Créer un projet</h3>
       <div class="form-grid">
         <div class="full"><label class="mini-form-label">Nom du projet</label><input id="apName" class="mini-input"></div>
         <div><label class="mini-form-label">Secteur AOS</label><input id="apSector" class="mini-input" placeholder="ex: PE / Qualité" oninput="this.value=this.value.toUpperCase()"></div>
-        <div><label class="mini-form-label">CDT Usine lié</label><select id="apCdt" class="mini-input"></select></div>
-        <div><label class="mini-form-label">Responsable</label><select id="apOwner" class="mini-input"></select></div>
+        <div><label class="mini-form-label">Responsable principal</label><select id="apOwner" class="mini-input"></select></div>
+        <div class="full"><label class="mini-form-label">CDT usine lié(s)</label><select id="apCdtSelect" class="mini-input multi-select" multiple></select><div class="help-text">Sélection multiple possible : Ctrl + clic si besoin.</div></div>
         <div class="full"><label class="mini-form-label">Priorité</label><select id="apPriority" class="mini-input"><option>Haute</option><option selected>Moyenne</option><option>Basse</option></select></div>
         <button class="btn btn-blue full" style="justify-content:center;" onclick="addProject()"><i class="fa-solid fa-plus"></i> Créer le projet</button>
       </div>
-      <div id="adminProjects" style="margin-top:24px; max-height:280px; overflow-y:auto;"></div>
+      <div id="adminProjects" style="margin-top:24px;max-height:280px;overflow-y:auto;"></div>
     </div>
     <div class="card">
-      <h3 style="margin-top:0; color:var(--airbus); font-size:16px; font-weight:900; margin-bottom:16px;">Gérer l'équipe</h3>
+      <h3 style="margin-top:0;color:var(--airbus);font-size:16px;font-weight:900;margin-bottom:16px;">Gérer l'équipe</h3>
       <div class="form-grid">
         <div class="full"><label class="mini-form-label">Nom complet</label><input id="auName" class="mini-input"></div>
         <div class="full"><label class="mini-form-label">Fonction</label><input id="auRole" class="mini-input"></div>
         <button class="btn btn-blue full" style="justify-content:center;" onclick="addUser()"><i class="fa-solid fa-plus"></i> Ajouter membre</button>
       </div>
-      <div id="adminUsers" style="margin-top:24px; max-height:280px; overflow-y:auto;"></div>
+      <div id="adminUsers" style="margin-top:24px;max-height:280px;overflow-y:auto;"></div>
     </div>
     <div class="card">
-      <h3 style="margin-top:0; color:var(--airbus); font-size:16px; font-weight:900; margin-bottom:16px;">Secteurs Usine (CDT)</h3>
+      <h3 style="margin-top:0;color:var(--airbus);font-size:16px;font-weight:900;margin-bottom:16px;">Secteurs Usine (CDT)</h3>
       <div class="form-grid">
-        <div class="full"><label class="mini-form-label">Nom du secteur / CDT</label><input id="acName" class="mini-input" placeholder="ex: CDT Mât"></div>
+        <div class="full"><label class="mini-form-label">Nom du secteur / CDT</label><input id="acName" class="mini-input" placeholder="ex: ODYE"></div>
         <button class="btn btn-blue full" style="justify-content:center;" onclick="addCdt()"><i class="fa-solid fa-plus"></i> Ajouter CDT</button>
       </div>
-      <div id="adminCdts" style="margin-top:24px; max-height:280px; overflow-y:auto;"></div>
+      <div id="adminCdts" style="margin-top:24px;max-height:280px;overflow-y:auto;"></div>
     </div>
   </div>
 </section>
@@ -281,25 +149,17 @@ textarea:focus { border-color: var(--blue); background: white; }
 
 <div id="roadModal" class="road-modal">
   <div class="road-panel">
-    <div class="road-head">
-      <h2 id="roadTitle">Roadmap Transverse Unique</h2>
-      <button class="btn btn-white" onclick="closeRoadmap()"><i class="fa-solid fa-xmark"></i> Fermer</button>
-    </div>
+    <div class="road-head"><h2 id="roadTitle">Roadmap Transverse Unique</h2><button class="btn btn-white" onclick="closeRoadmap()"><i class="fa-solid fa-xmark"></i> Fermer</button></div>
     <div class="road-body">
       <div class="road-filters" id="roadFilters"></div>
-      <div class="gantt-container">
-        <div class="gantt" id="gantt"></div>
-      </div>
+      <div class="gantt-container"><div class="gantt" id="gantt"></div></div>
     </div>
   </div>
 </div>
 
 <div id="modal" class="modal">
   <div class="panel simple-panel">
-    <div class="modal-head">
-      <div><span id="modalBadge" class="chip s-ongoing">Détail</span><h2 id="modalTitle" style="margin-top:8px">Titre</h2><div id="modalSub" class="modal-sub"></div></div>
-      <div class="actions" id="modalActions"></div>
-    </div>
+    <div class="modal-head"><div><span id="modalBadge" class="chip s-ongoing">Détail</span><h2 id="modalTitle" style="margin-top:8px">Titre</h2><div id="modalSub" class="modal-sub"></div></div><div class="actions" id="modalActions"></div></div>
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
@@ -310,1040 +170,121 @@ textarea:focus { border-color: var(--blue); background: white; }
     <div class="modal-body" id="formBody"></div>
   </div>
 </div>
-
 <div id="toast" class="toast"></div>
 
 <script>
-const KEY='aos_cockpit_master_final_1';
+const KEY='aos_cockpit_reprise_initiale_corrigee_v1';
 let db = load();
 let adminOK = false;
-
-// Variables globales Gantt
 let base = new Date();
-const left = 280; 
+const left = 300;
 const px = 10;
-let totalMonthsCount = 120;
+let totalMonthsCount = 36;
 let ganttWidth = 3000;
-let roadMode = 'projects';
 
 function demo(){
   return {
     password:'aos',
     last:new Date().toLocaleString('fr-FR'),
     history:[],
-    cdts:[
-      {id:'c1', name:'CDT Mât'},
-      {id:'c2', name:'CDT Nacelle'},
-      {id:'c3', name:'Transverse'}
-    ],
-    users:[
-      {id:'u1',name:'Omar Hamzé',role:'AOS'},
-      {id:'u2',name:'Lucas Martin',role:'AOS'},
-      {id:'u3',name:'Sarah Moreau',role:'AOS'},
-      {id:'u4',name:'Cyril',role:'Manager'}
-    ],
+    cdts:[{id:'c1',name:'ODYE'},{id:'c2',name:'ODYS'},{id:'c3',name:'ODYL'}],
+    users:[{id:'u1',name:'Omar Hamzé',role:'AOS'},{id:'u2',name:'Cyril',role:'HO AOS'},{id:'u3',name:'Arnaud',role:'AOS leader'},{id:'u4',name:'Manu',role:'AOS agent'}],
     projects:[
-      {id:'p1',name:'AOS Cockpit',owner:'u1',sector:'AOS',cdt:'c3',priority:'Haute',archived:false},
-      {id:'p2',name:'PPC Saint-Éloi',owner:'u2',sector:'PPC',cdt:'c1',priority:'Moyenne',archived:false}
+      {id:'p1',name:'PPC',owner:'u2',memberIds:['u1','u2','u3'],sector:'PPC',cdtIds:['c1','c2'],priority:'Haute',archived:false},
+      {id:'p2',name:'5S',owner:'u2',memberIds:['u1','u2'],sector:'5S',cdtIds:['c2','c3'],priority:'Moyenne',archived:false}
     ],
     wps:[
-      {id:'w1',project:'p1',name:'Cadrage du besoin',owner:'u1',cdt:'c1',start:'2026-06-01',end:'2026-06-15',status:'done',comment:'',progress:100,modified:false,history:[],archived:false},
-      {id:'w2',project:'p1',name:'Maquette visuelle',owner:'u1',cdt:'c2',start:'2026-06-16',end:'2026-06-30',status:'ongoing',comment:'',progress:40,modified:false,history:[],archived:false},
-      {id:'w3',project:'p2',name:'Déploiement routines',owner:'u2',cdt:'c1',start:'2026-07-01',end:'2026-07-20',status:'planned',comment:'',progress:0,modified:false,history:[],archived:false}
+      {id:'w1',project:'p1',name:'WP1',owner:'u1',ownerIds:['u1'],start:'2026-06-01',end:'2026-06-20',status:'ongoing',comment:'',progress:30,modified:false,history:[],archived:false},
+      {id:'w2',project:'p1',name:'WP2',owner:'u3',ownerIds:['u3'],start:'2026-07-01',end:'2026-07-31',status:'planned',comment:'',progress:0,modified:false,history:[],archived:false},
+      {id:'w3',project:'p2',name:'Bureau ODYE',owner:'u3',ownerIds:['u3'],start:'2026-06-01',end:'2026-06-25',status:'ongoing',comment:'',progress:40,modified:false,history:[],archived:false}
     ],
     actions:[
-      {id:'a1',wp:'w1',title:'Réunion d\'équipe',start:'2026-06-01',end:'2026-06-05',status:'done',people:['u1'],progress:100,comment:'',blockCause:'',history:[],archived:false},
-      {id:'a2',wp:'w2',title:'Design Figma',start:'2026-06-16',end:'2026-06-25',status:'ongoing',people:['u1','u3'],progress:40,comment:'',blockCause:'',history:[],archived:false}
+      {id:'a1',wp:'w1',title:'Cadrage métier',start:'2026-06-01',end:'2026-06-12',status:'ongoing',people:['u1','u2'],progress:60,comment:'',blockCause:'',history:[],archived:false},
+      {id:'a2',wp:'w2',title:'Validation terrain',start:'2026-07-10',end:'2026-07-24',status:'planned',people:['u3'],progress:0,comment:'',blockCause:'',history:[],archived:false},
+      {id:'a3',wp:'w3',title:'Audit terrain',start:'2026-06-05',end:'2026-06-18',status:'ongoing',people:['u1','u3'],progress:50,comment:'',blockCause:'',history:[],archived:false}
     ]
   }
 }
 
-// ----------------------------------------------------
-// GESTION DES DONNEES (LOAD / SAVE / FILTRES)
-// ----------------------------------------------------
-function load(){
-  try {
-    let d = JSON.parse(localStorage.getItem(KEY)); 
-    if(d && !d.cdts) d.cdts=[{id:'c1', name:'CDT Mât'},{id:'c2', name:'CDT Nacelle'},{id:'c3', name:'Transverse'}]; 
-    return d || demo();
-  } catch(e) { return demo(); }
+function load(){try{return normalizeData(JSON.parse(localStorage.getItem(KEY))||demo())}catch(e){return normalizeData(demo())}}
+function normalizeData(d){
+  d.cdts=d.cdts||[{id:'c1',name:'ODYE'},{id:'c2',name:'ODYS'},{id:'c3',name:'ODYL'}]; d.users=d.users||[]; d.projects=d.projects||[]; d.wps=d.wps||[]; d.actions=d.actions||[]; d.history=d.history||[];
+  d.projects.forEach(p=>{if(!p.cdtIds)p.cdtIds=p.cdt?[p.cdt]:(d.cdts[0]?[d.cdts[0].id]:[]);if(!p.memberIds)p.memberIds=p.owner?[p.owner]:[];p.owner=p.owner||p.memberIds[0]||'';p.archived=!!p.archived});
+  d.wps.forEach(w=>{let p=d.projects.find(p=>p.id===w.project);if(!w.cdtIds)w.cdtIds=w.cdt?[w.cdt]:(p&&p.cdtIds?p.cdtIds.slice():[]);if(!w.ownerIds)w.ownerIds=w.owner?[w.owner]:[];w.owner=w.owner||w.ownerIds[0]||'';w.archived=!!w.archived});
+  d.actions.forEach(a=>{a.people=a.people||[];a.archived=!!a.archived;if(a.progress===undefined)a.progress=0});
+  return d;
 }
-
-function save(msg){ 
-  db.last = new Date().toLocaleString('fr-FR'); 
-  localStorage.setItem(KEY, JSON.stringify(db)); 
-  renderAll(); 
-  if(msg) toast(msg); 
-}
-
-function uid(p){ return p + Date.now() + Math.random().toString(16).slice(2); }
-
-function activeProjects(){ return db.projects.filter(p => !p.archived); }
-function activeWps(){ 
-  let pIds = activeProjects().map(p => p.id);
-  return db.wps.filter(w => !w.archived && pIds.includes(w.project)); 
-}
-function activeActions(){ 
-  let wIds = activeWps().map(w => w.id);
-  return db.actions.filter(a => !a.archived && wIds.includes(a.wp)); 
-}
-
-function user(id){ return db.users.find(u => u.id === id) || {name:'N/A', role:''}; }
-function project(id){ return db.projects.find(p => p.id === id); }
-function wp(id){ return db.wps.find(w => w.id === id); }
-function cdtName(id){ let c = db.cdts.find(x => x.id === id); return c ? c.name : 'Transverse'; }
-function actionsOfWp(wid){ return activeActions().filter(a => a.wp === wid); }
-
-function effectiveStatus(x){
-  if(x.status === 'done' || x.status === 'blocked') return x.status;
-  return x.end && new Date(x.end+'T23:59:59') < new Date() ? 'late' : x.status;
-}
-function stTxt(s){ return {ongoing:'en cours', done:'terminé', late:'retard', planned:'à venir', blocked:'bloqué'}[s] || s; }
-function stClass(s){ return 's-' + s; }
-function fmt(d){ if(!d) return ''; let [y,m,day] = d.split('-'); return `${day}/${m}/${y}`; }
-
-// ----------------------------------------------------
-// CALCUL DE L'AVANCEMENT
-// ----------------------------------------------------
-function actionPct(a) { return a.progress !== undefined ? parseInt(a.progress, 10) : 0; }
-function pctWp(wid){
-  let acts = actionsOfWp(wid);
-  if(acts.length === 0) { 
-    let w = wp(wid); 
-    return w && w.progress !== undefined ? parseInt(w.progress, 10) : 0; 
-  }
-  return Math.round(acts.reduce((s, x) => s + actionPct(x), 0) / acts.length);
-}
-function pctProject(pid){
-  let wps = activeWps().filter(x => x.project === pid);
-  if(!wps.length) return 0;
-  return Math.round(wps.reduce((a,x) => a + pctWp(x.id), 0) / wps.length);
-}
-function pctUser(uid){
-  let acts = activeActions().filter(x => x.people.includes(uid));
-  if(!acts.length) return 0;
-  return Math.round(acts.reduce((s, x) => s + actionPct(x), 0) / acts.length);
-}
-
-// ----------------------------------------------------
-// SYNCHRONISATION WP -> STATUT (SANS TOUCHER LES DATES)
-// ----------------------------------------------------
-function syncWpWithActions(wid, silent = false){
-  let w = wp(wid); 
-  if(!w) return;
-  let acts = actionsOfWp(wid);
-  
-  if (acts.length > 0) {
-    let allDone = acts.every(a => a.status === 'done' || actionPct(a) === 100);
-    let anyBlocked = acts.some(a => a.status === 'blocked');
-    let anyLate = acts.some(a => effectiveStatus(a) === 'late');
-    
-    let newStatus = w.status;
-    if (allDone) newStatus = 'done';
-    else if (anyBlocked) newStatus = 'blocked';
-    else if (anyLate) newStatus = 'late';
-    else newStatus = 'ongoing';
-    
-    if (w.status !== newStatus) {
-      if(!silent) w.history.push(`${new Date().toLocaleString('fr-FR')} · Statut auto-ajusté par les actions : ${stTxt(w.status)} → ${stTxt(newStatus)}`);
-      w.status = newStatus;
-    }
-  } else {
-    // S'il n'a plus d'action et qu'il était en terminé automatique, on le remet en cours par securite
-    if(w.status === 'done') w.status = 'ongoing';
-  }
-}
-
-function addHistory(object, oldVal, newVal, reason, userName = 'Omar Hamzé'){
-  db.history.unshift({date: new Date().toLocaleString('fr-FR'), user: userName, object, old: oldVal, new: newVal, reason: reason || "Mise à jour"});
-}
-
-function toast(t){
-  let e = document.getElementById('toast');
-  if(e){ e.textContent = t; e.classList.add('show'); setTimeout(() => e.classList.remove('show'), 2500); }
-}
-
-// ----------------------------------------------------
-// GESTION DES VUES (ROUTAGE)
-// ----------------------------------------------------
-function showView(v){
-  if(v === 'admin' && !adminOK) return askAdmin();
-  
-  // Bascule les sections
-  document.querySelectorAll('.view').forEach(x => x.classList.remove('active'));
-  let targetView = document.getElementById(v);
-  if(targetView) targetView.classList.add('active');
-  
-  // Masque tous les liens du Header par sécurité
-  let allNavs = ['nav-home', 'nav-projects', 'nav-people', 'nav-admin'];
-  allNavs.forEach(id => {
-    let el = document.getElementById(id);
-    if(el) el.classList.add('d-none');
-  });
-  
-  // Masque les outils sur l'accueil
-  let tools = ['btnNotif', 'btnHist', 'btnGuide'];
-  
-  if (v === 'home') {
-    tools.forEach(id => { let el = document.getElementById(id); if(el) el.classList.add('d-none'); });
-  } else {
-    tools.forEach(id => { let el = document.getElementById(id); if(el) el.classList.remove('d-none'); });
-    
-    // Réaffiche les liens sauf celui de la page active
-    allNavs.forEach(id => {
-      let el = document.getElementById(id);
-      if(el) el.classList.remove('d-none');
-    });
-    let activeNav = document.getElementById('nav-' + v);
-    if(activeNav) activeNav.classList.add('d-none');
-  }
-}
-
-function askAdmin(){
-  let c = prompt('Code responsable :');
-  if (c === db.password) { adminOK = true; showView('admin'); toast('Accès autorisé'); } 
-  else if (c !== null) { alert('Code incorrect.'); }
-}
-
-// ----------------------------------------------------
-// RENDUS DES DONNEES (TABLEAUX)
-// ----------------------------------------------------
-function renderAll(){
-  let lu = document.getElementById('lastUpdate'); 
-  if(lu) lu.textContent = db.last || '-';
-  
-  // Force synchro des statuts
-  db.wps.forEach(w => syncWpWithActions(w.id, true));
-
-  renderHome();
-  renderProjects();
-  renderPeople();
-  renderAdmin();
-  
-  let nc = document.getElementById('notifCount'); 
-  if(nc) nc.textContent = alerts().length;
-  
-  let rm = document.getElementById('roadModal');
-  if(rm && rm.classList.contains('show')) renderRoadmap(); // Refresh du Gantt si ouvert
-}
-
-function renderHome(){
-  let open = activeActions().filter(a => a.status !== 'done').length;
-  let hk = document.getElementById('homeKpis'); 
-  if(hk) {
-    hk.innerHTML = `
-      <div class="home-kpi"><div class="num">${activeProjects().length}</div><div class="label">Projets actifs</div></div>
-      <div class="home-kpi"><div class="num">${db.users.length}</div><div class="label">Membres de l'équipe</div></div>
-      <div class="home-kpi"><div class="num">${open}</div><div class="label" style="${alerts().length>0 ? 'color:var(--red)' : ''}">${alerts().length>0 ? `Dont ${alerts().length} critiques` : 'Actions en cours'}</div></div>
-    `;
-  }
-}
-
-function renderProjects(){
-  let q = (document.getElementById('projectSearch')?.value || '').toLowerCase();
-  let pr = document.getElementById('projectsRows'); 
-  if(pr) {
-    pr.innerHTML = activeProjects()
-      .filter(p => p.name.toLowerCase().includes(q) || cdtName(p.cdt).toLowerCase().includes(q))
-      .map(p => {
-        let pc = pctProject(p.id);
-        let late = activeWps().some(w => w.project === p.id && effectiveStatus(w) === 'late');
-        let blocked = activeWps().some(w => w.project === p.id && effectiveStatus(w) === 'blocked');
-        let s = pc === 100 ? 'done' : blocked ? 'blocked' : late ? 'late' : 'ongoing';
-        
-        return `<tr class="row-hover" onclick="openRoadmap('project', '${p.id}')">
-          <td>${p.name}</td><td>${p.sector}</td><td><span class="chip s-planned">${cdtName(p.cdt)}</span></td>
-          <td><span class="chip ${stClass(s)}">${stTxt(s)}</span></td>
-          <td><div class="progress"><div class="track"><div class="fill" style="width:${pc}%;background:${s==='late'?'var(--red)':pc===100?'var(--green)':s==='blocked'?'var(--dark)':'var(--blue)'}"></div></div>${pc}%</div></td>
-          <td>${user(p.owner).name}</td>
-        </tr>`;
-      }).join('');
-  }
-}
-
-function renderPeople(){
-  let q = (document.getElementById('peopleSearch')?.value || '').toLowerCase();
-  let pr = document.getElementById('peopleRows'); 
-  if(pr) {
-    pr.innerHTML = db.users
-      .filter(u => u.name.toLowerCase().includes(q))
-      .map(u => {
-        let a = activeActions().filter(x => x.people.includes(u.id));
-        let pids = [...new Set(a.map(x => wp(x.wp)?.project).filter(Boolean))];
-        let pc = pctUser(u.id);
-        let late = a.some(x => effectiveStatus(x) === 'late');
-        let blocked = a.some(x => effectiveStatus(x) === 'blocked');
-        let s = pc === 100 ? 'done' : blocked ? 'blocked' : late ? 'late' : 'ongoing';
-        
-        return `<tr class="row-hover" onclick="openRoadmap('person', '${u.id}')">
-          <td>${u.name}</td><td>${u.role}</td><td>${pids.length}</td><td>${a.filter(x => x.status !== 'done').length}</td>
-          <td><span class="chip ${stClass(s)}">${stTxt(s)}</span></td>
-          <td><div class="progress"><div class="track"><div class="fill" style="width:${pc}%;background:${s==='late'?'var(--red)':pc===100?'var(--green)':s==='blocked'?'var(--dark)':'var(--blue)'}"></div></div>${pc}%</div></td>
-        </tr>`;
-      }).join('');
-  }
-}
-
-// ----------------------------------------------------
-// ADMINISTRATION (SANS CRASH)
-// ----------------------------------------------------
-function renderAdmin(){
-  let apo = document.getElementById('apOwner');
-  if(apo) apo.innerHTML = db.users.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
-  
-  let apc = document.getElementById('apCdt');
-  if(apc) apc.innerHTML = db.cdts.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-  
-  let ap = document.getElementById('adminProjects');
-  if(ap) {
-    ap.innerHTML = activeProjects().map(p => `
-      <div class="mini">
-        <div><b>${p.name}</b><br><span style="color:var(--muted);font-size:11px">${cdtName(p.cdt)} · ${user(p.owner).name}</span></div>
-        <div class="actions">
-          <button class="btn btn-white" style="font-size:10px; padding:6px 10px;" onclick="openProjectForm('${p.id}')">Modifier</button>
-          <button class="btn btn-red" style="font-size:10px; padding:6px 10px;" onclick="archiveProject('${p.id}')">Archiver</button>
-        </div>
-      </div>`).join('');
-  }
-  
-  let au = document.getElementById('adminUsers');
-  if(au) {
-    au.innerHTML = db.users.map(u => `
-      <div class="mini">
-        <div><b>${u.name}</b><br><span style="color:var(--muted);font-size:11px">${u.role}</span></div>
-        <button class="btn btn-white" style="font-size:10px; padding:6px 10px;" onclick="openUserForm('${u.id}')">Modifier</button>
-      </div>`).join('');
-  }
-  
-  let ac = document.getElementById('adminCdts');
-  if(ac) {
-    ac.innerHTML = db.cdts.map(c => `
-      <div class="mini">
-        <div><b>${c.name}</b></div>
-        <button class="btn btn-red" style="font-size:10px; padding:6px 10px;" onclick="deleteCdt('${c.id}')">Suppr</button>
-      </div>`).join('');
-  }
-}
-
-function addProject(){
-  let nameEl = document.getElementById('apName'); let an = nameEl ? nameEl.value.trim() : '';
-  let ownerEl = document.getElementById('apOwner'); let ao = ownerEl ? ownerEl.value : '';
-  let sectorEl = document.getElementById('apSector'); let ase = sectorEl ? sectorEl.value.toUpperCase() : 'AOS';
-  let cdtEl = document.getElementById('apCdt'); let acdt = cdtEl ? cdtEl.value : '';
-  let prioEl = document.getElementById('apPriority'); let apri = prioEl ? prioEl.value : 'Moyenne';
-  
-  if(!an) return toast('Nom projet obligatoire');
-  db.projects.push({id:uid('p'), name:an, owner:ao, sector:ase, cdt:acdt, priority:apri, archived:false});
-  
-  if(nameEl) nameEl.value = ''; 
-  if(sectorEl) sectorEl.value = ''; 
-  
-  addHistory(`Projet "${an}"`,'-','Création','Création depuis Administration');
-  save('Projet créé');
-}
-
-function addUser(){
-  let nameEl = document.getElementById('auName'); let aun = nameEl ? nameEl.value.trim() : '';
-  let roleEl = document.getElementById('auRole'); let aur = roleEl ? roleEl.value : 'AOS';
-  
-  if(!aun) return toast('Nom manquant');
-  db.users.push({id:uid('u'), name:aun, role:aur}); 
-  
-  if(nameEl) nameEl.value = ''; 
-  if(roleEl) roleEl.value = ''; 
-  
-  addHistory(`Utilisateur "${aun}"`,'-','Création','Création depuis Administration');
-  save('Membre ajouté');
-}
-
-function addCdt(){
-  let nameEl = document.getElementById('acName'); let cn = nameEl ? nameEl.value.trim() : '';
-  if(!cn) return toast('Nom du CDT requis');
-  db.cdts.push({id:uid('c'), name:cn}); 
-  if(nameEl) nameEl.value = ''; 
-  save('Secteur CDT ajouté');
-}
-
-function deleteCdt(id){ 
-  db.cdts = db.cdts.filter(x => x.id !== id); 
-  save('CDT supprimé'); 
-}
-
-// ----------------------------------------------------
-// ARCHIVAGE EN CASCADE
-// ----------------------------------------------------
-function archiveProject(pid){ 
-  let p = project(pid); 
-  if(!p) return;
-  p.archived = true; 
-  db.wps.filter(w => w.project === pid).forEach(w => { 
-    w.archived = true; 
-    db.actions.filter(a => a.wp === w.id).forEach(a => a.archived = true); 
-  });
-  addHistory(`Projet "${p.name}"`, 'Actif', 'Archivé', 'Archivage en cascade'); 
-  save('Projet archivé'); 
-}
-
-function archiveWp(id){ 
-  let w = wp(id); 
-  if(!w) return;
-  w.archived = true; 
-  db.actions.filter(a => a.wp === id).forEach(a => a.archived = true); 
-  addHistory(`WP "${w.name}"`, 'Actif', 'Archivé', 'Archivage en cascade'); 
-  closeModal(); 
-  save('WP archivé'); 
-}
-
-function archiveAction(id){ 
-  let a = activeActions().find(x => x.id === id); 
-  if(!a) return;
-  a.archived = true; 
-  addHistory(`Action "${a.title}"`, 'Actif', 'Archivé', 'Archivage Action'); 
-  closeModal(); 
-  syncWpWithActions(a.wp); 
-  save('Action archivée'); 
-}
-
-// ----------------------------------------------------
-// MODIFICATION PROJETS ET UTILISATEURS
-// ----------------------------------------------------
-function openProjectForm(pid){
-  let p = project(pid);
-  if(!p) return;
-  document.getElementById('formTitle').textContent = 'Modifier le projet';
-  
-  let ownerOptions = db.users.map(u => `<option value="${u.id}" ${p.owner===u.id?'selected':''}>${u.name}</option>`).join('');
-  let cdtOptions = db.cdts.map(c => `<option value="${c.id}" ${p.cdt===c.id?'selected':''}>${c.name}</option>`).join('');
-  
-  document.getElementById('formBody').innerHTML = `
-    <div class="form-grid">
-      <div class="mini-form-group full"><label class="mini-form-label">Nom</label><input id="fpName" class="mini-input" value="${p.name.replace(/"/g, '&quot;')}"></div>
-      <div class="mini-form-group"><label class="mini-form-label">Secteur AOS</label><input id="fpSector" class="mini-input" value="${p.sector}"></div>
-      <div class="mini-form-group"><label class="mini-form-label">CDT Usine</label><select id="fpCdt" class="mini-input">${cdtOptions}</select></div>
-      <div class="mini-form-group"><label class="mini-form-label">Responsable</label><select id="fpOwner" class="mini-input">${ownerOptions}</select></div>
-      <div class="mini-form-group full"><label class="mini-form-label">Priorité</label>
-        <select id="fpPriority" class="mini-input"><option ${p.priority==='Haute'?'selected':''}>Haute</option><option ${p.priority==='Moyenne'?'selected':''}>Moyenne</option><option ${p.priority==='Basse'?'selected':''}>Basse</option></select>
-      </div>
-      <button class="btn btn-blue full" style="justify-content:center; margin-top:10px;" onclick="saveProjectForm('${pid}')">Enregistrer</button>
-    </div>`;
-  document.getElementById('formModal').classList.add('show');
-}
-
-function saveProjectForm(pid){
-  let p = project(pid);
-  if(!p) return;
-  p.name = document.getElementById('fpName').value; 
-  p.sector = document.getElementById('fpSector').value.toUpperCase(); 
-  p.cdt = document.getElementById('fpCdt').value; 
-  p.owner = document.getElementById('fpOwner').value; 
-  p.priority = document.getElementById('fpPriority').value;
-  closeForm(); 
-  save('Projet modifié');
-}
-
-function openUserForm(uid){
-  let u = db.users.find(x => x.id === uid);
-  if(!u) return;
-  document.getElementById('formTitle').textContent = 'Modifier utilisateur';
-  document.getElementById('formBody').innerHTML = `
-    <div class="form-grid">
-      <div class="mini-form-group full"><label class="mini-form-label">Nom Complet</label><input id="fuName" class="mini-input" value="${u.name.replace(/"/g, '&quot;')}"></div>
-      <div class="mini-form-group full"><label class="mini-form-label">Fonction</label><input id="fuRole" class="mini-input" value="${u.role.replace(/"/g, '&quot;')}"></div>
-      <button class="btn btn-blue full" style="justify-content:center; margin-top:10px;" onclick="saveUserForm('${uid}')">Enregistrer</button>
-    </div>`;
-  document.getElementById('formModal').classList.add('show');
-}
-
-function saveUserForm(uid){
-  let u = db.users.find(x => x.id === uid);
-  if(!u) return;
-  u.name = document.getElementById('fuName').value;
-  u.role = document.getElementById('fuRole').value;
-  closeForm(); 
-  save('Utilisateur modifié');
-}
-
-function changePassword(){
-  let n = prompt('Nouveau code responsable :');
-  if(n) { db.password = n; save('Mot de passe modifié'); }
-}
-
-// ----------------------------------------------------
-// OUTILS (NOTIFICATIONS, HISTORIQUE, EXPORT)
-// ----------------------------------------------------
-function alerts(){
-  return [...activeActions().filter(a => effectiveStatus(a)==='late' || effectiveStatus(a)==='blocked'), ...activeWps().filter(w => effectiveStatus(w)==='blocked')];
-}
-
-function openNotifications(){
-  let rows = alerts().map(x => {
-    if(x.title){ let w = wp(x.wp); return `<div class="line"><span>${new Date().toISOString().slice(0,10)}</span><b>⚠ Action "${x.title}" en ${stTxt(effectiveStatus(x))} (WP ${w?.name})</b></div>`; }
-    return `<div class="line"><span>${new Date().toISOString().slice(0,10)}</span><b>🔔 WP "${x.name}" bloqué</b></div>`;
-  }).join('') || '<p>Aucune alerte.</p>';
-  openSimple('Notifications', rows);
-}
-
-function openHistory(){
-  let rows = db.history.map(h => `<div class="hist"><b>${h.date}</b> <br> <span style="font-weight:700; color:var(--airbus);">${h.object}</span> : ${h.old} → ${h.new} <br> <span style="font-size:10px; color:var(--muted); text-transform:uppercase;">Motif : ${h.reason}</span></div>`).join('') || '<p>Aucun historique.</p>';
-  openSimple('Historique des modifications', rows);
-}
-
-function openGuide(){
-  openSimple('Guide Utilisateur', `<div class="box"><h4>Accueil</h4><p>Vue globale.</p></div><div class="box"><h4>Roadmap Transverse Unique</h4><p>Croisez les filtres (CDT, Projets, Équipe) dans la fenêtre du Gantt pour afficher instantanément les données dont vous avez besoin sans changer de page.</p></div><div class="box"><h4>Modifications Intelligentes</h4><p>Le système vous demandera un motif <b>uniquement</b> si vous modifiez réellement une donnée clé. Appuyez sur Entrée pour valider directement sans écrire de motif.</p></div>`);
-}
-
-function openExport(){
-  openSimple('Exporter / Imprimer', `<div class="actions"><button class="btn btn-blue" onclick="window.print()"><i class="fa-solid fa-print"></i> Imprimer en PDF</button><button class="btn btn-white" onclick="exportJson()"><i class="fa-solid fa-file-code"></i> Sauvegarde Data (JSON)</button><button class="btn btn-white" onclick="exportCsv()"><i class="fa-solid fa-file-csv"></i> Export Excel (CSV)</button></div>`);
-}
-
-function exportJson(){ download('aos-cockpit.json', JSON.stringify(db, null, 2), 'application/json'); }
-
-function exportCsv(){
-  let rows = [['Type','Nom','Projet/WP','Statut','Début','Fin']];
-  activeWps().forEach(w => rows.push(['WP', w.name, project(w.project)?.name, stTxt(effectiveStatus(w)), w.start, w.end]));
-  activeActions().forEach(a => rows.push(['Action', a.title, wp(a.wp)?.name, stTxt(effectiveStatus(a)), a.start, a.end]));
-  download('aos-cockpit.csv', rows.map(r => r.map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(';')).join('\n'), 'text/csv');
-}
-
-function download(name, content, type){
-  let blob = new Blob([content], {type});
-  let a = document.createElement('a'); 
-  a.href = URL.createObjectURL(blob); 
-  a.download = name; 
-  a.click();
-}
-
-// ----------------------------------------------------
-// MOTEUR DE LA ROADMAP ET DU GANTT INFINI
-// ----------------------------------------------------
-function openRoadmap(filterType = '', filterId = ''){
-  document.getElementById('roadModal').classList.add('show');
-  autoComputeTimeBounds();
-  
-  let cdtOptions = db.cdts.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-  let projOptions = activeProjects().map(p => `<option value="${p.id}">${p.name}</option>`).join('');
-  let userOptions = db.users.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
-  
-  document.getElementById('roadFilters').innerHTML = `
-    <select id="fCdt" class="mini-input inline" style="width:140px;" onchange="drawGantt()"><option value="">Tous les CDT</option>${cdtOptions}</select>
-    <select id="fProj" class="mini-input inline" style="width:160px;" onchange="drawGantt()"><option value="">Tous les projets</option>${projOptions}</select>
-    <select id="fPerson" class="mini-input inline" style="width:150px;" onchange="drawGantt()"><option value="">Tout l'équipage</option>${userOptions}</select>
-    <select id="fStatus" class="mini-input inline" style="width:130px;" onchange="drawGantt()"><option value="">Tous statuts</option><option value="ongoing">En cours</option><option value="done">Terminé</option><option value="late">Retard</option><option value="blocked">Bloqué</option><option value="planned">À venir</option></select>
-    <button class="btn btn-blue" onclick="openWpForm()"><i class="fa-solid fa-plus"></i> Créer WP</button>
-  `;
-  
-  if (filterType === 'project' && filterId) document.getElementById('fProj').value = filterId;
-  if (filterType === 'person' && filterId) document.getElementById('fPerson').value = filterId;
-
-  drawGantt();
-  setTimeout(scrollToToday, 50); 
-}
-
-function closeRoadmap(){ document.getElementById('roadModal').classList.remove('show'); }
-
-function autoComputeTimeBounds() {
-  let dates = [new Date()]; // force inclure "aujourd'hui"
-  activeWps().forEach(w => { if(w.start) dates.push(new Date(w.start)); if(w.end) dates.push(new Date(w.end)); });
-  activeActions().forEach(a => { if(a.start) dates.push(new Date(a.start)); if(a.end) dates.push(new Date(a.end)); });
-  
-  let minDate = new Date(Math.min(...dates));
-  let maxDate = new Date(Math.max(...dates));
-  if(isNaN(minDate.getTime())) { minDate = new Date(); maxDate = new Date(); }
-  
-  // Demarre 1 mois avant la toute premiere date trouvee
-  base = new Date(minDate.getFullYear(), minDate.getMonth() - 1, 1);
-  
-  // Genere 120 mois (10 ans pleins) pour s'assurer que ça ne bloque jamais visuellement
-  let endLimit = new Date(maxDate.getFullYear() + 10, maxDate.getMonth(), 1); 
-  let diffMonths = (endLimit.getFullYear() - base.getFullYear()) * 12 + (endLimit.getMonth() - base.getMonth());
-  
-  totalMonthsCount = Math.max(120, diffMonths); 
-  ganttWidth = left + (totalMonthsCount * 31 * px);
-}
-
-function scrollToToday() {
-  let gtWrap = document.querySelector('.gantt-wrap');
-  if(gtWrap) {
-    let tx = xpos(new Date());
-    gtWrap.scrollLeft = tx - (gtWrap.clientWidth / 2);
-  }
-}
-
-function days(a, b) { return Math.round((b - a) / 86400000); }
-function xpos(d) { return left + days(base, new Date(d)) * px; }
-function wpx(s, e) { return Math.max(24, (days(new Date(s), new Date(e)) + 1) * px); }
-
-function months(){
-  let html = `<div class="g-left-head"><span>Élément</span><span>Responsable</span></div>`;
-  let current = new Date(base);
-  let currentLeft = left;
-  for (let i = 0; i < totalMonthsCount; i++) {
-    let name = current.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
-    let daysInMonth = new Date(current.getFullYear(), current.getMonth() + 1, 0).getDate();
-    let width = daysInMonth * px;
-    html += `<div class="month" style="left:${currentLeft}px; width:${width}px;">${name}</div>`;
-    currentLeft += width;
-    current.setMonth(current.getMonth() + 1);
-  }
-  html += `<span class="today-label" style="left:${left+days(base,new Date())*px}px">Aujourd'hui</span>`;
-  return html;
-}
-
-function grids(){
-  let html = '';
-  let current = new Date(base);
-  let currentLeft = left;
-  for (let i = 0; i < totalMonthsCount; i++) {
-    let daysInMonth = new Date(current.getFullYear(), current.getMonth() + 1, 0).getDate();
-    let width = daysInMonth * px;
-    html += `<span class="gridline major" style="left:${currentLeft}px"></span>`;
-    html += `<span class="gridline" style="left:${currentLeft + (Math.round(daysInMonth/2) * px)}px"></span>`;
-    currentLeft += width;
-    current.setMonth(current.getMonth() + 1);
-  }
-  html += `<span class="today" style="left:${left+days(base,new Date())*px}px"></span>`;
-  return html;
-}
-
-function groupBy(items,key){
-  let map = {}; 
-  items.forEach(i => { let k = key(i) || 'Autre'; (map[k] = map[k] || []).push(i); }); 
-  return map;
-}
-
-function initials(name){ 
-  return (name||'').split(' ').filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase(); 
-}
-
-// ALGORITHME DU GANTT : FUSION ET ANTI-DOUBLON
-function drawGantt(){
-  let items = []; 
-  let filtCdt = document.getElementById('fCdt')?.value || '';
-  let filtProj = document.getElementById('fProj')?.value || '';
-  let filtPerson = document.getElementById('fPerson')?.value || '';
-  let filtStatus = document.getElementById('fStatus')?.value || '';
-
-  activeWps().forEach(w => {
-    let p = project(w.project); 
-    if (!p) return;
-    
-    // Conditions de filtrage Global
-    let mProj = !filtProj || w.project === filtProj;
-    let mCdt = !filtCdt || w.cdt === filtCdt || p.cdt === filtCdt;
-    let mStatus = !filtStatus || effectiveStatus(w) === filtStatus;
-    let mPerson = !filtPerson || w.owner === filtPerson;
-
-    // Conditions de filtrage des actions enfants
-    let allWa = actionsOfWp(w.id);
-    let matchingActions = allWa.filter(a => {
-      let actMStatus = !filtStatus || effectiveStatus(a) === filtStatus;
-      let actMPerson = !filtPerson || a.people.includes(filtPerson);
-      return mProj && mCdt && actMStatus && actMPerson;
-    });
-
-    // RÈGLE MÉTALLIQUE ANTI-DOUBLON
-    if (matchingActions.length > 0) {
-      // S'il y a des actions qui matchent, on affiche uniquement les actions (avec le nom du WP en préfixe)
-      matchingActions.forEach(a => {
-        items.push({
-          type: 'action', 
-          id: a.id, 
-          title: `[${w.name}] ${a.title}`, 
-          start: a.start, 
-          end: a.end, 
-          status: effectiveStatus(a), 
-          project: p.name, 
-          owner: a.people.map(u => user(u).name).join(', '), 
-          pct: actionPct(a)
-        });
-      });
-    } else if (mProj && mCdt && mStatus && mPerson) {
-      // S'il n'y a AUCUNE action qui matche, mais que le WP matche, on affiche le WP seul
-      items.push({
-        type: 'wp', 
-        id: w.id, 
-        title: w.name, 
-        start: w.start, 
-        end: w.end, 
-        status: effectiveStatus(w), 
-        project: p.name, 
-        owner: user(w.owner).name, 
-        pct: pctWp(w.id)
-      });
-    }
-  });
-  
-  let map = groupBy(items, it => it.project);
-  let html = `<div style="min-width:${ganttWidth}px; position:relative;"><div class="g-head">${months()}</div><div style="position:relative;min-height:420px">${grids()}`;
-  let y = 0;
-  
-  Object.entries(map).forEach(([projName, arr]) => {
-    html += `<div class="project-header"><div class="project-title"><i class="fa-solid fa-folder"></i>${projName}</div></div>`; 
-    y += 52;
-    arr.forEach(it => {
-      let initialsStr = it.type === 'wp' ? initials(it.owner) : initials(it.owner.split(',')[0]);
-      html += `<div class="row">
-        <div class="row-label"><strong>${it.title}</strong><span>${it.owner}</span></div>
-        <div class="bar bar-grad-${it.status}" style="left:${xpos(it.start)}px;width:${wpx(it.start,it.end)}px;" onclick="${it.type==='wp'?`openWp('${it.id}')`:`openAction('${it.id}')`}">
-          <div class="bar-progress" style="width:${it.pct}%;"></div>
-          <div class="bar-content">
-            ${it.title}
-            <span class="mark">${initialsStr}</span>
-          </div>
-        </div>
-      </div>`; 
-      y += 64;
-    });
-  });
-  
-  if(!items.length) {
-    html += `<div style="padding:80px 450px;color:var(--muted);font-weight:900;text-transform:uppercase;">Aucun élément trouvé avec ces filtres.</div>`;
-  }
-  
-  html += `</div></div>`;
-  let gt = document.getElementById('gantt'); 
-  if(gt) gt.innerHTML = html;
-}
-
-// ----------------------------------------------------
-// LIAISON ET AFFICHAGE DES FORMULAIRES (MODALES)
-// ----------------------------------------------------
-function openWp(id){
-  let w = wp(id); if(!w) return;
-  let p = project(w.project); if(!p) return;
-  let a = actionsOfWp(id);
-  
-  document.getElementById('modalBadge').textContent = 'Work Package'; 
-  document.getElementById('modalTitle').textContent = w.name; 
-  document.getElementById('modalSub').textContent = `Projet : ${p.name}`;
-  document.getElementById('modalActions').innerHTML = `
-    <button class="btn btn-blue" onclick="saveWpEdits('${id}')"><i class="fa-solid fa-check"></i> Enregistrer</button>
-    <button class="btn btn-red" onclick="archiveWp('${id}')" title="Archiver WP"><i class="fa-solid fa-trash"></i></button>
-    <button class="btn btn-white" onclick="closeModal()">Fermer</button>
-  `;
-  
-  let cdtSelectorHtml = p.cdt === "c3" 
-    ? `<div class="mini-form-group"><label class="mini-form-label">CDT Spécifique (Projet Transverse)</label><select id="editWpCdt_${id}" class="mini-input">${db.cdts.map(c=>`<option value="${c.id}" ${w.cdt===c.id?'selected':''}>${c.name}</option>`).join('')}</select></div>`
-    : `<div class="mini-form-group"><label class="mini-form-label">CDT de l'usine (Hérité du projet)</label><input class="mini-input" value="${cdtName(p.cdt)}" disabled></div>`;
-
-  let actionHtml = a.length ? a.map(x => `<tr>
-    <td>${x.title}</td>
-    <td>${x.people.map(u => initials(user(u).name)).join(', ')}</td>
-    <td><span class="chip ${stClass(effectiveStatus(x))}">${stTxt(effectiveStatus(x))}</span></td>
-    <td>${actionPct(x)}%</td>
-    <td><button class="btn btn-white" style="padding:4px 8px; font-size:10px;" onclick="openAction('${x.id}')">Ouvrir</button></td>
-  </tr>`).join('') : '<tr><td colspan="5" style="text-align:center; color:var(--muted); font-size:11px;">Aucune action pour le moment.</td></tr>';
-
-  document.getElementById('modalBody').innerHTML = `
-  <div class="grid2">
-    <div>
-      <div class="box"><h4>Commentaire global</h4><textarea id="editWpComment_${id}" placeholder="Notez ici les informations importantes...">${w.comment||''}</textarea></div>
-      <div class="box" style="padding:16px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom:12px;">
-          <h4 style="margin:0; border:0; padding:0;">Actions liées</h4>
-          <button class="btn btn-blue" style="font-size:10px; padding:6px 12px;" onclick="openActionForm('${id}')"><i class="fa-solid fa-plus"></i> Créer une action</button>
-        </div>
-        <table class="modal-table">
-          <thead><tr><th>Action</th><th>Resp.</th><th>Statut</th><th>%</th><th></th></tr></thead>
-          <tbody>${actionHtml}</tbody>
-        </table>
-      </div>
-    </div>
-    <div>
-      <div class="box">
-        <h4>Paramètres de pilotage</h4>
-        <div class="mini-form-group"><label class="mini-form-label">Nom du WP</label><input id="editWpName_${id}" value="${w.name.replace(/"/g, '&quot;')}" class="mini-input"></div>
-        <div class="mini-form-group">
-          <label class="mini-form-label">Dates de validité</label>
-          <div style="display:flex; gap:6px; align-items:center;">
-            <input type="date" id="editWpStart_${id}" value="${w.start}" class="mini-input" style="flex:1;">
-            <i class="fa-solid fa-arrow-right" style="color:#cbd5e1; font-size:10px;"></i>
-            <input type="date" id="editWpEnd_${id}" value="${w.end}" class="mini-input" style="flex:1;">
-          </div>
-        </div>
-        ${cdtSelectorHtml}
-        <div class="mini-form-group"><label class="mini-form-label">Avancement Consolidé</label><span style="font-size:24px; font-weight:900; color:var(--blue);">${pctWp(id)}%</span></div>
-      </div>
-    </div>
-  </div>`;
-  document.getElementById('modal').classList.add('show');
-}
-
-function openAction(id){
-  let a = activeActions().find(x => x.id === id); if(!a) return;
-  let w = wp(a.wp); if(!w) return;
-  let p = project(w.project); if(!p) return;
-  
-  document.getElementById('modalBadge').textContent = 'Action'; 
-  document.getElementById('modalTitle').textContent = a.title;
-  document.getElementById('modalSub').textContent = `Projet : ${p.name} · WP : ${w.name}`;
-  document.getElementById('modalActions').innerHTML = `
-    <button class="btn btn-blue" onclick="saveActionEdits('${id}')"><i class="fa-solid fa-check"></i> Enregistrer</button>
-    <button class="btn btn-red" onclick="archiveAction('${id}')" title="Archiver Action"><i class="fa-solid fa-trash"></i></button>
-    <button class="btn btn-white" onclick="closeModal()">Fermer</button>
-  `;
-  
-  let statusOptions = `<option value="planned" ${a.status==='planned'?'selected':''}>À venir</option><option value="ongoing" ${a.status==='ongoing'?'selected':''}>En cours</option><option value="done" ${a.status==='done'?'selected':''}>Terminé</option><option value="blocked" ${a.status==='blocked'?'selected':''}>Bloqué</option>`;
-
-  document.getElementById('modalBody').innerHTML = `
-  <div class="grid2">
-    <div>
-      <div class="box"><h4>Description & Commentaire</h4><textarea id="editActionComment_${id}" placeholder="Notez ici les informations relatives à cette action...">${a.comment||''}</textarea></div>
-      <div class="box"><h4>Cause de blocage (Si applicable)</h4><textarea id="editBlockCause_${id}" placeholder="Indiquer la raison exacte du blocage...">${a.blockCause||''}</textarea></div>
-    </div>
-    <div>
-      <div class="box">
-        <h4>Paramètres d'exécution</h4>
-        <div class="mini-form-group">
-          <label class="mini-form-label">Statut Actuel</label>
-          <select id="editActionStatus_${id}" class="mini-input">${statusOptions}</select>
-        </div>
-        <div class="mini-form-group">
-          <label class="mini-form-label">Dates de l'action</label>
-          <div style="display:flex; gap:6px; align-items:center;">
-            <input type="date" id="editActionStart_${id}" value="${a.start}" class="mini-input" style="flex:1;" min="${w.start}" max="${w.end}">
-            <i class="fa-solid fa-arrow-right" style="color:#cbd5e1; font-size:10px;"></i>
-            <input type="date" id="editActionEnd_${id}" value="${a.end}" class="mini-input" style="flex:1;" min="${w.start}" max="${w.end}">
-          </div>
-        </div>
-        <div class="mini-form-group">
-          <label class="mini-form-label">Avancement Manuel (%)</label>
-          <input type="number" id="editActionProgress_${id}" value="${actionPct(a)}" min="0" max="100" class="mini-input" style="width:100px; font-size:18px; font-weight:900; color:var(--blue);">
-        </div>
-      </div>
-      <div class="box"><h4>Historique de l'action</h4><div style="max-height:180px; overflow-y:auto; padding-right:8px;">${(a.history||[]).map(h=>`<div class="hist">${h}</div>`).join('')}</div></div>
-    </div>
-  </div>`;
-  document.getElementById('modal').classList.add('show');
-}
-
-function openWpForm(){
-  document.getElementById('formTitle').textContent = 'Ajouter un Work Package';
-  
-  let projOptions = activeProjects().map(p => `<option value="${p.id}" data-cdt="${p.cdt}">${p.name}</option>`).join('');
-  let cdtOptions = db.cdts.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-  let ownerOptions = db.users.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
-  
-  document.getElementById('formBody').innerHTML = `
-  <div class="form-grid">
-    <div class="full"><label class="mini-form-label">Projet Parent</label>
-      <select id="fwProject" class="mini-input" onchange="document.getElementById('fwCdt').value = this.options[this.selectedIndex].getAttribute('data-cdt');">${projOptions}</select>
-    </div>
-    <div class="full"><label class="mini-form-label">Nom du WP</label><input id="fwName" class="mini-input" placeholder="Ex: Phase 1 - Étude"></div>
-    <div><label class="mini-form-label">Responsable Principal</label><select id="fwOwner" class="mini-input">${ownerOptions}</select></div>
-    <div><label class="mini-form-label">Statut de départ</label><select id="fwStatus" class="mini-input"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option></select></div>
-    <div><label class="mini-form-label">Date de début</label><input id="fwStart" type="date" class="mini-input"></div>
-    <div><label class="mini-form-label">Date de fin</label><input id="fwEnd" type="date" class="mini-input"></div>
-    <div class="full"><label class="mini-form-label">Secteur CDT</label><select id="fwCdt" class="mini-input">${cdtOptions}</select></div>
-    <div class="full"><label class="mini-form-label">Commentaire (Optionnel)</label><textarea id="fwComment" class="mini-input" style="min-height:80px;"></textarea></div>
-    <button class="btn btn-blue full" style="justify-content:center;" onclick="saveWp()">Ajouter le WP</button>
-  </div>`;
-  
-  document.getElementById('formModal').classList.add('show');
-  
-  // Set default CDT
-  let fwProject = document.getElementById('fwProject');
-  if(fwProject && fwProject.options.length > 0) { document.getElementById('fwCdt').value = fwProject.options[0].getAttribute('data-cdt'); }
-}
-
-function openActionForm(wid = ''){
-  document.getElementById('formTitle').textContent = 'Créer une Action';
-  
-  let wpOptions = activeWps().map(w => `<option value="${w.id}" ${w.id===wid?'selected':''} data-start="${w.start}" data-end="${w.end}">${project(w.project)?.name} · ${w.name}</option>`).join('');
-  let usersOptions = db.users.map(u => `<label style="margin-right:16px; font-size:12px; font-weight:700; display:inline-block; margin-bottom:4px;"><input class="assignee" type="checkbox" value="${u.id}"> ${u.name}</label>`).join('');
-  
-  document.getElementById('formBody').innerHTML = `
-  <div class="form-grid">
-    <div class="full"><label class="mini-form-label">Work Package rattaché</label>
-      <select id="faWp" class="mini-input" onchange="updateActionDateLimits()">${wpOptions}</select>
-    </div>
-    <div class="full"><label class="mini-form-label">Nom de l'action</label><input id="faTitle" class="mini-input" placeholder="ex: Audit Technique"></div>
-    <div><label class="mini-form-label">Début</label><input id="faStart" type="date" class="mini-input"></div>
-    <div><label class="mini-form-label">Fin</label><input id="faEnd" type="date" class="mini-input"></div>
-    <div class="full"><label class="mini-form-label">Statut initial</label>
-      <select id="faStatus" class="mini-input"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option><option value="blocked">Bloqué</option></select>
-    </div>
-    <div class="full" style="background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #cbd5e1;">
-      <label class="mini-form-label">Assigner la ou les personnes :</label>
-      ${usersOptions}
-    </div>
-    <div class="full" style="display:flex;align-items:center;gap:12px;">
-      <label class="mini-form-label" style="margin:0;">Avancement de départ (%)</label>
-      <input type="number" id="faProgress" value="0" min="0" max="100" class="mini-input" style="width:100px;">
-    </div>
-    <div class="full"><label class="mini-form-label">Description / Commentaire</label><textarea id="faComment" class="mini-input" style="min-height:80px;"></textarea></div>
-    <div class="full" id="faBlockContainer" style="display:none;"><label class="mini-form-label" style="color:var(--red);">Cause du blocage</label><textarea id="faBlock" class="mini-input" style="min-height:60px;"></textarea></div>
-    <button class="btn btn-blue full" style="justify-content:center;" onclick="saveAction()">Ajouter l'action</button>
-  </div>`;
-  
-  document.getElementById('formModal').classList.add('show');
-  updateActionDateLimits();
-  
-  let sSel = document.getElementById('faStatus'); 
-  if(sSel) { sSel.onchange = function() { document.getElementById('faBlockContainer').style.display = (this.value === 'blocked' ? 'block' : 'none'); } }
-}
-
-function updateActionDateLimits() {
-  let wSelect = document.getElementById('faWp');
-  if(!wSelect || wSelect.options.length === 0) return;
-  
-  let opt = wSelect.options[wSelect.selectedIndex];
-  let wStart = opt.getAttribute('data-start');
-  let wEnd = opt.getAttribute('data-end');
-  
-  let s = document.getElementById('faStart');
-  let e = document.getElementById('faEnd');
-  
-  if(s && e) { 
-    s.min = wStart; s.max = wEnd; 
-    e.min = wStart; e.max = wEnd; 
-    if(!s.value) s.value = wStart; 
-    if(!e.value) e.value = wEnd; 
-  }
-}
-
-// ----------------------------------------------------
-// LOGIQUE DE SAUVEGARDE ET FERMETURE
-// ----------------------------------------------------
-function saveWpEdits(id){
-  let w = wp(id); if(!w) return;
-  let valEl = document.getElementById(`editWpComment_${id}`);
-  let nameEl = document.getElementById(`editWpName_${id}`);
-  let startEl = document.getElementById(`editWpStart_${id}`);
-  let endEl = document.getElementById(`editWpEnd_${id}`);
-  let cdtEl = document.getElementById(`editWpCdt_${id}`);
-  
-  let nComment = valEl ? valEl.value : (w.comment||'');
-  let nName = nameEl ? nameEl.value : w.name;
-  let nStart = startEl ? startEl.value : w.start;
-  let nEnd = endEl ? endEl.value : w.end;
-  let nCdt = cdtEl ? cdtEl.value : w.cdt;
-  
-  let hasChanges = (w.name !== nName || w.start !== nStart || w.end !== nEnd || w.comment !== nComment || w.cdt !== nCdt);
-
-  if(hasChanges) {
-    let r = prompt("Motif de la modification (Optionnel) :") || "Mise à jour";
-
-    if(w.name !== nName) { w.history.push(`${new Date().toLocaleString('fr-FR')} · Nom modifié · Motif : ${r}`); w.name = nName; }
-    if(w.start !== nStart || w.end !== nEnd) { w.history.push(`${new Date().toLocaleString('fr-FR')} · Dates modifiées (${w.start}→${nStart} / ${w.end}→${nEnd}) · Motif : ${r}`); w.start = nStart; w.end = nEnd; }
-    if(w.comment !== nComment) { w.history.push(`${new Date().toLocaleString('fr-FR')} · Commentaire modifié · Motif : ${r}`); w.comment = nComment; }
-    if(w.cdt !== nCdt) { w.history.push(`${new Date().toLocaleString('fr-FR')} · CDT modifié · Motif : ${r}`); w.cdt = nCdt; }
-    
-    w.modified = true;
-    save('WP mis à jour');
-  }
-  closeModal();
-}
-
-function saveActionEdits(id){
-  let a = activeActions().find(x => x.id === id); if(!a) return;
-  let commEl = document.getElementById(`editActionComment_${id}`);
-  let causeEl = document.getElementById(`editBlockCause_${id}`);
-  let statEl = document.getElementById(`editActionStatus_${id}`);
-  let progEl = document.getElementById(`editActionProgress_${id}`);
-  let startEl = document.getElementById(`editActionStart_${id}`);
-  let endEl = document.getElementById(`editActionEnd_${id}`);
-  
-  if(commEl && causeEl && statEl && progEl && startEl && endEl) {
-    let nComment = commEl.value;
-    let nCause = causeEl.value;
-    let nStat = statEl.value;
-    let nStart = startEl.value;
-    let nEnd = endEl.value;
-    let nProg = parseInt(progEl.value, 10);
-    
-    if(isNaN(nProg)) nProg = actionPct(a);
-    if(nStat === 'done') nProg = 100;
-    if(nProg === 100) nStat = 'done';
-    if(nProg < 100 && nStat === 'done') nStat = 'ongoing';
-    
-    let hasChanges = (a.comment !== nComment || a.blockCause !== nCause || a.status !== nStat || actionPct(a) !== nProg || a.start !== nStart || a.end !== nEnd);
-
-    if(hasChanges) {
-      if(nStat === 'blocked' && !nCause.trim()) return alert('Cause de blocage requise.');
-
-      let r = prompt("Motif de la modification (Optionnel) :") || "Mise à jour";
-
-      if(a.status !== nStat) { a.history.push(`${new Date().toLocaleString('fr-FR')} · Statut: ${stTxt(a.status)} -> ${stTxt(nStat)} · Motif: ${r}`); a.status = nStat; }
-      if(a.start !== nStart || a.end !== nEnd) { a.history.push(`${new Date().toLocaleString('fr-FR')} · Dates modifiées · Motif: ${r}`); a.start = nStart; a.end = nEnd; }
-      if(a.comment !== nComment) { a.history.push(`${new Date().toLocaleString('fr-FR')} · Commentaire modifié · Motif: ${r}`); a.comment = nComment; }
-      if(a.blockCause !== nCause) { a.history.push(`${new Date().toLocaleString('fr-FR')} · Cause blocage modifiée · Motif: ${r}`); a.blockCause = nCause; }
-      if(actionPct(a) !== nProg) { a.history.push(`${new Date().toLocaleString('fr-FR')} · Avancement: ${nProg}% · Motif: ${r}`); a.progress = nProg; }
-      
-      syncWpWithActions(a.wp); 
-      save('Action mise à jour');
-    }
-  }
-  closeModal();
-}
-
-function saveWp(){
-  let fwp = document.getElementById('fwProject')?.value;
-  let fwn = document.getElementById('fwName')?.value.trim();
-  let fwo = document.getElementById('fwOwner')?.value;
-  let fws = document.getElementById('fwStatus')?.value;
-  let fwst = document.getElementById('fwStart')?.value;
-  let fwe = document.getElementById('fwEnd')?.value;
-  let fwc = document.getElementById('fwComment')?.value;
-  let fcdt = document.getElementById('fwCdt')?.value;
-  
-  if(!fwn || !fwst || !fwe) return toast('Veuillez remplir tous les champs obligatoires.');
-
-  db.wps.push({id:uid('w'), project:fwp, name:fwn, owner:fwo, start:fwst, end:fwe, status:fws, comment:fwc, cdt:fcdt, progress:0, modified:false, archived:false, history:[`${new Date().toLocaleString('fr-FR')} · Création WP`]});
-  addHistory(`WP "${fwn}"`, '-', 'Création', 'Ajout manuel');
-  
-  closeForm(); 
-  save('WP ajouté avec succès');
-}
-
-function saveAction(){
-  let faw = document.getElementById('faWp')?.value;
-  let fat = document.getElementById('faTitle')?.value.trim();
-  let fas = document.getElementById('faStart')?.value;
-  let fae = document.getElementById('faEnd')?.value;
-  let fast = document.getElementById('faStatus')?.value;
-  let fab = document.getElementById('faBlock')?.value;
-  let fac = document.getElementById('faComment')?.value;
-  let fap = parseInt(document.getElementById('faProgress')?.value, 10);
-  let people = [...document.querySelectorAll('.assignee:checked')].map(x => x.value);
-  
-  if(!fat || !fas || !fae || !people.length) return toast('Veuillez renseigner le nom, les dates et assigner une personne.');
-  
-  let w = wp(faw);
-  if(new Date(fas) < new Date(w.start) || new Date(fae) > new Date(w.end)) return alert(`Erreur de dates : l'action doit être comprise entre le ${fmt(w.start)} et le ${fmt(w.end)}.`);
-  if(fast === 'blocked' && !fab.trim()) return alert('Veuillez renseigner la cause du blocage.');
-  
-  if(isNaN(fap)) fap = 0;
-  if(fast === 'done') fap = 100;
-  if(fap === 100) fast = 'done';
-  
-  db.actions.push({id:uid('a'), wp:faw, title:fat, start:fas, end:fae, status:fast, people:people, progress:fap, comment:fac, blockCause:fab, archived:false, history:[`${new Date().toLocaleString('fr-FR')} · Création`]});
-  addHistory(`Action "${fat}"`, '-', 'Création', 'Ajout manuel');
-  
-  syncWpWithActions(w.id); 
-  closeForm();
-  
-  // Si la fenêtre du WP est ouverte en arrière plan, on la rafraichit
-  if(document.getElementById('modal').classList.contains('show')) openWp(w.id); 
-  
-  save('Action ajoutée avec succès');
-}
-
-function closeForm(){ document.getElementById('formModal').classList.remove('show'); }
-function closeModal(){ document.getElementById('modal').classList.remove('show'); }
-
-function openSimple(t, body) {
-  document.getElementById('modalBadge').textContent = 'Cockpit'; 
-  document.getElementById('modalTitle').textContent = t; 
-  document.getElementById('modalSub').textContent = '';
-  document.getElementById('modalActions').innerHTML = '<button class="btn btn-white" onclick="closeModal()">Fermer</button>';
-  document.getElementById('modalBody').innerHTML = body; 
-  document.getElementById('modal').classList.add('show');
-}
-
-// Initialisation
-showView('home');
-renderAll();
+function save(msg){db.last=new Date().toLocaleString('fr-FR');localStorage.setItem(KEY,JSON.stringify(db));renderAll();if(msg)toast(msg)}
+function uid(p){return p+Date.now()+Math.random().toString(16).slice(2)}
+function activeProjects(){return db.projects.filter(p=>!p.archived)}function activeWps(){let pIds=activeProjects().map(p=>p.id);return db.wps.filter(w=>!w.archived&&pIds.includes(w.project))}function activeActions(){let wIds=activeWps().map(w=>w.id);return db.actions.filter(a=>!a.archived&&wIds.includes(a.wp))}
+function user(id){return db.users.find(u=>u.id===id)||{name:'N/A',role:''}}function project(id){return db.projects.find(p=>p.id===id)}function wp(id){return db.wps.find(w=>w.id===id)}function cdtName(id){let c=db.cdts.find(x=>x.id===id);return c?c.name:'N/A'}function cdtNames(ids){return(ids||[]).map(cdtName).join(', ')||'N/A'}function memberNames(ids){return(ids||[]).map(id=>user(id).name).join(', ')||'N/A'}
+function cdtIdsOfProject(p){return p&&p.cdtIds&&p.cdtIds.length?p.cdtIds:[]}function memberIdsOfProject(p){return p&&p.memberIds&&p.memberIds.length?p.memberIds:(p&&p.owner?[p.owner]:[])}function actionsOfWp(wid){return activeActions().filter(a=>a.wp===wid)}
+function getCheckedValues(cls){return[...document.querySelectorAll('.'+cls+':checked')].map(x=>x.value)}
+function getSelectedValues(id){let el=document.getElementById(id);return el?[...el.selectedOptions].map(o=>o.value):[]}
+function cdtIdsOfWp(w){let p=project(w.project);return w&&w.cdtIds&&w.cdtIds.length?w.cdtIds:cdtIdsOfProject(p)}
+function renderCheckboxes(items,cls,selected=[]){return items.map(i=>`<label class="check-pill"><input type="checkbox" class="${cls}" value="${i.id}" ${selected.includes(i.id)?'checked':''}> ${i.name}</label>`).join('')}
+function renderUserCheckboxes(cls,selected=[]){return db.users.map(u=>`<label class="check-pill"><input type="checkbox" class="${cls}" value="${u.id}" ${selected.includes(u.id)?'checked':''}> ${u.name}</label>`).join('')}
+function effectiveStatus(x){if(x.status==='done'||x.status==='blocked')return x.status;return x.end&&new Date(x.end+'T23:59:59')<new Date()?'late':x.status}
+function stTxt(s){return{ongoing:'en cours',done:'terminé',late:'retard',planned:'à venir',blocked:'bloqué'}[s]||s}function stClass(s){return's-'+s}function fmt(d){if(!d)return'';let[y,m,day]=d.split('-');return`${day}/${m}/${y}`}
+function actionPct(a){return a.progress!==undefined?parseInt(a.progress,10):0}function pctWp(wid){let acts=actionsOfWp(wid);if(!acts.length){let w=wp(wid);return w&&w.progress!==undefined?parseInt(w.progress,10):0}return Math.round(acts.reduce((s,x)=>s+actionPct(x),0)/acts.length)}function pctProject(pid){let wps=activeWps().filter(x=>x.project===pid);if(!wps.length)return 0;return Math.round(wps.reduce((a,x)=>a+pctWp(x.id),0)/wps.length)}function pctUser(uid){let acts=activeActions().filter(x=>x.people.includes(uid));if(!acts.length)return 0;return Math.round(acts.reduce((s,x)=>s+actionPct(x),0)/acts.length)}
+function addHistory(object,oldVal,newVal,reason,userName='Omar Hamzé'){db.history.unshift({date:new Date().toLocaleString('fr-FR'),user:userName,object,old:oldVal,new:newVal,reason:reason||'Mise à jour'})}
+function toast(t){let e=document.getElementById('toast');if(e){e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2500)}}
+
+function showView(v){if(v==='admin'&&!adminOK)return askAdmin();document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(v)?.classList.add('active');let navs=['nav-home','nav-projects','nav-people','nav-admin'];navs.forEach(id=>document.getElementById(id)?.classList.add('d-none'));let tools=['btnNotif','btnHist','btnGuide'];if(v==='home'){document.getElementById('btnNotif')?.classList.add('d-none');document.getElementById('btnHist')?.classList.remove('d-none');document.getElementById('btnGuide')?.classList.remove('d-none')}else{tools.forEach(id=>document.getElementById(id)?.classList.remove('d-none'));navs.forEach(id=>document.getElementById(id)?.classList.remove('d-none'));document.getElementById('nav-'+v)?.classList.add('d-none')}}
+function askAdmin(){let c=prompt('Code responsable :');if(c===db.password){adminOK=true;showView('admin');toast('Accès autorisé')}else if(c!==null)alert('Code incorrect.')}
+function renderAll(){lastUpdate.textContent=db.last||'-';db.wps.forEach(w=>syncWpWithActions(w.id,true));renderHome();renderProjects();renderPeople();renderAdmin();notifCount.textContent=alerts().length;if(roadModal.classList.contains('show'))drawGantt()}
+function renderHome(){let open=activeActions().filter(a=>a.status!=='done').length;homeKpis.innerHTML=`<div class="home-kpi"><div class="num">${activeProjects().length}</div><div class="label">Projets actifs</div></div><div class="home-kpi"><div class="num">${db.users.length}</div><div class="label">Membres de l'équipe</div></div><div class="home-kpi"><div class="num">${open}</div><div class="label" style="${alerts().length?'color:var(--red)':''}">${alerts().length?`Dont ${alerts().length} critiques`:'Actions en cours'}</div></div>`}
+function renderProjects(){let q=(projectSearch?.value||'').toLowerCase();projectsRows.innerHTML=activeProjects().filter(p=>p.name.toLowerCase().includes(q)||cdtNames(cdtIdsOfProject(p)).toLowerCase().includes(q)||user(p.owner).name.toLowerCase().includes(q)).map(p=>{let pc=pctProject(p.id);let late=activeWps().some(w=>w.project===p.id&&effectiveStatus(w)==='late');let blocked=activeWps().some(w=>w.project===p.id&&effectiveStatus(w)==='blocked');let s=pc===100?'done':blocked?'blocked':late?'late':'ongoing';return`<tr class="row-hover" onclick="openRoadmap('project','${p.id}')"><td>${p.name}</td><td>${p.sector}</td><td><div class="cdt-chip-list">${cdtIdsOfProject(p).map(id=>`<span class="chip s-planned">${cdtName(id)}</span>`).join('')}</div></td><td><span class="chip ${stClass(s)}">${stTxt(s)}</span></td><td><div class="progress"><div class="track"><div class="fill" style="width:${pc}%;background:${s==='late'?'var(--red)':pc===100?'var(--green)':s==='blocked'?'var(--dark)':'var(--blue)'}"></div></div>${pc}%</div></td><td>${user(p.owner).name}</td></tr>`}).join('')}
+function renderPeople(){let q=(peopleSearch?.value||'').toLowerCase();peopleRows.innerHTML=db.users.filter(u=>u.name.toLowerCase().includes(q)).map(u=>{let a=activeActions().filter(x=>x.people.includes(u.id));let pids=[...new Set(a.map(x=>wp(x.wp)?.project).filter(Boolean))];let pc=pctUser(u.id);let late=a.some(x=>effectiveStatus(x)==='late');let blocked=a.some(x=>effectiveStatus(x)==='blocked');let s=pc===100?'done':blocked?'blocked':late?'late':'ongoing';return`<tr class="row-hover" onclick="openRoadmap('person','${u.id}')"><td>${u.name}</td><td>${u.role}</td><td>${pids.length}</td><td>${a.filter(x=>x.status!=='done').length}</td><td><span class="chip ${stClass(s)}">${stTxt(s)}</span></td><td><div class="progress"><div class="track"><div class="fill" style="width:${pc}%;background:${s==='late'?'var(--red)':pc===100?'var(--green)':s==='blocked'?'var(--dark)':'var(--blue)'}"></div></div>${pc}%</div></td></tr>`}).join('')}
+function renderAdmin(){apOwner.innerHTML=db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('');apCdtSelect.innerHTML=db.cdts.map((c,i)=>`<option value="${c.id}" ${i===0?'selected':''}>${c.name}</option>`).join('');adminProjects.innerHTML=activeProjects().map(p=>`<div class="mini"><div><b>${p.name}</b><br><span style="color:var(--muted);font-size:11px">${cdtNames(cdtIdsOfProject(p))} · Responsable : ${user(p.owner).name}</span></div><div class="actions"><button class="btn btn-white" style="font-size:10px;padding:6px 10px;" onclick="openProjectForm('${p.id}')">Modifier</button><button class="btn btn-red" style="font-size:10px;padding:6px 10px;" onclick="archiveProject('${p.id}')">Archiver</button></div></div>`).join('');adminUsers.innerHTML=db.users.map(u=>`<div class="mini"><div><b>${u.name}</b><br><span style="color:var(--muted);font-size:11px">${u.role}</span></div><button class="btn btn-white" style="font-size:10px;padding:6px 10px;" onclick="openUserForm('${u.id}')">Modifier</button></div>`).join('');adminCdts.innerHTML=db.cdts.map(c=>`<div class="mini"><div><b>${c.name}</b></div><button class="btn btn-red" style="font-size:10px;padding:6px 10px;" onclick="deleteCdt('${c.id}')">Suppr</button></div>`).join('')}
+
+function addProject(){let an=apName.value.trim();let ao=apOwner.value;let ase=(apSector.value||'AOS').toUpperCase();let cdtIds=getSelectedValues('apCdtSelect');if(!an)return toast('Nom projet obligatoire');if(!cdtIds.length)return toast('Sélectionne au moins un CDT');db.projects.push({id:uid('p'),name:an,owner:ao,memberIds:[ao],sector:ase,cdtIds,priority:apPriority.value,archived:false});addHistory(`Projet "${an}"`,'-','Création',`CDT: ${cdtNames(cdtIds)} · Responsable: ${user(ao).name}`);apName.value='';apSector.value='';save('Projet créé')}
+function addUser(){let n=auName.value.trim();if(!n)return toast('Nom manquant');db.users.push({id:uid('u'),name:n,role:auRole.value||'AOS'});addHistory(`Utilisateur "${n}"`,'-','Création','Création depuis Administration');auName.value='';auRole.value='';save('Membre ajouté')}
+function addCdt(){let n=acName.value.trim().toUpperCase();if(!n)return toast('Nom du CDT requis');db.cdts.push({id:uid('c'),name:n});acName.value='';save('Secteur CDT ajouté')}
+function deleteCdt(id){if(activeProjects().some(p=>cdtIdsOfProject(p).includes(id)))return alert('Impossible : ce CDT est encore lié à au moins un projet.');db.cdts=db.cdts.filter(x=>x.id!==id);save('CDT supprimé')}
+function archiveProject(pid){let p=project(pid);if(!p)return;p.archived=true;db.wps.filter(w=>w.project===pid).forEach(w=>{w.archived=true;db.actions.filter(a=>a.wp===w.id).forEach(a=>a.archived=true)});addHistory(`Projet "${p.name}"`,'Actif','Archivé','Archivage en cascade');save('Projet archivé')}
+function archiveWp(id){let w=wp(id);if(!w)return;w.archived=true;db.actions.filter(a=>a.wp===id).forEach(a=>a.archived=true);addHistory(`WP "${w.name}"`,'Actif','Archivé','Archivage en cascade');closeModal();save('WP archivé')}
+function archiveAction(id){let a=activeActions().find(x=>x.id===id);if(!a)return;a.archived=true;addHistory(`Action "${a.title}"`,'Actif','Archivé','Archivage Action');closeModal();syncWpWithActions(a.wp);save('Action archivée')}
+
+function openProjectForm(pid){let p=project(pid);if(!p)return;formTitle.textContent='Modifier le projet';formBody.innerHTML=`<div class="form-grid"><div class="mini-form-group full"><label class="mini-form-label">Nom</label><input id="fpName" class="mini-input" value="${p.name.replace(/"/g,'&quot;')}"></div><div class="mini-form-group"><label class="mini-form-label">Secteur AOS</label><input id="fpSector" class="mini-input" value="${p.sector}" oninput="this.value=this.value.toUpperCase()"></div><div class="mini-form-group"><label class="mini-form-label">Responsable principal</label><select id="fpOwner" class="mini-input">${db.users.map(u=>`<option value="${u.id}" ${p.owner===u.id?'selected':''}>${u.name}</option>`).join('')}</select></div><div class="mini-form-group full"><label class="mini-form-label">CDT usine lié(s)</label><select id="fpCdtSelect" class="mini-input multi-select" multiple>${db.cdts.map(c=>`<option value="${c.id}" ${cdtIdsOfProject(p).includes(c.id)?'selected':''}>${c.name}</option>`).join('')}</select><div class="help-text">Sélection multiple possible : Ctrl + clic si besoin.</div></div><div class="mini-form-group full"><label class="mini-form-label">Priorité</label><select id="fpPriority" class="mini-input"><option ${p.priority==='Haute'?'selected':''}>Haute</option><option ${p.priority==='Moyenne'?'selected':''}>Moyenne</option><option ${p.priority==='Basse'?'selected':''}>Basse</option></select></div><button class="btn btn-blue full" style="justify-content:center;margin-top:10px;" onclick="saveProjectForm('${pid}')">Enregistrer</button></div>`;formModal.classList.add('show')}
+function saveProjectForm(pid){let p=project(pid);let cdtIds=getSelectedValues('fpCdtSelect');if(!cdtIds.length)return toast('Sélectionne au moins un CDT');let old=`${p.name} · ${cdtNames(cdtIdsOfProject(p))} · Responsable: ${user(p.owner).name}`;p.name=fpName.value;p.sector=fpSector.value.toUpperCase();p.owner=fpOwner.value;p.memberIds=[fpOwner.value];p.cdtIds=cdtIds;p.priority=fpPriority.value;addHistory(`Projet "${p.name}"`,old,`${p.name} · ${cdtNames(cdtIds)} · Responsable: ${user(p.owner).name}`,'Modification projet');closeForm();save('Projet modifié')}
+function openUserForm(uid){let u=db.users.find(x=>x.id===uid);formTitle.textContent='Modifier utilisateur';formBody.innerHTML=`<div class="form-grid"><div class="mini-form-group full"><label class="mini-form-label">Nom complet</label><input id="fuName" class="mini-input" value="${u.name.replace(/"/g,'&quot;')}"></div><div class="mini-form-group full"><label class="mini-form-label">Fonction</label><input id="fuRole" class="mini-input" value="${u.role.replace(/"/g,'&quot;')}"></div><button class="btn btn-blue full" style="justify-content:center;margin-top:10px;" onclick="saveUserForm('${uid}')">Enregistrer</button></div>`;formModal.classList.add('show')}
+function saveUserForm(uid){let u=db.users.find(x=>x.id===uid);u.name=fuName.value;u.role=fuRole.value;closeForm();save('Utilisateur modifié')}
+function changePassword(){let n=prompt('Nouveau code responsable :');if(n){db.password=n;save('Mot de passe modifié')}}
+
+function syncWpWithActions(wid,silent=false){let w=wp(wid);if(!w)return;let acts=actionsOfWp(wid);if(acts.length){let allDone=acts.every(a=>a.status==='done'||actionPct(a)===100);let anyBlocked=acts.some(a=>a.status==='blocked');let anyLate=acts.some(a=>effectiveStatus(a)==='late');let ns=allDone?'done':anyBlocked?'blocked':anyLate?'late':'ongoing';if(w.status!==ns){if(!silent)w.history.push(`${new Date().toLocaleString('fr-FR')} · Statut auto-ajusté : ${stTxt(w.status)} → ${stTxt(ns)}`);w.status=ns}}}
+function alerts(){return[...activeActions().filter(a=>effectiveStatus(a)==='late'||effectiveStatus(a)==='blocked'),...activeWps().filter(w=>effectiveStatus(w)==='blocked')]}
+function openNotifications(){let rows=alerts().map(x=>x.title?`<div class="line"><span>${new Date().toISOString().slice(0,10)}</span><b>⚠ Action "${x.title}" en ${stTxt(effectiveStatus(x))} (WP ${wp(x.wp)?.name})</b></div>`:`<div class="line"><b>🔔 WP "${x.name}" bloqué</b></div>`).join('')||'<p>Aucune alerte.</p>';openSimple('Notifications',rows)}
+function openHistory(){let rows=db.history.map(h=>`<div class="hist"><b>${h.date}</b><br><span style="font-weight:700;color:var(--airbus);">${h.object}</span> : ${h.old} → ${h.new}<br><span style="font-size:10px;color:var(--muted);text-transform:uppercase;">Motif : ${h.reason}</span></div>`).join('')||'<p>Aucun historique.</p>';openSimple('Historique des modifications',rows)}
+function openGuide(){openSimple('Guide Utilisateur',`<div class="box"><h4>Accueil</h4><p>Vue globale avec 3 KPI et 3 portes d'entrée.</p></div><div class="box"><h4>Roadmap unique</h4><p>Sans filtre personne : les barres sont les WP, groupés par CDT puis projet. Avec un filtre personne : les barres deviennent les actions affectées à cette personne.</p></div><div class="box"><h4>CDT multiples</h4><p>Un projet peut être lié à plusieurs CDT. Ensuite chaque WP reste libre : il peut concerner un ou plusieurs CDT du projet. Les actions restent propres à leur WP et aux personnes affectées.</p></div>`)}
+function openExport(){openSimple('Exporter / Imprimer',`<div class="actions"><button class="btn btn-blue" onclick="window.print()"><i class="fa-solid fa-print"></i> Imprimer en PDF</button><button class="btn btn-white" onclick="exportJson()"><i class="fa-solid fa-file-code"></i> Sauvegarde Data (JSON)</button><button class="btn btn-white" onclick="exportCsv()"><i class="fa-solid fa-file-csv"></i> Export Excel (CSV)</button></div>`)}
+function exportJson(){download('aos-cockpit.json',JSON.stringify(db,null,2),'application/json')}function exportCsv(){let rows=[['Type','Nom','Projet/WP','Statut','Début','Fin']];activeWps().forEach(w=>rows.push(['WP',w.name,project(w.project)?.name,stTxt(effectiveStatus(w)),w.start,w.end]));activeActions().forEach(a=>rows.push(['Action',a.title,wp(a.wp)?.name,stTxt(effectiveStatus(a)),a.start,a.end]));download('aos-cockpit.csv',rows.map(r=>r.map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(';')).join('\n'),'text/csv')}function download(name,content,type){let blob=new Blob([content],{type});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()}
+
+/* GANTT illimité et unique */
+function openRoadmap(filterType='',filterId=''){roadModal.classList.add('show');autoComputeTimeBounds();let cdtOptions=db.cdts.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');let projOptions=activeProjects().map(p=>`<option value="${p.id}">${p.name}</option>`).join('');let userOptions=db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('');roadFilters.innerHTML=`<div class="legend"><span><i class="dot" style="background:var(--blue)"></i>En cours</span><span><i class="dot" style="background:var(--green)"></i>Terminé</span><span><i class="dot" style="background:var(--red)"></i>Retard</span><span><i class="dot" style="background:var(--dark)"></i>Bloqué</span></div><div class="actions"><select id="fCdt" class="mini-input inline" style="width:150px;" onchange="drawGantt()"><option value="">Tous les CDT</option>${cdtOptions}</select><select id="fProj" class="mini-input inline" style="width:170px;" onchange="drawGantt()"><option value="">Tous les projets</option>${projOptions}</select><select id="fPerson" class="mini-input inline" style="width:170px;" onchange="drawGantt()"><option value="">Vue Projet / WP</option>${userOptions}</select><select id="fStatus" class="mini-input inline" style="width:140px;" onchange="drawGantt()"><option value="">Tous statuts</option><option value="ongoing">En cours</option><option value="done">Terminé</option><option value="late">Retard</option><option value="blocked">Bloqué</option><option value="planned">À venir</option></select><button class="btn btn-blue" onclick="openWpForm()"><i class="fa-solid fa-plus"></i> Créer WP</button></div>`;if(filterType==='project'&&filterId)fProj.value=filterId;if(filterType==='person'&&filterId)fPerson.value=filterId;drawGantt();setTimeout(scrollToToday,50)}
+function closeRoadmap(){roadModal.classList.remove('show')}
+function autoComputeTimeBounds(){let dates=[new Date()];activeWps().forEach(w=>{if(w.start)dates.push(new Date(w.start));if(w.end)dates.push(new Date(w.end))});activeActions().forEach(a=>{if(a.start)dates.push(new Date(a.start));if(a.end)dates.push(new Date(a.end))});let minDate=new Date(Math.min(...dates));let maxDate=new Date(Math.max(...dates));if(isNaN(minDate.getTime())){minDate=new Date();maxDate=new Date()}base=new Date(minDate.getFullYear(),minDate.getMonth()-3,1);let endLimit=new Date(maxDate.getFullYear(),maxDate.getMonth()+15,1);let diff=(endLimit.getFullYear()-base.getFullYear())*12+(endLimit.getMonth()-base.getMonth())+1;totalMonthsCount=Math.max(36,diff);ganttWidth=left+(totalMonthsCount*31*px)+600}
+function scrollToToday(){let gt=document.getElementById('gantt');if(gt){let tx=xpos(new Date());gt.scrollLeft=tx-(gt.clientWidth/2)}}
+function days(a,b){return Math.round((b-a)/86400000)}function xpos(d){return left+days(base,new Date(d))*px}function wpx(s,e){return Math.max(28,(days(new Date(s),new Date(e))+1)*px)}
+function months(){let html=`<div class="g-left-head"><span>Élément</span><span>Responsable</span></div>`;let current=new Date(base);let curLeft=left;for(let i=0;i<totalMonthsCount;i++){let name=current.toLocaleString('fr-FR',{month:'long',year:'numeric'});let dim=new Date(current.getFullYear(),current.getMonth()+1,0).getDate();let width=dim*px;html+=`<div class="month" style="left:${curLeft}px;width:${width}px;">${name}</div>`;curLeft+=width;current.setMonth(current.getMonth()+1)}html+=`<span class="today-label" style="left:${left+days(base,new Date())*px}px">Aujourd'hui</span>`;return html}
+function grids(){let html='';let current=new Date(base);let curLeft=left;for(let i=0;i<totalMonthsCount;i++){let dim=new Date(current.getFullYear(),current.getMonth()+1,0).getDate();let width=dim*px;html+=`<span class="gridline major" style="left:${curLeft}px"></span><span class="gridline" style="left:${curLeft+(Math.round(dim/2)*px)}px"></span>`;curLeft+=width;current.setMonth(current.getMonth()+1)}html+=`<span class="today" style="left:${left+days(base,new Date())*px}px"></span>`;return html}
+function initials(name){return(name||'').split(' ').filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()}function groupPush(groups,cdtId,projName,item){let c=cdtName(cdtId);if(!groups[c])groups[c]={};if(!groups[c][projName])groups[c][projName]=[];groups[c][projName].push(item)}
+function drawGantt(){let filtCdt=fCdt?.value||'',filtProj=fProj?.value||'',filtPerson=fPerson?.value||'',filtStatus=fStatus?.value||'';let groups={};if(filtPerson){activeActions().forEach(a=>{if(!a.people.includes(filtPerson))return;let w=wp(a.wp);if(!w)return;let p=project(w.project);if(!p)return;if(filtProj&&p.id!==filtProj)return;if(filtStatus&&effectiveStatus(a)!==filtStatus)return;cdtIdsOfWp(w).forEach(cdtId=>{if(filtCdt&&cdtId!==filtCdt)return;groupPush(groups,cdtId,p.name,{type:'action',id:a.id,title:`${w.name} · ${a.title}`,start:a.start,end:a.end,status:effectiveStatus(a),owner:a.people.map(u=>user(u).name).join(', '),pct:actionPct(a)})})})}else{activeWps().forEach(w=>{let p=project(w.project);if(!p)return;if(filtProj&&p.id!==filtProj)return;if(filtStatus&&effectiveStatus(w)!==filtStatus)return;cdtIdsOfWp(w).forEach(cdtId=>{if(filtCdt&&cdtId!==filtCdt)return;groupPush(groups,cdtId,p.name,{type:'wp',id:w.id,title:w.name,start:w.start,end:w.end,status:effectiveStatus(w),owner:user(w.owner).name,pct:pctWp(w.id)})})})}let html=`<div style="min-width:${ganttWidth}px;position:relative;"><div class="g-head">${months()}</div><div class="gantt-inner">${grids()}`;let has=false;Object.entries(groups).forEach(([cdt,projects])=>{html+=`<div class="cdt-header"><div class="cdt-title"><i class="fa-solid fa-industry"></i>${cdt}</div></div>`;Object.entries(projects).forEach(([proj,arr])=>{html+=`<div class="project-header"><div class="project-title"><i class="fa-solid fa-folder"></i>${proj}</div></div>`;arr.forEach(it=>{has=true;let ini=it.type==='wp'?initials(it.owner):initials(it.owner.split(',')[0]);html+=`<div class="row"><div class="row-label"><strong>${it.title}</strong><span>${it.owner}</span></div><div class="bar bar-grad-${it.status}" style="left:${xpos(it.start)}px;width:${wpx(it.start,it.end)}px;" onclick="${it.type==='wp'?`openWp('${it.id}')`:`openAction('${it.id}')`}"><div class="bar-progress" style="width:${it.pct}%;"></div><div class="bar-content">${it.title}<span class="mark">${it.pct}%</span><span class="mark">${ini}</span></div></div></div>`})})});if(!has)html+=`<div style="padding:80px 450px;color:var(--muted);font-weight:900;text-transform:uppercase;">Aucun élément trouvé avec ces filtres.</div>`;html+=`</div></div>`;gantt.innerHTML=html}
+
+/* Modales métier */
+function openWp(id){let w=wp(id);if(!w)return;let p=project(w.project);let a=actionsOfWp(id);modalBadge.textContent='Work Package';modalTitle.textContent=w.name;modalSub.textContent=`Projet : ${p.name}`;modalActions.innerHTML=`<button class="btn btn-blue" onclick="saveWpEdits('${id}')"><i class="fa-solid fa-check"></i> Enregistrer</button><button class="btn btn-red" onclick="archiveWp('${id}')"><i class="fa-solid fa-trash"></i></button><button class="btn btn-white" onclick="closeModal()">Fermer</button>`;let actionHtml=a.length?a.map(x=>`<tr><td>${x.title}</td><td>${x.people.map(u=>initials(user(u).name)).join(', ')}</td><td><span class="chip ${stClass(effectiveStatus(x))}">${stTxt(effectiveStatus(x))}</span></td><td>${actionPct(x)}%</td><td><button class="btn btn-white" style="padding:4px 8px;font-size:10px;" onclick="openAction('${x.id}')">Ouvrir</button></td></tr>`).join(''):'<tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:11px;">Aucune action.</td></tr>';modalBody.innerHTML=`<div class="grid2"><div><div class="box"><h4>Commentaire global</h4><textarea id="editWpComment_${id}">${w.comment||''}</textarea></div><div class="box"><div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px;"><h4 style="margin:0;border:0;padding:0;">Actions liées</h4><button class="btn btn-blue" style="font-size:10px;padding:6px 12px;" onclick="openActionForm('${id}')"><i class="fa-solid fa-plus"></i> Créer une action</button></div><table class="modal-table"><thead><tr><th>Action</th><th>Resp.</th><th>Statut</th><th>%</th><th></th></tr></thead><tbody>${actionHtml}</tbody></table></div></div><div><div class="box"><h4>Paramètres de pilotage</h4><div class="mini-form-group"><label class="mini-form-label">Nom du WP</label><input id="editWpName_${id}" value="${w.name.replace(/"/g,'&quot;')}" class="mini-input"></div><div class="mini-form-group"><label class="mini-form-label">Dates</label><div style="display:flex;gap:6px;"><input type="date" id="editWpStart_${id}" value="${w.start}" class="mini-input"><input type="date" id="editWpEnd_${id}" value="${w.end}" class="mini-input"></div></div><div class="mini-form-group"><label class="mini-form-label">CDT concernés par ce WP</label><select id="editWpCdtSelect_${id}" class="mini-input multi-select" multiple>${cdtIdsOfProject(p).map(cid=>`<option value="${cid}" ${cdtIdsOfWp(w).includes(cid)?"selected":""}>${cdtName(cid)}</option>`).join("")}</select><div class="help-text">Le WP reste libre : il peut concerner un ou plusieurs CDT du projet.</div></div><div class="mini-form-group"><label class="mini-form-label">Avancement consolidé</label><span style="font-size:24px;font-weight:900;color:var(--blue);">${pctWp(id)}%</span></div></div><div class="box"><h4>Historique</h4><div style="max-height:170px;overflow:auto;">${(w.history||[]).map(h=>`<div class="hist">${h}</div>`).join('')}</div></div></div></div>`;modal.classList.add('show')}
+function openAction(id){let a=activeActions().find(x=>x.id===id);if(!a)return;let w=wp(a.wp);let p=project(w.project);modalBadge.textContent='Action';modalTitle.textContent=a.title;modalSub.textContent=`Projet : ${p.name} · WP : ${w.name}`;modalActions.innerHTML=`<button class="btn btn-blue" onclick="saveActionEdits('${id}')"><i class="fa-solid fa-check"></i> Enregistrer</button><button class="btn btn-red" onclick="archiveAction('${id}')"><i class="fa-solid fa-trash"></i></button><button class="btn btn-white" onclick="closeModal()">Fermer</button>`;modalBody.innerHTML=`<div class="grid2"><div><div class="box"><h4>Description & commentaire</h4><textarea id="editActionComment_${id}">${a.comment||''}</textarea></div><div class="box"><h4>Cause de blocage</h4><textarea id="editBlockCause_${id}" placeholder="Indiquer la raison exacte du blocage...">${a.blockCause||''}</textarea></div></div><div><div class="box"><h4>Paramètres d'exécution</h4><div class="mini-form-group"><label class="mini-form-label">Statut</label><select id="editActionStatus_${id}" class="mini-input"><option value="planned" ${a.status==='planned'?'selected':''}>À venir</option><option value="ongoing" ${a.status==='ongoing'?'selected':''}>En cours</option><option value="done" ${a.status==='done'?'selected':''}>Terminé</option><option value="blocked" ${a.status==='blocked'?'selected':''}>Bloqué</option></select></div><div class="mini-form-group"><label class="mini-form-label">Dates</label><div style="display:flex;gap:6px;"><input type="date" id="editActionStart_${id}" value="${a.start}" min="${w.start}" max="${w.end}" class="mini-input"><input type="date" id="editActionEnd_${id}" value="${a.end}" min="${w.start}" max="${w.end}" class="mini-input"></div></div><div class="mini-form-group"><label class="mini-form-label">Avancement (%)</label><input type="number" id="editActionProgress_${id}" value="${actionPct(a)}" min="0" max="100" class="mini-input" style="width:100px;font-size:18px;font-weight:900;color:var(--blue);"></div></div><div class="box"><h4>Historique</h4><div style="max-height:180px;overflow:auto;">${(a.history||[]).map(h=>`<div class="hist">${h}</div>`).join('')}</div></div></div></div>`;modal.classList.add('show')}
+function openWpForm(){formTitle.textContent='Ajouter un Work Package';let projOptions=activeProjects().map(p=>`<option value="${p.id}">${p.name} · ${cdtNames(cdtIdsOfProject(p))}</option>`).join('');let ownerOptions=db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('');formBody.innerHTML=`<div class="form-grid"><div class="full"><label class="mini-form-label">Projet parent</label><select id="fwProject" class="mini-input" onchange="updateWpInheritedInfo()">${projOptions}</select><div id="fwInheritedInfo" style="font-size:11px;color:var(--muted);margin-top:6px;font-weight:700;"></div></div><div class="full"><label class="mini-form-label">CDT concernés par ce WP</label><select id="fwCdtSelect" class="mini-input multi-select" multiple></select><div class="help-text">Par défaut, tous les CDT du projet sont sélectionnés. Tu peux limiter le WP à un seul secteur.</div></div><div class="full"><label class="mini-form-label">Nom du WP</label><input id="fwName" class="mini-input" placeholder="Ex: Phase 1 - Étude"></div><div><label class="mini-form-label">Responsable principal</label><select id="fwOwner" class="mini-input">${ownerOptions}</select></div><div><label class="mini-form-label">Statut de départ</label><select id="fwStatus" class="mini-input"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option></select></div><div><label class="mini-form-label">Date début</label><input id="fwStart" type="date" class="mini-input"></div><div><label class="mini-form-label">Date fin</label><input id="fwEnd" type="date" class="mini-input"></div><div class="full"><label class="mini-form-label">Commentaire</label><textarea id="fwComment" class="mini-input" style="min-height:80px;"></textarea></div><button class="btn btn-blue full" style="justify-content:center;" onclick="saveWp()">Ajouter le WP</button></div>`;formModal.classList.add('show');updateWpInheritedInfo()}
+function updateWpInheritedInfo(){let p=project(fwProject?.value);if(!p)return;if(fwInheritedInfo)fwInheritedInfo.innerHTML=`CDT disponibles du projet : <b>${cdtNames(cdtIdsOfProject(p))}</b>`;if(fwCdtSelect)fwCdtSelect.innerHTML=cdtIdsOfProject(p).map(cid=>`<option value="${cid}" selected>${cdtName(cid)}</option>`).join('')}
+function openActionForm(wid=''){formTitle.textContent='Créer une Action';let wpOptions=activeWps().map(w=>`<option value="${w.id}" ${w.id===wid?'selected':''} data-start="${w.start}" data-end="${w.end}">${project(w.project)?.name} · ${w.name}</option>`).join('');let usersOptions=db.users.map(u=>`<label style="margin-right:16px;font-size:12px;font-weight:700;display:inline-block;margin-bottom:4px;"><input class="assignee" type="checkbox" value="${u.id}"> ${u.name}</label>`).join('');formBody.innerHTML=`<div class="form-grid"><div class="full"><label class="mini-form-label">Work Package rattaché</label><select id="faWp" class="mini-input" onchange="updateActionDateLimits()">${wpOptions}</select></div><div class="full"><label class="mini-form-label">Nom de l'action</label><input id="faTitle" class="mini-input" placeholder="ex: Audit technique"></div><div><label class="mini-form-label">Début</label><input id="faStart" type="date" class="mini-input"></div><div><label class="mini-form-label">Fin</label><input id="faEnd" type="date" class="mini-input"></div><div class="full"><label class="mini-form-label">Statut initial</label><select id="faStatus" class="mini-input"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option><option value="blocked">Bloqué</option></select></div><div class="full" style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #cbd5e1;"><label class="mini-form-label">Assigner la ou les personnes</label>${usersOptions}</div><div class="full" style="display:flex;align-items:center;gap:12px;"><label class="mini-form-label" style="margin:0;">Avancement de départ (%)</label><input type="number" id="faProgress" value="0" min="0" max="100" class="mini-input" style="width:100px;"></div><div class="full"><label class="mini-form-label">Commentaire</label><textarea id="faComment" class="mini-input" style="min-height:80px;"></textarea></div><div class="full" id="faBlockContainer" style="display:none;"><label class="mini-form-label" style="color:var(--red);">Cause du blocage</label><textarea id="faBlock" class="mini-input" style="min-height:60px;"></textarea></div><button class="btn btn-blue full" style="justify-content:center;" onclick="saveAction()">Ajouter l'action</button></div>`;formModal.classList.add('show');updateActionDateLimits();faStatus.onchange=function(){faBlockContainer.style.display=this.value==='blocked'?'block':'none'}}
+function updateActionDateLimits(){let opt=faWp?.options[faWp.selectedIndex];if(!opt)return;let s=opt.getAttribute('data-start'),e=opt.getAttribute('data-end');faStart.min=s;faStart.max=e;faEnd.min=s;faEnd.max=e;if(!faStart.value)faStart.value=s;if(!faEnd.value)faEnd.value=e}
+function saveWpEdits(id){let w=wp(id);let nName=document.getElementById(`editWpName_${id}`).value;let nStart=document.getElementById(`editWpStart_${id}`).value;let nEnd=document.getElementById(`editWpEnd_${id}`).value;let nComment=document.getElementById(`editWpComment_${id}`).value;let nCdtIds=getSelectedValues(`editWpCdtSelect_${id}`);if(!nCdtIds.length)return toast('Sélectionne au moins un CDT pour ce WP');let changed=w.name!==nName||w.start!==nStart||w.end!==nEnd||w.comment!==nComment||cdtNames(cdtIdsOfWp(w))!==cdtNames(nCdtIds);if(changed){let r=prompt('Motif de la modification :');if(!r)return;w.history.push(`${new Date().toLocaleString('fr-FR')} · Modification WP · Motif : ${r}`);w.name=nName;w.start=nStart;w.end=nEnd;w.comment=nComment;w.cdtIds=nCdtIds;w.modified=true;addHistory(`WP "${w.name}"`,'Ancienne valeur','Nouvelle valeur',r);save('WP mis à jour')}closeModal()}
+function saveActionEdits(id){let a=activeActions().find(x=>x.id===id);let nComment=document.getElementById(`editActionComment_${id}`).value;let nCause=document.getElementById(`editBlockCause_${id}`).value;let nStat=document.getElementById(`editActionStatus_${id}`).value;let nProg=parseInt(document.getElementById(`editActionProgress_${id}`).value,10);let nStart=document.getElementById(`editActionStart_${id}`).value;let nEnd=document.getElementById(`editActionEnd_${id}`).value;if(isNaN(nProg))nProg=actionPct(a);if(nStat==='done')nProg=100;if(nProg===100)nStat='done';let changed=a.comment!==nComment||a.blockCause!==nCause||a.status!==nStat||actionPct(a)!==nProg||a.start!==nStart||a.end!==nEnd;if(changed){if(nStat==='blocked'&&!nCause.trim())return alert('Cause de blocage requise.');let r=prompt('Motif de la modification :');if(!r)return;a.history.push(`${new Date().toLocaleString('fr-FR')} · Modification action · Motif : ${r}`);a.comment=nComment;a.blockCause=nCause;a.status=nStat;a.progress=nProg;a.start=nStart;a.end=nEnd;syncWpWithActions(a.wp);addHistory(`Action "${a.title}"`,'Ancienne valeur','Nouvelle valeur',r);save('Action mise à jour')}closeModal()}
+function saveWp(){let p=project(fwProject.value);let wpCdtIds=getSelectedValues('fwCdtSelect');if(!fwName.value.trim()||!fwStart.value||!fwEnd.value)return toast('Veuillez remplir les champs obligatoires.');if(!wpCdtIds.length)return toast('Sélectionne au moins un CDT pour ce WP.');let wId=uid('w');let people=[fwOwner.value];db.wps.push({id:wId,project:p.id,name:fwName.value.trim(),owner:fwOwner.value,ownerIds:[fwOwner.value],cdtIds:wpCdtIds,start:fwStart.value,end:fwEnd.value,status:fwStatus.value,comment:fwComment.value,progress:0,modified:false,archived:false,history:[`${new Date().toLocaleString('fr-FR')} · Création WP`]});db.actions.push({id:uid('a'),wp:wId,title:'Suivi - '+fwName.value.trim(),start:fwStart.value,end:fwEnd.value,status:fwStatus.value,people,progress:0,comment:'Action automatique de suivi créée avec le WP.',blockCause:'',archived:false,history:[`${new Date().toLocaleString('fr-FR')} · Création automatique depuis WP`]});addHistory(`WP "${fwName.value.trim()}"`,'-','Création',`CDT WP: ${cdtNames(wpCdtIds)} · Action de suivi pour ${memberNames(people)}`);closeForm();save('WP ajouté et lié aux roadmaps équipe/CDT')}
+function saveAction(){let people=[...document.querySelectorAll('.assignee:checked')].map(x=>x.value);let w=wp(faWp.value);let prog=parseInt(faProgress.value,10);if(!faTitle.value.trim()||!faStart.value||!faEnd.value||!people.length)return toast('Renseigne nom, dates et personnes.');if(new Date(faStart.value)<new Date(w.start)||new Date(faEnd.value)>new Date(w.end))return alert(`Erreur : l'action doit être comprise entre le ${fmt(w.start)} et le ${fmt(w.end)}.`);if(faStatus.value==='blocked'&&!faBlock.value.trim())return alert('Cause blocage requise.');if(isNaN(prog))prog=0;let st=faStatus.value;if(st==='done')prog=100;if(prog===100)st='done';db.actions.push({id:uid('a'),wp:w.id,title:faTitle.value.trim(),start:faStart.value,end:faEnd.value,status:st,people,progress:prog,comment:faComment.value,blockCause:faBlock.value,archived:false,history:[`${new Date().toLocaleString('fr-FR')} · Création`]});addHistory(`Action "${faTitle.value.trim()}"`,'-','Création','Ajout manuel');syncWpWithActions(w.id);closeForm();if(modal.classList.contains('show'))openWp(w.id);save('Action ajoutée')}
+function closeForm(){formModal.classList.remove('show')}function closeModal(){modal.classList.remove('show')}function openSimple(t,body){modalBadge.textContent='Cockpit';modalTitle.textContent=t;modalSub.textContent='';modalActions.innerHTML='<button class="btn btn-white" onclick="closeModal()">Fermer</button>';modalBody.innerHTML=body;modal.classList.add('show')}
+
+showView('home');renderAll();
 </script>
 </body>
 </html>
