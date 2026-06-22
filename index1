@@ -2262,11 +2262,14 @@ function renderRoadmapModalContent() {
             : `roadmap-status-select ${meta.selectCls} pointer-events-none border-transparent bg-slate-50`;
 
         const actionButtons = isEditing
-            ? `<div class="flex justify-end">
-                <button id="roadmap-save-btn-${idx}" onclick="saveRoadmapMilestoneInline(${idx}, this)" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm">
-                    <i class="fa-solid fa-floppy-disk"></i> Enregistrer
-                </button>
-               </div>`
+    ? `<div class="flex justify-end gap-1.5">
+        <button id="roadmap-save-btn-${idx}" onclick="saveRoadmapMilestoneInline(${idx}, this)" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm">
+            <i class="fa-solid fa-floppy-disk"></i> Enregistrer
+        </button>
+        <button onclick="cancelRoadmapMilestoneEdit()" class="inline-flex items-center gap-1.5 border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm">
+            <i class="fa-solid fa-xmark"></i> Annuler
+        </button>
+       </div>`
             : `<div class="flex justify-end gap-1.5">
                 <button onclick="startEditRoadmapMilestone(${idx})" ${editingIdx !== -1 ? 'disabled' : ''} class="w-[34px] h-[34px] border border-blue-100 bg-blue-50 text-blue-600 rounded-9 inline-flex items-center justify-center transition hover:bg-blue-100 ${editingIdx !== -1 ? 'opacity-40 cursor-not-allowed' : ''}" title="Modifier" style="border-radius:9px;">
                     <i class="fa-solid fa-pencil text-xs"></i>
@@ -2327,7 +2330,10 @@ function startEditRoadmapMilestone(idx) {
         document.getElementById(`roadmap-edit-title-${idx}`)?.focus();
     }, 50);
 }
-
+function cancelRoadmapMilestoneEdit() {
+    roadmapEditingIdx = -1;
+    renderRoadmapModalContent();
+}
 function saveRoadmapMilestoneInline(idx, button) {
     const sectorKey = document.getElementById('roadmap-sector-key')?.value;
     const routineType = document.getElementById('roadmap-routine-type')?.value;
@@ -2439,7 +2445,7 @@ function saveRoadmapMilestoneInline(idx, button) {
             );
         }
 
-const USER_GUIDE_URL = "https://drive.google.com/file/d/1O8QHaJUyRtI8gu3uTRVfjJYehUGVHmvm/view?usp=drive_link";
+const USER_GUIDE_URL = "https://drive.google.com/file/d/1EzaL9BP0zPMqCu961pNG8YjsZflRj_PB/view?usp=drive_link";
 
 function openGuideModal() {
     document.getElementById('guide-modal')?.classList.remove('hidden');
@@ -2458,3 +2464,9 @@ function openUserGuide() {
  
 </body>
 </html>
+
+
+
+
+
+
