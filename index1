@@ -1,3 +1,131 @@
+const SPREADSHEET_ID = '198zx-b7yKQEAIaeFpINNTMgVF4H5Ifjk-dz-NF8Fvhs';
+const DB_SHEET_NAME = 'DB';
+const CHUNK_SIZE = 45000;
+
+function doGet() {
+  return HtmlService
+    .createHtmlOutputFromFile('index')
+    .setTitle('Outil transverse de pilotage PPC')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function getSpreadsheet_() {
+  if (SPREADSHEET_ID && SPREADSHEET_ID !== '') {
+    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  }
+  return SpreadsheetApp.getActiveSpreadsheet();
+}
+
+function ensureDbSheet_() {
+  const ss = getSpreadsheet_();
+  let sheet = ss.getSheetByName(DB_SHEET_NAME);
+  if (!sheet) sheet = ss.insertSheet(DB_SHEET_NAME);
+  if (sheet.getLastRow() === 0) {
+    sheet.getRange(1, 1, 1, 4).setValues([['key', 'json_chunk', 'updated_at', 'comment']]);
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+
+function getDataInternal_() {
+  const sheet = ensureDbSheet_();
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return null;
+
+  const rangeCles = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+  const rangeChunks = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
+
+  let chunksArray = [];
+  for (let i = 0; i < rangeCles.length; i++) {
+    const cle = String(rangeCles[i][0] || '');
+    if (cle.startsWith('chunk_')) {
+      const index = parseInt(cle.replace('chunk_', ''), 10) - 1;
+      if (index >= 0) chunksArray[index] = String(rangeChunks[i][0] || '');
+    }
+  }
+
+  const json = chunksArray.join('');
+  return json ? JSON.parse(json) : null;
+}
+
+function saveDataInternal_(data) {
+  const sheet = ensureDbSheet_();
+  const json = JSON.stringify(data);
+  const now = new Date();
+  const rows = [];
+  for (let i = 0; i < json.length; i += CHUNK_SIZE) {
+    const chunkNumber = String(rows.length + 1).padStart(5, '0');
+    rows.push(['chunk_' + chunkNumber, json.substring(i, i + CHUNK_SIZE), now, 'PPC database JSON chunk']);
+  }
+  const lastRow = sheet.getLastRow();
+  if (lastRow > 1) sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
+  if (rows.length > 0) sheet.getRange(2, 1, rows.length, 4).setValues(rows);
+}
+
+function getData() {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(5000); 
+    return { ok: true, data: getDataInternal_() };
+  } catch (err) {
+    return { ok: false, data: null, error: String(err) };
+  } finally {
+    try { lock.releaseLock(); } catch (e) {}
+  }
+}
+
+/**
+ * LA MÉTHODE CHIRURGICALE (Ton idée n°1)
+ * Remplace uniquement les secteurs modifiés, et renvoie la base à jour (Ton idée n°2)
+ */
+function mergeData(patch) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(10000); // Met le système en pause si qqn enregistre en même temps
+    
+    let currentDb = getDataInternal_();
+    if (!currentDb) currentDb = {};
+
+    // Remplace UNIQUEMENT ce que ton écran a envoyé
+    if (typeof patch === 'object' && patch !== null) {
+      for (let key in patch) {
+        if (patch[key] === null) {
+          delete currentDb[key]; // Si null, on supprime le secteur
+        } else {
+          currentDb[key] = patch[key]; // Sinon on le met à jour
+        }
+      }
+    }
+
+    saveDataInternal_(currentDb);
+    
+    // Renvoyer les données fraîches pour actualiser l'écran en direct
+    return { ok: true, data: currentDb };
+  } catch (err) {
+    return { ok: false, error: String(err) };
+  } finally {
+    try { lock.releaseLock(); } catch(e) {}
+  }
+}
+
+function saveData(data) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(10000);
+    saveDataInternal_(data);
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: String(err) };
+  } finally {
+    try { lock.releaseLock(); } catch (e) {}
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+////////              ////////////////          ///////////       ////////
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -147,6 +275,7 @@
         .toast-bar-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 999px; overflow: hidden; }
         .toast-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #2563eb, #60a5fa); width: 0%; transition: none; }
         .toast-bar-fill.animating { transition: width 2s cubic-bezier(0.4, 0, 0.2, 1); }
+       
     </style>
 </head>
 <body class="h-screen w-screen flex flex-col overflow-hidden bg-slate-50 text-slate-800">
@@ -430,8 +559,8 @@
     </div>
 
     <script>
-    // ============================================================
-    // DATABASE PAR DÉFAUT
+// ============================================================
+    // DATABASE PAR DÉFAUT & STRUCTURE
     // ============================================================
     const DEFAULT_DATABASE = {
         odyl1: { name: "ODYL 1", title: "Routines PPC – ODYL 1 (2 VAC)", daily: { name: "ROP", timeInfo: "1 fois par vac, 55 min", part: "TL, Ordo, Qualité, Support tech, RDZ", pts: [{ status: "x", text: "Suivre l'avance retard" }, { status: "x", text: "Remonter les aleas" }, { status: "v", text: "Prendre des décision (points ouverts)" }], prep: ["Plan de prod", "Gantt", "Fichier présence"], routine: ["Feuille de match", "Tandem"], irr: "Ce n'est pas une routine PPC daily, trop de préparatrion", pos: "" }, weekly: { name: "PPC WEEKLY", timeInfo: "1 fois par semaine, 60 min", part: "tl, rl, coach perfo, leader ordo, rdz, leader qualité, leader support tech, pro", pts: [{ status: "v", text: "Performance" }, { status: "v", text: "Pareto des aleas" }, { status: "x", text: "Plan d'action" }], prep: ["MES"], routine: ["KPI (Perfo et Top aleas)", "SHEET"], irr: "Les top aleas sont utilisées pour justifier la performance, on ne cherche pas à trouver les causes pour mettre des actions en place", pos: "" } },
@@ -471,7 +600,7 @@
     const USER_GUIDE_URL = "https://drive.google.com/file/d/1EzaL9BP0zPMqCu961pNG8YjsZflRj_PB/view?usp=drive_link";
 
     // ============================================================
-    // LOADING TOAST (2s perçu)
+    // LOADING TOAST
     // ============================================================
     let _toastTimer = null;
     let _toastBarTimer = null;
@@ -555,19 +684,44 @@
     }
 
     // ============================================================
-    // PERSISTANCE
+    // PERSISTANCE & ENVOI CIBLÉ (EXPLICITE)
     // ============================================================
     function isAppsScriptRuntime() { return typeof google !== 'undefined' && google.script && google.script.run; }
 
-    function saveDbSilently(onSuccess, onFailure) {
+    function saveDbSilently(modifiedKeys, onSuccess, onFailure) {
         enrichDatabase(db);
         const payload = getSerializableDb();
+        const patch = {};
+
+        // Si aucune clé n'est ciblée, on ne fait rien pour ne pas risquer d'écraser la base
+        if (!modifiedKeys || modifiedKeys.length === 0) {
+            if (onSuccess) onSuccess();
+            return;
+        }
+
+        // On construit le colis avec UNIQUEMENT les éléments modifiés
+        modifiedKeys.forEach(k => {
+            patch[k] = payload[k] !== undefined ? payload[k] : null; 
+        });
+
         showLoadingToast('Enregistrement en cours...');
         if (isAppsScriptRuntime()) {
             google.script.run
-                .withSuccessHandler(() => { if (onSuccess) onSuccess(); })
-                .withFailureHandler(e => { if (onFailure) onFailure(e); else alert('Erreur de sauvegarde : ' + (e.message || e)); })
-                .saveData(payload);
+                .withSuccessHandler((response) => { 
+                    if (response && response.ok && response.data) {
+                        // Magie : L'outil met à jour l'écran avec la vérité du serveur en direct !
+                        db = response.data; 
+                        enrichDatabase(db);
+                        if (onSuccess) onSuccess();
+                        safeRenderDashboard();
+                    } else {
+                        if (onFailure) onFailure(new Error(response?.error || "Erreur serveur"));
+                    }
+                })
+                .withFailureHandler(e => { 
+                    if (onFailure) onFailure(e); else alert('Erreur de sauvegarde : ' + (e.message || e)); 
+                })
+                .mergeData(patch); // <-- Envoi de l'ordre ciblé
         } else {
             localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(payload));
             if (onSuccess) onSuccess();
@@ -714,7 +868,7 @@
         db = JSON.parse(JSON.stringify(DEFAULT_DATABASE));
         enrichDatabase(db);
         const payload = getSerializableDb();
-        if (isAppsScriptRuntime()) google.script.run.saveData(payload);
+        if (isAppsScriptRuntime()) google.script.run.saveData(payload); // Reset total on force avec saveData complet
         else localStorage.setItem('ppc_sectors_db_custom_v6', JSON.stringify(payload));
         closeResetConfirmModal(); renderSidebar(); renderDashboard();
     }
@@ -833,7 +987,8 @@
 
     function editMaturityGrade(side, key, value) {
         if (db[key]) db[key].maturityGrade = String(value || 'C').toUpperCase();
-        saveDbSilently(() => safeRenderDashboard());
+        // SAUVEGARDE EXPLICITE DU SECTEUR
+        saveDbSilently([key], () => safeRenderDashboard());
     }
 
     function editMaturityGradeDraft(side, value) {
@@ -1112,6 +1267,7 @@
             <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
                 <div class="flex items-center gap-3">${renderMaturityBadge(data)}<h2 class="text-lg font-bold text-slate-900 tracking-tight">${data.title}</h2></div>
                 <button type="button" onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 p-1.5 rounded-lg"><i class="fa-solid fa-pencil"></i></button>
+                
             </div>
             <div class="grid grid-cols-3 gap-4">
                 <div class="maturity-card"><p class="text-xs font-bold text-slate-400 mb-1">Score global</p><span class="text-4xl font-extrabold">${getOverallScore(data.maturity)}%</span></div>
@@ -1161,7 +1317,7 @@
         return `
             <div class="flex items-center justify-between border-b border-slate-200 pb-3 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
                 <div class="flex items-center gap-3">${renderMaturityBadge(data)}<h2 class="text-lg font-bold text-slate-900">${data.title}</h2></div>
-                <button type="button" onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 p-1.5 rounded-lg"><i class="fa-solid fa-pencil"></i></button>
+               <button type="button" onclick="toggleEditMode('${side}')" class="text-slate-400 hover:text-blue-600 p-1.5 rounded-lg"><i class="fa-solid fa-pencil"></i></button>
             </div>
             <div class="grid grid-cols-2 gap-4 flex-grow min-h-0">
                 <div class="bg-white rounded-xl p-5 border border-slate-200 flex flex-col gap-4 shadow-sm">
@@ -1306,8 +1462,12 @@
         const gradeInput = document.getElementById(`edit-group-grade-${side}`);
         if (titleInput && db[key]) db[key].title = titleInput.value;
         if (gradeInput && db[key]) db[key].maturityGrade = gradeInput.value;
-        editModes[side] = false; editDrafts[side] = null;
-        saveDbSilently(() => { renderSidebar(); safeRenderDashboard(); });
+        
+        // SAUVEGARDE EXPLICITE DU SECTEUR
+        saveDbSilently([key], () => {
+            editModes[side] = false; editDrafts[side] = null;
+            renderSidebar(); safeRenderDashboard();
+        });
     }
 
     function saveSectorEdits(side, key) {
@@ -1339,9 +1499,15 @@
             if(pos) draft[rType].pos = pos.value;
         });
         ['daily', 'weekly'].forEach(type => { if (draft.actions?.[type]) draft.actions[type].forEach((a, idx) => a.order = idx + 1); });
+        
         db[key] = draft;
         enrichDatabase(db);
-        saveDbSilently(() => { editModes[side] = false; editDrafts[side] = null; renderSidebar(); safeRenderDashboard(); }, e => { alert('Erreur : ' + e.message); safeRenderDashboard(); });
+        
+        // SAUVEGARDE EXPLICITE DU SECTEUR
+        saveDbSilently([key], 
+            () => { editModes[side] = false; editDrafts[side] = null; renderSidebar(); safeRenderDashboard(); }, 
+            (e) => { alert('Erreur : ' + e.message); safeRenderDashboard(); }
+        );
     }
 
     // ============================================================
@@ -1362,19 +1528,26 @@
         if (db[key]) return;
         db[key] = { name: rawId, title: rawTitle || `Routines PPC – ${rawId} (2 VAC)`, daily: { name: "PPC Daily", timeInfo: "1 fois par vac, 30 min", part: "TL, Ordo", pts: [{ status: "v", text: "Suivre l'avance retard" }], prep: [], routine: [], irr: "", pos: "" }, weekly: { name: "PPC Weekly", timeInfo: "1 fois par semaine", part: "TL, RL", pts: [{ status: "v", text: "Performance" }], prep: [], routine: [], irr: "", pos: "" } };
         enrichDatabase(db);
-        saveDbSilently(() => {});
-        closeAddSectorModal(); activeLeftKey = key; initApp();
+        
+        // SAUVEGARDE EXPLICITE DU SECTEUR
+        saveDbSilently([key], () => {
+            closeAddSectorModal(); activeLeftKey = key; safeRenderDashboard(); renderSidebar();
+        });
     };
 
     function deleteSector() {
         const key = document.getElementById('sector-to-delete').value;
         if (db[key] && !db[key].isGroup) {
-            delete db[key]; enrichDatabase(db); const rem = Object.keys(db);
+            delete db[key]; 
+            enrichDatabase(db); 
+            const rem = Object.keys(db);
             if (activeLeftKey === key) activeLeftKey = rem[0] || "";
             if (activeRightKey === key) activeRightKey = rem[1] || rem[0] || "";
-            saveDbSilently(() => {});
+            
+            // L'envoi de la clé supprimera la donnée car payload[key] sera undefined
+            saveDbSilently([key], () => { safeRenderDashboard(); renderSidebar(); });
         }
-        closeDeleteConfirmModal(); initApp();
+        closeDeleteConfirmModal();
     }
 
     // ============================================================
@@ -1403,7 +1576,9 @@
             s.reference = { dailyInitial: getRoutineScore(s.maturity, 'daily'), weeklyInitial: getRoutineScore(s.maturity, 'weekly'), referenceDate: today };
         });
         enrichDatabase(db);
-        saveDbSilently(() => { closeReferenceConfirmModal(); safeRenderDashboard(); });
+        
+        // Sauvegarde tous les secteurs modifiés en même temps
+        saveDbSilently(targets, () => { closeReferenceConfirmModal(); safeRenderDashboard(); });
     }
 
     // ============================================================
@@ -1460,7 +1635,8 @@
         const comment = (commentInput?.value || '').trim();
         points.push({ id: 'gp_' + Date.now() + '_' + Math.random().toString(16).slice(2), title, date, comment, values: captureSnapshotValues() });
         setButtonLoading(button, true, 'Capture...');
-        saveDbSilently(() => {
+        
+        saveDbSilently(['_graphPoints'], () => {
             setButtonLoading(button, false);
             if (titleInput) titleInput.value = '';
             if (dateInput) dateInput.value = getTodayIso();
@@ -1492,7 +1668,8 @@
         if (date) points[idx].date = date;
         points[idx].comment = comment;
         setButtonLoading(button, true, 'Enregistrement...');
-        saveDbSilently(() => {
+        
+        saveDbSilently(['_graphPoints'], () => {
             setButtonLoading(button, false);
             graphPointEditingIdx = -1;
             renderGraphPointsList();
@@ -1587,7 +1764,8 @@
             (button) => {
                 setButtonLoading(button, true, 'Suppression...');
                 db._graphPoints = getGraphPoints().filter(p => p.id !== id);
-                saveDbSilently(() => {
+                
+                saveDbSilently(['_graphPoints'], () => {
                     setButtonLoading(button, false);
                     closeSafeConfirmModal();
                     graphPointEditingIdx = -1;
@@ -1892,7 +2070,12 @@
         if (!endDateRaw || isIsoDate(endDateRaw)) list[idx].endDate = endDateRaw;
         list[idx].status = status;
         setButtonLoading(button, true, 'Enregistrement...');
-        saveDbSilently(() => { setButtonLoading(button, false); roadmapEditingIdx = -1; renderRoadmapModalContent(); safeRenderDashboard(); }, (e) => { setButtonLoading(button, false); alert('Erreur de sauvegarde : ' + (e.message || e)); });
+        
+        saveDbSilently([sectorKey], () => { 
+            setButtonLoading(button, false); roadmapEditingIdx = -1; renderRoadmapModalContent(); safeRenderDashboard(); 
+        }, (e) => { 
+            setButtonLoading(button, false); alert('Erreur de sauvegarde : ' + (e.message || e)); 
+        });
     }
 
     function addRoadmapMilestone(button) {
@@ -1909,7 +2092,12 @@
         const t = document.getElementById('roadmap-new-title');
         if (t) t.value = '';
         setButtonLoading(button, true, 'Ajout...');
-        saveDbSilently(() => { setButtonLoading(button, false); renderRoadmapModalContent(); safeRenderDashboard(); }, (e) => { setButtonLoading(button, false); alert('Erreur de sauvegarde : ' + (e.message || e)); });
+        
+        saveDbSilently([sectorKey], () => { 
+            setButtonLoading(button, false); renderRoadmapModalContent(); safeRenderDashboard(); 
+        }, (e) => { 
+            setButtonLoading(button, false); alert('Erreur de sauvegarde : ' + (e.message || e)); 
+        });
     }
 
     function deleteRoadmapMilestone(idx) {
@@ -1925,7 +2113,12 @@
                 setButtonLoading(button, true, 'Suppression...');
                 list.splice(idx, 1);
                 list.forEach((m, i) => m.order = i + 1);
-                saveDbSilently(() => { setButtonLoading(button, false); closeSafeConfirmModal(); renderRoadmapModalContent(); safeRenderDashboard(); }, (e) => { setButtonLoading(button, false); alert('Erreur de sauvegarde : ' + (e.message || e)); });
+                
+                saveDbSilently([sectorKey], () => { 
+                    setButtonLoading(button, false); closeSafeConfirmModal(); renderRoadmapModalContent(); safeRenderDashboard(); 
+                }, (e) => { 
+                    setButtonLoading(button, false); alert('Erreur de sauvegarde : ' + (e.message || e)); 
+                });
             }
         );
     }
@@ -1937,199 +2130,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-///////////////////////////////////// 
-code gs
-
-const SPREADSHEET_ID = '198zx-b7yKQEAIaeFpINNTMgVF4H5Ifjk-dz-NF8Fvhs';
-const DB_SHEET_NAME = 'DB';
-const CHUNK_SIZE = 45000;
-
-function doGet() {
-  return HtmlService
-    .createHtmlOutputFromFile('index')
-    .setTitle('Outil transverse de pilotage PPC')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-}
-
-function getSpreadsheet_() {
-  // On vérifie simplement si un ID a été renseigné et n'est pas vide
-  if (SPREADSHEET_ID && SPREADSHEET_ID !== '') {
-    return SpreadsheetApp.openById(SPREADSHEET_ID);
-  }
-
-  const active = SpreadsheetApp.getActiveSpreadsheet();
-  if (!active) {
-    throw new Error('Aucun Google Sheet actif. Renseigner SPREADSHEET_ID dans Code.gs.');
-  }
-
-  return active;
-}
-
-function ensureDbSheet_() {
-  const ss = getSpreadsheet_();
-  let sheet = ss.getSheetByName(DB_SHEET_NAME);
-
-  if (!sheet) {
-    sheet = ss.insertSheet(DB_SHEET_NAME);
-  }
-
-  if (sheet.getLastRow() === 0) {
-    sheet.getRange(1, 1, 1, 4).setValues([[
-      'key',
-      'json_chunk',
-      'updated_at',
-      'comment'
-    ]]);
-    sheet.setFrozenRows(1);
-  }
-
-  return sheet;
-}
-
-/**
- * Lecture de la base.
- * Retourne un objet :
- * { ok: true, data: {...} }
- */
-/**
- * Lecture de la base - VERSION ULTRA-RAPIDE OPTIMISÉE
- */
-function getData() {
-  const lock = LockService.getScriptLock();
-
-  try {
-    lock.waitLock(5000); // Attente réduite à 5s pour libérer l'interface
-
-    const sheet = ensureDbSheet_();
-    const lastRow = sheet.getLastRow();
-
-    if (lastRow < 2) {
-      return { ok: true, data: null };
-    }
-
-    // On récupère uniquement la colonne des clés (A) et des chunks (B) pour aller plus vite
-    const rangeCles = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
-    const rangeChunks = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
-
-    // Création d'un tableau indexé pour éviter les filtres et tris lourds
-    let chunksArray = [];
-    
-    for (let i = 0; i < rangeCles.length; i++) {
-      const cle = String(rangeCles[i][0] || '');
-      if (cle.startsWith('chunk_')) {
-        // On extrait l'index directement (ex: chunk_00001 -> index 1)
-        const index = parseInt(cle.replace('chunk_', ''), 10) - 1;
-        if (index >= 0) {
-          chunksArray[index] = String(rangeChunks[i][0] || '');
-        }
-      }
-    }
-
-    // Recollage instantané des morceaux de texte
-    const json = chunksArray.join('');
-
-    if (!json) {
-      return { ok: true, data: null };
-    }
-
-    return {
-      ok: true,
-      data: JSON.parse(json)
-    };
-
-  } catch (err) {
-    return {
-      ok: false,
-      data: null,
-      error: String(err.message || err)
-    };
-  } finally {
-    try { lock.releaseLock(); } catch (e) {}
-  }
-}
-/**
- * Sauvegarde de la base.
- * data = objet JavaScript envoye par index.html.
- */
-function saveData(data) {
-  const lock = LockService.getScriptLock();
-
-  try {
-    lock.waitLock(10000);
-
-    if (!data || typeof data !== 'object') {
-      throw new Error('Payload invalide : data doit etre un objet.');
-    }
-
-    const sheet = ensureDbSheet_();
-    const json = JSON.stringify(data);
-    const now = new Date();
-
-    const rows = [];
-    for (let i = 0; i < json.length; i += CHUNK_SIZE) {
-      const chunkNumber = String(rows.length + 1).padStart(5, '0');
-      rows.push([
-        'chunk_' + chunkNumber,
-        json.substring(i, i + CHUNK_SIZE),
-        now,
-        'PPC database JSON chunk'
-      ]);
-    }
-
-    // Nettoyage ancien contenu sans supprimer l'en-tete.
-    const lastRow = sheet.getLastRow();
-    if (lastRow > 1) {
-      sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
-    }
-
-    if (rows.length > 0) {
-      sheet.getRange(2, 1, rows.length, 4).setValues(rows);
-    }
-
-    sheet.autoResizeColumns(1, 4);
-
-    return {
-      ok: true,
-      chunks: rows.length,
-      jsonLength: json.length,
-      updatedAt: now.toISOString()
-    };
-
-  } catch (err) {
-    return {
-      ok: false,
-      error: String(err && err.message ? err.message : err)
-    };
-  } finally {
-    try {
-      lock.releaseLock();
-    } catch (e) {}
-  }
-}
-
-/**
- * Optionnel : a lancer une fois manuellement pour preparer l'onglet DB.
- */
-function setupDatabaseSheet() {
-  const sheet = ensureDbSheet_();
-  return 'Onglet DB pret : ' + sheet.getName();
-}
-
-/**
- * Optionnel : efface uniquement la base JSON.
- * Ne pas utiliser sauf si tu veux repartir a zero.
- */
-function clearDatabase() {
-  const sheet = ensureDbSheet_();
-  const lastRow = sheet.getLastRow();
-
-  if (lastRow > 1) {
-    sheet.getRange(2, 1, lastRow - 1, 4).clearContent();
-  }
-
-  return 'Base DB videe.';
-}
