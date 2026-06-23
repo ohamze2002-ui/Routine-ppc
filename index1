@@ -1,4 +1,3 @@
-
 const SPREADSHEET_ID = '198zx-b7yKQEAIaeFpINNTMgVF4H5Ifjk-dz-NF8Fvhs';
 const DB_SHEET_NAME = 'DB';
 const CHUNK_SIZE = 45000;
@@ -122,9 +121,12 @@ function saveData(data) {
   }
 }
 
-///////////////////////////////////////////////////////////////////////////
 
-////////              ////////////////          ///////////       ////////
+
+/////////////////////////// //////////////////////        /////////////////////////// ////////////////////////////
+
+
+////////////////////////////////////////                ////////////////////////////////     ///////////////////
 
 
 <!DOCTYPE html>
@@ -276,7 +278,13 @@ function saveData(data) {
         .toast-bar-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 999px; overflow: hidden; }
         .toast-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #2563eb, #60a5fa); width: 0%; transition: none; }
         .toast-bar-fill.animating { transition: width 2s cubic-bezier(0.4, 0, 0.2, 1); }
-       
+       /* IMPRESSION PDF */
+        @media print {
+            header, aside, #loading-toast, .fa-pencil, #panel-divider { display: none !important; }
+            body, main, #dashboard-scroll { background: white !important; padding: 0 !important; margin: 0 !important; overflow: visible !important; }
+            .overflow-y-auto, .max-h-[150px], .action-list-scroll { max-height: none !important; height: auto !important; overflow: visible !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
     </style>
 </head>
 <body class="h-screen w-screen flex flex-col overflow-hidden bg-slate-50 text-slate-800">
@@ -303,6 +311,9 @@ function saveData(data) {
             </div>
         </div>
         <div class="flex items-center gap-3">
+          <button onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
+                <i class="fa-solid fa-file-pdf text-xs"></i> Exporter PDF
+            </button>
             <button onclick="openGuideModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-sm">
                 <i class="fa-solid fa-book-open text-xs"></i> Guide utilisateur
             </button>
