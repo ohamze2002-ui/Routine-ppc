@@ -89,7 +89,7 @@ table{width:100%;border-collapse:collapse}th{text-align:left;font-size:11px;colo
 .mini-form-group{margin-bottom:16px}.mini-form-label{display:block;font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:6px}.mini-input{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;outline:none;color:var(--text);background:#f8fafc;transition:.2s}.mini-input:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
 textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;border-radius:8px;padding:12px;font-size:13px;color:var(--text);background:#f8fafc;font-weight:500;line-height:1.5}
 .modal-table{width:100%;border-collapse:collapse;margin-top:8px}.modal-table th{font-size:10px;color:var(--muted);padding:8px;border-bottom:1px solid var(--line);text-transform:uppercase;font-weight:800;text-align:left}.modal-table td{font-size:12px;color:var(--text);padding:8px;border-bottom:1px solid #f1f5f9;font-weight:600}
-.hist{border-left:3px solid #bfdbfe;padding-left:12px;margin-bottom:12px;font-size:12px;line-height:1.4;color:#475569}
+.hist{border-left:3px solid var(--blue); background:#fff; padding:10px; margin-bottom:8px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);}
 .toast{position:fixed;right:24px;bottom:24px;background:#1e293b;color:#fff;padding:14px 20px;border-radius:10px;display:none;z-index:1000;font-weight:800;font-size:13px;box-shadow:0 10px 25px rgba(0,0,0,.2)}.toast.show{display:block;animation:slideUp .3s}@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
 /* ALERT CARDS */
@@ -348,8 +348,12 @@ function normalizeData(d){
     if(!w.cdtId) w.cdtId = w.cdt || w.cdtIds?.[0] || (p && p.cdtIds ? p.cdtIds[0] : '') || (d.cdts[0] ? d.cdts[0].id : '');
     if(!w.ownerIds)w.ownerIds=w.owner?[w.owner]:[];w.owner=w.owner||w.ownerIds[0]||'';w.archived=!!w.archived;
     if(!w.milestones) w.milestones = [];
+    w.milestones.forEach(m => { if(!m.status) m.status = 'planned'; });
   });
-  d.actions.forEach(a=>{a.people=a.people||[];a.archived=!!a.archived;if(a.progress===undefined)a.progress=0;if(!a.milestones) a.milestones = [];});
+  d.actions.forEach(a=>{
+      a.people=a.people||[];a.archived=!!a.archived;if(a.progress===undefined)a.progress=0;if(!a.milestones) a.milestones = [];
+      a.milestones.forEach(m => { if(!m.status) m.status = 'planned'; });
+  });
   return d;
 }
 function save(msg){db.last=new Date().toLocaleString('fr-FR');localStorage.setItem(KEY,JSON.stringify(db));renderAll();if(msg)toast(msg)}
@@ -524,7 +528,7 @@ function addProject(){
   if(!an)return toast('Nom projet obligatoire');
   if(!cdtIds.length)return toast('Sélectionne au moins un CDT');
   db.projects.push({id:uid('p'),name:an,owner:ao,memberIds:[ao],sector:ase,cdtIds,priority:apPriority.value,archived:false});
-  addHistory(`Projet "${an}"`,'-','Création',`CDT: ${cdtNames(cdtIds)} · Responsable: ${user(ao).name}`);
+  addHistory(`Projet "${an}" (CDT: ${cdtNames(cdtIds)})`,'-','Création',`Responsable: ${user(ao).name}`);
   apName.value='';apSector.value='';
   document.querySelectorAll('#dd-ap-cdt input').forEach(cb => cb.checked = false); updateDDText('dd-ap-cdt', 'txt-ap-cdt', 'Sélectionner CDT...', false);
   save('Projet créé')
@@ -662,7 +666,41 @@ function openNotifications(){
   openSimple('Notifications & Alertes', finalHtml);
 }
 
-function openHistory(){let rows=db.history.map(h=>`<div class="hist"><b>${h.date}</b><br><span style="font-weight:700;color:var(--airbus);">${h.object}</span> : ${h.old} → ${h.new}<br><span style="font-size:10px;color:var(--muted);text-transform:uppercase;">Motif : ${h.reason}</span></div>`).join('')||'<p>Aucun historique.</p>';openSimple('Historique des modifications',rows)}
+/* HISTORIQUE AMELIORE AVEC BARRE DE RECHERCHE ET DIFF DÉTAILLÉ */
+window.filterHistory = function() {
+    let val = document.getElementById('historySearch').value;
+    document.getElementById('historyList').innerHTML = renderHistoryList(val);
+}
+window.renderHistoryList = function(filter = '') {
+    let filtered = db.history.filter(h => {
+        let text = `${h.date} ${h.user} ${h.object} ${h.old} ${h.new} ${h.reason}`.toLowerCase();
+        return text.includes(filter.toLowerCase());
+    });
+    if (!filtered.length) return '<div style="text-align:center;padding:20px;color:var(--muted);">Aucun résultat trouvé.</div>';
+    return filtered.map(h => `
+      <div class="hist" style="border-left:3px solid var(--blue); background:#fff; padding:10px; margin-bottom:8px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px; border-bottom:1px solid var(--line); padding-bottom:4px;">
+          <b style="font-size:10px; color:var(--muted);"><i class="fa-regular fa-clock"></i> ${h.date}</b> 
+          <span style="color:var(--airbus); font-size:10px; font-weight:800;"><i class="fa-solid fa-user"></i> ${h.user}</span>
+        </div>
+        <div style="font-weight:800;color:var(--text); font-size:13px; margin-bottom:4px;">${h.object}</div>
+        <div style="font-size:11px; color:var(--muted); margin-bottom:4px; line-height:1.6;">Modification : <span style="text-decoration:line-through; color:#94a3b8;">${h.old}</span> &nbsp;➔&nbsp; <b style="color:var(--blue);">${h.new}</b></div>
+        <div style="font-size:10px;color:var(--dark);text-transform:uppercase; font-weight:800; background:#f1f5f9; display:inline-block; padding:3px 6px; border-radius:4px;">Motif : ${h.reason}</div>
+      </div>
+    `).join('');
+}
+function openHistory(){
+    let html = `
+        <div style="margin-bottom:16px;">
+            <input type="text" id="historySearch" class="mini-input search" placeholder="🔎 Rechercher (secteur, projet, motif...)" oninput="filterHistory()" style="width:100%;">
+        </div>
+        <div id="historyList" style="max-height:60vh; overflow-y:auto; padding-right:8px;">
+            ${renderHistoryList()}
+        </div>
+    `;
+    openSimple('Historique des modifications', html);
+}
+
 function openGuide(){
   openSimple('Guide Utilisateur de l\'AOS Cockpit',`
     <div class="box"><h4>1. Vues & Tableaux de bord</h4><p>L'AOS Cockpit centralise le pilotage d'atelier. Naviguez via l'accueil pour accéder aux synthèses par Projets ou par Membres de l'équipe. Les indicateurs remontent automatiquement les points de blocage pour agir lors des rituels de pilotage.</p></div>
@@ -670,6 +708,8 @@ function openGuide(){
     <div class="box"><h4>3. Moteur d'Actions & Jalons</h4><p>Cliquez sur une barre temporelle pour modifier son statut ou l'avancement. Les actions décalées réajustent automatiquement les Work Packages parents. Utilisez les Jalons (♦) pour cibler vos livrables critiques ou audits de passage.</p></div>
   `);
 }
+
+function exportJson(){download('aos-cockpit.json',JSON.stringify(db,null,2),'application/json')}function exportCsv(){let rows=[['Type','Nom','Projet/WP','Statut','Début','Fin']];activeWps().forEach(w=>rows.push(['WP',w.name,project(w.project)?.name,stTxt(effectiveStatus(w)),w.start,w.end]));activeActions().forEach(a=>rows.push(['Action',a.title,wp(a.wp)?.name,stTxt(effectiveStatus(a)),a.start,a.end]));download('aos-cockpit.csv',rows.map(r=>r.map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(';')).join('\n'),'text/csv')}function download(name,content,type){let blob=new Blob([content],{type});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()}
 
 function wpx(s,e){return Math.max(1,(days(new Date(s),new Date(e))+1)*currentPx)} 
 
@@ -684,8 +724,8 @@ function autoComputeTimeBounds(){
      let d2 = new Date(cEnd);
      if(d1 <= d2) {
          base = new Date(d1.getFullYear(), d1.getMonth(), 1); 
-         // +2 mois de marge pour ne rien couper à l'impression (buffer invisible)
-         let endLimit = new Date(d2.getFullYear(), d2.getMonth() + 2, 1);
+         // +1 mois de marge pour ne rien couper à l'impression (buffer invisible)
+         let endLimit = new Date(d2.getFullYear(), d2.getMonth() + 1, 1);
          totalMonthsCount = (endLimit.getFullYear() - base.getFullYear()) * 12 + (endLimit.getMonth() - base.getMonth());
          totalMonthsCount = Math.max(1, totalMonthsCount);
          
@@ -719,6 +759,7 @@ function autoComputeTimeBounds(){
   ganttWidth = left + (totalMonthsCount * 31 * currentPx) + 200;
 }
 
+/* RENDU DE L'EN-TÊTE TEMPOREL AVEC 52 SEMAINES EXACTES / AN */
 function months(){
   let html = `<div class="g-left-head"><span>Élément</span><span>Responsable</span></div>`;
   let current = new Date(base);
@@ -756,7 +797,6 @@ function months(){
       let fs = new Date(cStart), fe = new Date(cEnd), today = new Date();
       if(today < fs || today > fe) drawToday = false;
   }
-  // Aujourd'hui positionné à 60px
   if(drawToday) html += `<span class="today-label" style="left:${left+days(base,new Date())*currentPx}px; top:60px;">Aujourd'hui</span>`;
   
   return html;
@@ -923,7 +963,7 @@ function drawGantt(){
 
         if(shouldRenderWp) {
           let renderWp = renderGanttRow({
-            type: 'wp', id: w.id, title: w.name, start: w.start, end: w.end,
+            type: 'wp', id: w.id, title: w.name, cleanTitle: w.name, start: w.start, end: w.end,
             status: effectiveStatus(w), owner: user(w.owner).name, pct: pctWp(w.id), milestones: w.milestones, isActionUI: false
           });
           if (renderWp) { has = true; html += renderWp; }
@@ -937,7 +977,7 @@ function drawGantt(){
 
         wActions.forEach(a => {
           let renderAct = renderGanttRow({
-            type: 'action', id: a.id, title: `&nbsp;&nbsp;<i class="fa-solid fa-angle-right" style="opacity:0.5; margin-right:4px;"></i> ${a.title}`, start: a.start, end: a.end,
+            type: 'action', id: a.id, title: `&nbsp;&nbsp;<i class="fa-solid fa-angle-right" style="opacity:0.5; margin-right:4px;"></i> ${a.title}`, cleanTitle: a.title, start: a.start, end: a.end,
             status: effectiveStatus(a), owner: a.people.map(u=>user(u).name).join(', '), pct: actionPct(a), milestones: a.milestones, isActionUI: true
           });
           if (renderAct) { has = true; html += renderAct; }
@@ -974,35 +1014,34 @@ function renderGanttRow(it) {
   let barCls = it.isActionUI ? `bar bar-grad-${it.status} action-bar-ui` : `bar bar-grad-${it.status}`;
   
   let bX = xpos(dStart);
-  let bW = Math.max(1, wpx(dStart, dEnd)); // 1px min safe
+  let bW = Math.max(1, wpx(dStart, dEnd)); 
 
-  // POLICES ADAPTATIVES (ZOOM-OUT MAGIQUE)
+  // LE TEXTE S'ADAPTE EXACTEMENT AU ZOOM, MAIS RESTE A L'INTERIEUR TANT QUE LA BARRE FAIT > 180px
   let scale = Math.min(1, currentPx / 10);
-  let fzBar = Math.max(7, Math.round(11 * scale));
-  let fzMark = Math.max(6, Math.round(9 * scale));
-  let fzOut = Math.max(8, Math.round(10 * scale));
+  let fzBar = Math.max(6, Math.round(11 * scale));
+  let fzMark = Math.max(5, Math.round(9 * scale));
   let fzDiamond = Math.max(12, Math.round(22 * scale));
   let topDiamond = Math.max(-4, Math.round(-8 * scale));
   
   let padMark = `${Math.max(1, Math.round(2*scale))}px ${Math.max(2, Math.round(6*scale))}px`;
   let gapIn = Math.max(2, Math.round(4*scale));
 
-  // LOGIQUE DE TEXTE : Basé sur la durée réelle, pas sur les pixels de l'écran. 
-  // Donc si ça rentrait "normalement", ça reste dedans même en zoom arrière !
-  let duration = days(dStart, dEnd) + 1;
-  let isShort = duration < 12; // Si moins de 12 jours, le texte sort à droite.
+  // LIMITE STRICTE A 180PX
+  let isShort = bW < 180; 
 
   let contentIn = isShort ? '' : `
-    <div style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-right:${gapIn}px; text-align:left; flex:1; font-size:${fzBar}px;">${it.title}</div>
-    <div style="display:flex; gap:${gapIn}px; flex-shrink:0;">
-      <span class="mark" style="font-size:${fzMark}px; padding:${padMark};">${it.pct}%</span>
-      <span class="mark" style="font-size:${fzMark}px; padding:${padMark};">${ini}</span>
+    <div style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-right:${gapIn}px; text-align:left; flex:1; font-size:${fzBar}px;">${it.cleanTitle}</div>
+    <div style="display:flex; gap:${gapIn}px; flex-shrink:0; align-items:center;">
+      <span class="mark" style="font-size:${fzMark}px; padding:${padMark}; line-height:1;">${it.pct}%</span>
+      <span class="mark" style="font-size:${fzMark}px; padding:${padMark}; line-height:1;">${ini}</span>
     </div>`;
 
+  let outTitle = it.isActionUI ? `<i class="fa-solid fa-angle-right" style="opacity:0.6;margin-right:3px;"></i>${it.cleanTitle}` : it.cleanTitle;
+  
   let contentOut = isShort ? `
-    <span style="font-weight:800;color:var(--text);font-size:${fzOut}px;">${it.title}</span>
-    <span style="background:#e2e8f0;color:#334155;padding:${padMark};border-radius:4px;font-size:${fzMark}px;font-weight:900;">${it.pct}%</span>
-    <span style="background:#e2e8f0;color:#334155;padding:${padMark};border-radius:4px;font-size:${fzMark}px;font-weight:900;">${ini}</span>` : '';
+    <span style="font-weight:800;color:var(--text);font-size:10px;">${outTitle}</span>
+    <span style="background:#e2e8f0;color:#334155;padding:2px 4px;border-radius:3px;font-size:9px;font-weight:900;">${it.pct}%</span>
+    <span style="background:#e2e8f0;color:#334155;padding:2px 4px;border-radius:3px;font-size:9px;font-weight:900;">${ini}</span>` : '';
 
   let htmlRow = `<div class="${rowCls}"><div class="row-label"><strong>${it.title}</strong><span>${it.owner}</span></div>`;
   
@@ -1013,7 +1052,7 @@ function renderGanttRow(it) {
 
   if(isShort) {
       let tPos = it.isActionUI ? '6px' : '8px';
-      htmlRow += `<div style="position:absolute; left:${bX + bW + 6}px; top:${tPos}; display:flex; gap:4px; align-items:center; z-index:15; pointer-events:none; white-space:nowrap; text-shadow: 1px 1px 1px #fff, -1px -1px 1px #fff, 1px -1px 1px #fff, -1px 1px 1px #fff;">${contentOut}</div>`;
+      htmlRow += `<div style="position:absolute; left:${bX + bW + 6}px; top:${tPos}; display:flex; gap:4px; align-items:center; z-index:15; pointer-events:none; white-space:nowrap; text-shadow: 1px 1px 2px #fff, -1px -1px 2px #fff, 1px -1px 2px #fff, -1px 1px 2px #fff;">${contentOut}</div>`;
   }
 
   if(it.milestones && it.milestones.length) {
@@ -1024,7 +1063,8 @@ function renderGanttRow(it) {
           if (md < fS || md > fE) return; 
       }
       let mx = xpos(m.date);
-      htmlRow += `<div class="milestone-diamond" style="left:${mx}px; font-size:${fzDiamond}px; top:${topDiamond}px;" title="JALON : ${escapeAttr(m.name)} (${fmt(m.date)})">♦</div>`;
+      let msColor = m.status === 'done' ? '#16a34a' : 'var(--orange)';
+      htmlRow += `<div class="milestone-diamond" style="left:${mx}px; color:${msColor}; font-size:${fzDiamond}px; top:${topDiamond}px;" title="JALON : ${escapeAttr(m.name)} (${fmt(m.date)}) - ${m.status==='done'?'Terminé':'À venir'}">♦</div>`;
     });
   }
   
@@ -1059,6 +1099,7 @@ function openWp(id){
     <div class="milestone-row" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
       <input type="text" class="mini-input ms-name" value="${escapeAttr(m.name)}" placeholder="Nom du jalon" style="flex:1;">
       <input type="date" class="mini-input ms-date" value="${m.date}" min="${w.start}" max="${w.end}" style="width:130px;">
+      <select class="mini-input ms-status" style="width:90px;"><option value="planned" ${m.status==='planned'?'selected':''}>À venir</option><option value="done" ${m.status==='done'?'selected':''}>Terminé</option></select>
       <button class="btn btn-red" style="padding:6px 10px;" onclick="this.closest('.milestone-row').remove()"><i class="fa-solid fa-xmark"></i></button>
     </div>
   `).join('');
@@ -1078,6 +1119,7 @@ function openAction(id){
     <div class="milestone-row" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
       <input type="text" class="mini-input ms-name" value="${escapeAttr(m.name)}" placeholder="Nom du jalon" style="flex:1;">
       <input type="date" class="mini-input ms-date" value="${m.date}" min="${a.start}" max="${a.end}" style="width:130px;">
+      <select class="mini-input ms-status" style="width:90px;"><option value="planned" ${m.status==='planned'?'selected':''}>À venir</option><option value="done" ${m.status==='done'?'selected':''}>Terminé</option></select>
       <button class="btn btn-red" style="padding:6px 10px;" onclick="this.closest('.milestone-row').remove()"><i class="fa-solid fa-xmark"></i></button>
     </div>
   `).join('');
@@ -1091,7 +1133,7 @@ function addMilestoneRow(btn, minDate, maxDate){
   let div = document.createElement('div');
   div.className = 'milestone-row';
   div.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
-  div.innerHTML = `<input type="text" class="mini-input ms-name" value="" placeholder="Nom du jalon" style="flex:1;"><input type="date" class="mini-input ms-date" value="${minDate}" min="${minDate}" max="${maxDate}" style="width:130px;"><button class="btn btn-red" style="padding:6px 10px;" onclick="this.closest('.milestone-row').remove()"><i class="fa-solid fa-xmark"></i></button>`;
+  div.innerHTML = `<input type="text" class="mini-input ms-name" value="" placeholder="Nom du jalon" style="flex:1;"><input type="date" class="mini-input ms-date" value="${minDate}" min="${minDate}" max="${maxDate}" style="width:130px;"><select class="mini-input ms-status" style="width:90px;"><option value="planned">À venir</option><option value="done">Terminé</option></select><button class="btn btn-red" style="padding:6px 10px;" onclick="this.closest('.milestone-row').remove()"><i class="fa-solid fa-xmark"></i></button>`;
   container.appendChild(div);
 }
 
@@ -1101,7 +1143,7 @@ function openActionForm(wid=''){formTitle.textContent='Créer une Action';let wp
 function updateActionDateLimits(){let opt=faWp?.options[faWp.selectedIndex];if(!opt)return;let s=opt.getAttribute('data-start'),e=opt.getAttribute('data-end');faStart.min=s;faStart.max=e;faEnd.min=s;faEnd.max=e;if(!faStart.value)faStart.value=s;if(!faEnd.value)faEnd.value=e}
 
 function saveWpEdits(id){
-  let w=wp(id);let nName=document.getElementById(`editWpName_${id}`).value;
+  let w=wp(id);let p=project(w.project);let nName=document.getElementById(`editWpName_${id}`).value;
   let nStart=document.getElementById(`editWpStart_${id}`).value;let nEnd=document.getElementById(`editWpEnd_${id}`).value;
   let nComment=document.getElementById(`editWpComment_${id}`).value;let nCdtId=document.getElementById(`editWpCdtSelect_${id}`).value;
   let nStat=document.getElementById(`editWpStatus_${id}`).value;
@@ -1110,7 +1152,8 @@ function saveWpEdits(id){
   document.querySelectorAll('#wp-milestones-area .milestone-row').forEach(r => {
      let n = r.querySelector('.ms-name').value.trim();
      let d = r.querySelector('.ms-date').value;
-     if(n && d) newMs.push({name:n, date:d});
+     let s = r.querySelector('.ms-status').value;
+     if(n && d) newMs.push({name:n, date:d, status:s});
   });
   
   let msChanged = JSON.stringify(w.milestones) !== JSON.stringify(newMs);
@@ -1170,8 +1213,24 @@ function saveWpEdits(id){
     }
     
     w.history.push(`${new Date().toLocaleString('fr-FR')} · Modification WP · Motif : ${r}`);
+    
+    let oldValStr = []; let newValStr = [];
+    if(w.name!==nName){oldValStr.push(`Nom: ${w.name}`);newValStr.push(`Nom: ${nName}`);}
+    if(w.start!==nStart){oldValStr.push(`Début: ${fmt(w.start)}`);newValStr.push(`Début: ${fmt(nStart)}`);}
+    if(w.end!==nEnd){oldValStr.push(`Fin: ${fmt(w.end)}`);newValStr.push(`Fin: ${fmt(nEnd)}`);}
+    if(w.status!==nStat){oldValStr.push(`Statut: ${stTxt(w.status)}`);newValStr.push(`Statut: ${stTxt(nStat)}`);}
+    if(w.cdtId!==nCdtId){oldValStr.push(`Secteur: ${cdtName(w.cdtId)}`);newValStr.push(`Secteur: ${cdtName(nCdtId)}`);}
+    if(w.comment!==nComment){oldValStr.push(`Commentaire modifié`);newValStr.push(`Commentaire modifié`);}
+    
+    // DIFF HISTORIQUE JALONS PARFAIT
+    if(msChanged){
+        let oldMsStr = (w.milestones||[]).map(m => `${m.name} [${m.status==='done'?'Terminé':'À venir'}]`).join(', ') || 'Aucun';
+        let newMsStr = newMs.map(m => `${m.name} [${m.status==='done'?'Terminé':'À venir'}]`).join(', ') || 'Aucun';
+        oldValStr.push(`Jalons: ${oldMsStr}`); newValStr.push(`Jalons: ${newMsStr}`);
+    }
+    
     w.name=nName;w.start=nStart;w.end=nEnd;w.comment=nComment;w.cdtId=nCdtId;w.status=nStat;w.modified=true;
-    addHistory(`WP "${w.name}"`,'Valeurs mises à jour','Appliqué',r);
+    addHistory(`WP "${w.name}" (Projet: ${p.name}, Secteur: ${cdtName(nCdtId)})`, oldValStr.join(' | '), newValStr.join(' | '), r);
     save('WP mis à jour');
   }
   
@@ -1180,7 +1239,8 @@ function saveWpEdits(id){
 }
 
 function saveActionEdits(id){
-  let a=activeActions().find(x=>x.id===id);let nComment=document.getElementById(`editActionComment_${id}`).value;
+  let a=activeActions().find(x=>x.id===id);let w=wp(a.wp);let p=project(w.project);
+  let nComment=document.getElementById(`editActionComment_${id}`).value;
   let nCause=document.getElementById(`editBlockCause_${id}`).value;let nStat=document.getElementById(`editActionStatus_${id}`).value;
   let nProg=parseInt(document.getElementById(`editActionProgress_${id}`).value,10);let nStart=document.getElementById(`editActionStart_${id}`).value;let nEnd=document.getElementById(`editActionEnd_${id}`).value;
   if(isNaN(nProg))nProg=actionPct(a);if(nStat==='done')nProg=100;if(nProg===100)nStat='done';
@@ -1189,7 +1249,8 @@ function saveActionEdits(id){
   document.querySelectorAll('#action-milestones-area .milestone-row').forEach(r => {
      let n = r.querySelector('.ms-name').value.trim();
      let d = r.querySelector('.ms-date').value;
-     if(n && d) newMs.push({name:n, date:d});
+     let s = r.querySelector('.ms-status').value;
+     if(n && d) newMs.push({name:n, date:d, status:s});
   });
 
   let msChanged = JSON.stringify(a.milestones) !== JSON.stringify(newMs);
@@ -1211,9 +1272,25 @@ function saveActionEdits(id){
     a.milestones = newMs.filter(m => m.date >= nStart && m.date <= nEnd);
 
     a.history.push(`${new Date().toLocaleString('fr-FR')} · Modification action · Motif : ${r}`);
+    
+    let oldValStr = []; let newValStr = [];
+    if(a.start!==nStart){oldValStr.push(`Début: ${fmt(a.start)}`);newValStr.push(`Début: ${fmt(nStart)}`);}
+    if(a.end!==nEnd){oldValStr.push(`Fin: ${fmt(a.end)}`);newValStr.push(`Fin: ${fmt(nEnd)}`);}
+    if(a.status!==nStat){oldValStr.push(`Statut: ${stTxt(a.status)}`);newValStr.push(`Statut: ${stTxt(nStat)}`);}
+    if(actionPct(a)!==nProg){oldValStr.push(`Avancement: ${actionPct(a)}%`);newValStr.push(`Avancement: ${nProg}%`);}
+    if(a.comment!==nComment){oldValStr.push(`Commentaire modifié`);newValStr.push(`Commentaire modifié`);}
+    if(a.blockCause!==nCause){oldValStr.push(`Cause Blocage modifiée`);newValStr.push(`Cause Blocage modifiée`);}
+    
+    // DIFF HISTORIQUE JALONS PARFAIT
+    if(msChanged){
+        let oldMsStr = (a.milestones||[]).map(m => `${m.name} [${m.status==='done'?'Terminé':'À venir'}]`).join(', ') || 'Aucun';
+        let newMsStr = newMs.map(m => `${m.name} [${m.status==='done'?'Terminé':'À venir'}]`).join(', ') || 'Aucun';
+        oldValStr.push(`Jalons: ${oldMsStr}`); newValStr.push(`Jalons: ${newMsStr}`);
+    }
+
     a.comment=nComment;a.blockCause=nCause;a.status=nStat;a.progress=nProg;a.start=nStart;a.end=nEnd;
     syncWpWithActions(a.wp);
-    addHistory(`Action "${a.title}"`,'Valeurs mises à jour','Appliqué',r);
+    addHistory(`Action "${a.title}" (WP: ${w.name}, Projet: ${p.name})`, oldValStr.join(' | '), newValStr.join(' | '), r);
     save('Action mise à jour');
   }
   
@@ -1236,11 +1313,47 @@ function saveWp(){
     });
   });
   
-  addHistory(`WP "${fwName.value.trim()}"`,'-','Création groupée',`Création sans action automatique.`);
+  addHistory(`WP Multi-CDT "${fwName.value.trim()}"`,'-','Création groupée',`Création sans action automatique.`);
   closeForm();save('Work Package créé.');
 }
 
-function saveAction(){let people=[...document.querySelectorAll('.assignee:checked')].map(x=>x.value);let w=wp(faWp.value);let prog=parseInt(faProgress.value,10);if(!faTitle.value.trim()||!faStart.value||!faEnd.value||!people.length)return toast('Renseigne nom, dates et personnes.');if(new Date(faStart.value)<new Date(w.start)||new Date(faEnd.value)>new Date(w.end))return alert(`Erreur : l'action doit être comprise entre le ${fmt(w.start)} et le ${fmt(w.end)}.`);if(faStatus.value==='blocked'&&!faBlock.value.trim())return alert('Cause blocage requise.');if(isNaN(prog))prog=0;let st=faStatus.value;if(st==='done')prog=100;if(prog===100)st='done';db.actions.push({id:uid('a'),wp:w.id,title:faTitle.value.trim(),start:faStart.value,end:faEnd.value,status:st,people,progress:prog,comment:faComment.value,blockCause:faBlock.value,milestones:[],archived:false,history:[`${new Date().toLocaleString('fr-FR')} · Création`]});addHistory(`Action "${faTitle.value.trim()}"`,'-','Création','Ajout manuel');syncWpWithActions(w.id);closeForm();if(modal.classList.contains('show'))openWp(w.id);save('Action ajoutée')}
+function saveAction(){let people=[...document.querySelectorAll('.assignee:checked')].map(x=>x.value);let w=wp(faWp.value);let p=project(w.project);let prog=parseInt(faProgress.value,10);if(!faTitle.value.trim()||!faStart.value||!faEnd.value||!people.length)return toast('Renseigne nom, dates et personnes.');if(new Date(faStart.value)<new Date(w.start)||new Date(faEnd.value)>new Date(w.end))return alert(`Erreur : l'action doit être comprise entre le ${fmt(w.start)} et le ${fmt(w.end)}.`);if(faStatus.value==='blocked'&&!faBlock.value.trim())return alert('Cause blocage requise.');if(isNaN(prog))prog=0;let st=faStatus.value;if(st==='done')prog=100;if(prog===100)st='done';db.actions.push({id:uid('a'),wp:w.id,title:faTitle.value.trim(),start:faStart.value,end:faEnd.value,status:st,people,progress:prog,comment:faComment.value,blockCause:faBlock.value,milestones:[],archived:false,history:[`${new Date().toLocaleString('fr-FR')} · Création`]});addHistory(`Action "${faTitle.value.trim()}" (WP: ${w.name}, Projet: ${p.name})`,'-','Création','Ajout manuel');syncWpWithActions(w.id);closeForm();if(modal.classList.contains('show'))openWp(w.id);save('Action ajoutée')}
+
+/* HISTORIQUE AMELIORE AVEC BARRE DE RECHERCHE ET DIFF DÉTAILLÉ */
+window.filterHistory = function() {
+    let val = document.getElementById('historySearch').value;
+    document.getElementById('historyList').innerHTML = renderHistoryList(val);
+}
+window.renderHistoryList = function(filter = '') {
+    let filtered = db.history.filter(h => {
+        let text = `${h.date} ${h.user} ${h.object} ${h.old} ${h.new} ${h.reason}`.toLowerCase();
+        return text.includes(filter.toLowerCase());
+    });
+    if (!filtered.length) return '<div style="text-align:center;padding:20px;color:var(--muted);">Aucun résultat trouvé.</div>';
+    return filtered.map(h => `
+      <div class="hist" style="border-left:3px solid var(--blue); background:#fff; padding:10px; margin-bottom:8px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px; border-bottom:1px solid var(--line); padding-bottom:4px;">
+          <b style="font-size:10px; color:var(--muted);"><i class="fa-regular fa-clock"></i> ${h.date}</b> 
+          <span style="color:var(--airbus); font-size:10px; font-weight:800;"><i class="fa-solid fa-user"></i> ${h.user}</span>
+        </div>
+        <div style="font-weight:800;color:var(--text); font-size:13px; margin-bottom:4px;">${h.object}</div>
+        <div style="font-size:11px; color:var(--muted); margin-bottom:4px; line-height:1.6;">Modification : <span style="text-decoration:line-through; color:#94a3b8;">${h.old}</span> &nbsp;➔&nbsp; <b style="color:var(--blue);">${h.new}</b></div>
+        <div style="font-size:10px;color:var(--dark);text-transform:uppercase; font-weight:800; background:#f1f5f9; display:inline-block; padding:3px 6px; border-radius:4px;">Motif : ${h.reason}</div>
+      </div>
+    `).join('');
+}
+function openHistory(){
+    let html = `
+        <div style="margin-bottom:16px;">
+            <input type="text" id="historySearch" class="mini-input search" placeholder="🔎 Rechercher (secteur, projet, motif...)" oninput="filterHistory()" style="width:100%;">
+        </div>
+        <div id="historyList" style="max-height:60vh; overflow-y:auto; padding-right:8px;">
+            ${renderHistoryList()}
+        </div>
+    `;
+    openSimple('Historique des modifications', html);
+}
+
 function closeForm(){formModal.classList.remove('show')}function closeModal(){modal.classList.remove('show')}function openSimple(t,body){modalBadge.textContent='Cockpit';modalTitle.textContent=t;modalSub.textContent='';modalActions.innerHTML='<button class="btn btn-white" onclick="closeModal()">Fermer</button>';modalBody.innerHTML=body;modal.classList.add('show')}
 
 showView('home');renderAll();
