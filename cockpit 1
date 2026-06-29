@@ -12,7 +12,7 @@
   --bg:#f8fafc;--line:#e2e8f0;--text:#0f172a;--muted:#64748b;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',Arial,sans-serif; overflow-y:scroll;}
 button,input,select,textarea{font-family:inherit}button{cursor:pointer}
 .app{min-height:100vh;display:flex;flex-direction:column}
 .header{height:78px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 32px;gap:20px;box-shadow:0 1px 3px rgba(0,0,0,.02);z-index:200;position:relative}
@@ -60,6 +60,17 @@ button,input,select,textarea{font-family:inherit}button{cursor:pointer}
 .home-tile i{font-size:34px;margin-bottom:12px;color:#fff}
 .home-tile h3{margin:0;font-size:22px;font-weight:900;color:#fff}
 .home-tile p{margin:6px 0 0;font-size:12px;font-weight:500;color:#cbd5e1}
+
+.home-footer-text {
+  position: fixed;
+  bottom: 15px;
+  right: 25px;
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 600;
+  z-index: 100;
+  pointer-events: none;
+}
 
 /* PAGES */
 .page{padding:30px;max-width:1500px;margin:0 auto;width:100%}.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:20px}.page-head h2{margin:0;color:var(--text);font-size:28px;font-weight:900}.page-head p{margin:6px 0 0;color:var(--muted);font-weight:600;font-size:14px}
@@ -125,10 +136,15 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
 .cdt-title{height:46px;background:#eef6ff!important;padding:0 16px;font-size:14px;text-transform:uppercase}
 .project-title{height:40px;background:#f8fafc!important;padding:0 26px;font-size:12px}
 
-/* REGROUPEMENT VISUEL PARFAIT WP / ACTIONS */
+/* REGROUPEMENT VISUEL PARFAIT WP / ACTIONS + TOGGLE */
 .wp-row-ui{height:44px;position:relative;border-bottom:1px solid #f1f5f9;background:#fff;}
 .wp-row-ui .row-label{height:44px!important;}
 .wp-row-ui .bar{top:8px;height:28px;}
+
+/* CSS for collapsible WP actions */
+.wp-toggle { cursor: pointer; color: var(--muted); margin-right: 8px; transition: transform 0.2s; display: inline-block; width: 14px; text-align: center; }
+.wp-group.collapsed .action-row-ui { display: none !important; }
+.wp-group.collapsed .wp-toggle { transform: rotate(-90deg); }
 
 .action-row-ui{height:28px!important;position:relative;border-bottom:1px solid #f1f5f9;background:#fff;}
 .action-row-ui .row-label{height:28px!important;}
@@ -138,7 +154,7 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
 .action-row-ui .milestone-diamond{top:-6px;font-size:16px;}
 
 .row-label{position:sticky;left:0;z-index:130!important;width:300px;background:#ffffff!important;border-right:2px solid #cbd5e1!important;display:grid;grid-template-columns:185px 95px;align-items:center;box-shadow:4px 0 10px rgba(0,0,0,0.06)!important}
-.row-label strong{font-size:12px;padding-left:34px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800}
+.row-label strong{font-size:12px;padding-left:34px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800; display:flex; align-items:center;}
 .row-label span{font-size:11px;color:var(--muted);font-weight:700;padding-left:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* PLACEMENT JALON AU-DESSUS DE LA BARRE */
@@ -151,7 +167,7 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
 .today{position:absolute;top:0;bottom:0;width:2px;background:#ef4444;z-index:15;pointer-events:none}
 .today-label{position:absolute;top:60px;transform:translateX(-50%);background:#fef2f2;color:#ef4444;border:1px solid #fecaca;border-radius:4px;padding:2px 6px;font-size:8px;font-weight:900;z-index:195;pointer-events:none;text-transform:uppercase;letter-spacing:.05em}
 
-/* DÉGRADÉS BARRES DE GANTT */
+/* DÉGRADÉS BARRES DE GANTT ET TEXTE CONFINÉ/EXTÉRIEUR */
 .bar{position:absolute;border:0;border-radius:6px;color:#fff;font-size:11px;font-weight:800;box-shadow:0 4px 6px rgba(0,0,0,.1);overflow:hidden;z-index:10;cursor:pointer}.bar:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.15);z-index:20}.bar-progress{position:absolute;top:0;left:0;bottom:0;background:rgba(0,0,0,.25);z-index:1}.bar-content{position:relative;z-index:2;display:flex;align-items:center;width:100%;height:100%;white-space:nowrap;}
 .bar-grad-ongoing{background:linear-gradient(90deg,#2563eb 0%,#60a5fa 100%)}
 .bar-grad-done{background:linear-gradient(90deg,#059669 0%,#34d399 100%)}
@@ -165,26 +181,27 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
 .filters-wrap { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width: 100%; }
 .filters-wrap .dd-container { width: 230px; flex-shrink: 0; }
 
-.dd-header { display: flex; justify-content: space-between; align-items: center; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 700; background: #fff; cursor: pointer; color: var(--text); user-select: none; transition: 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dd-header { display: flex; justify-content: space-between; align-items: center; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 700; background: #fff; cursor: pointer; color: var(--text); user-select: none; transition: 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; }
 .dd-header:hover { border-color: var(--blue); }
 .dd-header i { color: var(--muted); font-size: 10px; margin-left: 8px; flex-shrink: 0; }
 .dd-list { position: absolute; top: calc(100% + 4px); left: 0; width: 100%; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 1000; max-height: 250px; overflow-y: auto; display: none; flex-direction: column; padding: 6px; }
 .dd-list.show { display: flex; }
-.dd-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; color: var(--text); transition: background 0.1s; margin-bottom: 2px; }
+.dd-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; color: var(--text); transition: background 0.1s; margin-bottom: 2px; user-select: none; }
 .dd-item:hover { background: #f1f5f9; }
 .dd-item input { margin: 0; accent-color: var(--blue); cursor: pointer; width: 14px; height: 14px; flex-shrink: 0; }
 
 /* CSS D'IMPRESSION (CADRAGE EXACT A2 & COULEURS) */
 @media print {
   @page { size: A2 landscape; margin: 10mm; }
-  body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; overflow: visible !important;}
   body * { visibility: hidden; }
   #roadModal, #roadModal * { visibility: visible; }
-  #roadModal { position: absolute; left: 0; top: 0; padding:0; margin:0; width: 100%; }
-  .road-panel { width: 100%; height: auto; box-shadow: none; border-radius: 0; }
+  #roadModal { position: absolute; left: 0; top: 0; padding:0; margin:0; width: max-content; min-width: 100%; }
+  .road-panel { width: max-content; height: auto; box-shadow: none; border-radius: 0; }
   .road-head button, .road-filters { display: none !important; }
-  .gantt-container { overflow: visible !important; height: auto !important; padding:0 !important; width: 100%; }
-  .gantt { overflow: visible !important; border:none; box-shadow:none; width: 100%; }
+  .gantt-container { overflow: visible !important; height: auto !important; padding:0 !important; width: max-content; }
+  .gantt { overflow: visible !important; border:none; box-shadow:none; width: max-content; }
+  .gantt-inner { width: max-content; }
 }
 @media(max-width:1250px){.header-actions .btn span{display:none}.header-actions .btn{padding:10px 14px}.admin-triple-grid{grid-template-columns:1fr}.grid2,.form-grid{grid-template-columns:1fr}}
 </style>
@@ -212,6 +229,8 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
     <button class="home-tile" onclick="askAdmin()"><i class="fa-solid fa-lock"></i><h3>Administration</h3><p>Configuration globale</p></button>
   </div>
 </section>
+
+<div class="home-footer-text">Conçu et développé par Omar HAMZE - Stage PFE AOS 2026</div>
 
 <section id="projects" class="view page">
   <div class="page-head"><div><h2>Projets</h2><p>Vue synthèse des projets de l'équipe</p></div><div class="actions"><input id="projectSearch" class="search" placeholder="🔎 Rechercher un projet..." oninput="renderProjects()"><button class="btn btn-navy" onclick="openRoadmap('project','')"><i class="fa-solid fa-route"></i> Roadmap unique</button></div></div>
@@ -360,7 +379,7 @@ function save(msg){db.last=new Date().toLocaleString('fr-FR');localStorage.setIt
 function uid(p){return p+Date.now()+Math.random().toString(16).slice(2)}
 function activeProjects(){return db.projects.filter(p=>!p.archived)}function activeWps(){let pIds=activeProjects().map(p=>p.id);return db.wps.filter(w=>!w.archived&&pIds.includes(w.project))}function activeActions(){let wIds=activeWps().map(w=>w.id);return db.actions.filter(a=>!a.archived&&wIds.includes(a.wp))}
 
-/* SYSTÈME DE MENUS DÉROULANTS CUSTOM AVEC "SÉLECTIONNER TOUT" */
+/* SYSTÈME DE MENUS DÉROULANTS CUSTOM AVEC "SÉLECTIONNER TOUT" ET RECHERCHE */
 function toggleDD(id) {
   document.querySelectorAll('.dd-list').forEach(el => { if(el.id !== id) el.classList.remove('show'); });
   document.getElementById(id).classList.toggle('show');
@@ -380,6 +399,15 @@ function toggleAllDD(btn, listId, defaultText) {
     updateDDText(listId, txtId, defaultText, true);
     if (listId === 'dd-list-people-filter') renderPeople();
 }
+
+window.toggleAllAssignees = function(btn, listId) {
+    let list = document.getElementById(listId);
+    if(!list) return;
+    let cbs = list.querySelectorAll('.individual-cb');
+    cbs.forEach(c => c.checked = btn.checked);
+    let txtId = listId.replace('dd-', 'txt-');
+    updateDDText(listId, txtId, 'Sélectionner...', false);
+};
 
 function updateDDText(listId, textId, defaultText, isFilter = false) {
   let list = document.getElementById(listId);
@@ -457,6 +485,7 @@ function renderProjects(){
     let blocked=activeWps().some(w=>w.project===p.id&&effectiveStatus(w)==='blocked');
     let s=pc===100?'done':blocked?'blocked':late?'late':'ongoing';
     
+    // CALCUL PROCHAIN JALON
     let allMs = [];
     activeWps().filter(w=>w.project===p.id).forEach(w => {
        allMs.push(...(w.milestones||[]));
@@ -488,6 +517,7 @@ function renderPeople(){
     let blocked=a.some(x=>effectiveStatus(x)==='blocked');
     let s=pc===100?'done':blocked?'blocked':late?'late':'ongoing';
     
+    // CALCUL PROCHAIN JALON
     let allMs = [];
     let userWps = activeWps().filter(w=>w.owner===u.id);
     userWps.forEach(w => allMs.push(...(w.milestones||[])));
@@ -626,8 +656,7 @@ function syncWpWithActions(wid,silent=false){
     let anyBlocked = acts.some(a=>a.status==='blocked');
     let anyLate = acts.some(a=>effectiveStatus(a)==='late');
     
-    if (w.status === 'blocked' && !allDone) ns = 'blocked';
-    else if(allDone) ns='done';
+    if(allDone) ns='done';
     else if(anyBlocked) ns='blocked';
     else if(anyLate) ns='late';
     else if(allPlanned) ns='planned'; 
@@ -713,6 +742,15 @@ function exportJson(){download('aos-cockpit.json',JSON.stringify(db,null,2),'app
 
 function wpx(s,e){return Math.max(1,(days(new Date(s),new Date(e))+1)*currentPx)} 
 
+// COLLAPSE TOGGLE POUR WP
+window.toggleWpCollapse = function(id, event) {
+    if(event) event.stopPropagation();
+    let group = document.getElementById('wp-group-' + id);
+    if(group) {
+        group.classList.toggle('collapsed');
+    }
+};
+
 /* CALCUL DU GANTT : HORIZON AUTO OU CADRAGE D'IMPRESSION EXACT (ZOOM OUT) */
 function autoComputeTimeBounds(){
   currentPx = 10; 
@@ -720,12 +758,12 @@ function autoComputeTimeBounds(){
   let cEnd = document.getElementById('customEnd')?.value;
 
   if (cStart && cEnd) {
-     let d1 = new Date(cStart);
-     let d2 = new Date(cEnd);
+     let d1 = new Date(cStart + 'T00:00:00');
+     let d2 = new Date(cEnd + 'T23:59:59');
      if(d1 <= d2) {
          base = new Date(d1.getFullYear(), d1.getMonth(), 1); 
-         // +1 mois de marge pour ne rien couper à l'impression (buffer invisible)
-         let endLimit = new Date(d2.getFullYear(), d2.getMonth() + 1, 1);
+         // +2 mois : 1 mois pour inclure la fin du mois courant + 1 mois de marge (buffer) pour l'impression propre
+         let endLimit = new Date(d2.getFullYear(), d2.getMonth() + 2, 1);
          totalMonthsCount = (endLimit.getFullYear() - base.getFullYear()) * 12 + (endLimit.getMonth() - base.getMonth());
          totalMonthsCount = Math.max(1, totalMonthsCount);
          
@@ -733,7 +771,7 @@ function autoComputeTimeBounds(){
          let availW = Math.max(window.innerWidth - left - 60, 1600); 
          currentPx = availW / totalD; // Compression (Zoom-Out)
          
-         ganttWidth = left + (totalD * currentPx); 
+         ganttWidth = left + (totalD * currentPx) + 20; 
          return;
      }
   }
@@ -794,7 +832,7 @@ function months(){
   let cStart = document.getElementById('customStart')?.value;
   let cEnd = document.getElementById('customEnd')?.value;
   if(cStart && cEnd) {
-      let fs = new Date(cStart), fe = new Date(cEnd), today = new Date();
+      let fs = new Date(cStart + 'T00:00:00'), fe = new Date(cEnd + 'T23:59:59'), today = new Date();
       if(today < fs || today > fe) drawToday = false;
   }
   if(drawToday) html += `<span class="today-label" style="left:${left+days(base,new Date())*currentPx}px; top:60px;">Aujourd'hui</span>`;
@@ -833,7 +871,7 @@ function grids(){
   let cStart = document.getElementById('customStart')?.value;
   let cEnd = document.getElementById('customEnd')?.value;
   if(cStart && cEnd) {
-      let fs = new Date(cStart), fe = new Date(cEnd), today = new Date();
+      let fs = new Date(cStart + 'T00:00:00'), fe = new Date(cEnd + 'T23:59:59'), today = new Date();
       if(today < fs || today > fe) drawToday = false;
   }
   if(drawToday) html+=`<span class="today" style="left:${left+days(base,new Date())*currentPx}px"></span>`;
@@ -862,6 +900,7 @@ function openRoadmap(filterType='',filterId=''){
       <span><i class="dot" style="background:var(--red)"></i>Retard</span>
       <span><i class="dot" style="background:var(--dark)"></i>Bloqué</span>
       <span><i class="dot" style="background:var(--orange)"></i>♦ Jalon</span>
+      <button class="btn btn-navy" onclick="openWpForm()" style="margin-left: 16px; padding: 4px 10px; font-size: 11px;"><i class="fa-solid fa-layer-group"></i> Créer WP</button>
     </div>
     <div class="filters-wrap">
       <div class="dd-container"><div class="dd-header" onclick="toggleDD('dd-list-cdt')"><span id="dd-txt-cdt">Tous les secteurs CDT</span><i class="fa-solid fa-chevron-down"></i></div><div class="dd-list" id="dd-list-cdt">${cdtOptions}</div></div>
@@ -961,27 +1000,31 @@ function drawGantt(){
                            activeActions().some(a => a.wp === w.id && a.people.some(p => filtPersons.includes(p)));
         }
 
+        let wActions = activeActions().filter(a => a.wp === w.id);
+        if(filtPersons.length) wActions = wActions.filter(a => a.people.some(p => filtPersons.includes(p)));
+        if(filtStatuses.length) wActions = wActions.filter(a => filtStatuses.includes(effectiveStatus(a)));
+        wActions.sort((a, b) => new Date(a.start) - new Date(b.start));
+
+        // WRAPPER WP + Actions pour le collapse
+        html += `<div class="wp-group" id="wp-group-${w.id}">`;
+
         if(shouldRenderWp) {
           let renderWp = renderGanttRow({
             type: 'wp', id: w.id, title: w.name, cleanTitle: w.name, start: w.start, end: w.end,
-            status: effectiveStatus(w), owner: user(w.owner).name, pct: pctWp(w.id), milestones: w.milestones, isActionUI: false
+            status: effectiveStatus(w), owner: user(w.owner).name, pct: pctWp(w.id), milestones: w.milestones, isActionUI: false, hasChildren: wActions.length > 0
           });
           if (renderWp) { has = true; html += renderWp; }
         }
 
-        let wActions = activeActions().filter(a => a.wp === w.id);
-        if(filtPersons.length) wActions = wActions.filter(a => a.people.some(p => filtPersons.includes(p)));
-        if(filtStatuses.length) wActions = wActions.filter(a => filtStatuses.includes(effectiveStatus(a)));
-
-        wActions.sort((a, b) => new Date(a.start) - new Date(b.start));
-
         wActions.forEach(a => {
           let renderAct = renderGanttRow({
-            type: 'action', id: a.id, title: `&nbsp;&nbsp;<i class="fa-solid fa-angle-right" style="opacity:0.5; margin-right:4px;"></i> ${a.title}`, cleanTitle: a.title, start: a.start, end: a.end,
+            type: 'action', parentWpId: w.id, id: a.id, title: `&nbsp;&nbsp;<i class="fa-solid fa-angle-right" style="opacity:0.5; margin-right:4px;"></i> ${a.title}`, cleanTitle: a.title, start: a.start, end: a.end,
             status: effectiveStatus(a), owner: a.people.map(u=>user(u).name).join(', '), pct: actionPct(a), milestones: a.milestones, isActionUI: true
           });
           if (renderAct) { has = true; html += renderAct; }
         });
+        
+        html += `</div>`; // Fin du wrapper wp-group
       });
     });
   });
@@ -998,25 +1041,25 @@ function renderGanttRow(it) {
   let cStart = document.getElementById('customStart')?.value;
   let cEnd = document.getElementById('customEnd')?.value;
 
-  let dStart = new Date(it.start);
-  let dEnd = new Date(it.end);
+  let dStart = new Date(it.start + 'T00:00:00');
+  let dEnd = new Date(it.end + 'T23:59:59');
 
   if (cStart && cEnd) {
-      let fS = new Date(cStart);
-      let fE = new Date(cEnd);
+      let fS = new Date(cStart + 'T00:00:00');
+      let fE = new Date(cEnd + 'T23:59:59');
       if (dEnd < fS || dStart > fE) return ''; 
       if (dStart < fS) dStart = fS; 
       if (dEnd > fE) dEnd = fE; 
   }
 
   let ini = initials(it.owner.split(',')[0]);
-  let rowCls = it.isActionUI ? "wp-row-ui action-row-ui" : "wp-row-ui";
+  let rowCls = it.isActionUI ? `wp-row-ui action-row-ui child-of-wp wp-${it.parentWpId}` : `wp-row-ui wp-parent`;
+  let rowIdAttr = it.isActionUI ? '' : `id="wp-row-${it.id}"`;
   let barCls = it.isActionUI ? `bar bar-grad-${it.status} action-bar-ui` : `bar bar-grad-${it.status}`;
   
   let bX = xpos(dStart);
   let bW = Math.max(1, wpx(dStart, dEnd)); 
 
-  // LE TEXTE S'ADAPTE EXACTEMENT AU ZOOM, MAIS RESTE A L'INTERIEUR TANT QUE LA BARRE FAIT > 180px
   let scale = Math.min(1, currentPx / 10);
   let fzBar = Math.max(6, Math.round(11 * scale));
   let fzMark = Math.max(5, Math.round(9 * scale));
@@ -1026,7 +1069,6 @@ function renderGanttRow(it) {
   let padMark = `${Math.max(1, Math.round(2*scale))}px ${Math.max(2, Math.round(6*scale))}px`;
   let gapIn = Math.max(2, Math.round(4*scale));
 
-  // LIMITE STRICTE A 180PX
   let isShort = bW < 180; 
 
   let contentIn = isShort ? '' : `
@@ -1043,7 +1085,9 @@ function renderGanttRow(it) {
     <span style="background:#e2e8f0;color:#334155;padding:2px 4px;border-radius:3px;font-size:9px;font-weight:900;">${it.pct}%</span>
     <span style="background:#e2e8f0;color:#334155;padding:2px 4px;border-radius:3px;font-size:9px;font-weight:900;">${ini}</span>` : '';
 
-  let htmlRow = `<div class="${rowCls}"><div class="row-label"><strong>${it.title}</strong><span>${it.owner}</span></div>`;
+  let toggleIcon = (!it.isActionUI && it.hasChildren) ? `<i class="fa-solid fa-chevron-down wp-toggle" onclick="toggleWpCollapse('${it.id}', event)"></i>` : '';
+
+  let htmlRow = `<div class="${rowCls}" ${rowIdAttr}><div class="row-label"><strong>${toggleIcon}${it.title}</strong><span>${it.owner}</span></div>`;
   
   htmlRow += `<div class="${barCls}" style="left:${bX}px;width:${bW}px;" onclick="${it.type==='wp'?`openWp('${it.id}')`:`openAction('${it.id}')`}">
                 <div class="bar-progress" style="width:${it.pct}%;"></div>
@@ -1057,9 +1101,9 @@ function renderGanttRow(it) {
 
   if(it.milestones && it.milestones.length) {
     it.milestones.forEach(m => {
-      let md = new Date(m.date);
+      let md = new Date(m.date + 'T00:00:00');
       if (cStart && cEnd) {
-          let fS = new Date(cStart), fE = new Date(cEnd);
+          let fS = new Date(cStart + 'T00:00:00'), fE = new Date(cEnd + 'T23:59:59');
           if (md < fS || md > fE) return; 
       }
       let mx = xpos(m.date);
@@ -1115,6 +1159,20 @@ function openAction(id){
   
   modalActions.innerHTML=`<button class="btn btn-white" onclick="openWp('${w.id}')"><i class="fa-solid fa-arrow-left"></i> Retour au WP</button> <button class="btn btn-blue" onclick="saveActionEdits('${id}')"><i class="fa-solid fa-check"></i> Enregistrer</button><button class="btn btn-red" onclick="archiveAction('${id}')"><i class="fa-solid fa-trash"></i></button><button class="btn btn-white" onclick="closeModal()">Fermer</button>`;
   
+  let editUsersOptionsHtml = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllAssignees(this, 'dd-edit-people_${id}')"> <i>Tout sélectionner</i></label>`;
+  editUsersOptionsHtml += db.users.map(u=>`<label class="dd-item user-cb-label"><input class="edit-assignee individual-cb" type="checkbox" value="${u.id}" ${a.people.includes(u.id)?'checked':''} onchange="updateDDText('dd-edit-people_${id}', 'txt-edit-people_${id}', 'Sélectionner...', false)"> ${u.name}</label>`).join('');
+  let editPeopleDropdown = `
+    <div class="dd-container">
+      <div class="dd-header" onclick="toggleDD('dd-edit-people_${id}')"><span id="txt-edit-people_${id}">Sélectionner...</span><i class="fa-solid fa-chevron-down"></i></div>
+      <div class="dd-list" id="dd-edit-people_${id}" style="max-height:200px; padding-top:0;">
+          <div style="position:sticky;top:0;background:#fff;padding:8px 4px 4px 4px;border-bottom:1px solid #cbd5e1;z-index:10; margin-bottom:4px;">
+              <input type="text" class="mini-input" placeholder="🔎 Rechercher..." onkeyup="let v=this.value.toLowerCase(); this.closest('.dd-list').querySelectorAll('.user-cb-label').forEach(l=>l.style.display=l.innerText.toLowerCase().includes(v)?'flex':'none');" style="width:100%;padding:6px;font-size:11px;">
+          </div>
+          ${editUsersOptionsHtml}
+      </div>
+    </div>
+  `;
+
   let milestonesHtml = (a.milestones || []).map((m,i)=>`
     <div class="milestone-row" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
       <input type="text" class="mini-input ms-name" value="${escapeAttr(m.name)}" placeholder="Nom du jalon" style="flex:1;">
@@ -1124,9 +1182,15 @@ function openAction(id){
     </div>
   `).join('');
 
-  modalBody.innerHTML=`<div class="grid2"><div><div class="box"><h4>Description & commentaire</h4><textarea id="editActionComment_${id}">${a.comment||''}</textarea></div><div class="box"><h4>Cause de blocage</h4><textarea id="editBlockCause_${id}" placeholder="Indiquer la raison exacte du blocage...">${a.blockCause||''}</textarea></div></div><div><div class="box"><h4>Paramètres d'exécution</h4><div class="mini-form-group"><label class="mini-form-label">Statut</label><select id="editActionStatus_${id}" class="mini-input"><option value="planned" ${a.status==='planned'?'selected':''}>À venir</option><option value="ongoing" ${a.status==='ongoing'?'selected':''}>En cours</option><option value="done" ${a.status==='done'?'selected':''}>Terminé</option><option value="blocked" ${a.status==='blocked'?'selected':''}>Bloqué</option></select></div><div class="mini-form-group"><label class="mini-form-label">Dates</label><div style="display:flex;gap:6px;"><input type="date" id="editActionStart_${id}" value="${a.start}" min="${w.start}" max="${w.end}" class="mini-input"><input type="date" id="editActionEnd_${id}" value="${a.end}" min="${w.start}" max="${w.end}" class="mini-input"></div></div><div class="mini-form-group"><label class="mini-form-label">Avancement (%)</label><input type="number" id="editActionProgress_${id}" value="${actionPct(a)}" min="0" max="100" class="mini-input" style="width:100px;font-size:18px;font-weight:900;color:var(--blue);"></div></div>
+  modalBody.innerHTML=`<div class="grid2"><div><div class="box"><h4>Description & commentaire</h4><textarea id="editActionComment_${id}">${a.comment||''}</textarea></div><div class="box"><h4>Cause de blocage</h4><textarea id="editBlockCause_${id}" placeholder="Indiquer la raison exacte du blocage...">${a.blockCause||''}</textarea></div></div><div><div class="box"><h4>Paramètres d'exécution</h4><div class="mini-form-group"><label class="mini-form-label">Statut</label><select id="editActionStatus_${id}" class="mini-input"><option value="planned" ${a.status==='planned'?'selected':''}>À venir</option><option value="ongoing" ${a.status==='ongoing'?'selected':''}>En cours</option><option value="done" ${a.status==='done'?'selected':''}>Terminé</option><option value="blocked" ${a.status==='blocked'?'selected':''}>Bloqué</option></select></div><div class="mini-form-group"><label class="mini-form-label">Dates</label><div style="display:flex;gap:6px;"><input type="date" id="editActionStart_${id}" value="${a.start}" min="${w.start}" max="${w.end}" class="mini-input"><input type="date" id="editActionEnd_${id}" value="${a.end}" min="${w.start}" max="${w.end}" class="mini-input"></div></div>
+  <div class="mini-form-group"><label class="mini-form-label">Assigner la ou les personnes</label>${editPeopleDropdown}</div>
+  <div class="mini-form-group"><label class="mini-form-label">Avancement (%)</label><input type="number" id="editActionProgress_${id}" value="${actionPct(a)}" min="0" max="100" class="mini-input" style="width:100px;font-size:18px;font-weight:900;color:var(--blue);"></div></div>
   <div class="box"><h4>🎯 Jalons clés (Losanges)</h4><div id="action-milestones-area">${milestonesHtml}</div><button class="btn btn-white" style="font-size:11px;padding:6px 12px;margin-top:6px;width:100%;" onclick="addMilestoneRow(this, '${a.start}', '${a.end}')"><i class="fa-solid fa-plus"></i> Ajouter un jalon</button></div>
-  <div class="box"><h4>Historique</h4><div style="max-height:140px;overflow:auto;">${(a.history||[]).map(h=>`<div class="hist">${h}</div>`).join('')}</div></div></div></div>`;modal.classList.add('show')}
+  <div class="box"><h4>Historique</h4><div style="max-height:140px;overflow:auto;">${(a.history||[]).map(h=>`<div class="hist">${h}</div>`).join('')}</div></div></div></div>`;
+  modal.classList.add('show');
+  
+  setTimeout(()=>updateDDText(`dd-edit-people_${id}`, `txt-edit-people_${id}`, 'Sélectionner...', false), 10);
+}
 
 function addMilestoneRow(btn, minDate, maxDate){
   let container = btn.previousElementSibling;
@@ -1137,16 +1201,60 @@ function addMilestoneRow(btn, minDate, maxDate){
   container.appendChild(div);
 }
 
-function openWpForm(){formTitle.textContent='Ajouter un Work Package';let projOptions=activeProjects().map(p=>`<option value="${p.id}">${p.name} · ${cdtNames(cdtIdsOfProject(p))}</option>`).join('');let ownerOptions=db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('');formBody.innerHTML=`<div class="form-grid"><div class="full"><label class="mini-form-label">Projet parent</label><select id="fwProject" class="mini-input" onchange="updateWpInheritedInfo()">${projOptions}</select><div id="fwInheritedInfo" style="font-size:11px;color:var(--muted);margin-top:6px;font-weight:700;"></div></div><div class="full"><label class="mini-form-label">Secteurs associés</label><div class="dd-container"><div class="dd-header" onclick="toggleDD('dd-fw-cdt')"><span id="txt-fw-cdt">Sélectionner CDT...</span><i class="fa-solid fa-chevron-down"></i></div><div class="dd-list" id="dd-fw-cdt"></div></div><div class="help-text">Sélectionnez un ou plusieurs secteurs. L'outil générera des WP distincts par secteur.</div></div><div class="full"><label class="mini-form-label">Nom du WP</label><input id="fwName" class="mini-input" placeholder="Ex: Phase 1 - Étude"></div><div><label class="mini-form-label">Responsable principal</label><select id="fwOwner" class="mini-input">${ownerOptions}</select></div><div><label class="mini-form-label">Statut de départ</label><select id="fwStatus" class="mini-input"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option></select></div><div><label class="mini-form-label">Date début</label><input id="fwStart" type="date" class="mini-input"></div><div><label class="mini-form-label">Date fin</label><input id="fwEnd" type="date" class="mini-input"></div><div class="full"><label class="mini-form-label">Commentaire</label><textarea id="fwComment" class="mini-input" style="min-height:80px;"></textarea></div><button class="btn btn-blue full" style="justify-content:center;" onclick="saveWp()">Ajouter le WP</button></div>`;formModal.classList.add('show');updateWpInheritedInfo()}
-function updateWpInheritedInfo(){let p=project(fwProject?.value);if(!p)return;if(fwInheritedInfo)fwInheritedInfo.innerHTML=`Secteurs disponibles du projet : <b>${cdtNames(cdtIdsOfProject(p))}</b>`;let ddList=document.getElementById('dd-fw-cdt');if(ddList){ddList.innerHTML=cdtIdsOfProject(p).map(cid=>`<label class="dd-item"><input type="checkbox" value="${cid}" checked onchange="updateDDText('dd-fw-cdt', 'txt-fw-cdt', 'Sélectionner CDT...', false)"> ${cdtName(cid)}</label>`).join('');updateDDText('dd-fw-cdt', 'txt-fw-cdt', 'Sélectionner CDT...', false);}}
-function openActionForm(wid=''){formTitle.textContent='Créer une Action';let wpOptions=activeWps().map(w=>`<option value="${w.id}" ${w.id===wid?'selected':''} data-start="${w.start}" data-end="${w.end}">${project(w.project)?.name} · ${w.name} (${cdtName(w.cdtId)})</option>`).join('');let usersOptions=db.users.map(u=>`<label style="margin-right:16px;font-size:12px;font-weight:700;display:inline-block;margin-bottom:4px;"><input class="assignee" type="checkbox" value="${u.id}"> ${u.name}</label>`).join('');formBody.innerHTML=`<div class="form-grid"><div class="full"><label class="mini-form-label">Work Package rattaché</label><select id="faWp" class="mini-input" onchange="updateActionDateLimits()">${wpOptions}</select></div><div class="full"><label class="mini-form-label">Nom de l'action</label><input id="faTitle" class="mini-input" placeholder="ex: Audit technique"></div><div><label class="mini-form-label">Début</label><input id="faStart" type="date" class="mini-input"></div><div><label class="mini-form-label">Fin</label><input id="faEnd" type="date" class="mini-input"></div><div class="full"><label class="mini-form-label">Statut initial</label><select id="faStatus" class="mini-input"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option><option value="blocked">Bloqué</option></select></div><div class="full" style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #cbd5e1;"><label class="mini-form-label">Assigner la ou les personnes</label>${usersOptions}</div><div class="full" style="display:flex;align-items:center;gap:12px;"><label class="mini-form-label" style="margin:0;">Avancement de départ (%)</label><input type="number" id="faProgress" value="0" min="0" max="100" class="mini-input" style="width:100px;"></div><div class="full"><label class="mini-form-label">Commentaire</label><textarea id="faComment" class="mini-input" style="min-height:80px;"></textarea></div><div class="full" id="faBlockContainer" style="display:none;"><label class="mini-form-label" style="color:var(--red);">Cause du blocage</label><textarea id="faBlock" class="mini-input" style="min-height:60px;"></textarea></div><button class="btn btn-blue full" style="justify-content:center;" onclick="saveAction()">Ajouter l'action</button></div>`;formModal.classList.add('show');updateActionDateLimits();faStatus.onchange=function(){faBlockContainer.style.display=this.value==='blocked'?'block':'none'}}
-function updateActionDateLimits(){let opt=faWp?.options[faWp.selectedIndex];if(!opt)return;let s=opt.getAttribute('data-start'),e=opt.getAttribute('data-end');faStart.min=s;faStart.max=e;faEnd.min=s;faEnd.max=e;if(!faStart.value)faStart.value=s;if(!faEnd.value)faEnd.value=e}
+function openWpForm(){
+  formTitle.textContent='Ajouter un Work Package';
+  let projOptions=activeProjects().map(p=>`<option value="${p.id}">${p.name} · ${cdtNames(cdtIdsOfProject(p))}</option>`).join('');
+  let ownerOptions=db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('');
+  formBody.innerHTML=`<div class="form-grid"><div class="full"><label class="mini-form-label">Projet parent</label><select id="fwProject" class="mini-input" onchange="updateWpInheritedInfo()">${projOptions}</select><div id="fwInheritedInfo" style="font-size:11px;color:var(--muted);margin-top:6px;font-weight:700;"></div></div><div class="full"><label class="mini-form-label">Secteurs associés</label><div class="dd-container"><div class="dd-header" onclick="toggleDD('dd-fw-cdt')"><span id="txt-fw-cdt">Sélectionner CDT...</span><i class="fa-solid fa-chevron-down"></i></div><div class="dd-list" id="dd-fw-cdt"></div></div><div class="help-text">Sélectionnez un ou plusieurs secteurs. L'outil générera des WP distincts par secteur.</div></div><div class="full"><label class="mini-form-label">Nom du WP</label><input id="fwName" class="mini-input" placeholder="Ex: Phase 1 - Étude"></div><div><label class="mini-form-label">Responsable principal</label><select id="fwOwner" class="mini-input">${ownerOptions}</select></div><div><label class="mini-form-label">Statut de départ</label><select id="fwStatus" class="mini-input"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option></select></div><div><label class="mini-form-label">Date début</label><input id="fwStart" type="date" class="mini-input"></div><div><label class="mini-form-label">Date fin</label><input id="fwEnd" type="date" class="mini-input"></div><div class="full"><label class="mini-form-label">Commentaire</label><textarea id="fwComment" class="mini-input" style="min-height:80px;"></textarea></div><button class="btn btn-blue full" style="justify-content:center;" onclick="saveWp()">Ajouter le WP</button></div>`;
+  formModal.classList.add('show');
+  updateWpInheritedInfo()
+}
+
+function updateWpInheritedInfo(){
+  let p=project(document.getElementById('fwProject')?.value);if(!p)return;
+  let infoLabel = document.getElementById('fwInheritedInfo');
+  if(infoLabel) infoLabel.innerHTML=`Secteurs disponibles du projet : <b>${cdtNames(cdtIdsOfProject(p))}</b>`;
+  let ddList=document.getElementById('dd-fw-cdt');
+  if(ddList){
+    ddList.innerHTML = cdtIdsOfProject(p).map(cid=>`<label class="dd-item"><input type="checkbox" value="${cid}" class="individual-cb" checked onchange="updateDDText('dd-fw-cdt', 'txt-fw-cdt', 'Sélectionner CDT...', false)"> ${cdtName(cid)}</label>`).join('');
+    updateDDText('dd-fw-cdt', 'txt-fw-cdt', 'Sélectionner CDT...', false);
+  }
+}
+
+function openActionForm(wid=''){
+  formTitle.textContent='Créer une Action';
+  let wpOptions=activeWps().map(w=>`<option value="${w.id}" ${w.id===wid?'selected':''} data-start="${w.start}" data-end="${w.end}">${project(w.project)?.name} · ${w.name} (${cdtName(w.cdtId)})</option>`).join('');
+  let usersOptionsHtml = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllAssignees(this, 'dd-fa-people')"> <i>Tout sélectionner</i></label>`;
+  usersOptionsHtml += db.users.map(u=>`<label class="dd-item user-cb-label"><input class="assignee individual-cb" type="checkbox" value="${u.id}" onchange="updateDDText('dd-fa-people', 'txt-fa-people', 'Sélectionner...', false)"> ${u.name}</label>`).join('');
+  let peopleDropdown = `
+    <div class="dd-container">
+      <div class="dd-header" onclick="toggleDD('dd-fa-people')"><span id="txt-fa-people">Sélectionner...</span><i class="fa-solid fa-chevron-down"></i></div>
+      <div class="dd-list" id="dd-fa-people" style="max-height:200px; padding-top:0;">
+          <div style="position:sticky;top:0;background:#fff;padding:8px 4px 4px 4px;border-bottom:1px solid #cbd5e1;z-index:10; margin-bottom:4px;">
+              <input type="text" class="mini-input" placeholder="🔎 Rechercher..." onkeyup="let v=this.value.toLowerCase(); this.closest('.dd-list').querySelectorAll('.user-cb-label').forEach(l=>l.style.display=l.innerText.toLowerCase().includes(v)?'flex':'none');" style="width:100%;padding:6px;font-size:11px;">
+          </div>
+          ${usersOptionsHtml}
+      </div>
+    </div>
+  `;
+
+  formBody.innerHTML=`<div class="form-grid"><div class="full"><label class="mini-form-label">Work Package rattaché</label><select id="faWp" class="mini-input" onchange="updateActionDateLimits()">${wpOptions}</select></div><div class="full"><label class="mini-form-label">Nom de l'action</label><input id="faTitle" class="mini-input" placeholder="ex: Audit technique"></div><div><label class="mini-form-label">Début</label><input id="faStart" type="date" class="mini-input"></div><div><label class="mini-form-label">Fin</label><input id="faEnd" type="date" class="mini-input"></div><div class="full"><label class="mini-form-label">Statut initial</label><select id="faStatus" class="mini-input"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option><option value="blocked">Bloqué</option></select></div>
+  <div class="full"><label class="mini-form-label">Assigner la ou les personnes</label>${peopleDropdown}</div>
+  <div class="full" style="display:flex;align-items:center;gap:12px;"><label class="mini-form-label" style="margin:0;">Avancement de départ (%)</label><input type="number" id="faProgress" value="0" min="0" max="100" class="mini-input" style="width:100px;"></div><div class="full"><label class="mini-form-label">Commentaire</label><textarea id="faComment" class="mini-input" style="min-height:80px;"></textarea></div><div class="full" id="faBlockContainer" style="display:none;"><label class="mini-form-label" style="color:var(--red);">Cause du blocage</label><textarea id="faBlock" class="mini-input" style="min-height:60px;"></textarea></div><button class="btn btn-blue full" style="justify-content:center;" onclick="saveAction()">Ajouter l'action</button></div>`;
+  formModal.classList.add('show');
+  updateActionDateLimits();
+  document.getElementById('faStatus').onchange=function(){document.getElementById('faBlockContainer').style.display=this.value==='blocked'?'block':'none'};
+  updateDDText('dd-fa-people', 'txt-fa-people', 'Sélectionner...', false);
+}
+function updateActionDateLimits(){let opt=document.getElementById('faWp')?.options[document.getElementById('faWp').selectedIndex];if(!opt)return;let s=opt.getAttribute('data-start'),e=opt.getAttribute('data-end');document.getElementById('faStart').min=s;document.getElementById('faStart').max=e;document.getElementById('faEnd').min=s;document.getElementById('faEnd').max=e;if(!document.getElementById('faStart').value)document.getElementById('faStart').value=s;if(!document.getElementById('faEnd').value)document.getElementById('faEnd').value=e}
 
 function saveWpEdits(id){
   let w=wp(id);let p=project(w.project);let nName=document.getElementById(`editWpName_${id}`).value;
   let nStart=document.getElementById(`editWpStart_${id}`).value;let nEnd=document.getElementById(`editWpEnd_${id}`).value;
   let nComment=document.getElementById(`editWpComment_${id}`).value;let nCdtId=document.getElementById(`editWpCdtSelect_${id}`).value;
   let nStat=document.getElementById(`editWpStatus_${id}`).value;
+  
+  if(new Date(nStart) > new Date(nEnd)) return alert("Erreur : La date de début ne peut pas être ultérieure à la date de fin.");
   
   let newMs = [];
   document.querySelectorAll('#wp-milestones-area .milestone-row').forEach(r => {
@@ -1222,7 +1330,6 @@ function saveWpEdits(id){
     if(w.cdtId!==nCdtId){oldValStr.push(`Secteur: ${cdtName(w.cdtId)}`);newValStr.push(`Secteur: ${cdtName(nCdtId)}`);}
     if(w.comment!==nComment){oldValStr.push(`Commentaire modifié`);newValStr.push(`Commentaire modifié`);}
     
-    // DIFF HISTORIQUE JALONS PARFAIT
     if(msChanged){
         let oldMsStr = (w.milestones||[]).map(m => `${m.name} [${m.status==='done'?'Terminé':'À venir'}]`).join(', ') || 'Aucun';
         let newMsStr = newMs.map(m => `${m.name} [${m.status==='done'?'Terminé':'À venir'}]`).join(', ') || 'Aucun';
@@ -1245,6 +1352,8 @@ function saveActionEdits(id){
   let nProg=parseInt(document.getElementById(`editActionProgress_${id}`).value,10);let nStart=document.getElementById(`editActionStart_${id}`).value;let nEnd=document.getElementById(`editActionEnd_${id}`).value;
   if(isNaN(nProg))nProg=actionPct(a);if(nStat==='done')nProg=100;if(nProg===100)nStat='done';
   
+  if(new Date(nStart) > new Date(nEnd)) return alert("Erreur : La date de début ne peut pas être ultérieure à la date de fin.");
+
   let newMs = [];
   document.querySelectorAll('#action-milestones-area .milestone-row').forEach(r => {
      let n = r.querySelector('.ms-name').value.trim();
@@ -1253,8 +1362,12 @@ function saveActionEdits(id){
      if(n && d) newMs.push({name:n, date:d, status:s});
   });
 
+  let nPeople=[...document.querySelectorAll('.edit-assignee:checked')].map(x=>x.value);
+  if(!nPeople.length) return toast('Il faut au moins une personne assignée.');
+  let peopleChanged = JSON.stringify(a.people.sort()) !== JSON.stringify(nPeople.sort());
+
   let msChanged = JSON.stringify(a.milestones) !== JSON.stringify(newMs);
-  let changed=a.comment!==nComment||a.blockCause!==nCause||a.status!==nStat||actionPct(a)!==nProg||a.start!==nStart||a.end!==nEnd||msChanged;
+  let changed=a.comment!==nComment||a.blockCause!==nCause||a.status!==nStat||actionPct(a)!==nProg||a.start!==nStart||a.end!==nEnd||msChanged||peopleChanged;
   
   if(changed){
     if(nStat==='blocked'&&!nCause.trim())return alert('Cause de blocage requise.');
@@ -1280,15 +1393,19 @@ function saveActionEdits(id){
     if(actionPct(a)!==nProg){oldValStr.push(`Avancement: ${actionPct(a)}%`);newValStr.push(`Avancement: ${nProg}%`);}
     if(a.comment!==nComment){oldValStr.push(`Commentaire modifié`);newValStr.push(`Commentaire modifié`);}
     if(a.blockCause!==nCause){oldValStr.push(`Cause Blocage modifiée`);newValStr.push(`Cause Blocage modifiée`);}
+    if(peopleChanged){
+        let oldPStr = a.people.map(pid=>user(pid).name).join(', ') || 'Aucun';
+        let newPStr = nPeople.map(pid=>user(pid).name).join(', ') || 'Aucun';
+        oldValStr.push(`Équipe: ${oldPStr}`); newValStr.push(`Équipe: ${newPStr}`);
+    }
     
-    // DIFF HISTORIQUE JALONS PARFAIT
     if(msChanged){
         let oldMsStr = (a.milestones||[]).map(m => `${m.name} [${m.status==='done'?'Terminé':'À venir'}]`).join(', ') || 'Aucun';
         let newMsStr = newMs.map(m => `${m.name} [${m.status==='done'?'Terminé':'À venir'}]`).join(', ') || 'Aucun';
         oldValStr.push(`Jalons: ${oldMsStr}`); newValStr.push(`Jalons: ${newMsStr}`);
     }
 
-    a.comment=nComment;a.blockCause=nCause;a.status=nStat;a.progress=nProg;a.start=nStart;a.end=nEnd;
+    a.comment=nComment;a.blockCause=nCause;a.status=nStat;a.progress=nProg;a.start=nStart;a.end=nEnd;a.people=nPeople;
     syncWpWithActions(a.wp);
     addHistory(`Action "${a.title}" (WP: ${w.name}, Projet: ${p.name})`, oldValStr.join(' | '), newValStr.join(' | '), r);
     save('Action mise à jour');
@@ -1299,16 +1416,18 @@ function saveActionEdits(id){
 }
 
 function saveWp(){
-  let p=project(fwProject.value);let wpCdtIds=getDDValues('dd-fw-cdt');
+  let p=project(document.getElementById('fwProject').value);let wpCdtIds=getDDValues('dd-fw-cdt');
+  let fwName=document.getElementById('fwName'); let fwStart=document.getElementById('fwStart'); let fwEnd=document.getElementById('fwEnd');
   if(!fwName.value.trim()||!fwStart.value||!fwEnd.value)return toast('Veuillez remplir les champs obligatoires.');
+  if(new Date(fwStart.value) > new Date(fwEnd.value)) return alert("Erreur : La date de début ne peut pas être ultérieure à la date de fin.");
   if(!wpCdtIds.length)return toast('Sélectionnez au moins un CDT.');
   
   wpCdtIds.forEach(selectedCdtId => {
     let wId=uid('w');
     db.wps.push({
-      id:wId,project:p.id,name:fwName.value.trim(),owner:fwOwner.value,ownerIds:[fwOwner.value],
-      cdtId:selectedCdtId,start:fwStart.value,end:fwEnd.value,status:fwStatus.value,
-      comment:fwComment.value,progress:0,modified:false,archived:false,milestones:[],
+      id:wId,project:p.id,name:fwName.value.trim(),owner:document.getElementById('fwOwner').value,ownerIds:[document.getElementById('fwOwner').value],
+      cdtId:selectedCdtId,start:fwStart.value,end:fwEnd.value,status:document.getElementById('fwStatus').value,
+      comment:document.getElementById('fwComment').value,progress:0,modified:false,archived:false,milestones:[],
       history:[`${new Date().toLocaleString('fr-FR')} · Création WP pour CDT ${cdtName(selectedCdtId)}`]
     });
   });
@@ -1317,7 +1436,9 @@ function saveWp(){
   closeForm();save('Work Package créé.');
 }
 
-function saveAction(){let people=[...document.querySelectorAll('.assignee:checked')].map(x=>x.value);let w=wp(faWp.value);let p=project(w.project);let prog=parseInt(faProgress.value,10);if(!faTitle.value.trim()||!faStart.value||!faEnd.value||!people.length)return toast('Renseigne nom, dates et personnes.');if(new Date(faStart.value)<new Date(w.start)||new Date(faEnd.value)>new Date(w.end))return alert(`Erreur : l'action doit être comprise entre le ${fmt(w.start)} et le ${fmt(w.end)}.`);if(faStatus.value==='blocked'&&!faBlock.value.trim())return alert('Cause blocage requise.');if(isNaN(prog))prog=0;let st=faStatus.value;if(st==='done')prog=100;if(prog===100)st='done';db.actions.push({id:uid('a'),wp:w.id,title:faTitle.value.trim(),start:faStart.value,end:faEnd.value,status:st,people,progress:prog,comment:faComment.value,blockCause:faBlock.value,milestones:[],archived:false,history:[`${new Date().toLocaleString('fr-FR')} · Création`]});addHistory(`Action "${faTitle.value.trim()}" (WP: ${w.name}, Projet: ${p.name})`,'-','Création','Ajout manuel');syncWpWithActions(w.id);closeForm();if(modal.classList.contains('show'))openWp(w.id);save('Action ajoutée')}
+function saveAction(){let people=[...document.querySelectorAll('.assignee:checked')].map(x=>x.value);let w=wp(document.getElementById('faWp').value);let p=project(w.project);let prog=parseInt(document.getElementById('faProgress').value,10);if(!document.getElementById('faTitle').value.trim()||!document.getElementById('faStart').value||!document.getElementById('faEnd').value||!people.length)return toast('Renseigne nom, dates et personnes.');
+if(new Date(document.getElementById('faStart').value) > new Date(document.getElementById('faEnd').value)) return alert("Erreur : La date de début ne peut pas être ultérieure à la date de fin.");
+if(new Date(document.getElementById('faStart').value)<new Date(w.start)||new Date(document.getElementById('faEnd').value)>new Date(w.end))return alert(`Erreur : l'action doit être comprise entre le ${fmt(w.start)} et le ${fmt(w.end)}.`);if(document.getElementById('faStatus').value==='blocked'&&!document.getElementById('faBlock').value.trim())return alert('Cause blocage requise.');if(isNaN(prog))prog=0;let st=document.getElementById('faStatus').value;if(st==='done')prog=100;if(prog===100)st='done';db.actions.push({id:uid('a'),wp:w.id,title:document.getElementById('faTitle').value.trim(),start:document.getElementById('faStart').value,end:document.getElementById('faEnd').value,status:st,people,progress:prog,comment:document.getElementById('faComment').value,blockCause:document.getElementById('faBlock').value,milestones:[],archived:false,history:[`${new Date().toLocaleString('fr-FR')} · Création`]});addHistory(`Action "${document.getElementById('faTitle').value.trim()}" (WP: ${w.name}, Projet: ${p.name})`,'-','Création','Ajout manuel');syncWpWithActions(w.id);closeForm();if(modal.classList.contains('show'))openWp(w.id);save('Action ajoutée')}
 
 /* HISTORIQUE AMELIORE AVEC BARRE DE RECHERCHE ET DIFF DÉTAILLÉ */
 window.filterHistory = function() {
