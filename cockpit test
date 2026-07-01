@@ -1,439 +1,3 @@
-/**
- * ============================================================
- *  AOS COCKPIT — Backend Google Apps Script (Code.gs)
- *  Base de données : Google Sheets
- *  Onglets attendus (créés automatiquement si absents) :
- *    - Meta        (password, lastUpdate)
- *    - Users       (id, name, role)
- *    - Cdts        (id, name)
- *    - Projects    (id, name, owner, memberIds, sector, cdtIds, priority, archived)
- *    - Wps         (id, project, name, owner, ownerIds, cdtId, start, end, status,
- *                    comment, progress, modified, archived, milestones)
- *    - Actions     (id, wp, title, start, end, status, people, progress, comment,
- *                    blockCause, archived, milestones)
- *    - History     (date, user, object, old, new, reason)
- *    - GanttExport (feuille utilisée par l'export "Export Sheet" du Gantt)
- * ============================================================
- */
-
-const SHEET_NAMES = {
-  META: 'Meta',
-  USERS: 'Users',
-  CDTS: 'Cdts',
-  PROJECTS: 'Projects',
-  WPS: 'Wps',
-  ACTIONS: 'Actions',
-  HISTORY: 'History',
-  GANTT_EXPORT: 'GanttExport'
-};
-
-const SHEET_HEADERS = {
-  Meta: ['key', 'value'],
-  Users: ['id', 'name', 'role'],
-  Cdts: ['id', 'name'],
-  Projects: ['id', 'name', 'owner', 'memberIds', 'sector', 'cdtIds', 'priority', 'archived'],
-  Wps: ['id', 'project', 'name', 'owner', 'ownerIds', 'cdtId', 'start', 'end', 'status', 'comment', 'progress', 'modified', 'archived', 'milestones'],
-  Actions: ['id', 'wp', 'title', 'start', 'end', 'status', 'people', 'progress', 'comment', 'blockCause', 'archived', 'milestones'],
-  History: ['date', 'user', 'object', 'old', 'new', 'reason'],
-  GanttExport: ['Type', 'CDT', 'Projet', 'WP', 'Action', 'Responsable(s)', 'Statut', 'Avancement', 'Début', 'Fin', 'Jalons', 'Commentaire', 'Cause de blocage']
-};
-
-/**
- * Sert la page HTML de l'outil (si vous déployez le HTML depuis Apps Script
- * plutôt que depuis un hébergement externe). Renommez votre fichier HTML
- * "index" (sans extension .html dans l'éditeur Apps Script) pour que
- * HtmlService.createHtmlOutputFromFile('index') fonctionne.
- */
-function doGet() {
-  return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('AOS Cockpit')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
-}
-
-/* ============================================================
- *  UTILITAIRES FEUILLE
- * ============================================================ */
-
-function getSpreadsheet_() {
-  return SpreadsheetApp.getActiveSpreadsheet();
-}
-
-function getOrCreateSheet_(name) {
-  const ss = getSpreadsheet_();
-  let sheet = ss.getSheetByName(name);
-  if (!sheet) {
-    sheet = ss.insertSheet(name);
-    const headers = SHEET_HEADERS[name];
-    if (headers) {
-      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-      sheet.setFrozenRows(1);
-    }
-  }
-  return sheet;
-}
-
-function ensureAllSheets_() {
-  Object.values(SHEET_NAMES).forEach(getOrCreateSheet_);
-  const metaSheet = getOrCreateSheet_(SHEET_NAMES.META);
-  if (metaSheet.getLastRow() < 2) {
-    metaSheet.getRange(2, 1, 2, 2).setValues([
-      ['password', 'aos'],
-      ['lastUpdate', new Date().toLocaleString('fr-FR')]
-    ]);
-  }
-}
-
-function sheetToObjects_(sheetName) {
-  const sheet = getOrCreateSheet_(sheetName);
-  const values = sheet.getDataRange().getValues();
-  if (values.length < 2) return [];
-  const headers = values[0];
-  const rows = values.slice(1);
-  return rows
-    .filter(r => r.some(cell => cell !== '' && cell !== null))
-    .map(r => {
-      const obj = {};
-      headers.forEach((h, i) => { obj[h] = r[i]; });
-      return obj;
-    });
-}
-
-function writeObjectsToSheet_(sheetName, objects) {
-  const sheet = getOrCreateSheet_(sheetName);
-  const headers = SHEET_HEADERS[sheetName];
-  sheet.clear();
-  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-  sheet.setFrozenRows(1);
-  if (!objects.length) return;
-  const rows = objects.map(obj => headers.map(h => {
-    let v = obj[h];
-    if (v === undefined || v === null) return '';
-    if (typeof v === 'object') return JSON.stringify(v);
-    return v;
-  }));
-  sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
-}
-
-function parseJsonField_(val, fallback) {
-  if (val === '' || val === null || val === undefined) return fallback;
-  if (typeof val === 'object') return val; // déjà un objet (rare avec Sheets)
-  try { return JSON.parse(val); } catch (e) { return fallback; }
-}
-
-function toBool_(v) {
-  return v === true || v === 'true' || v === 1 || v === '1';
-}
-
-/* ============================================================
- *  CHARGEMENT DES DONNÉES (appelé par google.script.run.getInitialData())
- * ============================================================ */
-
-function getInitialData() {
-  try {
-    ensureAllSheets_();
-
-    const metaRows = sheetToObjects_(SHEET_NAMES.META);
-    const meta = {};
-    metaRows.forEach(r => { meta[r.key] = r.value; });
-
-    const users = sheetToObjects_(SHEET_NAMES.USERS).map(u => ({
-      id: String(u.id), name: String(u.name || ''), role: String(u.role || '')
-    }));
-
-    const cdts = sheetToObjects_(SHEET_NAMES.CDTS).map(c => ({
-      id: String(c.id), name: String(c.name || '')
-    }));
-
-    const projects = sheetToObjects_(SHEET_NAMES.PROJECTS).map(p => ({
-      id: String(p.id),
-      name: String(p.name || ''),
-      owner: String(p.owner || ''),
-      memberIds: parseJsonField_(p.memberIds, []),
-      sector: String(p.sector || ''),
-      cdtIds: parseJsonField_(p.cdtIds, []),
-      priority: String(p.priority || 'Moyenne'),
-      archived: toBool_(p.archived)
-    }));
-
-    const wps = sheetToObjects_(SHEET_NAMES.WPS).map(w => ({
-      id: String(w.id),
-      project: String(w.project || ''),
-      name: String(w.name || ''),
-      owner: String(w.owner || ''),
-      ownerIds: parseJsonField_(w.ownerIds, []),
-      cdtId: String(w.cdtId || ''),
-      start: formatDateField_(w.start),
-      end: formatDateField_(w.end),
-      status: String(w.status || 'planned'),
-      comment: String(w.comment || ''),
-      progress: Number(w.progress || 0),
-      modified: toBool_(w.modified),
-      archived: toBool_(w.archived),
-      history: [],
-      milestones: parseJsonField_(w.milestones, [])
-    }));
-
-    const actions = sheetToObjects_(SHEET_NAMES.ACTIONS).map(a => ({
-      id: String(a.id),
-      wp: String(a.wp || ''),
-      title: String(a.title || ''),
-      start: formatDateField_(a.start),
-      end: formatDateField_(a.end),
-      status: String(a.status || 'planned'),
-      people: parseJsonField_(a.people, []),
-      progress: Number(a.progress || 0),
-      comment: String(a.comment || ''),
-      blockCause: String(a.blockCause || ''),
-      archived: toBool_(a.archived),
-      history: [],
-      milestones: parseJsonField_(a.milestones, [])
-    }));
-
-    const history = sheetToObjects_(SHEET_NAMES.HISTORY).map(h => ({
-      date: String(h.date || ''),
-      user: String(h.user || ''),
-      object: String(h.object || ''),
-      old: String(h.old || ''),
-      new: String(h.new || ''),
-      reason: String(h.reason || '')
-    })).reverse(); // les plus récents en premier, cohérent avec addHistory() côté client (unshift)
-
-    const data = {
-      password: meta.password || 'aos',
-      last: meta.lastUpdate || new Date().toLocaleString('fr-FR'),
-      history: history,
-      cdts: cdts,
-      users: users,
-      projects: projects,
-      wps: wps,
-      actions: actions
-    };
-
-    return JSON.stringify(data);
-  } catch (err) {
-    return JSON.stringify({ error: 'Erreur serveur getInitialData : ' + err.message });
-  }
-}
-
-function formatDateField_(v) {
-  if (!v) return '';
-  if (v instanceof Date) {
-    return Utilities.formatDate(v, Session.getScriptTimeZone() || 'Europe/Paris', 'yyyy-MM-dd');
-  }
-  // déjà au format yyyy-mm-dd (string)
-  return String(v).slice(0, 10);
-}
-
-/* ============================================================
- *  ÉCRITURE / MISE À JOUR (appelé par google.script.run.updateServerData())
- *  type ∈ { project, project_archive, user, user_delete, cdt, cdt_delete,
- *           wp, wp_archive, action, action_archive }
- * ============================================================ */
-
-function updateServerData(type, payload, historyPayload) {
-  const lock = LockService.getScriptLock();
-  try {
-    lock.waitLock(20000); // évite les écritures concurrentes qui casseraient les données
-    ensureAllSheets_();
-
-    switch (type) {
-      case 'project':
-        upsertRow_(SHEET_NAMES.PROJECTS, payload);
-        break;
-      case 'project_archive':
-        patchRow_(SHEET_NAMES.PROJECTS, payload.id, { archived: true });
-        break;
-      case 'user':
-        upsertRow_(SHEET_NAMES.USERS, payload);
-        break;
-      case 'user_delete':
-        deleteRow_(SHEET_NAMES.USERS, payload.id);
-        break;
-      case 'cdt':
-        upsertRow_(SHEET_NAMES.CDTS, payload);
-        break;
-      case 'cdt_delete':
-        deleteRow_(SHEET_NAMES.CDTS, payload.id);
-        break;
-      case 'wp':
-        upsertRow_(SHEET_NAMES.WPS, payload);
-        break;
-      case 'wp_archive':
-        patchRow_(SHEET_NAMES.WPS, payload.id, { archived: true });
-        break;
-      case 'action':
-        upsertRow_(SHEET_NAMES.ACTIONS, payload);
-        break;
-      case 'action_archive':
-        patchRow_(SHEET_NAMES.ACTIONS, payload.id, { archived: true });
-        break;
-      default:
-        return { success: false, error: 'Type d\'opération inconnu : ' + type };
-    }
-
-    if (historyPayload) {
-      appendHistory_(historyPayload);
-    }
-
-    const lastUpdate = new Date().toLocaleString('fr-FR');
-    setMeta_('lastUpdate', lastUpdate);
-
-    return { success: true, lastUpdate: lastUpdate };
-  } catch (err) {
-    return { success: false, error: err.message };
-  } finally {
-    lock.releaseLock();
-  }
-}
-
-function upsertRow_(sheetName, payload) {
-  const headers = SHEET_HEADERS[sheetName];
-  const sheet = getOrCreateSheet_(sheetName);
-  const values = sheet.getDataRange().getValues();
-  const idCol = headers.indexOf('id');
-  let rowIndex = -1;
-  for (let i = 1; i < values.length; i++) {
-    if (String(values[i][idCol]) === String(payload.id)) { rowIndex = i + 1; break; }
-  }
-  const rowValues = headers.map(h => {
-    let v = payload[h];
-    if (v === undefined || v === null) return '';
-    if (typeof v === 'object') return JSON.stringify(v);
-    return v;
-  });
-  if (rowIndex === -1) {
-    sheet.appendRow(rowValues);
-  } else {
-    sheet.getRange(rowIndex, 1, 1, headers.length).setValues([rowValues]);
-  }
-}
-
-function patchRow_(sheetName, id, patch) {
-  const headers = SHEET_HEADERS[sheetName];
-  const sheet = getOrCreateSheet_(sheetName);
-  const values = sheet.getDataRange().getValues();
-  const idCol = headers.indexOf('id');
-  for (let i = 1; i < values.length; i++) {
-    if (String(values[i][idCol]) === String(id)) {
-      Object.keys(patch).forEach(key => {
-        const col = headers.indexOf(key);
-        if (col !== -1) {
-          let v = patch[key];
-          if (typeof v === 'object') v = JSON.stringify(v);
-          sheet.getRange(i + 1, col + 1).setValue(v);
-        }
-      });
-      return true;
-    }
-  }
-  return false;
-}
-
-function deleteRow_(sheetName, id) {
-  const headers = SHEET_HEADERS[sheetName];
-  const sheet = getOrCreateSheet_(sheetName);
-  const values = sheet.getDataRange().getValues();
-  const idCol = headers.indexOf('id');
-  for (let i = 1; i < values.length; i++) {
-    if (String(values[i][idCol]) === String(id)) {
-      sheet.deleteRow(i + 1);
-      return true;
-    }
-  }
-  return false;
-}
-
-function appendHistory_(h) {
-  const sheet = getOrCreateSheet_(SHEET_NAMES.HISTORY);
-  sheet.appendRow([
-    new Date().toLocaleString('fr-FR'),
-    h.user || 'Omar Hamzé',
-    h.object || '',
-    h.old || '',
-    h.new || '',
-    h.reason || 'Mise à jour'
-  ]);
-}
-
-function setMeta_(key, value) {
-  const sheet = getOrCreateSheet_(SHEET_NAMES.META);
-  const values = sheet.getDataRange().getValues();
-  for (let i = 1; i < values.length; i++) {
-    if (values[i][0] === key) {
-      sheet.getRange(i + 1, 2).setValue(value);
-      return;
-    }
-  }
-  sheet.appendRow([key, value]);
-}
-
-/* ============================================================
- *  EXPORT DU GANTT FILTRÉ VERS UNE FEUILLE DÉDIÉE
- *  (appelé par google.script.run.exportGanttToSheet(rows))
- * ============================================================ */
-
-function exportGanttToSheet(rows) {
-  try {
-    if (!rows || !rows.length) {
-      return { success: false, error: 'Aucune ligne à exporter.' };
-    }
-    const sheet = getOrCreateSheet_(SHEET_NAMES.GANTT_EXPORT);
-    const headers = SHEET_HEADERS[SHEET_NAMES.GANTT_EXPORT];
-    sheet.clear();
-    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-    sheet.setFrozenRows(1);
-
-    const data = rows.map(r => [
-      r.type || '', r.cdt || '', r.project || '', r.wp || '', r.action || '',
-      r.resp || '', r.status || '', (r.progress !== undefined ? r.progress + '%' : ''),
-      r.start || '', r.end || '', r.milestones || '', r.comment || '', r.blockCause || ''
-    ]);
-    sheet.getRange(2, 1, data.length, headers.length).setValues(data);
-    sheet.autoResizeColumns(1, headers.length);
-
-    return { success: true, rows: data.length };
-  } catch (err) {
-    return { success: false, error: err.message };
-  }
-}
-
-/* ============================================================
- *  INITIALISATION MANUELLE (à exécuter une fois depuis l'éditeur
- *  Apps Script si le classeur est totalement vide, pour créer
- *  toutes les feuilles avec leurs en-têtes et un mot de passe par défaut)
- * ============================================================ */
-function initializeSpreadsheet() {
-  ensureAllSheets_();
-  SpreadsheetApp.getUi().alert('Feuilles initialisées avec succès.');
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -1340,10 +904,11 @@ function buildActionsPopupBody(rows, popupId){
         <option value="">Tous CDT</option>
         ${cdtOptions.map(c=>`<option value="${c}">${c}</option>`).join('')}
       </select>
-      <select id="${popupId}-sort" class="mini-input" style="width:170px;" onchange="filterActionsPopup('${popupId}')">
-        <option value="date">Trier par date</option>
-        <option value="status">Trier par statut</option>
-        <option value="cdt">Trier par secteur/CDT</option>
+      <select id="${popupId}-sort" class="mini-input" style="width:190px;" onchange="filterActionsPopup('${popupId}')">
+        <option value="urgency">Trier par urgence</option>
+        <option value="end_asc">Trier par échéance</option>
+        <option value="progress_asc">Trier par avancement</option>
+        <option value="project">Trier par projet</option>
       </select>
     </div>
     <div style="overflow-x:auto;">
@@ -1370,9 +935,11 @@ function filterActionsPopup(popupId){
     return matchQ && matchSt && matchCdt;
   });
 
-  if(sort==='date') filtered.sort((a,b)=> (a.action.start||'').localeCompare(b.action.start||''));
-  else if(sort==='status') filtered.sort((a,b)=> effectiveStatus(a.action).localeCompare(effectiveStatus(b.action)));
-  else if(sort==='cdt') filtered.sort((a,b)=> a.cdt.localeCompare(b.cdt));
+  const urgencyRank = {blocked:0, late:1, ongoing:2, planned:3, done:4};
+  if(sort==='urgency') filtered.sort((a,b)=> (urgencyRank[effectiveStatus(a.action)] ?? 9) - (urgencyRank[effectiveStatus(b.action)] ?? 9) || (a.action.end||'').localeCompare(b.action.end||''));
+  else if(sort==='end_asc') filtered.sort((a,b)=> (a.action.end||'').localeCompare(b.action.end||''));
+  else if(sort==='progress_asc') filtered.sort((a,b)=> actionPct(a.action) - actionPct(b.action));
+  else if(sort==='project') filtered.sort((a,b)=> (a.project?.name||'').localeCompare(b.project?.name||''));
 
   renderActionsPopupTable(filtered, `${popupId}-body`);
 }
@@ -1849,9 +1416,9 @@ function collectFilteredGanttRows(){
       }
       let wInRange = !(cStart && cEnd) || !(w.end < cStart || w.start > cEnd);
       if((wpStatusMatch && wpPersonMatch && wInRange) || filteredActions.length){
-        rows.push({type:'WP', cdt:c.name, project:p?.name||'', wp:w.name, action:'', resp:user(w.owner).name, status:stTxt(effectiveStatus(w)), progress:pctWp(w.id), start:w.start, end:w.end, milestones:(w.milestones||[]).map(m=>`${m.name} (${fmt(m.date)})`).join(' | '), comment:w.comment||'', blockCause:''});
+        rows.push({type:'WP', cdt:c.name, project:p?.name||'', wp:w.name, action:'', resp:user(w.owner).name, status:stTxt(effectiveStatus(w)), progress:pctWp(w.id), start:w.start, end:w.end, milestones:(w.milestones||[]).map(m=>`${m.name} (${fmt(m.date)})`).join(' | '), milestoneDates:(w.milestones||[]).map(m=>m.date), comment:w.comment||'', blockCause:''});
         filteredActions.forEach(a=>{
-          rows.push({type:'Action', cdt:c.name, project:p?.name||'', wp:w.name, action:a.title, resp:memberNames(a.people), status:stTxt(effectiveStatus(a)), progress:actionPct(a), start:a.start, end:a.end, milestones:(a.milestones||[]).map(m=>`${m.name} (${fmt(m.date)})`).join(' | '), comment:a.comment||'', blockCause:a.blockCause||''});
+          rows.push({type:'Action', cdt:c.name, project:p?.name||'', wp:w.name, action:a.title, resp:memberNames(a.people), status:stTxt(effectiveStatus(a)), progress:actionPct(a), start:a.start, end:a.end, milestones:(a.milestones||[]).map(m=>`${m.name} (${fmt(m.date)})`).join(' | '), milestoneDates:(a.milestones||[]).map(m=>m.date), comment:a.comment||'', blockCause:a.blockCause||''});
         });
       }
     });
@@ -2326,3 +1893,468 @@ showView('home');
 </script>
 </body>
 </html>
+
+
+
+
+
+
+/**
+ * ============================================================
+ *  AOS COCKPIT — Backend Google Apps Script (Code.gs)
+ *  Base de données : Google Sheets
+ *  Onglets attendus (créés automatiquement si absents) :
+ *    - Meta        (password, lastUpdate)
+ *    - Users       (id, name, role)
+ *    - Cdts        (id, name)
+ *    - Projects    (id, name, owner, memberIds, sector, cdtIds, priority, archived)
+ *    - Wps         (id, project, name, owner, ownerIds, cdtId, start, end, status,
+ *                    comment, progress, modified, archived, milestones)
+ *    - Actions     (id, wp, title, start, end, status, people, progress, comment,
+ *                    blockCause, archived, milestones)
+ *    - History     (date, user, object, old, new, reason)
+ *    - GanttExport (feuille utilisée par l'export "Export Sheet" du Gantt)
+ * ============================================================
+ */
+
+const SHEET_NAMES = {
+  META: 'Meta',
+  USERS: 'Users',
+  CDTS: 'Cdts',
+  PROJECTS: 'Projects',
+  WPS: 'Wps',
+  ACTIONS: 'Actions',
+  HISTORY: 'History',
+  GANTT_EXPORT: 'GanttExport'
+};
+
+const SHEET_HEADERS = {
+  Meta: ['key', 'value'],
+  Users: ['id', 'name', 'role'],
+  Cdts: ['id', 'name'],
+  Projects: ['id', 'name', 'owner', 'memberIds', 'sector', 'cdtIds', 'priority', 'archived'],
+  Wps: ['id', 'project', 'name', 'owner', 'ownerIds', 'cdtId', 'start', 'end', 'status', 'comment', 'progress', 'modified', 'archived', 'milestones'],
+  Actions: ['id', 'wp', 'title', 'start', 'end', 'status', 'people', 'progress', 'comment', 'blockCause', 'archived', 'milestones'],
+  History: ['date', 'user', 'object', 'old', 'new', 'reason'],
+  GanttExport: ['Type', 'CDT', 'Projet', 'WP', 'Action', 'Responsable(s)', 'Statut', 'Avancement', 'Début', 'Fin', 'Jalons', 'Commentaire', 'Cause de blocage']
+};
+
+/**
+ * Sert la page HTML de l'outil (si vous déployez le HTML depuis Apps Script
+ * plutôt que depuis un hébergement externe). Renommez votre fichier HTML
+ * "index" (sans extension .html dans l'éditeur Apps Script) pour que
+ * HtmlService.createHtmlOutputFromFile('index') fonctionne.
+ */
+function doGet() {
+  return HtmlService.createHtmlOutputFromFile('index')
+    .setTitle('AOS Cockpit')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+
+/* ============================================================
+ *  UTILITAIRES FEUILLE
+ * ============================================================ */
+
+function getSpreadsheet_() {
+  return SpreadsheetApp.getActiveSpreadsheet();
+}
+
+function getOrCreateSheet_(name) {
+  const ss = getSpreadsheet_();
+  let sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+    const headers = SHEET_HEADERS[name];
+    if (headers) {
+      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+      sheet.setFrozenRows(1);
+    }
+  }
+  return sheet;
+}
+
+function ensureAllSheets_() {
+  Object.values(SHEET_NAMES).forEach(getOrCreateSheet_);
+  const metaSheet = getOrCreateSheet_(SHEET_NAMES.META);
+  if (metaSheet.getLastRow() < 2) {
+    metaSheet.getRange(2, 1, 2, 2).setValues([
+      ['password', 'aos'],
+      ['lastUpdate', new Date().toLocaleString('fr-FR')]
+    ]);
+  }
+}
+
+function sheetToObjects_(sheetName) {
+  const sheet = getOrCreateSheet_(sheetName);
+  const values = sheet.getDataRange().getValues();
+  if (values.length < 2) return [];
+  const headers = values[0];
+  const rows = values.slice(1);
+  return rows
+    .filter(r => r.some(cell => cell !== '' && cell !== null))
+    .map(r => {
+      const obj = {};
+      headers.forEach((h, i) => { obj[h] = r[i]; });
+      return obj;
+    });
+}
+
+function writeObjectsToSheet_(sheetName, objects) {
+  const sheet = getOrCreateSheet_(sheetName);
+  const headers = SHEET_HEADERS[sheetName];
+  sheet.clear();
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  sheet.setFrozenRows(1);
+  if (!objects.length) return;
+  const rows = objects.map(obj => headers.map(h => {
+    let v = obj[h];
+    if (v === undefined || v === null) return '';
+    if (typeof v === 'object') return JSON.stringify(v);
+    return v;
+  }));
+  sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
+}
+
+function parseJsonField_(val, fallback) {
+  if (val === '' || val === null || val === undefined) return fallback;
+  if (typeof val === 'object') return val; // déjà un objet (rare avec Sheets)
+  try { return JSON.parse(val); } catch (e) { return fallback; }
+}
+
+function toBool_(v) {
+  return v === true || v === 'true' || v === 1 || v === '1';
+}
+
+/* ============================================================
+ *  CHARGEMENT DES DONNÉES (appelé par google.script.run.getInitialData())
+ * ============================================================ */
+
+function getInitialData() {
+  try {
+    ensureAllSheets_();
+
+    const metaRows = sheetToObjects_(SHEET_NAMES.META);
+    const meta = {};
+    metaRows.forEach(r => { meta[r.key] = r.value; });
+
+    const users = sheetToObjects_(SHEET_NAMES.USERS).map(u => ({
+      id: String(u.id), name: String(u.name || ''), role: String(u.role || '')
+    }));
+
+    const cdts = sheetToObjects_(SHEET_NAMES.CDTS).map(c => ({
+      id: String(c.id), name: String(c.name || '')
+    }));
+
+    const projects = sheetToObjects_(SHEET_NAMES.PROJECTS).map(p => ({
+      id: String(p.id),
+      name: String(p.name || ''),
+      owner: String(p.owner || ''),
+      memberIds: parseJsonField_(p.memberIds, []),
+      sector: String(p.sector || ''),
+      cdtIds: parseJsonField_(p.cdtIds, []),
+      priority: String(p.priority || 'Moyenne'),
+      archived: toBool_(p.archived)
+    }));
+
+    const wps = sheetToObjects_(SHEET_NAMES.WPS).map(w => ({
+      id: String(w.id),
+      project: String(w.project || ''),
+      name: String(w.name || ''),
+      owner: String(w.owner || ''),
+      ownerIds: parseJsonField_(w.ownerIds, []),
+      cdtId: String(w.cdtId || ''),
+      start: formatDateField_(w.start),
+      end: formatDateField_(w.end),
+      status: String(w.status || 'planned'),
+      comment: String(w.comment || ''),
+      progress: Number(w.progress || 0),
+      modified: toBool_(w.modified),
+      archived: toBool_(w.archived),
+      history: [],
+      milestones: parseJsonField_(w.milestones, [])
+    }));
+
+    const actions = sheetToObjects_(SHEET_NAMES.ACTIONS).map(a => ({
+      id: String(a.id),
+      wp: String(a.wp || ''),
+      title: String(a.title || ''),
+      start: formatDateField_(a.start),
+      end: formatDateField_(a.end),
+      status: String(a.status || 'planned'),
+      people: parseJsonField_(a.people, []),
+      progress: Number(a.progress || 0),
+      comment: String(a.comment || ''),
+      blockCause: String(a.blockCause || ''),
+      archived: toBool_(a.archived),
+      history: [],
+      milestones: parseJsonField_(a.milestones, [])
+    }));
+
+    const history = sheetToObjects_(SHEET_NAMES.HISTORY).map(h => ({
+      date: String(h.date || ''),
+      user: String(h.user || ''),
+      object: String(h.object || ''),
+      old: String(h.old || ''),
+      new: String(h.new || ''),
+      reason: String(h.reason || '')
+    })).reverse(); // les plus récents en premier, cohérent avec addHistory() côté client (unshift)
+
+    const data = {
+      password: meta.password || 'aos',
+      last: meta.lastUpdate || new Date().toLocaleString('fr-FR'),
+      history: history,
+      cdts: cdts,
+      users: users,
+      projects: projects,
+      wps: wps,
+      actions: actions
+    };
+
+    return JSON.stringify(data);
+  } catch (err) {
+    return JSON.stringify({ error: 'Erreur serveur getInitialData : ' + err.message });
+  }
+}
+
+function formatDateField_(v) {
+  if (!v) return '';
+  if (v instanceof Date) {
+    return Utilities.formatDate(v, Session.getScriptTimeZone() || 'Europe/Paris', 'yyyy-MM-dd');
+  }
+  // déjà au format yyyy-mm-dd (string)
+  return String(v).slice(0, 10);
+}
+
+/* ============================================================
+ *  ÉCRITURE / MISE À JOUR (appelé par google.script.run.updateServerData())
+ *  type ∈ { project, project_archive, user, user_delete, cdt, cdt_delete,
+ *           wp, wp_archive, action, action_archive }
+ * ============================================================ */
+
+function updateServerData(type, payload, historyPayload) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(20000); // évite les écritures concurrentes qui casseraient les données
+    ensureAllSheets_();
+
+    switch (type) {
+      case 'project':
+        upsertRow_(SHEET_NAMES.PROJECTS, payload);
+        break;
+      case 'project_archive':
+        patchRow_(SHEET_NAMES.PROJECTS, payload.id, { archived: true });
+        break;
+      case 'user':
+        upsertRow_(SHEET_NAMES.USERS, payload);
+        break;
+      case 'user_delete':
+        deleteRow_(SHEET_NAMES.USERS, payload.id);
+        break;
+      case 'cdt':
+        upsertRow_(SHEET_NAMES.CDTS, payload);
+        break;
+      case 'cdt_delete':
+        deleteRow_(SHEET_NAMES.CDTS, payload.id);
+        break;
+      case 'wp':
+        upsertRow_(SHEET_NAMES.WPS, payload);
+        break;
+      case 'wp_archive':
+        patchRow_(SHEET_NAMES.WPS, payload.id, { archived: true });
+        break;
+      case 'action':
+        upsertRow_(SHEET_NAMES.ACTIONS, payload);
+        break;
+      case 'action_archive':
+        patchRow_(SHEET_NAMES.ACTIONS, payload.id, { archived: true });
+        break;
+      default:
+        return { success: false, error: 'Type d\'opération inconnu : ' + type };
+    }
+
+    if (historyPayload) {
+      appendHistory_(historyPayload);
+    }
+
+    const lastUpdate = new Date().toLocaleString('fr-FR');
+    setMeta_('lastUpdate', lastUpdate);
+
+    return { success: true, lastUpdate: lastUpdate };
+  } catch (err) {
+    return { success: false, error: err.message };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function upsertRow_(sheetName, payload) {
+  const headers = SHEET_HEADERS[sheetName];
+  const sheet = getOrCreateSheet_(sheetName);
+  const values = sheet.getDataRange().getValues();
+  const idCol = headers.indexOf('id');
+  let rowIndex = -1;
+  for (let i = 1; i < values.length; i++) {
+    if (String(values[i][idCol]) === String(payload.id)) { rowIndex = i + 1; break; }
+  }
+  const rowValues = headers.map(h => {
+    let v = payload[h];
+    if (v === undefined || v === null) return '';
+    if (typeof v === 'object') return JSON.stringify(v);
+    return v;
+  });
+  if (rowIndex === -1) {
+    sheet.appendRow(rowValues);
+  } else {
+    sheet.getRange(rowIndex, 1, 1, headers.length).setValues([rowValues]);
+  }
+}
+
+function patchRow_(sheetName, id, patch) {
+  const headers = SHEET_HEADERS[sheetName];
+  const sheet = getOrCreateSheet_(sheetName);
+  const values = sheet.getDataRange().getValues();
+  const idCol = headers.indexOf('id');
+  for (let i = 1; i < values.length; i++) {
+    if (String(values[i][idCol]) === String(id)) {
+      Object.keys(patch).forEach(key => {
+        const col = headers.indexOf(key);
+        if (col !== -1) {
+          let v = patch[key];
+          if (typeof v === 'object') v = JSON.stringify(v);
+          sheet.getRange(i + 1, col + 1).setValue(v);
+        }
+      });
+      return true;
+    }
+  }
+  return false;
+}
+
+function deleteRow_(sheetName, id) {
+  const headers = SHEET_HEADERS[sheetName];
+  const sheet = getOrCreateSheet_(sheetName);
+  const values = sheet.getDataRange().getValues();
+  const idCol = headers.indexOf('id');
+  for (let i = 1; i < values.length; i++) {
+    if (String(values[i][idCol]) === String(id)) {
+      sheet.deleteRow(i + 1);
+      return true;
+    }
+  }
+  return false;
+}
+
+function appendHistory_(h) {
+  const sheet = getOrCreateSheet_(SHEET_NAMES.HISTORY);
+  sheet.appendRow([
+    new Date().toLocaleString('fr-FR'),
+    h.user || 'Omar Hamzé',
+    h.object || '',
+    h.old || '',
+    h.new || '',
+    h.reason || 'Mise à jour'
+  ]);
+}
+
+function setMeta_(key, value) {
+  const sheet = getOrCreateSheet_(SHEET_NAMES.META);
+  const values = sheet.getDataRange().getValues();
+  for (let i = 1; i < values.length; i++) {
+    if (values[i][0] === key) {
+      sheet.getRange(i + 1, 2).setValue(value);
+      return;
+    }
+  }
+  sheet.appendRow([key, value]);
+}
+
+/* ============================================================
+ *  EXPORT DU GANTT FILTRÉ VERS UNE FEUILLE DÉDIÉE
+ *  (appelé par google.script.run.exportGanttToSheet(rows))
+ * ============================================================ */
+
+/**
+ * Construit un export EXPLOITABLE dans l'onglet GanttExport : un tableau
+ * plat, trié logiquement (Projet > WP > Date de début), avec une colonne
+ * Durée calculée. L'objectif est de pouvoir sélectionner/copier directement
+ * ces lignes pour les coller dans un format de roadmap imposé (ex: template
+ * du central), sans avoir à ressaisir les données à la main.
+ *
+ * NB technique : on écrit les données en 2 appels groupés (setValues sur la
+ * totalité du tableau) plutôt que cellule par cellule, ce qui évite les
+ * timeouts d'exécution qui faisaient échouer l'ancienne version "grille
+ * colorée" (celle-ci faisait un appel API par semaine × par ligne).
+ */
+function exportGanttToSheet(rows) {
+  try {
+    if (!rows || !rows.length) {
+      return { success: false, error: 'Aucune ligne à exporter.' };
+    }
+
+    const ss = getSpreadsheet_();
+    let sheet = ss.getSheetByName(SHEET_NAMES.GANTT_EXPORT);
+    if (sheet) ss.deleteSheet(sheet); // on repart propre à chaque export
+    sheet = ss.insertSheet(SHEET_NAMES.GANTT_EXPORT);
+
+    const headers = ['Type', 'CDT', 'Projet', 'WP', 'Action', 'Responsable(s)', 'Statut', 'Avancement', 'Début', 'Fin', 'Durée (j)', 'Jalons', 'Commentaire', 'Cause de blocage'];
+
+    // Tri Projet > WP > Date de début : ordre naturel pour relire/copier une roadmap
+    const sorted = rows.slice().sort((a, b) => {
+      return (a.project || '').localeCompare(b.project || '')
+        || (a.wp || '').localeCompare(b.wp || '')
+        || (a.start || '').localeCompare(b.start || '');
+    });
+
+    const data = sorted.map(r => {
+      const s = parseIsoDate_(r.start), e = parseIsoDate_(r.end);
+      const duration = (s && e) ? Math.round((e - s) / 86400000) + 1 : '';
+      return [
+        r.type || '', r.cdt || '', r.project || '', r.wp || '', r.action || '',
+        r.resp || '', r.status || '', (r.progress !== undefined ? r.progress + '%' : ''),
+        r.start || '', r.end || '', duration,
+        r.milestones || '', r.comment || '', r.blockCause || ''
+      ];
+    });
+
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#f1f5f9');
+    sheet.setFrozenRows(1);
+
+    if (data.length) {
+      sheet.getRange(2, 1, data.length, headers.length).setValues(data);
+      sheet.getRange(1, 1, data.length + 1, headers.length).createFilter();
+    }
+
+    sheet.autoResizeColumns(1, headers.length);
+    sheet.setColumnWidth(12, 260); // Jalons
+    sheet.setColumnWidth(13, 260); // Commentaire
+    sheet.setColumnWidth(14, 220); // Cause de blocage
+
+    return { success: true, rows: data.length };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+function parseIsoDate_(s) {
+  if (!s) return null;
+  if (s instanceof Date) return new Date(s.getFullYear(), s.getMonth(), s.getDate());
+  const parts = String(s).split('-');
+  if (parts.length !== 3) return null;
+  const y = Number(parts[0]), m = Number(parts[1]) - 1, d = Number(parts[2]);
+  if (isNaN(y) || isNaN(m) || isNaN(d)) return null;
+  return new Date(y, m, d);
+}
+
+/* ============================================================
+ *  INITIALISATION MANUELLE (à exécuter une fois depuis l'éditeur
+ *  Apps Script si le classeur est totalement vide, pour créer
+ *  toutes les feuilles avec leurs en-têtes et un mot de passe par défaut)
+ * ============================================================ */
+function initializeSpreadsheet() {
+  ensureAllSheets_();
+  SpreadsheetApp.getUi().alert('Feuilles initialisées avec succès.');
+}
+
+
+
