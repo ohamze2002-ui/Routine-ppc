@@ -31,7 +31,7 @@ button,input,select,textarea{font-family:inherit}button{cursor:pointer}
 /* GLOBAL BLOCKING SCREEN LOADER */
 #globalLoader { position:fixed; inset:0; background:rgba(255,255,255,0.85); backdrop-filter:blur(5px); z-index:9999; display:none; flex-direction:column; align-items:center; justify-content:center; font-weight:800; color:var(--airbus); font-size:16px; gap:16px;}
 
-/* ACCUEIL RECALIBRÉ ET IMAGE EN BAS (Lien local pour le prototype) */
+/* ACCUEIL RECALIBR&#201; ET IMAGE EN BAS (Lien local pour le prototype) */
 .home{padding:30px 40px; position:relative; z-index:1; overflow:hidden;}
 .home::before {
   content: "";
@@ -87,7 +87,7 @@ table{width:100%;border-collapse:collapse}th{text-align:left;font-size:11px;colo
 .row-hover:hover{background:#f8fafc;cursor:pointer}
 .chip{display:inline-flex;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.02em}
 
-/* COULEURS TRANCHÉES STATUTS */
+/* COULEURS TRANCH&#201;ES STATUTS */
 .s-ongoing{background:#dbeafe;color:#1e40af}
 .s-done{background:#dcfce7;color:#166534}
 .s-late{background:#fee2e2;color:#b91c1c}
@@ -135,16 +135,16 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
 .month{position:absolute;top:0;height:35px;display:flex;justify-content:center;align-items:center;font-size:11px;text-transform:uppercase;color:var(--text);font-weight:800;letter-spacing:.05em;border-right:1px dashed var(--line); overflow:hidden;}
 
 .cdt-header{height:46px;background:#eef6ff;border-top:1px solid #dbeafe;border-bottom:1px solid #dbeafe;position:relative}
-/* DESIGN ÉPURÉ DES BANDES PROJETS */
+/* DESIGN &#201;PUR&#201; DES BANDES PROJETS */
 .project-header{height:40px;background:#f8fafc;border-bottom:2px solid #cbd5e1;position:relative}
 
 .project-title, .cdt-title{position:sticky;left:0;z-index:140!important;width:300px;border-right:2px solid #cbd5e1!important;display:flex;align-items:center;gap:10px;font-weight:900;color:var(--airbus);box-shadow:4px 0 10px rgba(0,0,0,0.06)!important}
 .cdt-title{height:46px;background:#eef6ff!important;padding:0 16px;font-size:14px;text-transform:uppercase}
 .project-title{height:40px;background:#f8fafc!important;padding:0 26px;font-size:12px;top:0;} 
 
-/* REGROUPEMENT VISUEL LÉGER WP / ACTIONS + TOGGLE */
+/* REGROUPEMENT VISUEL L&#201;GER WP / ACTIONS + TOGGLE */
 .wp-row-ui{height:44px;position:relative;border-bottom:1px solid #f1f5f9;background:#fff;}
-.wp-parent { background: #fff; border-top: 1px solid #e2e8f0; } /* Séparation très subtile */
+.wp-parent { background: #fff; border-top: 1px solid #e2e8f0; } /* S&#233;paration tr&#232;s subtile */
 .wp-parent .row-label { background: #fff !important; top:0; }.wp-row-ui .row-label{height:44px!important;}
 .wp-row-ui .bar{top:8px;height:28px;}
 
@@ -167,13 +167,13 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
 .milestone-diamond{position:absolute;top:-10px;transform:translateX(-50%);font-size:26px;color:var(--orange);z-index:40;cursor:help;line-height:1;text-shadow:0 0 3px #fff, 0 1px 2px rgba(0,0,0,0.4);transition:transform 0.15s}
 .milestone-diamond:hover{transform:translateX(-50%) scale(1.3);color:#ea580c}
 
-/* LIGNES DE GRILLES SYNCHRONISÉES */
+/* LIGNES DE GRILLES SYNCHRONIS&#201;ES */
 .gridline{position:absolute;top:0;bottom:0;width:1px;background:#f1f5f9;z-index:5;pointer-events:none}
 .gridline.major{background:#cbd5e1; z-index:6;} 
 .today{position:absolute;top:0;bottom:0;width:2px;background:#ef4444;z-index:15;pointer-events:none}
 .today-label{position:absolute;top:60px;transform:translateX(-50%);background:#fef2f2;color:#ef4444;border:1px solid #fecaca;border-radius:4px;padding:2px 6px;font-size:8px;font-weight:900;z-index:195;pointer-events:none;text-transform:uppercase;letter-spacing:.05em}
 
-/* DÉGRADÉS BARRES DE GANTT ET TEXTE CONFINÉ/EXTÉRIEUR */
+/* D&#201;GRAD&#201;S BARRES DE GANTT ET TEXTE CONFIN&#201;/EXT&#201;RIEUR */
 .bar{position:absolute;border:0;border-radius:6px;color:#fff;font-size:11px;font-weight:800;box-shadow:0 4px 6px rgba(0,0,0,.1);overflow:hidden;z-index:10;cursor:pointer}.bar:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.15);z-index:20}.bar-progress{position:absolute;top:0;left:0;bottom:0;background:rgba(0,0,0,.25);z-index:1}.bar-content{position:relative;z-index:2;display:flex;align-items:center;width:100%;height:100%;white-space:nowrap;}
 .bar-grad-ongoing{background:linear-gradient(90deg,#2563eb 0%,#60a5fa 100%)}
 .bar-grad-done{background:linear-gradient(90deg,#059669 0%,#34d399 100%)}
@@ -196,7 +196,7 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
 .dd-item:hover { background: #f1f5f9; }
 .dd-item input { margin: 0; accent-color: var(--blue); cursor: pointer; width: 14px; height: 14px; flex-shrink: 0; }
 
-/* CSS D'IMPRESSION PRO (CADRAGE EXACT A2 SANS COUPURE GRÂCE AU MAX-CONTENT) */
+/* CSS D'IMPRESSION PRO (CADRAGE EXACT A2 SANS COUPURE GR&#194;CE AU MAX-CONTENT) */
 @media print {
   @page { size: A2 landscape; margin: 10mm; }
   body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; overflow: visible !important;}
@@ -211,7 +211,7 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
 }
 @media(max-width:1250px){.header-actions .btn span{display:none}.header-actions .btn{padding:10px 14px}.admin-triple-grid{grid-template-columns:1fr}.grid2,.form-grid{grid-template-columns:1fr}}
 
-/* === PATCH: styles ajoutés (bouton Actions, popup actions, export gantt) === */
+/* === PATCH: styles ajout&#233;s (bouton Actions, popup actions, export gantt) === */
 .btn-mini-action{padding:5px 9px;font-size:10px;border-radius:6px;background:#eef2ff;color:var(--airbus);border:1px solid #c7d2fe;font-weight:800;white-space:nowrap;}
 .btn-mini-action:hover{background:#e0e7ff;}
 .actions-popup-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);}
@@ -233,7 +233,7 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
   <div class="center-title"><h1>AOS Cockpit</h1></div>
   <div class="header-actions">
     <div style="font-size:11px; color:var(--muted); font-weight:700; margin-right:8px; display:flex; align-items:center;">
-        Dernière modif : <span id="lastUpdate" style="margin-left:4px;">-</span>
+        Derni&#232;re modif : <span id="lastUpdate" style="margin-left:4px;">-</span>
     </div>
     <button id="btnNotif" class="icon-btn" title="Notifications" onclick="openNotifications()"><i class="fa-solid fa-bell"></i><span class="badge" id="notifCount">0</span></button>
     <button id="btnHist" class="icon-btn" title="Historique" onclick="openHistory()"><i class="fa-solid fa-clock-rotate-left"></i></button>
@@ -243,58 +243,58 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
 </header>
 
 <section id="home" class="view active home">
-  <div class="home-sub" style="margin-top:10px;">Pilotage et suivi des projets de l'équipe AOS</div>
+  <div class="home-sub" style="margin-top:10px;">Pilotage et suivi des projets de l'&#233;quipe AOS</div>
   <div class="home-kpis" id="homeKpis"></div>
   <div class="home-tiles">
     <button class="home-tile" onclick="showView('projects')"><i class="fa-solid fa-folder-open"></i><h3>Projets</h3><p>Pilotage des projets et WP</p></button>
-    <button class="home-tile" onclick="showView('people')"><i class="fa-solid fa-users"></i><h3>Équipe</h3><p>Actions par membre</p></button>
+    <button class="home-tile" onclick="showView('people')"><i class="fa-solid fa-users"></i><h3>&#201;quipe</h3><p>Actions par membre</p></button>
     <button class="home-tile" onclick="askAdmin()"><i class="fa-solid fa-lock"></i><h3>Administration</h3><p>Configuration globale</p></button>
   </div>
 </section>
 
-<div class="home-footer-text">Conçu et développé par Omar HAMZE - Stage PFE AOS 2026</div>
+<div class="home-footer-text">Con&#231;u et d&#233;velopp&#233; par Omar HAMZE - Stage PFE AOS 2026</div>
 
 <section id="projects" class="view page">
-  <div class="page-head"><div><h2>Projets</h2><p>Vue synthèse des projets de l'équipe</p></div><div class="actions"><input id="projectSearch" class="search" placeholder="🔎 Rechercher un projet..." oninput="renderProjects()"><button class="btn btn-navy" onclick="openRoadmap('project','')"><i class="fa-solid fa-route"></i> Roadmap</button></div></div>
+  <div class="page-head"><div><h2>Projets</h2><p>Vue synth&#232;se des projets de l'&#233;quipe</p></div><div class="actions"><input id="projectSearch" class="search" placeholder="&#128270; Rechercher un projet..." oninput="renderProjects()"><button class="btn btn-navy" onclick="openRoadmap('project','')"><i class="fa-solid fa-route"></i> Roadmap</button></div></div>
   <div class="card"><table><thead><tr><th>Nom</th><th>Secteur AOS</th><th>CDT Usine</th><th>Statut</th><th>Avancement</th><th>Fin de Projet</th><th>Prochain Jalon</th><th>Responsable</th><th>Actions</th></tr></thead><tbody id="projectsRows"></tbody></table></div>
 </section>
 
 <section id="people" class="view page">
-  <div class="page-head"><div><h2>Membres</h2><p>Vue synthèse des actions par membre de l'équipe</p></div>
+  <div class="page-head"><div><h2>Membres</h2><p>Vue synth&#232;se des actions par membre de l'&#233;quipe</p></div>
   <div class="actions">
       <div class="dd-container" style="width: 220px;">
         <div class="dd-header" onclick="toggleDD('dd-list-people-filter')"><span id="dd-txt-people-filter">Tous les membres</span><i class="fa-solid fa-chevron-down"></i></div>
         <div class="dd-list" id="dd-list-people-filter"></div>
       </div>
-      <input id="peopleSearch" class="search" placeholder="🔎 Recherche textuelle..." oninput="renderPeople()">
+      <input id="peopleSearch" class="search" placeholder="&#128270; Recherche textuelle..." oninput="renderPeople()">
       <button class="btn btn-navy" onclick="openRoadmap('person','')"><i class="fa-solid fa-route"></i> Roadmap</button>
   </div></div>
-  <div class="card"><table><thead><tr><th>Nom</th><th>Fonction</th><th>Projets impliqués</th><th>Actions ouvertes</th><th>Statut</th><th>Avancement moyen</th><th>Prochain Jalon</th><th>Actions</th></tr></thead><tbody id="peopleRows"></tbody></table></div>
+  <div class="card"><table><thead><tr><th>Nom</th><th>Fonction</th><th>Projets impliqu&#233;s</th><th>Actions ouvertes</th><th>Statut</th><th>Avancement moyen</th><th>Prochain Jalon</th><th>Actions</th></tr></thead><tbody id="peopleRows"></tbody></table></div>
 </section>
 
 <section id="admin" class="view page">
-  <div class="page-head"><div><h2>Administration</h2><p>Création et configuration globale de l'outil et référentiels usine</p></div><div class="actions"><button class="btn btn-white" onclick="changePassword()"><i class="fa-solid fa-key"></i> Code Admin</button></div></div>
+  <div class="page-head"><div><h2>Administration</h2><p>Cr&#233;ation et configuration globale de l'outil et r&#233;f&#233;rentiels usine</p></div><div class="actions"><button class="btn btn-white" onclick="changePassword()"><i class="fa-solid fa-key"></i> Code Admin</button></div></div>
   <div class="admin-triple-grid">
     <div class="card">
-      <h3 style="margin-top:0;color:var(--airbus);font-size:16px;font-weight:900;margin-bottom:16px;">Créer un projet</h3>
+      <h3 style="margin-top:0;color:var(--airbus);font-size:16px;font-weight:900;margin-bottom:16px;">Cr&#233;er un projet</h3>
       <div class="form-grid">
         <div class="full"><label class="mini-form-label">Nom du projet</label><input id="apName" class="mini-input"></div>
-        <div><label class="mini-form-label">Secteur AOS</label><input id="apSector" class="mini-input" placeholder="ex: PE / Qualité" oninput="this.value=this.value.toUpperCase()"></div>
+        <div><label class="mini-form-label">Secteur AOS</label><input id="apSector" class="mini-input" placeholder="ex: PE / Qualit&#233;" oninput="this.value=this.value.toUpperCase()"></div>
         <div><label class="mini-form-label">Responsable principal</label><select id="apOwner" class="mini-input"></select></div>
         <div class="full">
-          <label class="mini-form-label">CDT usine lié(s)</label>
+          <label class="mini-form-label">CDT usine li&#233;(s)</label>
           <div class="dd-container">
-            <div class="dd-header" onclick="toggleDD('dd-ap-cdt')"><span id="txt-ap-cdt">Sélectionner CDT...</span><i class="fa-solid fa-chevron-down"></i></div>
+            <div class="dd-header" onclick="toggleDD('dd-ap-cdt')"><span id="txt-ap-cdt">S&#233;lectionner CDT...</span><i class="fa-solid fa-chevron-down"></i></div>
             <div class="dd-list" id="dd-ap-cdt"></div>
           </div>
         </div>
-        <div class="full"><label class="mini-form-label">Priorité</label><select id="apPriority" class="mini-input"><option>Haute</option><option selected>Moyenne</option><option>Basse</option></select></div>
-        <button id="btnCreateProj" class="btn btn-blue full" style="justify-content:center;" onclick="addProject()"><i class="fa-solid fa-plus"></i> Créer le projet</button>
+        <div class="full"><label class="mini-form-label">Priorit&#233;</label><select id="apPriority" class="mini-input"><option>Haute</option><option selected>Moyenne</option><option>Basse</option></select></div>
+        <button id="btnCreateProj" class="btn btn-blue full" style="justify-content:center;" onclick="addProject()"><i class="fa-solid fa-plus"></i> Cr&#233;er le projet</button>
       </div>
       <div id="adminProjects" style="margin-top:24px;max-height:280px;overflow-y:auto;"></div>
     </div>
     <div class="card">
-      <h3 style="margin-top:0;color:var(--airbus);font-size:16px;font-weight:900;margin-bottom:16px;">Gérer l'équipe</h3>
+      <h3 style="margin-top:0;color:var(--airbus);font-size:16px;font-weight:900;margin-bottom:16px;">G&#233;rer l'&#233;quipe</h3>
       <div class="form-grid">
         <div class="full"><label class="mini-form-label">Nom complet</label><input id="auName" class="mini-input"></div>
         <div class="full"><label class="mini-form-label">Fonction</label><input id="auRole" class="mini-input"></div>
@@ -333,7 +333,7 @@ textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cbd5e1;bo
 
 <div id="modal" class="modal">
   <div class="panel simple-panel">
-    <div class="modal-head"><div><span id="modalBadge" class="chip s-ongoing">Détail</span><h2 id="modalTitle" style="margin-top:8px">Titre</h2><div id="modalSub" class="modal-sub"></div></div><div class="actions" id="modalActions"></div></div>
+    <div class="modal-head"><div><span id="modalBadge" class="chip s-ongoing">D&#233;tail</span><h2 id="modalTitle" style="margin-top:8px">Titre</h2><div id="modalSub" class="modal-sub"></div></div><div class="actions" id="modalActions"></div></div>
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
@@ -363,7 +363,7 @@ function demo(){
     last:new Date().toLocaleString('fr-FR'),
     history:[],
     cdts:[{id:'c1',name:'ODYE'},{id:'c2',name:'ODYS'},{id:'c3',name:'ODYL'}],
-    users:[{id:'u1',name:'Omar Hamzé',role:'AOS'},{id:'u2',name:'Cyril',role:'HO AOS'},{id:'u3',name:'Arnaud',role:'AOS leader'},{id:'u4',name:'Manu',role:'AOS agent'}],
+    users:[{id:'u1',name:'Omar Hamz\u{e9}',role:'AOS'},{id:'u2',name:'Cyril',role:'HO AOS'},{id:'u3',name:'Arnaud',role:'AOS leader'},{id:'u4',name:'Manu',role:'AOS agent'}],
     projects:[
       {id:'p1',name:'PPC',owner:'u2',memberIds:['u1','u2','u3'],sector:'PPC',cdtIds:['c1','c2'],priority:'Haute',archived:false},
       {id:'p2',name:'5S',owner:'u2',memberIds:['u1','u2'],sector:'5S',cdtIds:['c2','c3'],priority:'Moyenne',archived:false}
@@ -374,7 +374,7 @@ function demo(){
       {id:'w3',project:'p2',name:'Bureau atelier',owner:'u3',ownerIds:['u3'],start:'2026-06-01',end:'2026-06-25',status:'ongoing',comment:'',progress:40,modified:false,history:[],archived:false,cdtId:'c2',milestones:[]}
     ],
     actions:[
-      {id:'a1',wp:'w1',title:'Cadrage métier',start:'2026-06-01',end:'2026-06-12',status:'ongoing',people:['u1','u2'],progress:60,comment:'',blockCause:'',history:[],archived:false,milestones:[]},
+      {id:'a1',wp:'w1',title:'Cadrage m\u{e9}tier',start:'2026-06-01',end:'2026-06-12',status:'ongoing',people:['u1','u2'],progress:60,comment:'',blockCause:'',history:[],archived:false,milestones:[]},
       {id:'a2',wp:'w2',title:'Validation terrain',start:'2026-07-10',end:'2026-07-24',status:'planned',people:['u3'],progress:0,comment:'',blockCause:'',history:[],archived:false,milestones:[]},
       {id:'a3',wp:'w3',title:'Audit terrain',start:'2026-06-05',end:'2026-06-18',status:'ongoing',people:['u1','u3'],progress:50,comment:'',blockCause:'',history:[],archived:false,milestones:[]}
     ]
@@ -426,10 +426,10 @@ function loadSessionCache(){
 
 function uid(p){return p+Date.now()+Math.random().toString(16).slice(2)}
 
-// REQUÊTE SÉCURISÉE VERS LE SERVEUR
+// REQU\u{ca}TE S\u{c9}CURIS\u{c9}E VERS LE SERVEUR
 window.addEventListener('DOMContentLoaded', () => {
-  // PATCH #5 : affichage instantané depuis le cache sessionStorage si disponible,
-  // puis synchronisation en arrière-plan avec le serveur (si Apps Script dispo).
+  // PATCH #5 : affichage instantan\u{e9} depuis le cache sessionStorage si disponible,
+  // puis synchronisation en arri\u{e8}re-plan avec le serveur (si Apps Script dispo).
   let cached = loadSessionCache();
   if(cached){
     db = cached;
@@ -450,7 +450,7 @@ window.addEventListener('DOMContentLoaded', () => {
              db = normalizeData(parsed);
           }
         } catch(e) {
-          if(!cached) alert("Erreur de lecture des données serveur. Passage en mode local.");
+          if(!cached) alert("Erreur de lecture des donn\u{e9}es serveur. Passage en mode local.");
           db = cached || loadLocalData();
         }
         localStorage.setItem(KEY, JSON.stringify(db));
@@ -473,7 +473,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// GESTIONNAIRE D'ENREGISTREMENT SÉCURISÉ
+// GESTIONNAIRE D'ENREGISTREMENT S\u{c9}CURIS\u{c9}
 function pushToServer(type, payload, historyPayload, btnId, callbackOnSuccess) {
   let btn = document.getElementById(btnId);
   let oldHtml = "";
@@ -491,12 +491,12 @@ function pushToServer(type, payload, historyPayload, btnId, callbackOnSuccess) {
           db.last = res.lastUpdate;
           if(callbackOnSuccess) callbackOnSuccess();
         } else {
-          alert("Erreur de sauvegarde base de données : " + (res ? res.error : 'inconnue'));
+          alert("Erreur de sauvegarde base de donn\u{e9}es : " + (res ? res.error : 'inconnue'));
         }
       })
       .withFailureHandler((err) => {
         if(btn) { btn.disabled = false; btn.innerHTML = oldHtml; }
-        alert("Rejet réseau Google : " + err + "\n\nVos données sont gardées en local.");
+        alert("Rejet r\u{e9}seau Google : " + err + "\n\nVos donn\u{e9}es sont gard\u{e9}es en local.");
         if(callbackOnSuccess) callbackOnSuccess();
       })
       .updateServerData(type, payload, historyPayload);
@@ -511,7 +511,7 @@ function pushToServer(type, payload, historyPayload, btnId, callbackOnSuccess) {
 
 function activeProjects(){return db.projects.filter(p=>!p.archived)}function activeWps(){let pIds=activeProjects().map(p=>p.id);return db.wps.filter(w=>!w.archived&&pIds.includes(w.project))}function activeActions(){let wIds=activeWps().map(w=>w.id);return db.actions.filter(a=>!a.archived&&wIds.includes(a.wp))}
 
-/* SYSTÈME DE MENUS DÉROULANTS CUSTOM AVEC "SÉLECTIONNER TOUT" */
+/* SYST\u{c8}ME DE MENUS D\u{c9}ROULANTS CUSTOM AVEC "S\u{c9}LECTIONNER TOUT" */
 function toggleDD(id) {
   document.querySelectorAll('.dd-list').forEach(el => { if(el.id !== id) el.classList.remove('show'); });
   document.getElementById(id).classList.toggle('show');
@@ -528,10 +528,10 @@ function toggleAllDD(btn, listId, defaultText) {
     let cbs = list.querySelectorAll('.individual-cb');
     cbs.forEach(c => c.checked = btn.checked);
     
-    // CORRECTION : On gère correctement le nommage selon si c'est un filtre ("list") ou un formulaire ("dd-")
+    // CORRECTION : On g\u{e8}re correctement le nommage selon si c'est un filtre ("list") ou un formulaire ("dd-")
     let txtId = listId.includes('list') ? listId.replace('list', 'txt') : listId.replace('dd-', 'txt-');
     
-    // On indique "false" pour les formulaires afin de ne pas déclencher la mise à jour inutile du diagramme de Gantt
+    // On indique "false" pour les formulaires afin de ne pas d\u{e9}clencher la mise \u{e0} jour inutile du diagramme de Gantt
     let isFilter = listId.includes('list');
     
     updateDDText(listId, txtId, defaultText, isFilter);
@@ -543,7 +543,7 @@ window.toggleAllAssignees = function(btn, listId) {
     let cbs = list.querySelectorAll('.individual-cb');
     cbs.forEach(c => c.checked = btn.checked);
     let txtId = listId.replace('dd-', 'txt-');
-    updateDDText(listId, txtId, 'Sélectionner...', false);
+    updateDDText(listId, txtId, 'S\u{e9}lectionner...', false);
 };
 
 function updateDDText(listId, textId, defaultText, isFilter = false) {
@@ -565,7 +565,7 @@ function updateDDText(listId, textId, defaultText, isFilter = false) {
   } else {
     if (checked.length === 0) headerTxt.textContent = defaultText;
     else if (checked.length === 1) headerTxt.textContent = checked[0].parentNode.textContent.trim();
-    else headerTxt.textContent = checked.length + ' sélectionnés';
+    else headerTxt.textContent = checked.length + ' s\u{e9}lectionn\u{e9}s';
   }
 }
 function getDDValues(listId) {
@@ -579,7 +579,7 @@ function resetFilters() {
   document.getElementById('customEnd').value = '';
   updateDDText('dd-list-cdt', 'dd-txt-cdt', 'Tous les secteurs CDT', true);
   updateDDText('dd-list-proj', 'dd-txt-proj', 'Tous les projets', true);
-  updateDDText('dd-list-user', 'dd-txt-user', 'Membres d\'équipe', true);
+  updateDDText('dd-list-user', 'dd-txt-user', 'Membres d\'\u{e9}quipe', true);
   updateDDText('dd-list-stat', 'dd-txt-stat', 'Tous les statuts', true);
 }
 
@@ -588,12 +588,12 @@ function cdtIdsOfProject(p){return p&&p.cdtIds&&p.cdtIds.length?p.cdtIds:[]}func
 function cdtIdOfWp(w){return w ? w.cdtId : ''}
 function effectiveStatus(x){if(x.status==='done'||x.status==='blocked')return x.status;return x.end&&new Date(x.end+'T23:59:59')<new Date()?'late':x.status}
 function escapeAttr(val) { return String(val ?? '').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
-function stTxt(s){return{ongoing:'en cours',done:'terminé',late:'retard',planned:'à venir',blocked:'bloqué'}[s]||s}function stClass(s){return's-'+s}function fmt(d){if(!d)return'';let[y,m,day]=d.split('-');return`${day}/${m}/${y}`}
+function stTxt(s){return{ongoing:'en cours',done:'termin\u{e9}',late:'retard',planned:'\u{e0} venir',blocked:'bloqu\u{e9}'}[s]||s}function stClass(s){return's-'+s}function fmt(d){if(!d)return'';let[y,m,day]=d.split('-');return`${day}/${m}/${y}`}
 function actionPct(a){return a.progress!==undefined?parseInt(a.progress,10):0}function pctWp(wid){let acts=actionsOfWp(wid);if(!acts.length){let w=wp(wid);return w&&w.progress!==undefined?parseInt(w.progress,10):0}return Math.round(acts.reduce((s,x)=>s+actionPct(x),0)/acts.length)}function pctProject(pid){let wps=activeWps().filter(x=>x.project===pid);if(!wps.length)return 0;return Math.round(wps.reduce((a,x)=>a+pctWp(x.id),0)/wps.length)}function pctUser(uid){let acts=activeActions().filter(x=>x.people.includes(uid));if(!acts.length)return 0;return Math.round(acts.reduce((s,x)=>s+actionPct(x),0)/acts.length)}
-function addHistory(object,oldVal,newVal,reason,userName='Omar Hamzé'){db.history.unshift({date:new Date().toLocaleString('fr-FR'),user:userName,object,old:oldVal,new:newVal,reason:reason||'Mise à jour'})}
+function addHistory(object,oldVal,newVal,reason,userName='Omar Hamz\u{e9}'){db.history.unshift({date:new Date().toLocaleString('fr-FR'),user:userName,object,old:oldVal,new:newVal,reason:reason||'Mise \u{e0} jour'})}
 function toast(t){let e=document.getElementById('toast');if(e){e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2500)}}
 
-/* GESTION ÉPURÉE DES VUES */
+/* GESTION \u{c9}PUR\u{c9}E DES VUES */
 function showView(v){
   if(v==='admin'&&!adminOK)return askAdmin();
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
@@ -606,7 +606,7 @@ function showView(v){
     if(navHome) navHome.classList.remove('d-none');
   }
 }
-function askAdmin(){let c=prompt('Code responsable (par défaut : aos) :');if(c===db.password){adminOK=true;showView('admin');toast('Accès autorisé')}else if(c!==null)alert('Code incorrect.')}
+function askAdmin(){let c=prompt('Code responsable (par d\u{e9}faut : aos) :');if(c===db.password){adminOK=true;showView('admin');toast('Acc\u{e8}s autoris\u{e9}')}else if(c!==null)alert('Code incorrect.')}
 function renderAll(){
   if(!db) return; 
   let lu = document.getElementById('lastUpdate');
@@ -620,7 +620,7 @@ function renderAll(){
 
 function renderHome(){
   let open=activeActions().filter(a=>a.status!=='done').length;
-  document.getElementById('homeKpis').innerHTML=`<div class="home-kpi"><div class="num">${activeProjects().length}</div><div class="label">Projets actifs</div></div><div class="home-kpi"><div class="num">${db.users.length}</div><div class="label">Membres de l'équipe</div></div><div class="home-kpi"><div class="num">${open}</div><div class="label" style="${alerts().length?'color:var(--red)':''}">${alerts().length?`Actions Dont ${alerts().length} critiques`:'Actions en cours'}</div></div>`
+  document.getElementById('homeKpis').innerHTML=`<div class="home-kpi"><div class="num">${activeProjects().length}</div><div class="label">Projets actifs</div></div><div class="home-kpi"><div class="num">${db.users.length}</div><div class="label">Membres de l'\u{e9}quipe</div></div><div class="home-kpi"><div class="num">${open}</div><div class="label" style="${alerts().length?'color:var(--red)':''}">${alerts().length?`Actions Dont ${alerts().length} critiques`:'Actions en cours'}</div></div>`
 }
 
 function renderProjects(){
@@ -684,127 +684,127 @@ function renderAdmin(){
   document.getElementById('apOwner').innerHTML=db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('');
   let ddCdt = document.getElementById('dd-ap-cdt');
   if(ddCdt) {
-    ddCdt.innerHTML = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-ap-cdt', 'Sélectionner CDT...')"> <i>Tout sélectionner</i></label>` + db.cdts.map(c=>`<label class="dd-item"><input type="checkbox" value="${c.id}" class="individual-cb" onchange="updateDDText('dd-ap-cdt', 'txt-ap-cdt', 'Sélectionner CDT...', false)"> ${c.name}</label>`).join('');
+    ddCdt.innerHTML = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-ap-cdt', 'S\u{e9}lectionner CDT...')"> <i>Tout s\u{e9}lectionner</i></label>` + db.cdts.map(c=>`<label class="dd-item"><input type="checkbox" value="${c.id}" class="individual-cb" onchange="updateDDText('dd-ap-cdt', 'txt-ap-cdt', 'S\u{e9}lectionner CDT...', false)"> ${c.name}</label>`).join('');
   }
   
   let ddPeopleFilt = document.getElementById('dd-list-people-filter');
   if(ddPeopleFilt) {
       let checkedP = getDDValues('dd-list-people-filter');
-      let htmlP = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-list-people-filter', 'Tous les membres');"> <i>Tout sélectionner</i></label>`;
+      let htmlP = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-list-people-filter', 'Tous les membres');"> <i>Tout s\u{e9}lectionner</i></label>`;
       htmlP += db.users.map(u=>`<label class="dd-item"><input type="checkbox" value="${u.id}" class="individual-cb" ${checkedP.includes(u.id)?'checked':''} onchange="updateDDText('dd-list-people-filter', 'dd-txt-people-filter', 'Tous les membres', false); renderPeople();"> ${u.name}</label>`).join('');
       ddPeopleFilt.innerHTML = htmlP;
       updateDDText('dd-list-people-filter', 'dd-txt-people-filter', 'Tous les membres', false);
   }
 
-  document.getElementById('adminProjects').innerHTML=activeProjects().map(p=>`<div class="mini"><div class="mini-info"><b>${p.name}</b><br><span style="color:var(--muted);font-size:11px">${cdtNames(cdtIdsOfProject(p))} · Responsable : ${user(p.owner).name}</span></div><div class="actions-mini"><button class="btn btn-white" style="font-size:10px;padding:6px 10px;" onclick="openProjectForm('${p.id}')">Modifier</button><button class="btn btn-red" style="font-size:10px;padding:6px 10px;" onclick="archiveProject('${p.id}')">Archiver</button></div></div>`).join('');
+  document.getElementById('adminProjects').innerHTML=activeProjects().map(p=>`<div class="mini"><div class="mini-info"><b>${p.name}</b><br><span style="color:var(--muted);font-size:11px">${cdtNames(cdtIdsOfProject(p))} \u{b7} Responsable : ${user(p.owner).name}</span></div><div class="actions-mini"><button class="btn btn-white" style="font-size:10px;padding:6px 10px;" onclick="openProjectForm('${p.id}')">Modifier</button><button class="btn btn-red" style="font-size:10px;padding:6px 10px;" onclick="archiveProject('${p.id}')">Archiver</button></div></div>`).join('');
   document.getElementById('adminUsers').innerHTML=db.users.map(u=>`<div class="mini"><div class="mini-info"><b>${u.name}</b><br><span style="color:var(--muted);font-size:11px">${u.role}</span></div><div class="actions-mini"><button class="btn btn-white" style="font-size:10px;padding:6px 10px;" onclick="openUserForm('${u.id}')">Modifier</button><button class="btn btn-red" style="font-size:10px;padding:6px 10px;" onclick="deleteUser('${u.id}')">Suppr</button></div></div>`).join('');
   document.getElementById('adminCdts').innerHTML=db.cdts.map(c=>`<div class="mini"><div class="mini-info"><b>${c.name}</b></div><div class="actions-mini"><button class="btn btn-white" style="font-size:10px;padding:6px 10px;" onclick="editCdt('${c.id}')">Modifier</button><button class="btn btn-red" style="font-size:10px;padding:6px 10px;" onclick="deleteCdt('${c.id}')">Suppr</button></div></div>`).join('')}
 
 function addProject(){
   let an=document.getElementById('apName').value.trim(); let ao=document.getElementById('apOwner').value; let ase=(document.getElementById('apSector').value||'AOS').toUpperCase(); let cdtIds=getDDValues('dd-ap-cdt');
-  if(!an)return toast('Nom projet obligatoire'); if(!cdtIds.length)return toast('Sélectionne au moins un CDT');
+  if(!an)return toast('Nom projet obligatoire'); if(!cdtIds.length)return toast('S\u{e9}lectionne au moins un CDT');
   let payload = {id:uid('p'),name:an,owner:ao,memberIds:[ao],sector:ase,cdtIds:cdtIds,priority:document.getElementById('apPriority').value,archived:false};
-  let hPayload = {user:'Omar Hamzé', object:`Projet "${an}" (CDT: ${cdtNames(cdtIds)})`, old:'-', new:'Création', reason:`Responsable: ${user(ao).name}`};
+  let hPayload = {user:'Omar Hamz\u{e9}', object:`Projet "${an}" (CDT: ${cdtNames(cdtIds)})`, old:'-', new:'Cr\u{e9}ation', reason:`Responsable: ${user(ao).name}`};
   
   db.projects.push(payload);
   pushToServer('project', payload, hPayload, 'btnCreateProj', () => {
     document.getElementById('apName').value=''; document.getElementById('apSector').value='';
-    document.querySelectorAll('#dd-ap-cdt input').forEach(cb => cb.checked = false); updateDDText('dd-ap-cdt', 'txt-ap-cdt', 'Sélectionner CDT...', false);
-    save('Projet créé');
+    document.querySelectorAll('#dd-ap-cdt input').forEach(cb => cb.checked = false); updateDDText('dd-ap-cdt', 'txt-ap-cdt', 'S\u{e9}lectionner CDT...', false);
+    save('Projet cr\u{e9}\u{e9}');
   });
 }
 
 function addUser(){
   let n=document.getElementById('auName').value.trim(); if(!n)return toast('Nom manquant');
   let payload = {id:uid('u'),name:n,role:document.getElementById('auRole').value||'AOS'};
-  let hPayload = {user:'Omar Hamzé', object:`Utilisateur "${n}"`, old:'-', new:'Création', reason:'Administration'};
+  let hPayload = {user:'Omar Hamz\u{e9}', object:`Utilisateur "${n}"`, old:'-', new:'Cr\u{e9}ation', reason:'Administration'};
   db.users.push(payload);
-  pushToServer('user', payload, hPayload, 'btnCreateUser', () => { document.getElementById('auName').value='';document.getElementById('auRole').value='';save('Membre ajouté'); });
+  pushToServer('user', payload, hPayload, 'btnCreateUser', () => { document.getElementById('auName').value='';document.getElementById('auRole').value='';save('Membre ajout\u{e9}'); });
 }
 function addCdt(){
   let n=document.getElementById('acName').value.trim().toUpperCase(); if(!n)return toast('Nom du CDT requis');
   let payload = {id:uid('c'),name:n};
-  let hPayload = {user:'Omar Hamzé', object:`Secteur CDT "${n}"`, old:'-', new:'Création', reason:'Administration'};
+  let hPayload = {user:'Omar Hamz\u{e9}', object:`Secteur CDT "${n}"`, old:'-', new:'Cr\u{e9}ation', reason:'Administration'};
   db.cdts.push(payload);
-  pushToServer('cdt', payload, hPayload, 'btnCreateCdt', () => { document.getElementById('acName').value='';save('Secteur CDT ajouté'); });
+  pushToServer('cdt', payload, hPayload, 'btnCreateCdt', () => { document.getElementById('acName').value='';save('Secteur CDT ajout\u{e9}'); });
 }
 
-/* --- POPUPS DE CONFIRMATION SÉCURISÉS --- */
+/* --- POPUPS DE CONFIRMATION S\u{c9}CURIS\u{c9}S --- */
 function deleteCdt(id){
-  if(!confirm('Êtes-vous sûr de vouloir supprimer définitivement ce secteur CDT ?')) return;
-  if(activeProjects().some(p=>cdtIdsOfProject(p).includes(id)))return alert('Impossible : ce CDT est encore lié à au moins un projet.');
+  if(!confirm('\u{ca}tes-vous s\u{fb}r de vouloir supprimer d\u{e9}finitivement ce secteur CDT ?')) return;
+  if(activeProjects().some(p=>cdtIdsOfProject(p).includes(id)))return alert('Impossible : ce CDT est encore li\u{e9} \u{e0} au moins un projet.');
   let c = db.cdts.find(x=>x.id===id);
   db.cdts=db.cdts.filter(x=>x.id!==id);
-  pushToServer('cdt_delete', {id:id}, {user:'Omar Hamzé', object:`Suppression CDT`, old:c.name, new:'-', reason:'Nettoyage'}, null, () => { save('CDT supprimé'); });
+  pushToServer('cdt_delete', {id:id}, {user:'Omar Hamz\u{e9}', object:`Suppression CDT`, old:c.name, new:'-', reason:'Nettoyage'}, null, () => { save('CDT supprim\u{e9}'); });
 }
 function editCdt(id) {
   let c = db.cdts.find(x=>x.id===id); if(!c) return;
   let nv = prompt('Modifier le nom du secteur CDT :', c.name);
   if(nv && nv.trim() && nv.trim().toUpperCase() !== c.name){
     let old = c.name; c.name = nv.trim().toUpperCase();
-    pushToServer('cdt', c, {user:'Omar Hamzé', object:`Renommage CDT`, old:old, new:c.name, reason:'Renommage'}, null, () => { save('Secteur CDT modifié'); });
+    pushToServer('cdt', c, {user:'Omar Hamz\u{e9}', object:`Renommage CDT`, old:old, new:c.name, reason:'Renommage'}, null, () => { save('Secteur CDT modifi\u{e9}'); });
   }
 }
 function deleteUser(id) {
-  if(!confirm('Êtes-vous sûr de vouloir supprimer définitivement ce membre ?')) return;
+  if(!confirm('\u{ca}tes-vous s\u{fb}r de vouloir supprimer d\u{e9}finitivement ce membre ?')) return;
   let u = db.users.find(x=>x.id===id);
   db.users = db.users.filter(x=>x.id!==id);
-  pushToServer('user_delete', {id:id}, {user:'Omar Hamzé', object:`Suppression Membre`, old:u.name, new:'-', reason:'Nettoyage'}, null, () => { save('Membre supprimé'); });
+  pushToServer('user_delete', {id:id}, {user:'Omar Hamz\u{e9}', object:`Suppression Membre`, old:u.name, new:'-', reason:'Nettoyage'}, null, () => { save('Membre supprim\u{e9}'); });
 }
 function archiveProject(pid){
-  if(!confirm('Êtes-vous sûr de vouloir archiver ce projet ? (Ceci masquera aussi ses WPs et actions)')) return;
+  if(!confirm('\u{ca}tes-vous s\u{fb}r de vouloir archiver ce projet ? (Ceci masquera aussi ses WPs et actions)')) return;
   let p=project(pid); if(!p)return; p.archived=true;
   db.wps.filter(w=>w.project===pid).forEach(w=>{w.archived=true;db.actions.filter(a=>a.wp===w.id).forEach(a=>a.archived=true)});
-  pushToServer('project_archive', {id:pid}, {user:'Omar Hamzé', object:`Archivage Projet ${p.name}`, old:'Actif', new:'Archivé', reason:'Cascade'}, null, () => { save('Projet archivé'); });
+  pushToServer('project_archive', {id:pid}, {user:'Omar Hamz\u{e9}', object:`Archivage Projet ${p.name}`, old:'Actif', new:'Archiv\u{e9}', reason:'Cascade'}, null, () => { save('Projet archiv\u{e9}'); });
 }
 function archiveWp(id){
-  if(!confirm('Êtes-vous sûr de vouloir archiver / supprimer ce Work Package ? (Ses actions seront aussi supprimées)')) return;
+  if(!confirm('\u{ca}tes-vous s\u{fb}r de vouloir archiver / supprimer ce Work Package ? (Ses actions seront aussi supprim\u{e9}es)')) return;
   let w=wp(id); if(!w)return; w.archived=true; db.actions.filter(a=>a.wp===id).forEach(a=>a.archived=true);
-  pushToServer('wp_archive', {id:id}, {user:'Omar Hamzé', object:`Archivage WP ${w.name}`, old:'Actif', new:'Archivé', reason:'Bouton Suppr'}, 'modalActions', () => { closeModal(); save('WP archivé'); });
+  pushToServer('wp_archive', {id:id}, {user:'Omar Hamz\u{e9}', object:`Archivage WP ${w.name}`, old:'Actif', new:'Archiv\u{e9}', reason:'Bouton Suppr'}, 'modalActions', () => { closeModal(); save('WP archiv\u{e9}'); });
 }
 function archiveAction(id){
-  if(!confirm('Êtes-vous sûr de vouloir archiver / supprimer cette Action ?')) return;
+  if(!confirm('\u{ca}tes-vous s\u{fb}r de vouloir archiver / supprimer cette Action ?')) return;
   let a=activeActions().find(x=>x.id===id); if(!a)return; a.archived=true;
-  pushToServer('action_archive', {id:id}, {user:'Omar Hamzé', object:`Archivage Action ${a.title}`, old:'Actif', new:'Archivé', reason:'Bouton Suppr'}, 'modalActions', () => { closeModal(); syncWpWithActions(a.wp); save('Action archivée'); });
+  pushToServer('action_archive', {id:id}, {user:'Omar Hamz\u{e9}', object:`Archivage Action ${a.title}`, old:'Actif', new:'Archiv\u{e9}', reason:'Bouton Suppr'}, 'modalActions', () => { closeModal(); syncWpWithActions(a.wp); save('Action archiv\u{e9}e'); });
 }
 
 function openProjectForm(pid){
   let p=project(pid);if(!p)return;
   document.getElementById('formTitle').textContent='Modifier le projet';
-  let cdtListHtml = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-fp-cdt', 'Sélectionner CDT...')"> <i>Tout sélectionner</i></label>`;
-  cdtListHtml += db.cdts.map(c=>`<label class="dd-item"><input type="checkbox" value="${c.id}" class="individual-cb" ${cdtIdsOfProject(p).includes(c.id)?'checked':''} onchange="updateDDText('dd-fp-cdt', 'txt-fp-cdt', 'Sélectionner CDT...', false)"> ${c.name}</label>`).join('');
+  let cdtListHtml = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-fp-cdt', 'S\u{e9}lectionner CDT...')"> <i>Tout s\u{e9}lectionner</i></label>`;
+  cdtListHtml += db.cdts.map(c=>`<label class="dd-item"><input type="checkbox" value="${c.id}" class="individual-cb" ${cdtIdsOfProject(p).includes(c.id)?'checked':''} onchange="updateDDText('dd-fp-cdt', 'txt-fp-cdt', 'S\u{e9}lectionner CDT...', false)"> ${c.name}</label>`).join('');
   document.getElementById('formBody').innerHTML=`
     <div class="form-grid">
       <div class="mini-form-group full"><label class="mini-form-label">Nom</label><input id="fpName" class="mini-input" value="${p.name.replace(/"/g,'&quot;')}"></div>
       <div class="mini-form-group"><label class="mini-form-label">Secteur AOS</label><input id="fpSector" class="mini-input" value="${p.sector}" oninput="this.value=this.value.toUpperCase()"></div>
       <div class="mini-form-group"><label class="mini-form-label">Responsable principal</label><select id="fpOwner" class="mini-input">${db.users.map(u=>`<option value="${u.id}" ${p.owner===u.id?'selected':''}>${u.name}</option>`).join('')}</select></div>
       <div class="mini-form-group full">
-        <label class="mini-form-label">CDT usine lié(s)</label>
+        <label class="mini-form-label">CDT usine li\u{e9}(s)</label>
         <div class="dd-container">
           <div class="dd-header" onclick="toggleDD('dd-fp-cdt')"><span id="txt-fp-cdt"></span><i class="fa-solid fa-chevron-down"></i></div>
           <div class="dd-list" id="dd-fp-cdt">${cdtListHtml}</div>
         </div>
       </div>
-      <div class="mini-form-group full"><label class="mini-form-label">Priorité</label><select id="fpPriority" class="mini-input"><option ${p.priority==='Haute'?'selected':''}>Haute</option><option ${p.priority==='Moyenne'?'selected':''}>Moyenne</option><option ${p.priority==='Basse'?'selected':''}>Basse</option></select></div>
+      <div class="mini-form-group full"><label class="mini-form-label">Priorit\u{e9}</label><select id="fpPriority" class="mini-input"><option ${p.priority==='Haute'?'selected':''}>Haute</option><option ${p.priority==='Moyenne'?'selected':''}>Moyenne</option><option ${p.priority==='Basse'?'selected':''}>Basse</option></select></div>
       <button id="btnSaveProjForm" class="btn btn-blue full" style="justify-content:center;margin-top:10px;" onclick="saveProjectForm('${pid}')">Enregistrer</button>
     </div>`;
   document.getElementById('formModal').classList.add('show');
-  updateDDText('dd-fp-cdt', 'txt-fp-cdt', 'Sélectionner CDT...', false);
+  updateDDText('dd-fp-cdt', 'txt-fp-cdt', 'S\u{e9}lectionner CDT...', false);
 }
 function saveProjectForm(pid){
-  let p=project(pid); let cdtIds=getDDValues('dd-fp-cdt'); if(!cdtIds.length)return toast('Sélectionne au moins un CDT');
-  let old=`${p.name} · ${cdtNames(cdtIdsOfProject(p))} · Resp: ${user(p.owner).name}`;
+  let p=project(pid); let cdtIds=getDDValues('dd-fp-cdt'); if(!cdtIds.length)return toast('S\u{e9}lectionne au moins un CDT');
+  let old=`${p.name} \u{b7} ${cdtNames(cdtIdsOfProject(p))} \u{b7} Resp: ${user(p.owner).name}`;
   let payload = {id:pid, name:document.getElementById('fpName').value, sector:document.getElementById('fpSector').value.toUpperCase(), owner:document.getElementById('fpOwner').value, memberIds:[document.getElementById('fpOwner').value], cdtIds:cdtIds, priority:document.getElementById('fpPriority').value, archived:false};
   Object.assign(p, payload);
-  pushToServer('project', payload, {user:'Omar Hamzé', object:`Modif Projet ${p.name}`, old:old, new:`${p.name} · ${cdtNames(cdtIds)} · Resp: ${user(p.owner).name}`, reason:'Manuel'}, 'btnSaveProjForm', () => { closeForm(); save('Projet modifié'); });
+  pushToServer('project', payload, {user:'Omar Hamz\u{e9}', object:`Modif Projet ${p.name}`, old:old, new:`${p.name} \u{b7} ${cdtNames(cdtIds)} \u{b7} Resp: ${user(p.owner).name}`, reason:'Manuel'}, 'btnSaveProjForm', () => { closeForm(); save('Projet modifi\u{e9}'); });
 }
 
 function openUserForm(uid){let u=db.users.find(x=>x.id===uid);document.getElementById('formTitle').textContent='Modifier utilisateur';document.getElementById('formBody').innerHTML=`<div class="form-grid"><div class="mini-form-group full"><label class="mini-form-label">Nom complet</label><input id="fuName" class="mini-input" value="${u.name.replace(/"/g,'&quot;')}"></div><div class="mini-form-group full"><label class="mini-form-label">Fonction</label><input id="fuRole" class="mini-input" value="${u.role.replace(/"/g,'&quot;')}"></div><button id="btnSaveUserForm" class="btn btn-blue full" style="justify-content:center;margin-top:10px;" onclick="saveUserForm('${uid}')">Enregistrer</button></div>`;document.getElementById('formModal').classList.add('show')}
 function saveUserForm(uid){
   let u=db.users.find(x=>x.id===uid); u.name=document.getElementById('fuName').value; u.role=document.getElementById('fuRole').value;
-  pushToServer('user', u, {user:'Omar Hamzé', object:`Modif Membre ${u.name}`, old:'Données', new:'Mise à jour', reason:'Profil'}, 'btnSaveUserForm', () => { closeForm(); save('Utilisateur modifié'); });
+  pushToServer('user', u, {user:'Omar Hamz\u{e9}', object:`Modif Membre ${u.name}`, old:'Donn\u{e9}es', new:'Mise \u{e0} jour', reason:'Profil'}, 'btnSaveUserForm', () => { closeForm(); save('Utilisateur modifi\u{e9}'); });
 }
-function changePassword(){let n=prompt('Nouveau code responsable :');if(n){db.password=n; save('Mot de passe changé')}}
+function changePassword(){let n=prompt('Nouveau code responsable :');if(n){db.password=n; save('Mot de passe chang\u{e9}')}}
 
 function syncWpWithActions(wid,silent=false){
   let w=wp(wid);if(!w)return;
@@ -833,7 +833,7 @@ function syncWpWithActions(wid,silent=false){
   }
   
   if(w.status!==ns){
-    if(!silent)w.history.push(`${new Date().toLocaleString('fr-FR')} · Statut auto-ajusté : ${stTxt(w.status)} → ${stTxt(ns)}`);
+    if(!silent)w.history.push(`${new Date().toLocaleString('fr-FR')} \u{b7} Statut auto-ajust\u{e9} : ${stTxt(w.status)} \u{2192} ${stTxt(ns)}`);
     w.status=ns;
   }
 }
@@ -851,9 +851,9 @@ function openNotifications(){
     let context = isAct ? `${p?.name} > ${w?.name}` : `${p?.name}`;
     let icon = isAct ? `<i class="fa-solid fa-angle-right" style="color:var(--orange)"></i> Action` : `<i class="fa-solid fa-layer-group" style="color:var(--blue)"></i> WP`;
     
-    return `<div class="alert-card"><div class="alert-head"><span>${icon} &nbsp;·&nbsp; ${cdt} &nbsp;·&nbsp; ${context}</span><span class="chip ${stClass(st)}">${stTxt(st)}</span></div><div class="alert-title">${isAct ? x.title : x.name}</div><div class="alert-meta"><span><i class="fa-solid fa-user"></i> ${persons}</span><span><i class="fa-regular fa-calendar"></i> Échéance : ${fmt(x.end)}</span></div>${cause}</div>`;
+    return `<div class="alert-card"><div class="alert-head"><span>${icon} &nbsp;\u{b7}&nbsp; ${cdt} &nbsp;\u{b7}&nbsp; ${context}</span><span class="chip ${stClass(st)}">${stTxt(st)}</span></div><div class="alert-title">${isAct ? x.title : x.name}</div><div class="alert-meta"><span><i class="fa-solid fa-user"></i> ${persons}</span><span><i class="fa-regular fa-calendar"></i> \u{c9}ch\u{e9}ance : ${fmt(x.end)}</span></div>${cause}</div>`;
   }).join('');
-  let finalHtml = rows || '<div style="text-align:center;padding:40px;color:var(--muted);font-weight:700;"><i class="fa-solid fa-check-circle" style="font-size:32px;color:var(--green);margin-bottom:12px;display:block;"></i>Aucune alerte. Tout est sous contrôle !</div>';
+  let finalHtml = rows || '<div style="text-align:center;padding:40px;color:var(--muted);font-weight:700;"><i class="fa-solid fa-check-circle" style="font-size:32px;color:var(--green);margin-bottom:12px;display:block;"></i>Aucune alerte. Tout est sous contr\u{f4}le !</div>';
   openSimple('Notifications & Alertes', finalHtml);
 }
 
@@ -882,7 +882,7 @@ function renderActionsPopupTable(rows, containerId){
       <td>${fmt(r.action.end)}</td>
       <td style="max-width:160px;white-space:normal;">${escapeAttr(r.action.comment||'-')}</td>
       <td style="max-width:160px;white-space:normal;">${cause}</td>
-      <td><button class="btn btn-white" style="padding:4px 8px;font-size:10px;" onclick="closeModal();setTimeout(()=>openAction('${r.action.id}'),50)">Détail</button></td>
+      <td><button class="btn btn-white" style="padding:4px 8px;font-size:10px;" onclick="closeModal();setTimeout(()=>openAction('${r.action.id}'),50)">D\u{e9}tail</button></td>
     </tr>`;
   }).join('') : '<tr><td colspan="12" style="text-align:center;color:var(--muted);">Aucune action.</td></tr>';
   document.getElementById(containerId).innerHTML = body;
@@ -891,14 +891,14 @@ function buildActionsPopupBody(rows, popupId){
   let cdtOptions = [...new Set(rows.map(r=>r.cdt))].sort();
   let html = `
     <div class="actions-popup-toolbar">
-      <input type="text" id="${popupId}-search" class="mini-input search" placeholder="🔎 Filtrer texte..." style="width:220px;" oninput="filterActionsPopup('${popupId}')">
+      <input type="text" id="${popupId}-search" class="mini-input search" placeholder="\u{1f50e} Filtrer texte..." style="width:220px;" oninput="filterActionsPopup('${popupId}')">
       <select id="${popupId}-status" class="mini-input" style="width:150px;" onchange="filterActionsPopup('${popupId}')">
         <option value="">Tous statuts</option>
         <option value="ongoing">En cours</option>
-        <option value="done">Terminé</option>
-        <option value="planned">À venir</option>
+        <option value="done">Termin\u{e9}</option>
+        <option value="planned">\u{c0} venir</option>
         <option value="late">Retard</option>
-        <option value="blocked">Bloqué</option>
+        <option value="blocked">Bloqu\u{e9}</option>
       </select>
       <select id="${popupId}-cdt" class="mini-input" style="width:150px;" onchange="filterActionsPopup('${popupId}')">
         <option value="">Tous CDT</option>
@@ -906,14 +906,14 @@ function buildActionsPopupBody(rows, popupId){
       </select>
       <select id="${popupId}-sort" class="mini-input" style="width:190px;" onchange="filterActionsPopup('${popupId}')">
         <option value="urgency">Trier par urgence</option>
-        <option value="end_asc">Trier par échéance</option>
+        <option value="end_asc">Trier par \u{e9}ch\u{e9}ance</option>
         <option value="progress_asc">Trier par avancement</option>
         <option value="project">Trier par projet</option>
       </select>
     </div>
     <div style="overflow-x:auto;">
     <table class="modal-table actions-popup-table">
-      <thead><tr><th>Action</th><th>Projet</th><th>WP</th><th>CDT</th><th>Responsable(s)</th><th>Statut</th><th>%</th><th>Début</th><th>Fin</th><th>Commentaire</th><th>Cause blocage</th><th></th></tr></thead>
+      <thead><tr><th>Action</th><th>Projet</th><th>WP</th><th>CDT</th><th>Responsable(s)</th><th>Statut</th><th>%</th><th>D\u{e9}but</th><th>Fin</th><th>Commentaire</th><th>Cause blocage</th><th></th></tr></thead>
       <tbody id="${popupId}-body"></tbody>
     </table>
     </div>
@@ -957,7 +957,7 @@ function openPersonActionsPopup(uid){
   let rows = activeActions().filter(a=>a.people.includes(uid)).map(actionsFullContext);
   let popupId = 'popup-user-'+uid;
   window._actionsPopupData[popupId] = rows;
-  openSimple(`Actions assignées à : ${u.name}`, buildActionsPopupBody(rows, popupId));
+  openSimple(`Actions assign\u{e9}es \u{e0} : ${u.name}`, buildActionsPopupBody(rows, popupId));
   filterActionsPopup(popupId);
 }
 
@@ -970,7 +970,7 @@ window.renderHistoryList = function(filter = '') {
         let text = `${h.date} ${h.user} ${h.object} ${h.old} ${h.new} ${h.reason}`.toLowerCase();
         return text.includes(filter.toLowerCase());
     });
-    if (!filtered.length) return '<div style="text-align:center;padding:20px;color:var(--muted);">Aucun résultat trouvé.</div>';
+    if (!filtered.length) return '<div style="text-align:center;padding:20px;color:var(--muted);">Aucun r\u{e9}sultat trouv\u{e9}.</div>';
     return filtered.map(h => `
       <div class="hist" style="border-left:3px solid var(--blue); background:#fff; padding:10px; margin-bottom:8px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
         <div style="display:flex; justify-content:space-between; margin-bottom:6px; border-bottom:1px solid var(--line); padding-bottom:4px;">
@@ -978,7 +978,7 @@ window.renderHistoryList = function(filter = '') {
           <span style="color:var(--airbus); font-size:10px; font-weight:800;"><i class="fa-solid fa-user"></i> ${h.user}</span>
         </div>
         <div style="font-weight:800;color:var(--text); font-size:13px; margin-bottom:4px;">${h.object}</div>
-        <div style="font-size:11px; color:var(--muted); margin-bottom:4px; line-height:1.6;">Modification : <span style="text-decoration:line-through; color:#94a3b8;">${h.old}</span> &nbsp;➔&nbsp; <b style="color:var(--blue);">${h.new}</b></div>
+        <div style="font-size:11px; color:var(--muted); margin-bottom:4px; line-height:1.6;">Modification : <span style="text-decoration:line-through; color:#94a3b8;">${h.old}</span> &nbsp;\u{2794}&nbsp; <b style="color:var(--blue);">${h.new}</b></div>
         <div style="font-size:10px;color:var(--dark);text-transform:uppercase; font-weight:800; background:#f1f5f9; display:inline-block; padding:3px 6px; border-radius:4px;">Motif : ${h.reason}</div>
       </div>
     `).join('');
@@ -986,7 +986,7 @@ window.renderHistoryList = function(filter = '') {
 function openHistory(){
     let html = `
         <div style="margin-bottom:16px;">
-            <input type="text" id="historySearch" class="mini-input search" placeholder="🔎 Rechercher (secteur, projet, motif...)" oninput="filterHistory()" style="width:100%;">
+            <input type="text" id="historySearch" class="mini-input search" placeholder="\u{1f50e} Rechercher (secteur, projet, motif...)" oninput="filterHistory()" style="width:100%;">
         </div>
         <div id="historyList" style="max-height:60vh; overflow-y:auto; padding-right:8px;">
             ${renderHistoryList()}
@@ -997,13 +997,18 @@ function openHistory(){
 
 function openGuide(){
   openSimple('Guide Utilisateur de l\'AOS Cockpit',`
-    <div class="box"><h4>1. Vues & Tableaux de bord</h4><p>L'AOS Cockpit centralise le pilotage d'atelier. Naviguez via l'accueil pour accéder aux synthèses par Projets ou par Membres de l'équipe. Les indicateurs remontent automatiquement les points de blocage pour agir lors des rituels de pilotage.</p></div>
-    <div class="box"><h4>2. Roadmap Transverse (Gantt)</h4><p>Croisez dynamiquement vos filtres (Secteurs, Projets, Équipe). Le diagramme s'ajuste en temps réel et préserve la hiérarchie industrielle stricte : Secteur > Projet > Work Package > Actions.</p></div>
-    <div class="box"><h4>3. Moteur d'Actions & Jalons</h4><p>Cliquez sur une barre temporelle pour modifier son statut ou l'avancement. Les actions décalées réajustent automatiquement les Work Packages parents. Utilisez les Jalons (♦) pour cibler vos livrables critiques ou audits de passage.</p></div>
+    <div class="box"><h4>1. Vues & Tableaux de bord</h4><p>L'AOS Cockpit centralise le pilotage d'atelier. Naviguez via l'accueil pour acc\u{e9}der aux synth\u{e8}ses par Projets ou par Membres de l'\u{e9}quipe. Les indicateurs remontent automatiquement les points de blocage pour agir lors des rituels de pilotage.</p></div>
+    <div class="box"><h4>2. Roadmap Transverse (Gantt)</h4><p>Croisez dynamiquement vos filtres (Secteurs, Projets, \u{c9}quipe). Le diagramme s'ajuste en temps r\u{e9}el et pr\u{e9}serve la hi\u{e9}rarchie industrielle stricte : Secteur > Projet > Work Package > Actions.</p></div>
+    <div class="box"><h4>3. Moteur d'Actions & Jalons</h4><p>Cliquez sur une barre temporelle pour modifier son statut ou l'avancement. Les actions d\u{e9}cal\u{e9}es r\u{e9}ajustent automatiquement les Work Packages parents. Utilisez les Jalons (\u{2666}) pour cibler vos livrables critiques ou audits de passage.</p></div>
   `);
 }
 
-function exportJson(){download('aos-cockpit.json',JSON.stringify(db,null,2),'application/json')}function exportCsv(){let rows=[['Type','Nom','Projet/WP','Statut','Début','Fin']];activeWps().forEach(w=>rows.push(['WP',w.name,project(w.project)?.name,stTxt(effectiveStatus(w)),w.start,w.end]));activeActions().forEach(a=>rows.push(['Action',a.title,wp(a.wp)?.name,stTxt(effectiveStatus(a)),a.start,a.end]));download('aos-cockpit.csv',rows.map(r=>r.map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(';')).join('\n'),'text/csv')}function download(name,content,type){let blob=new Blob([content],{type});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()}
+function exportJson(){download('aos-cockpit.json',JSON.stringify(db,null,2),'application/json')}function exportCsv(){let rows=[['Type','Nom','Projet/WP','Statut','D\u{e9}but','Fin']];activeWps().forEach(w=>rows.push(['WP',w.name,project(w.project)?.name,stTxt(effectiveStatus(w)),w.start,w.end]));activeActions().forEach(a=>rows.push(['Action',a.title,wp(a.wp)?.name,stTxt(effectiveStatus(a)),a.start,a.end]));download('aos-cockpit.csv',buildCsvContent(rows),'text/csv')}function download(name,content,type){let bom='\uFEFF';let blob=new Blob([bom+content],{type:type+';charset=utf-8;'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()}
+/* Construit un CSV compatible Excel (toute locale) : ligne "sep=;" pour forcer le s\u{e9}parateur, fins de ligne \r\n */
+function buildCsvContent(rows){
+  let body = rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(';')).join('\r\n');
+  return 'sep=;\r\n' + body;
+}
 
 function wpx(s,e){return Math.max(1,(days(new Date(s),new Date(e))+1)*currentPx)} 
 
@@ -1062,9 +1067,9 @@ function autoComputeTimeBounds(){
   ganttWidth = left + (totalMonthsCount * 31 * currentPx) + 200;
 }
 
-/* RENDU DE L'EN-TÊTE TEMPOREL AVEC 52 SEMAINES EXACTES / AN */
+/* RENDU DE L'EN-T\u{ca}TE TEMPOREL AVEC 52 SEMAINES EXACTES / AN */
 function months(){
-  let html = `<div class="g-left-head"><span>Élément</span><span>Responsable</span></div>`;
+  let html = `<div class="g-left-head"><span>\u{c9}l\u{e9}ment</span><span>Responsable</span></div>`;
   let current = new Date(base);
   let curLeft = left;
   for(let i=0; i<totalMonthsCount; i++){
@@ -1152,34 +1157,34 @@ function openRoadmap(filterType='',filterId=''){
   document.getElementById('roadModal').classList.add('show');
   autoComputeTimeBounds();
   
-  let cdtOptions = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-list-cdt', 'Tous les secteurs CDT')"> <i>Tout sélectionner</i></label>` + db.cdts.map(c=>`<label class="dd-item"><input type="checkbox" value="${c.id}" class="g-f-cdt individual-cb" onchange="updateDDText('dd-list-cdt', 'dd-txt-cdt', 'Tous les secteurs CDT', true)"> ${c.name}</label>`).join('');
-  let projOptions = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-list-proj', 'Tous les projets')"> <i>Tout sélectionner</i></label>` + activeProjects().map(p=>`<label class="dd-item"><input type="checkbox" value="${p.id}" class="g-f-proj individual-cb" ${p.id===filterId && filterType==='project'?'checked':''} onchange="updateDDText('dd-list-proj', 'dd-txt-proj', 'Tous les projets', true)"> ${p.name}</label>`).join('');
-  let userOptions = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-list-user', 'Membres d\\'équipe')"> <i>Tout sélectionner</i></label>` + db.users.map(u=>`<label class="dd-item"><input type="checkbox" value="${u.id}" class="g-f-user individual-cb" ${u.id===filterId && filterType==='person'?'checked':''} onchange="updateDDText('dd-list-user', 'dd-txt-user', 'Membres d\\'équipe', true)"> ${u.name}</label>`).join('');
+  let cdtOptions = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-list-cdt', 'Tous les secteurs CDT')"> <i>Tout s\u{e9}lectionner</i></label>` + db.cdts.map(c=>`<label class="dd-item"><input type="checkbox" value="${c.id}" class="g-f-cdt individual-cb" onchange="updateDDText('dd-list-cdt', 'dd-txt-cdt', 'Tous les secteurs CDT', true)"> ${c.name}</label>`).join('');
+  let projOptions = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-list-proj', 'Tous les projets')"> <i>Tout s\u{e9}lectionner</i></label>` + activeProjects().map(p=>`<label class="dd-item"><input type="checkbox" value="${p.id}" class="g-f-proj individual-cb" ${p.id===filterId && filterType==='project'?'checked':''} onchange="updateDDText('dd-list-proj', 'dd-txt-proj', 'Tous les projets', true)"> ${p.name}</label>`).join('');
+  let userOptions = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-list-user', 'Membres d\\'\u{e9}quipe')"> <i>Tout s\u{e9}lectionner</i></label>` + db.users.map(u=>`<label class="dd-item"><input type="checkbox" value="${u.id}" class="g-f-user individual-cb" ${u.id===filterId && filterType==='person'?'checked':''} onchange="updateDDText('dd-list-user', 'dd-txt-user', 'Membres d\\'\u{e9}quipe', true)"> ${u.name}</label>`).join('');
   
   document.getElementById('roadFilters').innerHTML=`
     <div class="legend" style="width:100%; margin-bottom: 4px;">
       <span><i class="dot" style="background:var(--blue)"></i>En cours</span>
-      <span><i class="dot" style="background:var(--green)"></i>Terminé</span>
-      <span><i class="dot" style="background:var(--purple)"></i>À venir</span>
+      <span><i class="dot" style="background:var(--green)"></i>Termin\u{e9}</span>
+      <span><i class="dot" style="background:var(--purple)"></i>\u{c0} venir</span>
       <span><i class="dot" style="background:var(--red)"></i>Retard</span>
-      <span><i class="dot" style="background:var(--dark)"></i>Bloqué</span>
-      <span><i class="dot" style="background:var(--orange)"></i>♦ Jalon</span>
-      <button class="btn btn-navy" onclick="openWpForm()" style="margin-left: 16px; padding: 4px 10px; font-size: 11px;"><i class="fa-solid fa-layer-group"></i> Créer WP</button>
+      <span><i class="dot" style="background:var(--dark)"></i>Bloqu\u{e9}</span>
+      <span><i class="dot" style="background:var(--orange)"></i>\u{2666} Jalon</span>
+      <button class="btn btn-navy" onclick="openWpForm()" style="margin-left: 16px; padding: 4px 10px; font-size: 11px;"><i class="fa-solid fa-layer-group"></i> Cr\u{e9}er WP</button>
     </div>
     <div class="filters-wrap">
       <div class="dd-container"><div class="dd-header" onclick="toggleDD('dd-list-cdt')"><span id="dd-txt-cdt">Tous les secteurs CDT</span><i class="fa-solid fa-chevron-down"></i></div><div class="dd-list" id="dd-list-cdt">${cdtOptions}</div></div>
       <div class="dd-container"><div class="dd-header" onclick="toggleDD('dd-list-proj')"><span id="dd-txt-proj">Tous les projets</span><i class="fa-solid fa-chevron-down"></i></div><div class="dd-list" id="dd-list-proj">${projOptions}</div></div>
-      <div class="dd-container"><div class="dd-header" onclick="toggleDD('dd-list-user')"><span id="dd-txt-user">Membres d'équipe</span><i class="fa-solid fa-chevron-down"></i></div><div class="dd-list" id="dd-list-user">${userOptions}</div></div>
+      <div class="dd-container"><div class="dd-header" onclick="toggleDD('dd-list-user')"><span id="dd-txt-user">Membres d'\u{e9}quipe</span><i class="fa-solid fa-chevron-down"></i></div><div class="dd-list" id="dd-list-user">${userOptions}</div></div>
       <div class="dd-container"><div class="dd-header" onclick="toggleDD('dd-list-stat')"><span id="dd-txt-stat">Tous les statuts</span><i class="fa-solid fa-chevron-down"></i></div><div class="dd-list" id="dd-list-stat">
-          <label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-list-stat', 'Tous les statuts')"> <i>Tout sélectionner</i></label>
+          <label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllDD(this, 'dd-list-stat', 'Tous les statuts')"> <i>Tout s\u{e9}lectionner</i></label>
           <label class="dd-item"><input type="checkbox" value="ongoing" class="g-f-stat individual-cb" onchange="updateDDText('dd-list-stat', 'dd-txt-stat', 'Tous les statuts', true)"> En cours</label>
-          <label class="dd-item"><input type="checkbox" value="done" class="g-f-stat individual-cb" onchange="updateDDText('dd-list-stat', 'dd-txt-stat', 'Tous les statuts', true)"> Terminé</label>
-          <label class="dd-item"><input type="checkbox" value="planned" class="g-f-stat individual-cb" onchange="updateDDText('dd-list-stat', 'dd-txt-stat', 'Tous les statuts', true)"> À venir</label>
+          <label class="dd-item"><input type="checkbox" value="done" class="g-f-stat individual-cb" onchange="updateDDText('dd-list-stat', 'dd-txt-stat', 'Tous les statuts', true)"> Termin\u{e9}</label>
+          <label class="dd-item"><input type="checkbox" value="planned" class="g-f-stat individual-cb" onchange="updateDDText('dd-list-stat', 'dd-txt-stat', 'Tous les statuts', true)"> \u{c0} venir</label>
           <label class="dd-item"><input type="checkbox" value="late" class="g-f-stat individual-cb" onchange="updateDDText('dd-list-stat', 'dd-txt-stat', 'Tous les statuts', true)"> Retard</label>
-          <label class="dd-item"><input type="checkbox" value="blocked" class="g-f-stat individual-cb" onchange="updateDDText('dd-list-stat', 'dd-txt-stat', 'Tous les statuts', true)"> Bloqué</label>
+          <label class="dd-item"><input type="checkbox" value="blocked" class="g-f-stat individual-cb" onchange="updateDDText('dd-list-stat', 'dd-txt-stat', 'Tous les statuts', true)"> Bloqu\u{e9}</label>
       </div></div>
       
-      <button class="btn btn-white" onclick="resetFilters()" style="margin-left: auto;"><i class="fa-solid fa-rotate-left"></i> Réinitialiser</button>
+      <button class="btn btn-white" onclick="resetFilters()" style="margin-left: auto;"><i class="fa-solid fa-rotate-left"></i> R\u{e9}initialiser</button>
       
       <div style="display:flex; gap:8px; align-items:center; border-left:2px solid var(--line); padding-left:16px;">
           <span style="font-size:10px; font-weight:900; color:var(--airbus); text-transform:uppercase;"><i class="fa-solid fa-print"></i> Cadrage Print</span>
@@ -1191,7 +1196,7 @@ function openRoadmap(filterType='',filterId=''){
   `;
   
   if(filterType==='project'&&filterId) updateDDText('dd-list-proj', 'dd-txt-proj', 'Tous les projets', true);
-  if(filterType==='person'&&filterId) updateDDText('dd-list-user', 'dd-txt-user', 'Membres d\'équipe', true);
+  if(filterType==='person'&&filterId) updateDDText('dd-list-user', 'dd-txt-user', 'Membres d\'\u{e9}quipe', true);
   else drawGantt();
   
   setTimeout(scrollToToday,50);
@@ -1209,7 +1214,7 @@ function drawGantt(){
   let titleIcon = "fa-route";
   
   if (filtPersons.length === 1) { titleParts.push(user(filtPersons[0]).name); titleIcon = "fa-user-check"; }
-  else if (filtPersons.length > 1) { titleParts.push(`Équipe (${filtPersons.length})`); titleIcon = "fa-users"; }
+  else if (filtPersons.length > 1) { titleParts.push(`\u{c9}quipe (${filtPersons.length})`); titleIcon = "fa-users"; }
 
   if (filtProjs.length === 1) { titleParts.push(project(filtProjs[0])?.name); if(!filtPersons.length) titleIcon = "fa-folder"; }
   else if (filtProjs.length > 1) { titleParts.push(`Projets (${filtProjs.length})`); }
@@ -1219,7 +1224,7 @@ function drawGantt(){
 
   let titleEl = document.getElementById('roadTitle');
   if (titleParts.length > 0) {
-      titleEl.innerHTML = `<i class="fa-solid ${titleIcon}" style="color:var(--blue);margin-right:8px;"></i> Roadmap : ${titleParts.join(' · ')}`;
+      titleEl.innerHTML = `<i class="fa-solid ${titleIcon}" style="color:var(--blue);margin-right:8px;"></i> Roadmap : ${titleParts.join(' \u{b7} ')}`;
   } else {
       titleEl.innerHTML = `Roadmap Transverse`;
   }
@@ -1296,7 +1301,7 @@ function drawGantt(){
     });
   });
 
-  if(!has) html+=`<div style="padding:80px 450px;color:var(--muted);font-weight:900;text-transform:uppercase;font-size:14px;">Aucun élément trouvé avec ces filtres.</div>`;
+  if(!has) html+=`<div style="padding:80px 450px;color:var(--muted);font-weight:900;text-transform:uppercase;font-size:14px;">Aucun \u{e9}l\u{e9}ment trouv\u{e9} avec ces filtres.</div>`;
   
   html += `<div class="row" style="height:150px; border:none; background:transparent;"><div class="row-label" style="height:100%; border-bottom:none;"></div></div>`;
   
@@ -1375,7 +1380,7 @@ function renderGanttRow(it) {
       }
       let mx = xpos(m.date);
       let msColor = m.status === 'done' ? '#16a34a' : 'var(--orange)';
-      htmlRow += `<div class="milestone-diamond" style="left:${mx}px; color:${msColor}; font-size:${fzDiamond}px; top:${topDiamond}px;" title="JALON : ${escapeAttr(m.name)} (${fmt(m.date)}) - ${m.status==='done'?'Terminé':'À venir'}">♦</div>`;
+      htmlRow += `<div class="milestone-diamond" style="left:${mx}px; color:${msColor}; font-size:${fzDiamond}px; top:${topDiamond}px;" title="JALON : ${escapeAttr(m.name)} (${fmt(m.date)}) - ${m.status==='done'?'Termin\u{e9}':'\u{c0} venir'}">\u{2666}</div>`;
     });
   }
   
@@ -1383,7 +1388,7 @@ function renderGanttRow(it) {
   return htmlRow;
 }
 
-/* === PATCH #6 : export du Gantt filtré (CSV local ou Google Sheet) === */
+/* === PATCH #6 : export du Gantt filtr\u{e9} (CSV local ou Google Sheet) === */
 function collectFilteredGanttRows(){
   let filtCdts = getDDValues('dd-list-cdt');
   let filtProjs = getDDValues('dd-list-proj');
@@ -1427,7 +1432,7 @@ function collectFilteredGanttRows(){
 }
 function exportGanttFiltered(){
   let rows = collectFilteredGanttRows();
-  if(!rows.length) return toast('Aucune ligne à exporter avec les filtres actuels.');
+  if(!rows.length) return toast('Aucune ligne \u{e0} exporter avec les filtres actuels.');
 
   if(typeof google !== 'undefined' && google.script && google.script.run){
     let btn = document.getElementById('btnExportGantt');
@@ -1436,7 +1441,7 @@ function exportGanttFiltered(){
     google.script.run
       .withSuccessHandler((res)=>{
         if(btn){ btn.disabled=false; btn.innerHTML=oldHtml; }
-        toast((res && res.success) ? 'Export vers Google Sheet réussi' : 'Erreur export Sheet');
+        toast((res && res.success) ? 'Export vers Google Sheet r\u{e9}ussi' : 'Erreur export Sheet');
       })
       .withFailureHandler((err)=>{
         if(btn){ btn.disabled=false; btn.innerHTML=oldHtml; }
@@ -1444,10 +1449,10 @@ function exportGanttFiltered(){
       })
       .exportGanttToSheet(rows);
   } else {
-    let header = ['Type','CDT','Projet','WP','Action','Responsable(s)','Statut','Avancement','Début','Fin','Jalons','Commentaire','Cause de blocage'];
+    let header = ['Type','CDT','Projet','WP','Action','Responsable(s)','Statut','Avancement','D\u{e9}but','Fin','Jalons','Commentaire','Cause de blocage'];
     let csvRows = [header, ...rows.map(r=>[r.type,r.cdt,r.project,r.wp,r.action,r.resp,r.status,r.progress+'%',r.start,r.end,r.milestones,r.comment,r.blockCause])];
-    download('aos-gantt-export.csv', csvRows.map(r=>r.map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(';')).join('\n'), 'text/csv');
-    toast('CSV exporté');
+    download('aos-gantt-export.csv', buildCsvContent(csvRows), 'text/csv');
+    toast('CSV export\u{e9}');
   }
 }
 
@@ -1470,19 +1475,19 @@ function openWp(id){
     <div class="milestone-row" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
       <input type="text" class="mini-input ms-name" value="${escapeAttr(m.name)}" placeholder="Nom du jalon" style="flex:1;">
       <input type="date" class="mini-input ms-date" value="${m.date}" style="width:130px;">
-      <select class="mini-input ms-status" style="width:90px;"><option value="planned" ${m.status==='planned'?'selected':''}>À venir</option><option value="done" ${m.status==='done'?'selected':''}>Terminé</option></select>
+      <select class="mini-input ms-status" style="width:90px;"><option value="planned" ${m.status==='planned'?'selected':''}>\u{c0} venir</option><option value="done" ${m.status==='done'?'selected':''}>Termin\u{e9}</option></select>
       <button class="btn btn-red" style="padding:6px 10px;" onclick="this.closest('.milestone-row').remove()"><i class="fa-solid fa-xmark"></i></button>
     </div>
   `).join('');
 
-  document.getElementById('modalBody').innerHTML=`<div class="grid2"><div><div class="box"><h4>Commentaire global</h4><textarea id="editWpComment_${id}">${w.comment||''}</textarea></div><div class="box"><div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px;"><h4 style="margin:0;border:0;padding:0;">Actions liées</h4><button class="btn btn-blue" style="font-size:10px;padding:6px 12px;" onclick="openActionForm('${id}')"><i class="fa-solid fa-plus"></i> Créer une action</button></div><table class="modal-table"><thead><tr><th>Action</th><th>Resp.</th><th>Statut</th><th>%</th><th></th></tr></thead><tbody id="wpActionsTable_${id}"></tbody></table></div></div><div><div class="box"><h4>Paramètres de pilotage</h4><div class="mini-form-group"><label class="mini-form-label">Nom du WP</label><input id="editWpName_${id}" value="${w.name.replace(/"/g,'&quot;')}" class="mini-input"></div><div class="mini-form-group"><label class="mini-form-label">Dates</label><div style="display:flex;gap:6px;"><input type="date" id="editWpStart_${id}" value="${w.start}" class="mini-input"><input type="date" id="editWpEnd_${id}" value="${w.end}" class="mini-input"></div></div><div class="mini-form-group"><label class="mini-form-label">Secteur Affecté</label><select id="editWpCdtSelect_${id}" class="mini-input">${cdtIdsOfProject(p).map(cid=>`<option value="${cid}" ${w.cdtId===cid?"selected":""}>${cdtName(cid)}</option>`).join("")}</select></div><div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;"><div class="mini-form-group" style="margin:0;"><label class="mini-form-label">Avancement consolidé</label><span style="font-size:24px;font-weight:900;color:var(--blue);">${pctWp(id)}%</span></div><div class="mini-form-group" style="margin:0;"><label class="mini-form-label">Statut global du WP</label><select id="editWpStatus_${id}" class="mini-input" style="font-weight:900; color:var(--text); width:130px;"><option value="planned" ${effectiveStatus(w)==='planned'?'selected':''}>À VENIR</option><option value="ongoing" ${effectiveStatus(w)==='ongoing'?'selected':''}>EN COURS</option><option value="done" ${effectiveStatus(w)==='done'?'selected':''}>TERMINÉ</option><option value="blocked" ${effectiveStatus(w)==='blocked'?'selected':''}>BLOQUÉ</option></select></div></div></div>
-  <div class="box"><h4>🎯 Jalons clés (Losanges)</h4><div id="wp-milestones-area">${milestonesHtml}</div><button class="btn btn-white" style="font-size:11px;padding:6px 12px;margin-top:6px;width:100%;" onclick="addMilestoneRow(this, '${w.start}', '${w.end}')"><i class="fa-solid fa-plus"></i> Ajouter un jalon</button></div>
+  document.getElementById('modalBody').innerHTML=`<div class="grid2"><div><div class="box"><h4>Commentaire global</h4><textarea id="editWpComment_${id}">${w.comment||''}</textarea></div><div class="box"><div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px;"><h4 style="margin:0;border:0;padding:0;">Actions li\u{e9}es</h4><button class="btn btn-blue" style="font-size:10px;padding:6px 12px;" onclick="openActionForm('${id}')"><i class="fa-solid fa-plus"></i> Cr\u{e9}er une action</button></div><table class="modal-table"><thead><tr><th>Action</th><th>Resp.</th><th>Statut</th><th>%</th><th></th></tr></thead><tbody id="wpActionsTable_${id}"></tbody></table></div></div><div><div class="box"><h4>Param\u{e8}tres de pilotage</h4><div class="mini-form-group"><label class="mini-form-label">Nom du WP</label><input id="editWpName_${id}" value="${w.name.replace(/"/g,'&quot;')}" class="mini-input"></div><div class="mini-form-group"><label class="mini-form-label">Dates</label><div style="display:flex;gap:6px;"><input type="date" id="editWpStart_${id}" value="${w.start}" class="mini-input"><input type="date" id="editWpEnd_${id}" value="${w.end}" class="mini-input"></div></div><div class="mini-form-group"><label class="mini-form-label">Secteur Affect\u{e9}</label><select id="editWpCdtSelect_${id}" class="mini-input">${cdtIdsOfProject(p).map(cid=>`<option value="${cid}" ${w.cdtId===cid?"selected":""}>${cdtName(cid)}</option>`).join("")}</select></div><div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;"><div class="mini-form-group" style="margin:0;"><label class="mini-form-label">Avancement consolid\u{e9}</label><span style="font-size:24px;font-weight:900;color:var(--blue);">${pctWp(id)}%</span></div><div class="mini-form-group" style="margin:0;"><label class="mini-form-label">Statut global du WP</label><select id="editWpStatus_${id}" class="mini-input" style="font-weight:900; color:var(--text); width:130px;"><option value="planned" ${effectiveStatus(w)==='planned'?'selected':''}>\u{c0} VENIR</option><option value="ongoing" ${effectiveStatus(w)==='ongoing'?'selected':''}>EN COURS</option><option value="done" ${effectiveStatus(w)==='done'?'selected':''}>TERMIN\u{c9}</option><option value="blocked" ${effectiveStatus(w)==='blocked'?'selected':''}>BLOQU\u{c9}</option></select></div></div></div>
+  <div class="box"><h4>\u{1f3af} Jalons cl\u{e9}s (Losanges)</h4><div id="wp-milestones-area">${milestonesHtml}</div><button class="btn btn-white" style="font-size:11px;padding:6px 12px;margin-top:6px;width:100%;" onclick="addMilestoneRow(this, '${w.start}', '${w.end}')"><i class="fa-solid fa-plus"></i> Ajouter un jalon</button></div>
   <div class="box"><h4>Historique</h4><div style="max-height:140px;overflow:auto;">${(w.history||[]).map(h=>`<div class="hist">${h}</div>`).join('')}</div></div></div></div>`;
   renderWpActionsTable(id, a);
   document.getElementById('modal').classList.add('show')
 }
 
-/* === PATCH #1 : rendu isolé du tableau "Actions liées" pour pouvoir le rafraîchir sans tout redessiner la popup === */
+/* === PATCH #1 : rendu isol\u{e9} du tableau "Actions li\u{e9}es" pour pouvoir le rafra\u{ee}chir sans tout redessiner la popup === */
 function renderWpActionsTable(wid, actionsList){
   let tbody = document.getElementById(`wpActionsTable_${wid}`);
   if(!tbody) return;
@@ -1493,7 +1498,7 @@ function renderWpActionsTable(wid, actionsList){
       <td>${x.people.map(u=>initials(user(u).name)).join(', ')}</td>
       <td><span class="chip ${stClass(effectiveStatus(x))}">${stTxt(effectiveStatus(x))}</span></td>
       <td>${actionPct(x)}%</td>
-      <td><button class="btn btn-white" style="padding:4px 8px;font-size:10px;" onclick="openAction('${x.id}')">Détails</button></td>
+      <td><button class="btn btn-white" style="padding:4px 8px;font-size:10px;" onclick="openAction('${x.id}')">D\u{e9}tails</button></td>
     </tr>
   `).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:11px;">Aucune action.</td></tr>';
 }
@@ -1501,18 +1506,18 @@ function renderWpActionsTable(wid, actionsList){
 function openAction(id){
   let a=activeActions().find(x=>x.id===id);if(!a)return;let w=wp(a.wp);let p=project(w.project);
   document.getElementById('modalBadge').className=`chip ${stClass(effectiveStatus(a))}`; document.getElementById('modalBadge').textContent='Action';
-  document.getElementById('modalTitle').textContent=a.title;document.getElementById('modalSub').textContent=`Projet : ${p.name} · WP : ${w.name}`;
+  document.getElementById('modalTitle').textContent=a.title;document.getElementById('modalSub').textContent=`Projet : ${p.name} \u{b7} WP : ${w.name}`;
   
   document.getElementById('modalActions').innerHTML=`<button class="btn btn-white" onclick="openWp('${w.id}')"><i class="fa-solid fa-arrow-left"></i> Retour au WP</button> <button class="btn btn-blue" onclick="saveActionEdits('${id}')"><i class="fa-solid fa-check"></i> Enregistrer</button><button class="btn btn-red" onclick="archiveAction('${id}')"><i class="fa-solid fa-trash"></i></button><button class="btn btn-white" onclick="closeModal()">Fermer</button>`;
   
-  let editUsersOptionsHtml = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllAssignees(this, 'dd-edit-people_${id}')"> <i>Tout sélectionner</i></label>`;
-  editUsersOptionsHtml += db.users.map(u=>`<label class="dd-item user-cb-label"><input class="edit-assignee individual-cb" type="checkbox" value="${u.id}" ${a.people.includes(u.id)?'checked':''} onchange="updateDDText('dd-edit-people_${id}', 'txt-edit-people_${id}', 'Sélectionner...', false)"> ${u.name}</label>`).join('');
+  let editUsersOptionsHtml = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllAssignees(this, 'dd-edit-people_${id}')"> <i>Tout s\u{e9}lectionner</i></label>`;
+  editUsersOptionsHtml += db.users.map(u=>`<label class="dd-item user-cb-label"><input class="edit-assignee individual-cb" type="checkbox" value="${u.id}" ${a.people.includes(u.id)?'checked':''} onchange="updateDDText('dd-edit-people_${id}', 'txt-edit-people_${id}', 'S\u{e9}lectionner...', false)"> ${u.name}</label>`).join('');
   let editPeopleDropdown = `
     <div class="dd-container">
-      <div class="dd-header" onclick="toggleDD('dd-edit-people_${id}')"><span id="txt-edit-people_${id}">Sélectionner...</span><i class="fa-solid fa-chevron-down"></i></div>
+      <div class="dd-header" onclick="toggleDD('dd-edit-people_${id}')"><span id="txt-edit-people_${id}">S\u{e9}lectionner...</span><i class="fa-solid fa-chevron-down"></i></div>
       <div class="dd-list" id="dd-edit-people_${id}" style="max-height:200px; padding-top:0;">
           <div style="position:sticky;top:0;background:#fff;padding:8px 4px 4px 4px;border-bottom:1px solid #cbd5e1;z-index:10; margin-bottom:4px;">
-              <input type="text" class="mini-input" placeholder="🔎 Rechercher..." onkeyup="let v=this.value.toLowerCase(); this.closest('.dd-list').querySelectorAll('.user-cb-label').forEach(l=>l.style.display=l.innerText.toLowerCase().includes(v)?'flex':'none');" style="width:100%;padding:6px;font-size:11px;">
+              <input type="text" class="mini-input" placeholder="\u{1f50e} Rechercher..." onkeyup="let v=this.value.toLowerCase(); this.closest('.dd-list').querySelectorAll('.user-cb-label').forEach(l=>l.style.display=l.innerText.toLowerCase().includes(v)?'flex':'none');" style="width:100%;padding:6px;font-size:11px;">
           </div>
           ${editUsersOptionsHtml}
       </div>
@@ -1523,19 +1528,19 @@ function openAction(id){
     <div class="milestone-row" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
       <input type="text" class="mini-input ms-name" value="${escapeAttr(m.name)}" placeholder="Nom du jalon" style="flex:1;">
       <input type="date" class="mini-input ms-date" value="${m.date}" style="width:130px;">
-      <select class="mini-input ms-status" style="width:90px;"><option value="planned" ${m.status==='planned'?'selected':''}>À venir</option><option value="done" ${m.status==='done'?'selected':''}>Terminé</option></select>
+      <select class="mini-input ms-status" style="width:90px;"><option value="planned" ${m.status==='planned'?'selected':''}>\u{c0} venir</option><option value="done" ${m.status==='done'?'selected':''}>Termin\u{e9}</option></select>
       <button class="btn btn-red" style="padding:6px 10px;" onclick="this.closest('.milestone-row').remove()"><i class="fa-solid fa-xmark"></i></button>
     </div>
   `).join('');
 
-  document.getElementById('modalBody').innerHTML=`<div class="grid2"><div><div class="box"><h4>Description & commentaire</h4><textarea id="editActionComment_${id}">${a.comment||''}</textarea></div><div class="box"><h4>Cause de blocage</h4><textarea id="editBlockCause_${id}" placeholder="Indiquer la raison exacte du blocage...">${a.blockCause||''}</textarea></div></div><div><div class="box"><h4>Paramètres d'exécution</h4><div class="mini-form-group"><label class="mini-form-label">Statut</label><select id="editActionStatus_${id}" class="mini-input"><option value="planned" ${a.status==='planned'?'selected':''}>À venir</option><option value="ongoing" ${a.status==='ongoing'?'selected':''}>En cours</option><option value="done" ${a.status==='done'?'selected':''}>Terminé</option><option value="blocked" ${a.status==='blocked'?'selected':''}>Bloqué</option></select></div><div class="mini-form-group"><label class="mini-form-label">Dates</label><div style="display:flex;gap:6px;"><input type="date" id="editActionStart_${id}" value="${a.start}" class="mini-input"><input type="date" id="editActionEnd_${id}" value="${a.end}" class="mini-input"></div></div>
+  document.getElementById('modalBody').innerHTML=`<div class="grid2"><div><div class="box"><h4>Description & commentaire</h4><textarea id="editActionComment_${id}">${a.comment||''}</textarea></div><div class="box"><h4>Cause de blocage</h4><textarea id="editBlockCause_${id}" placeholder="Indiquer la raison exacte du blocage...">${a.blockCause||''}</textarea></div></div><div><div class="box"><h4>Param\u{e8}tres d'ex\u{e9}cution</h4><div class="mini-form-group"><label class="mini-form-label">Statut</label><select id="editActionStatus_${id}" class="mini-input"><option value="planned" ${a.status==='planned'?'selected':''}>\u{c0} venir</option><option value="ongoing" ${a.status==='ongoing'?'selected':''}>En cours</option><option value="done" ${a.status==='done'?'selected':''}>Termin\u{e9}</option><option value="blocked" ${a.status==='blocked'?'selected':''}>Bloqu\u{e9}</option></select></div><div class="mini-form-group"><label class="mini-form-label">Dates</label><div style="display:flex;gap:6px;"><input type="date" id="editActionStart_${id}" value="${a.start}" class="mini-input"><input type="date" id="editActionEnd_${id}" value="${a.end}" class="mini-input"></div></div>
   <div class="mini-form-group"><label class="mini-form-label">Assigner la ou les personnes</label>${editPeopleDropdown}</div>
   <div class="mini-form-group"><label class="mini-form-label">Avancement (%)</label><input type="number" id="editActionProgress_${id}" value="${actionPct(a)}" min="0" max="100" class="mini-input" style="width:100px;font-size:18px;font-weight:900;color:var(--blue);"></div></div>
-  <div class="box"><h4>🎯 Jalons clés (Losanges)</h4><div id="action-milestones-area">${milestonesHtml}</div><button class="btn btn-white" style="font-size:11px;padding:6px 12px;margin-top:6px;width:100%;" onclick="addMilestoneRow(this, '${a.start}', '${a.end}')"><i class="fa-solid fa-plus"></i> Ajouter un jalon</button></div>
+  <div class="box"><h4>\u{1f3af} Jalons cl\u{e9}s (Losanges)</h4><div id="action-milestones-area">${milestonesHtml}</div><button class="btn btn-white" style="font-size:11px;padding:6px 12px;margin-top:6px;width:100%;" onclick="addMilestoneRow(this, '${a.start}', '${a.end}')"><i class="fa-solid fa-plus"></i> Ajouter un jalon</button></div>
   <div class="box"><h4>Historique</h4><div style="max-height:140px;overflow:auto;">${(a.history||[]).map(h=>`<div class="hist">${h}</div>`).join('')}</div></div></div></div>`;
   document.getElementById('modal').classList.add('show');
   
-  setTimeout(()=>updateDDText(`dd-edit-people_${id}`, `txt-edit-people_${id}`, 'Sélectionner...', false), 10);
+  setTimeout(()=>updateDDText(`dd-edit-people_${id}`, `txt-edit-people_${id}`, 'S\u{e9}lectionner...', false), 10);
 }
 
 function addMilestoneRow(btn, minDate, maxDate){
@@ -1543,15 +1548,15 @@ function addMilestoneRow(btn, minDate, maxDate){
   let div = document.createElement('div');
   div.className = 'milestone-row';
   div.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
-  div.innerHTML = `<input type="text" class="mini-input ms-name" value="" placeholder="Nom du jalon" style="flex:1;"><input type="date" class="mini-input ms-date" value="${minDate}" style="width:130px;"><select class="mini-input ms-status" style="width:90px;"><option value="planned">À venir</option><option value="done">Terminé</option></select><button class="btn btn-red" style="padding:6px 10px;" onclick="this.closest('.milestone-row').remove()"><i class="fa-solid fa-xmark"></i></button>`;
+  div.innerHTML = `<input type="text" class="mini-input ms-name" value="" placeholder="Nom du jalon" style="flex:1;"><input type="date" class="mini-input ms-date" value="${minDate}" style="width:130px;"><select class="mini-input ms-status" style="width:90px;"><option value="planned">\u{c0} venir</option><option value="done">Termin\u{e9}</option></select><button class="btn btn-red" style="padding:6px 10px;" onclick="this.closest('.milestone-row').remove()"><i class="fa-solid fa-xmark"></i></button>`;
   container.appendChild(div);
 }
 
 function openWpForm(){
   document.getElementById('formTitle').textContent='Ajouter un Work Package';
-  let projOptions=activeProjects().map(p=>`<option value="${p.id}">${p.name} · ${cdtNames(cdtIdsOfProject(p))}</option>`).join('');
+  let projOptions=activeProjects().map(p=>`<option value="${p.id}">${p.name} \u{b7} ${cdtNames(cdtIdsOfProject(p))}</option>`).join('');
   let ownerOptions=db.users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('');
-  document.getElementById('formBody').innerHTML=`<div class="form-grid"><div class="full"><label class="mini-form-label">Projet parent</label><select id="fwProject" class="mini-input" onchange="updateWpInheritedInfo()">${projOptions}</select><div id="fwInheritedInfo" style="font-size:11px;color:var(--muted);margin-top:6px;font-weight:700;"></div></div><div class="full"><label class="mini-form-label">Secteurs associés</label><div class="dd-container"><div class="dd-header" onclick="toggleDD('dd-fw-cdt')"><span id="txt-fw-cdt">Sélectionner CDT...</span><i class="fa-solid fa-chevron-down"></i></div><div class="dd-list" id="dd-fw-cdt"></div></div><div class="help-text">Sélectionnez un ou plusieurs secteurs. L'outil générera des WP distincts par secteur.</div></div><div class="full"><label class="mini-form-label">Nom du WP</label><input id="fwName" class="mini-input" placeholder="Ex: Phase 1 - Étude"></div><div><label class="mini-form-label">Responsable principal</label><select id="fwOwner" class="mini-input">${ownerOptions}</select></div><div><label class="mini-form-label">Statut de départ</label><select id="fwStatus" class="mini-input"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option></select></div><div><label class="mini-form-label">Date début</label><input id="fwStart" type="date" class="mini-input"></div><div><label class="mini-form-label">Date fin</label><input id="fwEnd" type="date" class="mini-input"></div><div class="full"><label class="mini-form-label">Commentaire</label><textarea id="fwComment" class="mini-input" style="min-height:80px;"></textarea></div><button class="btn btn-blue full" style="justify-content:center;" onclick="saveWp()">Ajouter le WP</button></div>`;
+  document.getElementById('formBody').innerHTML=`<div class="form-grid"><div class="full"><label class="mini-form-label">Projet parent</label><select id="fwProject" class="mini-input" onchange="updateWpInheritedInfo()">${projOptions}</select><div id="fwInheritedInfo" style="font-size:11px;color:var(--muted);margin-top:6px;font-weight:700;"></div></div><div class="full"><label class="mini-form-label">Secteurs associ\u{e9}s</label><div class="dd-container"><div class="dd-header" onclick="toggleDD('dd-fw-cdt')"><span id="txt-fw-cdt">S\u{e9}lectionner CDT...</span><i class="fa-solid fa-chevron-down"></i></div><div class="dd-list" id="dd-fw-cdt"></div></div><div class="help-text">S\u{e9}lectionnez un ou plusieurs secteurs. L'outil g\u{e9}n\u{e9}rera des WP distincts par secteur.</div></div><div class="full"><label class="mini-form-label">Nom du WP</label><input id="fwName" class="mini-input" placeholder="Ex: Phase 1 - \u{c9}tude"></div><div><label class="mini-form-label">Responsable principal</label><select id="fwOwner" class="mini-input">${ownerOptions}</select></div><div><label class="mini-form-label">Statut de d\u{e9}part</label><select id="fwStatus" class="mini-input"><option value="planned">\u{c0} venir</option><option value="ongoing" selected>En cours</option><option value="done">Termin\u{e9}</option></select></div><div><label class="mini-form-label">Date d\u{e9}but</label><input id="fwStart" type="date" class="mini-input"></div><div><label class="mini-form-label">Date fin</label><input id="fwEnd" type="date" class="mini-input"></div><div class="full"><label class="mini-form-label">Commentaire</label><textarea id="fwComment" class="mini-input" style="min-height:80px;"></textarea></div><button class="btn btn-blue full" style="justify-content:center;" onclick="saveWp()">Ajouter le WP</button></div>`;
   document.getElementById('formModal').classList.add('show');
   updateWpInheritedInfo()
 }
@@ -1562,42 +1567,42 @@ function updateWpInheritedInfo(){
   if(infoLabel) infoLabel.innerHTML=`Secteurs disponibles du projet : <b>${cdtNames(cdtIdsOfProject(p))}</b>`;
   let ddList=document.getElementById('dd-fw-cdt');
   if(ddList){
-    // 1. On crée le bouton "Tout sélectionner" (coché par défaut)
-    let selectAllHtml = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" checked onchange="toggleAllDD(this, 'dd-fw-cdt', 'Sélectionner CDT...')"> <i>Tout sélectionner</i></label>`;
+    // 1. On cr\u{e9}e le bouton "Tout s\u{e9}lectionner" (coch\u{e9} par d\u{e9}faut)
+    let selectAllHtml = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" checked onchange="toggleAllDD(this, 'dd-fw-cdt', 'S\u{e9}lectionner CDT...')"> <i>Tout s\u{e9}lectionner</i></label>`;
     
-    // 2. On génère la liste des CDT du projet
-    let cdtItemsHtml = cdtIdsOfProject(p).map(cid=>`<label class="dd-item"><input type="checkbox" value="${cid}" class="individual-cb" checked onchange="updateDDText('dd-fw-cdt', 'txt-fw-cdt', 'Sélectionner CDT...', false)"> ${cdtName(cid)}</label>`).join('');
+    // 2. On g\u{e9}n\u{e8}re la liste des CDT du projet
+    let cdtItemsHtml = cdtIdsOfProject(p).map(cid=>`<label class="dd-item"><input type="checkbox" value="${cid}" class="individual-cb" checked onchange="updateDDText('dd-fw-cdt', 'txt-fw-cdt', 'S\u{e9}lectionner CDT...', false)"> ${cdtName(cid)}</label>`).join('');
     
-    // 3. On injecte le tout dans la liste déroulante
+    // 3. On injecte le tout dans la liste d\u{e9}roulante
     ddList.innerHTML = selectAllHtml + cdtItemsHtml;
     
-    updateDDText('dd-fw-cdt', 'txt-fw-cdt', 'Sélectionner CDT...', false);
+    updateDDText('dd-fw-cdt', 'txt-fw-cdt', 'S\u{e9}lectionner CDT...', false);
   }
 }
 function openActionForm(wid=''){
-  document.getElementById('formTitle').textContent='Créer une Action';
-  let wpOptions=activeWps().map(w=>`<option value="${w.id}" ${w.id===wid?'selected':''} data-start="${w.start}" data-end="${w.end}">${project(w.project)?.name} · ${w.name} (${cdtName(w.cdtId)})</option>`).join('');
-  let usersOptionsHtml = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllAssignees(this, 'dd-fa-people')"> <i>Tout sélectionner</i></label>`;
-  usersOptionsHtml += db.users.map(u=>`<label class="dd-item user-cb-label"><input class="assignee individual-cb" type="checkbox" value="${u.id}" onchange="updateDDText('dd-fa-people', 'txt-fa-people', 'Sélectionner...', false)"> ${u.name}</label>`).join('');
+  document.getElementById('formTitle').textContent='Cr\u{e9}er une Action';
+  let wpOptions=activeWps().map(w=>`<option value="${w.id}" ${w.id===wid?'selected':''} data-start="${w.start}" data-end="${w.end}">${project(w.project)?.name} \u{b7} ${w.name} (${cdtName(w.cdtId)})</option>`).join('');
+  let usersOptionsHtml = `<label class="dd-item" style="border-bottom:1px solid var(--line); margin-bottom:4px; padding-bottom:6px;"><input type="checkbox" onchange="toggleAllAssignees(this, 'dd-fa-people')"> <i>Tout s\u{e9}lectionner</i></label>`;
+  usersOptionsHtml += db.users.map(u=>`<label class="dd-item user-cb-label"><input class="assignee individual-cb" type="checkbox" value="${u.id}" onchange="updateDDText('dd-fa-people', 'txt-fa-people', 'S\u{e9}lectionner...', false)"> ${u.name}</label>`).join('');
   let peopleDropdown = `
     <div class="dd-container">
-      <div class="dd-header" onclick="toggleDD('dd-fa-people')"><span id="txt-fa-people">Sélectionner...</span><i class="fa-solid fa-chevron-down"></i></div>
+      <div class="dd-header" onclick="toggleDD('dd-fa-people')"><span id="txt-fa-people">S\u{e9}lectionner...</span><i class="fa-solid fa-chevron-down"></i></div>
       <div class="dd-list" id="dd-fa-people" style="max-height:200px; padding-top:0;">
           <div style="position:sticky;top:0;background:#fff;padding:8px 4px 4px 4px;border-bottom:1px solid #cbd5e1;z-index:10; margin-bottom:4px;">
-              <input type="text" class="mini-input" placeholder="🔎 Rechercher..." onkeyup="let v=this.value.toLowerCase(); this.closest('.dd-list').querySelectorAll('.user-cb-label').forEach(l=>l.style.display=l.innerText.toLowerCase().includes(v)?'flex':'none');" style="width:100%;padding:6px;font-size:11px;">
+              <input type="text" class="mini-input" placeholder="\u{1f50e} Rechercher..." onkeyup="let v=this.value.toLowerCase(); this.closest('.dd-list').querySelectorAll('.user-cb-label').forEach(l=>l.style.display=l.innerText.toLowerCase().includes(v)?'flex':'none');" style="width:100%;padding:6px;font-size:11px;">
           </div>
           ${usersOptionsHtml}
       </div>
     </div>
   `;
 
-  document.getElementById('formBody').innerHTML=`<div class="form-grid"><div class="full"><label class="mini-form-label">Work Package rattaché</label><select id="faWp" class="mini-input" onchange="updateActionDateLimits()">${wpOptions}</select></div><div class="full"><label class="mini-form-label">Nom de l'action</label><input id="faTitle" class="mini-input" placeholder="ex: Audit technique"></div><div><label class="mini-form-label">Début</label><input id="faStart" type="date" class="mini-input"></div><div><label class="mini-form-label">Fin</label><input id="faEnd" type="date" class="mini-input"></div><div class="full"><label class="mini-form-label">Statut initial</label><select id="faStatus" class="mini-input"><option value="planned">À venir</option><option value="ongoing" selected>En cours</option><option value="done">Terminé</option><option value="blocked">Bloqué</option></select></div>
+  document.getElementById('formBody').innerHTML=`<div class="form-grid"><div class="full"><label class="mini-form-label">Work Package rattach\u{e9}</label><select id="faWp" class="mini-input" onchange="updateActionDateLimits()">${wpOptions}</select></div><div class="full"><label class="mini-form-label">Nom de l'action</label><input id="faTitle" class="mini-input" placeholder="ex: Audit technique"></div><div><label class="mini-form-label">D\u{e9}but</label><input id="faStart" type="date" class="mini-input"></div><div><label class="mini-form-label">Fin</label><input id="faEnd" type="date" class="mini-input"></div><div class="full"><label class="mini-form-label">Statut initial</label><select id="faStatus" class="mini-input"><option value="planned">\u{c0} venir</option><option value="ongoing" selected>En cours</option><option value="done">Termin\u{e9}</option><option value="blocked">Bloqu\u{e9}</option></select></div>
   <div class="full"><label class="mini-form-label">Assigner la ou les personnes</label>${peopleDropdown}</div>
-  <div class="full" style="display:flex;align-items:center;gap:12px;"><label class="mini-form-label" style="margin:0;">Avancement de départ (%)</label><input type="number" id="faProgress" value="0" min="0" max="100" class="mini-input" style="width:100px;"></div><div class="full"><label class="mini-form-label">Commentaire</label><textarea id="faComment" class="mini-input" style="min-height:80px;"></textarea></div><div class="full" id="faBlockContainer" style="display:none;"><label class="mini-form-label" style="color:var(--red);">Cause du blocage</label><textarea id="faBlock" class="mini-input" style="min-height:60px;"></textarea></div><button class="btn btn-blue full" style="justify-content:center;" onclick="saveAction()">Ajouter l'action</button></div>`;
+  <div class="full" style="display:flex;align-items:center;gap:12px;"><label class="mini-form-label" style="margin:0;">Avancement de d\u{e9}part (%)</label><input type="number" id="faProgress" value="0" min="0" max="100" class="mini-input" style="width:100px;"></div><div class="full"><label class="mini-form-label">Commentaire</label><textarea id="faComment" class="mini-input" style="min-height:80px;"></textarea></div><div class="full" id="faBlockContainer" style="display:none;"><label class="mini-form-label" style="color:var(--red);">Cause du blocage</label><textarea id="faBlock" class="mini-input" style="min-height:60px;"></textarea></div><button class="btn btn-blue full" style="justify-content:center;" onclick="saveAction()">Ajouter l'action</button></div>`;
   document.getElementById('formModal').classList.add('show');
   updateActionDateLimits();
   document.getElementById('faStatus').onchange=function(){document.getElementById('faBlockContainer').style.display=this.value==='blocked'?'block':'none'};
-  updateDDText('dd-fa-people', 'txt-fa-people', 'Sélectionner...', false);
+  updateDDText('dd-fa-people', 'txt-fa-people', 'S\u{e9}lectionner...', false);
 }
 function updateActionDateLimits(){let opt=document.getElementById('faWp')?.options[document.getElementById('faWp').selectedIndex];if(!opt)return;let s=opt.getAttribute('data-start'),e=opt.getAttribute('data-end');if(!document.getElementById('faStart').value)document.getElementById('faStart').value=s;if(!document.getElementById('faEnd').value)document.getElementById('faEnd').value=e}
 
@@ -1607,7 +1612,7 @@ function saveWpEdits(id){
   let nComment=document.getElementById(`editWpComment_${id}`).value;let nCdtId=document.getElementById(`editWpCdtSelect_${id}`).value;
   let nStat=document.getElementById(`editWpStatus_${id}`).value;
   
-  if(new Date(nStart) > new Date(nEnd)) return alert("Erreur : La date de début ne peut pas être ultérieure à la date de fin.");
+  if(new Date(nStart) > new Date(nEnd)) return alert("Erreur : La date de d\u{e9}but ne peut pas \u{ea}tre ult\u{e9}rieure \u{e0} la date de fin.");
   
   let newMs = [];
   document.querySelectorAll('#wp-milestones-area .milestone-row').forEach(r => {
@@ -1618,7 +1623,7 @@ function saveWpEdits(id){
   });
   
   let invalidMs = newMs.some(m => m.date < nStart || m.date > nEnd);
-  if(invalidMs) return alert(`Erreur : Tous les jalons doivent être compris dans les dates du WP (du ${fmt(nStart)} au ${fmt(nEnd)}).`);
+  if(invalidMs) return alert(`Erreur : Tous les jalons doivent \u{ea}tre compris dans les dates du WP (du ${fmt(nStart)} au ${fmt(nEnd)}).`);
 
   let msChanged = JSON.stringify(w.milestones) !== JSON.stringify(newMs);
   let changed=w.name!==nName||w.start!==nStart||w.end!==nEnd||w.comment!==nComment||w.cdtId!==nCdtId||w.status!==nStat||msChanged;
@@ -1626,7 +1631,7 @@ function saveWpEdits(id){
   if(changed){
     let r = "";
     if (nStat === 'blocked' || nStat === 'done') {
-      r = "Mise à jour statut forcée manuellement";
+      r = "Mise \u{e0} jour statut forc\u{e9}e manuellement";
     } else {
       while (!r || !r.trim()) {
         r = prompt('Motif de la modification (OBLIGATOIRE) :');
@@ -1644,10 +1649,10 @@ function saveWpEdits(id){
         if (nS > oStart) { 
           if (aE >= oStart && aE <= nS) {
             a.archived = true; 
-            a.history.push(`${new Date().toLocaleString('fr-FR')} · Auto-suppression : Le WP démarre désormais après la fin de l'action.`);
+            a.history.push(`${new Date().toLocaleString('fr-FR')} \u{b7} Auto-suppression : Le WP d\u{e9}marre d\u{e9}sormais apr\u{e8}s la fin de l'action.`);
           } else if (aS >= oStart && aS < nS) {
             a.start = nStart; 
-            a.history.push(`${new Date().toLocaleString('fr-FR')} · Auto-ajustement : Date début calée sur le WP.`);
+            a.history.push(`${new Date().toLocaleString('fr-FR')} \u{b7} Auto-ajustement : Date d\u{e9}but cal\u{e9}e sur le WP.`);
           }
         }
       });
@@ -1659,10 +1664,10 @@ function saveWpEdits(id){
         let aS = new Date(a.start), aE = new Date(a.end);
         if (nE < aS) { 
           a.archived = true; 
-          a.history.push(`${new Date().toLocaleString('fr-FR')} · Auto-suppression : Le WP se termine avant le début de l'action.`);
+          a.history.push(`${new Date().toLocaleString('fr-FR')} \u{b7} Auto-suppression : Le WP se termine avant le d\u{e9}but de l'action.`);
         } else if (aE > nE) { 
           a.end = nEnd; 
-          a.history.push(`${new Date().toLocaleString('fr-FR')} · Auto-ajustement : Date fin tronquée sur le WP.`);
+          a.history.push(`${new Date().toLocaleString('fr-FR')} \u{b7} Auto-ajustement : Date fin tronqu\u{e9}e sur le WP.`);
         }
       });
     }
@@ -1676,35 +1681,35 @@ function saveWpEdits(id){
         w.progress = 0;
     }
     
-    w.history.push(`${new Date().toLocaleString('fr-FR')} · Modification WP · Motif : ${r}`);
+    w.history.push(`${new Date().toLocaleString('fr-FR')} \u{b7} Modification WP \u{b7} Motif : ${r}`);
     
     let oldValStr = []; let newValStr = [];
     if(w.name!==nName){oldValStr.push(`Nom: ${w.name}`);newValStr.push(`Nom: ${nName}`);}
-    if(w.start!==nStart){oldValStr.push(`Début: ${fmt(w.start)}`);newValStr.push(`Début: ${fmt(nStart)}`);}
+    if(w.start!==nStart){oldValStr.push(`D\u{e9}but: ${fmt(w.start)}`);newValStr.push(`D\u{e9}but: ${fmt(nStart)}`);}
     if(w.end!==nEnd){oldValStr.push(`Fin: ${fmt(w.end)}`);newValStr.push(`Fin: ${fmt(nEnd)}`);}
     if(w.status!==nStat){oldValStr.push(`Statut: ${stTxt(w.status)}`);newValStr.push(`Statut: ${stTxt(nStat)}`);}
     if(w.cdtId!==nCdtId){oldValStr.push(`Secteur: ${cdtName(w.cdtId)}`);newValStr.push(`Secteur: ${cdtName(nCdtId)}`);}
-    if(w.comment!==nComment){oldValStr.push(`Commentaire modifié`);newValStr.push(`Commentaire modifié`);}
+    if(w.comment!==nComment){oldValStr.push(`Commentaire modifi\u{e9}`);newValStr.push(`Commentaire modifi\u{e9}`);}
     
     if(msChanged){
-        let oldMsStr = (w.milestones||[]).map(m => `${m.name} [${m.status==='done'?'Terminé':'À venir'}]`).join(', ') || 'Aucun';
-        let newMsStr = newMs.map(m => `${m.name} [${m.status==='done'?'Terminé':'À venir'}]`).join(', ') || 'Aucun';
+        let oldMsStr = (w.milestones||[]).map(m => `${m.name} [${m.status==='done'?'Termin\u{e9}':'\u{c0} venir'}]`).join(', ') || 'Aucun';
+        let newMsStr = newMs.map(m => `${m.name} [${m.status==='done'?'Termin\u{e9}':'\u{c0} venir'}]`).join(', ') || 'Aucun';
         oldValStr.push(`Jalons: ${oldMsStr}`); newValStr.push(`Jalons: ${newMsStr}`);
     }
     
     w.name=nName;w.start=nStart;w.end=nEnd;w.comment=nComment;w.cdtId=nCdtId;w.status=nStat;w.modified=true;
     addHistory(`WP "${w.name}" (Projet: ${p.name}, Secteur: ${cdtName(nCdtId)})`, oldValStr.join(' | '), newValStr.join(' | '), r);
-    save('WP mis à jour');
+    save('WP mis \u{e0} jour');
   }
   
   closeModal();
   drawGantt(); 
 }
 
-/* === PATCH #2 : réécriture complète et robuste de saveActionEdits === */
+/* === PATCH #2 : r\u{e9}\u{e9}criture compl\u{e8}te et robuste de saveActionEdits === */
 function saveActionEdits(id){
   let a = activeActions().find(x => x.id === id);
-  if(!a){ toast('Action introuvable (elle a peut-être été archivée).'); return; }
+  if(!a){ toast('Action introuvable (elle a peut-\u{ea}tre \u{e9}t\u{e9} archiv\u{e9}e).'); return; }
   let w = wp(a.wp);
   if(!w){ toast('WP parent introuvable.'); return; }
   let p = project(w.project);
@@ -1716,7 +1721,7 @@ function saveActionEdits(id){
   let elStart = document.getElementById(`editActionStart_${id}`);
   let elEnd = document.getElementById(`editActionEnd_${id}`);
   if(!elComment || !elCause || !elStatus || !elProgress || !elStart || !elEnd){
-    toast('Le formulaire semble avoir été fermé, réessayez.');
+    toast('Le formulaire semble avoir \u{e9}t\u{e9} ferm\u{e9}, r\u{e9}essayez.');
     return;
   }
 
@@ -1730,16 +1735,16 @@ function saveActionEdits(id){
   if(isNaN(nProg)) nProg = actionPct(a);
   nProg = Math.max(0, Math.min(100, nProg));
 
-  // Règles métier statut <-> avancement
+  // R\u{e8}gles m\u{e9}tier statut <-> avancement
   if(nStat === 'done') nProg = 100;
   if(nProg === 100) nStat = 'done';
 
   // Validations de dates (Action strictement < et dans les bornes du WP)
-  if(!nStart || !nEnd) return alert("Erreur : les dates de début et de fin sont obligatoires.");
-  if(new Date(nStart) >= new Date(nEnd)) return alert("Erreur : la date de début doit être strictement avant la date de fin.");
-  if(new Date(nStart) < new Date(w.start) || new Date(nEnd) > new Date(w.end)) return alert(`Erreur : les dates de l'action doivent être comprises dans celles du WP (du ${fmt(w.start)} au ${fmt(w.end)}).`);
+  if(!nStart || !nEnd) return alert("Erreur : les dates de d\u{e9}but et de fin sont obligatoires.");
+  if(new Date(nStart) >= new Date(nEnd)) return alert("Erreur : la date de d\u{e9}but doit \u{ea}tre strictement avant la date de fin.");
+  if(new Date(nStart) < new Date(w.start) || new Date(nEnd) > new Date(w.end)) return alert(`Erreur : les dates de l'action doivent \u{ea}tre comprises dans celles du WP (du ${fmt(w.start)} au ${fmt(w.end)}).`);
 
-  // Jalons : lecture sans muter le DOM de manière incohérente
+  // Jalons : lecture sans muter le DOM de mani\u{e8}re incoh\u{e9}rente
   let newMs = [];
   document.querySelectorAll('#action-milestones-area .milestone-row').forEach(r => {
     let n = r.querySelector('.ms-name').value.trim();
@@ -1748,14 +1753,14 @@ function saveActionEdits(id){
     if(n && d) newMs.push({name:n, date:d, status:s});
   });
   let invalidMs = newMs.some(m => m.date < nStart || m.date > nEnd);
-  if(invalidMs) return alert(`Erreur : tous les jalons de l'action doivent être compris entre le ${fmt(nStart)} et le ${fmt(nEnd)}.`);
+  if(invalidMs) return alert(`Erreur : tous les jalons de l'action doivent \u{ea}tre compris entre le ${fmt(nStart)} et le ${fmt(nEnd)}.`);
 
-  // Personnes assignées : on ne trie JAMAIS le tableau source (a.people) par effet de bord.
-  // On construit une copie triée pour la comparaison uniquement.
+  // Personnes assign\u{e9}es : on ne trie JAMAIS le tableau source (a.people) par effet de bord.
+  // On construit une copie tri\u{e9}e pour la comparaison uniquement.
   let nPeople = [...document.querySelectorAll(`#dd-edit-people_${id} .edit-assignee:checked`)].map(x => x.value);
-  if(!nPeople.length) return toast('Il faut au moins une personne assignée.');
+  if(!nPeople.length) return toast('Il faut au moins une personne assign\u{e9}e.');
 
-  if(nStat === 'blocked' && !nCause.trim()) return alert('Cause de blocage requise quand le statut est "Bloqué".');
+  if(nStat === 'blocked' && !nCause.trim()) return alert('Cause de blocage requise quand le statut est "Bloqu\u{e9}".');
 
   let oldPeopleSorted = [...a.people].sort();
   let newPeopleSorted = [...nPeople].sort();
@@ -1774,7 +1779,7 @@ function saveActionEdits(id){
 
   let r = "";
   if(nStat === 'blocked'){
-    r = "Mise à jour statut / Cause blocage : " + nCause;
+    r = "Mise \u{e0} jour statut / Cause blocage : " + nCause;
   } else {
     while(!r || !r.trim()){
       r = prompt('Motif de la modification (OBLIGATOIRE) :');
@@ -1782,26 +1787,26 @@ function saveActionEdits(id){
     }
   }
 
-  // Historique lisible avant / après
+  // Historique lisible avant / apr\u{e8}s
   let oldValStr = []; let newValStr = [];
-  if(a.start !== nStart){ oldValStr.push(`Début: ${fmt(a.start)}`); newValStr.push(`Début: ${fmt(nStart)}`); }
+  if(a.start !== nStart){ oldValStr.push(`D\u{e9}but: ${fmt(a.start)}`); newValStr.push(`D\u{e9}but: ${fmt(nStart)}`); }
   if(a.end !== nEnd){ oldValStr.push(`Fin: ${fmt(a.end)}`); newValStr.push(`Fin: ${fmt(nEnd)}`); }
   if(a.status !== nStat){ oldValStr.push(`Statut: ${stTxt(a.status)}`); newValStr.push(`Statut: ${stTxt(nStat)}`); }
   if(actionPct(a) !== nProg){ oldValStr.push(`Avancement: ${actionPct(a)}%`); newValStr.push(`Avancement: ${nProg}%`); }
-  if(a.comment !== nComment){ oldValStr.push(`Commentaire modifié`); newValStr.push(`Commentaire modifié`); }
-  if(a.blockCause !== nCause){ oldValStr.push(`Cause Blocage modifiée`); newValStr.push(`Cause Blocage modifiée`); }
+  if(a.comment !== nComment){ oldValStr.push(`Commentaire modifi\u{e9}`); newValStr.push(`Commentaire modifi\u{e9}`); }
+  if(a.blockCause !== nCause){ oldValStr.push(`Cause Blocage modifi\u{e9}e`); newValStr.push(`Cause Blocage modifi\u{e9}e`); }
   if(peopleChanged){
     let oldPStr = a.people.map(pid => user(pid).name).join(', ') || 'Aucun';
     let newPStr = nPeople.map(pid => user(pid).name).join(', ') || 'Aucun';
-    oldValStr.push(`Équipe: ${oldPStr}`); newValStr.push(`Équipe: ${newPStr}`);
+    oldValStr.push(`\u{c9}quipe: ${oldPStr}`); newValStr.push(`\u{c9}quipe: ${newPStr}`);
   }
   if(msChanged){
-    let oldMsStr = (a.milestones || []).map(m => `${m.name} [${m.status === 'done' ? 'Terminé' : 'À venir'}]`).join(', ') || 'Aucun';
-    let newMsStr = newMs.map(m => `${m.name} [${m.status === 'done' ? 'Terminé' : 'À venir'}]`).join(', ') || 'Aucun';
+    let oldMsStr = (a.milestones || []).map(m => `${m.name} [${m.status === 'done' ? 'Termin\u{e9}' : '\u{c0} venir'}]`).join(', ') || 'Aucun';
+    let newMsStr = newMs.map(m => `${m.name} [${m.status === 'done' ? 'Termin\u{e9}' : '\u{c0} venir'}]`).join(', ') || 'Aucun';
     oldValStr.push(`Jalons: ${oldMsStr}`); newValStr.push(`Jalons: ${newMsStr}`);
   }
 
-  // Application des changements DIRECTEMENT sur l'objet référencé dans db.actions
+  // Application des changements DIRECTEMENT sur l'objet r\u{e9}f\u{e9}renc\u{e9} dans db.actions
   a.comment = nComment;
   a.blockCause = nCause;
   a.status = nStat;
@@ -1811,16 +1816,16 @@ function saveActionEdits(id){
   a.people = nPeople; // nouveau tableau, aucune mutation par effet de bord de l'ancien
   a.milestones = newMs;
   a.history = a.history || [];
-  a.history.push(`${new Date().toLocaleString('fr-FR')} · Modification action · Motif : ${r}`);
+  a.history.push(`${new Date().toLocaleString('fr-FR')} \u{b7} Modification action \u{b7} Motif : ${r}`);
 
-  // Resynchronisation du WP parent (statut / avancement dérivés des actions)
+  // Resynchronisation du WP parent (statut / avancement d\u{e9}riv\u{e9}s des actions)
   syncWpWithActions(a.wp);
 
   addHistory(`Action "${a.title}" (WP: ${w.name}, Projet: ${p.name})`, oldValStr.join(' | '), newValStr.join(' | '), r);
 
-  pushToServer('action', a, {user:'Omar Hamzé', object:`Modif Action "${a.title}"`, old:oldValStr.join(' | '), new:newValStr.join(' | '), reason:r}, null, () => {
-    save('Action mise à jour');
-    // Si la popup WP parent est toujours ouverte derrière, on rafraîchit son tableau + le Gantt
+  pushToServer('action', a, {user:'Omar Hamz\u{e9}', object:`Modif Action "${a.title}"`, old:oldValStr.join(' | '), new:newValStr.join(' | '), reason:r}, null, () => {
+    save('Action mise \u{e0} jour');
+    // Si la popup WP parent est toujours ouverte derri\u{e8}re, on rafra\u{ee}chit son tableau + le Gantt
     if(document.getElementById('modal').classList.contains('show')){
       closeModal();
     }
@@ -1832,8 +1837,8 @@ function saveWp(){
   let p=project(document.getElementById('fwProject').value);let wpCdtIds=getDDValues('dd-fw-cdt');
   let fwName=document.getElementById('fwName').value.trim(); let fwStart=document.getElementById('fwStart').value; let fwEnd=document.getElementById('fwEnd').value;
   if(!fwName||!fwStart||!fwEnd)return toast('Veuillez remplir les champs obligatoires.');
-  if(new Date(fwStart) > new Date(fwEnd)) return alert("Erreur : La date de début ne peut pas être ultérieure à la date de fin.");
-  if(!wpCdtIds.length)return toast('Sélectionnez au moins un CDT.');
+  if(new Date(fwStart) > new Date(fwEnd)) return alert("Erreur : La date de d\u{e9}but ne peut pas \u{ea}tre ult\u{e9}rieure \u{e0} la date de fin.");
+  if(!wpCdtIds.length)return toast('S\u{e9}lectionnez au moins un CDT.');
   
   wpCdtIds.forEach(selectedCdtId => {
     let wId=uid('w');
@@ -1841,33 +1846,33 @@ function saveWp(){
       id:wId,project:p.id,name:fwName,owner:document.getElementById('fwOwner').value,ownerIds:[document.getElementById('fwOwner').value],
       cdtId:selectedCdtId,start:fwStart,end:fwEnd,status:document.getElementById('fwStatus').value,
       comment:document.getElementById('fwComment').value,progress:0,modified:false,archived:false,milestones:[],
-      history:[`${new Date().toLocaleString('fr-FR')} · Création WP pour CDT ${cdtName(selectedCdtId)}`]
+      history:[`${new Date().toLocaleString('fr-FR')} \u{b7} Cr\u{e9}ation WP pour CDT ${cdtName(selectedCdtId)}`]
     });
   });
   
-  addHistory(`WP Multi-CDT "${fwName}"`,'-','Création groupée',`Création sans action automatique.`);
-  closeForm();save('Work Package créé.');
+  addHistory(`WP Multi-CDT "${fwName}"`,'-','Cr\u{e9}ation group\u{e9}e',`Cr\u{e9}ation sans action automatique.`);
+  closeForm();save('Work Package cr\u{e9}\u{e9}.');
 }
 
-/* === PATCH #1 : après création d'une action depuis un WP, on synchronise et on rafraîchit tout === */
+/* === PATCH #1 : apr\u{e8}s cr\u{e9}ation d'une action depuis un WP, on synchronise et on rafra\u{ee}chit tout === */
 function saveAction(){
   let people=[...document.querySelectorAll('.assignee:checked')].map(x=>x.value); let w=wp(document.getElementById('faWp').value); let p=project(w.project);
   let faTitle=document.getElementById('faTitle').value.trim(); let faStart=document.getElementById('faStart').value; let faEnd=document.getElementById('faEnd').value;
   let prog=parseInt(document.getElementById('faProgress').value,10); if(isNaN(prog)) prog=0;
   if(!faTitle||!faStart||!faEnd||!people.length) return toast('Renseigne nom, dates et personnes.');
-  if(new Date(faStart) >= new Date(faEnd)) return alert("Erreur : la date de début doit être strictement avant la date de fin.");
-  if(new Date(faStart)<new Date(w.start)||new Date(faEnd)>new Date(w.end))return alert(`Erreur : l'action doit être comprise entre le ${fmt(w.start)} et le ${fmt(w.end)} (les limites du WP).`);
+  if(new Date(faStart) >= new Date(faEnd)) return alert("Erreur : la date de d\u{e9}but doit \u{ea}tre strictement avant la date de fin.");
+  if(new Date(faStart)<new Date(w.start)||new Date(faEnd)>new Date(w.end))return alert(`Erreur : l'action doit \u{ea}tre comprise entre le ${fmt(w.start)} et le ${fmt(w.end)} (les limites du WP).`);
   
   let st=document.getElementById('faStatus').value; if(st==='done') prog=100; if(prog===100) st='done';
   if(st==='blocked' && !document.getElementById('faBlock').value.trim()) return alert('Cause de blocage requise.');
-  let payload = {id:uid('a'), wp:w.id, title:faTitle, start:faStart, end:faEnd, status:st, people:people, progress:prog, comment:document.getElementById('faComment').value, blockCause:document.getElementById('faBlock').value, milestones:[], archived:false, history:[`${new Date().toLocaleString('fr-FR')} · Création de l'action`]};
+  let payload = {id:uid('a'), wp:w.id, title:faTitle, start:faStart, end:faEnd, status:st, people:people, progress:prog, comment:document.getElementById('faComment').value, blockCause:document.getElementById('faBlock').value, milestones:[], archived:false, history:[`${new Date().toLocaleString('fr-FR')} \u{b7} Cr\u{e9}ation de l'action`]};
   
   db.actions.push(payload);
   syncWpWithActions(w.id);
-  pushToServer('action', payload, {user:'Omar Hamzé', object:`Création Action "${faTitle}"`, old:'-', new:w.name, reason:'Nouveau'}, 'formBody', () => {
+  pushToServer('action', payload, {user:'Omar Hamz\u{e9}', object:`Cr\u{e9}ation Action "${faTitle}"`, old:'-', new:w.name, reason:'Nouveau'}, 'formBody', () => {
     closeForm();
-    save('Action ajoutée');
-    // Si la popup du WP parent est ouverte, on la rafraîchit directement (tableau Actions liées + Gantt)
+    save('Action ajout\u{e9}e');
+    // Si la popup du WP parent est ouverte, on la rafra\u{ee}chit directement (tableau Actions li\u{e9}es + Gantt)
     let modalOpen = document.getElementById('modal').classList.contains('show');
     let modalTitleMatchesWp = document.getElementById('modalTitle')?.textContent === w.name;
     if(modalOpen && modalTitleMatchesWp){
@@ -1899,11 +1904,14 @@ showView('home');
 
 
 
+
+
+
 /**
  * ============================================================
- *  AOS COCKPIT — Backend Google Apps Script (Code.gs)
- *  Base de données : Google Sheets
- *  Onglets attendus (créés automatiquement si absents) :
+ *  AOS COCKPIT \u{2014} Backend Google Apps Script (Code.gs)
+ *  Base de donn\u{e9}es : Google Sheets
+ *  Onglets attendus (cr\u{e9}\u{e9}s automatiquement si absents) :
  *    - Meta        (password, lastUpdate)
  *    - Users       (id, name, role)
  *    - Cdts        (id, name)
@@ -1913,7 +1921,7 @@ showView('home');
  *    - Actions     (id, wp, title, start, end, status, people, progress, comment,
  *                    blockCause, archived, milestones)
  *    - History     (date, user, object, old, new, reason)
- *    - GanttExport (feuille utilisée par l'export "Export Sheet" du Gantt)
+ *    - GanttExport (feuille utilis\u{e9}e par l'export "Export Sheet" du Gantt)
  * ============================================================
  */
 
@@ -1936,13 +1944,13 @@ const SHEET_HEADERS = {
   Wps: ['id', 'project', 'name', 'owner', 'ownerIds', 'cdtId', 'start', 'end', 'status', 'comment', 'progress', 'modified', 'archived', 'milestones'],
   Actions: ['id', 'wp', 'title', 'start', 'end', 'status', 'people', 'progress', 'comment', 'blockCause', 'archived', 'milestones'],
   History: ['date', 'user', 'object', 'old', 'new', 'reason'],
-  GanttExport: ['Type', 'CDT', 'Projet', 'WP', 'Action', 'Responsable(s)', 'Statut', 'Avancement', 'Début', 'Fin', 'Jalons', 'Commentaire', 'Cause de blocage']
+  GanttExport: ['Type', 'CDT', 'Projet', 'WP', 'Action', 'Responsable(s)', 'Statut', 'Avancement', 'D\u{e9}but', 'Fin', 'Jalons', 'Commentaire', 'Cause de blocage']
 };
 
 /**
- * Sert la page HTML de l'outil (si vous déployez le HTML depuis Apps Script
- * plutôt que depuis un hébergement externe). Renommez votre fichier HTML
- * "index" (sans extension .html dans l'éditeur Apps Script) pour que
+ * Sert la page HTML de l'outil (si vous d\u{e9}ployez le HTML depuis Apps Script
+ * plut\u{f4}t que depuis un h\u{e9}bergement externe). Renommez votre fichier HTML
+ * "index" (sans extension .html dans l'\u{e9}diteur Apps Script) pour que
  * HtmlService.createHtmlOutputFromFile('index') fonctionne.
  */
 function doGet() {
@@ -2017,7 +2025,7 @@ function writeObjectsToSheet_(sheetName, objects) {
 
 function parseJsonField_(val, fallback) {
   if (val === '' || val === null || val === undefined) return fallback;
-  if (typeof val === 'object') return val; // déjà un objet (rare avec Sheets)
+  if (typeof val === 'object') return val; // d\u{e9}j\u{e0} un objet (rare avec Sheets)
   try { return JSON.parse(val); } catch (e) { return fallback; }
 }
 
@@ -2026,7 +2034,7 @@ function toBool_(v) {
 }
 
 /* ============================================================
- *  CHARGEMENT DES DONNÉES (appelé par google.script.run.getInitialData())
+ *  CHARGEMENT DES DONN\u{c9}ES (appel\u{e9} par google.script.run.getInitialData())
  * ============================================================ */
 
 function getInitialData() {
@@ -2097,7 +2105,7 @@ function getInitialData() {
       old: String(h.old || ''),
       new: String(h.new || ''),
       reason: String(h.reason || '')
-    })).reverse(); // les plus récents en premier, cohérent avec addHistory() côté client (unshift)
+    })).reverse(); // les plus r\u{e9}cents en premier, coh\u{e9}rent avec addHistory() c\u{f4}t\u{e9} client (unshift)
 
     const data = {
       password: meta.password || 'aos',
@@ -2121,20 +2129,20 @@ function formatDateField_(v) {
   if (v instanceof Date) {
     return Utilities.formatDate(v, Session.getScriptTimeZone() || 'Europe/Paris', 'yyyy-MM-dd');
   }
-  // déjà au format yyyy-mm-dd (string)
+  // d\u{e9}j\u{e0} au format yyyy-mm-dd (string)
   return String(v).slice(0, 10);
 }
 
 /* ============================================================
- *  ÉCRITURE / MISE À JOUR (appelé par google.script.run.updateServerData())
- *  type ∈ { project, project_archive, user, user_delete, cdt, cdt_delete,
+ *  \u{c9}CRITURE / MISE \u{c0} JOUR (appel\u{e9} par google.script.run.updateServerData())
+ *  type \u{2208} { project, project_archive, user, user_delete, cdt, cdt_delete,
  *           wp, wp_archive, action, action_archive }
  * ============================================================ */
 
 function updateServerData(type, payload, historyPayload) {
   const lock = LockService.getScriptLock();
   try {
-    lock.waitLock(20000); // évite les écritures concurrentes qui casseraient les données
+    lock.waitLock(20000); // \u{e9}vite les \u{e9}critures concurrentes qui casseraient les donn\u{e9}es
     ensureAllSheets_();
 
     switch (type) {
@@ -2169,7 +2177,7 @@ function updateServerData(type, payload, historyPayload) {
         patchRow_(SHEET_NAMES.ACTIONS, payload.id, { archived: true });
         break;
       default:
-        return { success: false, error: 'Type d\'opération inconnu : ' + type };
+        return { success: false, error: 'Type d\'op\u{e9}ration inconnu : ' + type };
     }
 
     if (historyPayload) {
@@ -2248,11 +2256,11 @@ function appendHistory_(h) {
   const sheet = getOrCreateSheet_(SHEET_NAMES.HISTORY);
   sheet.appendRow([
     new Date().toLocaleString('fr-FR'),
-    h.user || 'Omar Hamzé',
+    h.user || 'Omar Hamz\u{e9}',
     h.object || '',
     h.old || '',
     h.new || '',
-    h.reason || 'Mise à jour'
+    h.reason || 'Mise \u{e0} jour'
   ]);
 }
 
@@ -2269,36 +2277,36 @@ function setMeta_(key, value) {
 }
 
 /* ============================================================
- *  EXPORT DU GANTT FILTRÉ VERS UNE FEUILLE DÉDIÉE
- *  (appelé par google.script.run.exportGanttToSheet(rows))
+ *  EXPORT DU GANTT FILTR\u{c9} VERS UNE FEUILLE D\u{c9}DI\u{c9}E
+ *  (appel\u{e9} par google.script.run.exportGanttToSheet(rows))
  * ============================================================ */
 
 /**
  * Construit un export EXPLOITABLE dans l'onglet GanttExport : un tableau
- * plat, trié logiquement (Projet > WP > Date de début), avec une colonne
- * Durée calculée. L'objectif est de pouvoir sélectionner/copier directement
- * ces lignes pour les coller dans un format de roadmap imposé (ex: template
- * du central), sans avoir à ressaisir les données à la main.
+ * plat, tri\u{e9} logiquement (Projet > WP > Date de d\u{e9}but), avec une colonne
+ * Dur\u{e9}e calcul\u{e9}e. L'objectif est de pouvoir s\u{e9}lectionner/copier directement
+ * ces lignes pour les coller dans un format de roadmap impos\u{e9} (ex: template
+ * du central), sans avoir \u{e0} ressaisir les donn\u{e9}es \u{e0} la main.
  *
- * NB technique : on écrit les données en 2 appels groupés (setValues sur la
- * totalité du tableau) plutôt que cellule par cellule, ce qui évite les
- * timeouts d'exécution qui faisaient échouer l'ancienne version "grille
- * colorée" (celle-ci faisait un appel API par semaine × par ligne).
+ * NB technique : on \u{e9}crit les donn\u{e9}es en 2 appels group\u{e9}s (setValues sur la
+ * totalit\u{e9} du tableau) plut\u{f4}t que cellule par cellule, ce qui \u{e9}vite les
+ * timeouts d'ex\u{e9}cution qui faisaient \u{e9}chouer l'ancienne version "grille
+ * color\u{e9}e" (celle-ci faisait un appel API par semaine \u{d7} par ligne).
  */
 function exportGanttToSheet(rows) {
   try {
     if (!rows || !rows.length) {
-      return { success: false, error: 'Aucune ligne à exporter.' };
+      return { success: false, error: 'Aucune ligne \u{e0} exporter.' };
     }
 
     const ss = getSpreadsheet_();
     let sheet = ss.getSheetByName(SHEET_NAMES.GANTT_EXPORT);
-    if (sheet) ss.deleteSheet(sheet); // on repart propre à chaque export
+    if (sheet) ss.deleteSheet(sheet); // on repart propre \u{e0} chaque export
     sheet = ss.insertSheet(SHEET_NAMES.GANTT_EXPORT);
 
-    const headers = ['Type', 'CDT', 'Projet', 'WP', 'Action', 'Responsable(s)', 'Statut', 'Avancement', 'Début', 'Fin', 'Durée (j)', 'Jalons', 'Commentaire', 'Cause de blocage'];
+    const headers = ['Type', 'CDT', 'Projet', 'WP', 'Action', 'Responsable(s)', 'Statut', 'Avancement', 'D\u{e9}but', 'Fin', 'Dur\u{e9}e (j)', 'Jalons', 'Commentaire', 'Cause de blocage'];
 
-    // Tri Projet > WP > Date de début : ordre naturel pour relire/copier une roadmap
+    // Tri Projet > WP > Date de d\u{e9}but : ordre naturel pour relire/copier une roadmap
     const sorted = rows.slice().sort((a, b) => {
       return (a.project || '').localeCompare(b.project || '')
         || (a.wp || '').localeCompare(b.wp || '')
@@ -2347,14 +2355,21 @@ function parseIsoDate_(s) {
 }
 
 /* ============================================================
- *  INITIALISATION MANUELLE (à exécuter une fois depuis l'éditeur
- *  Apps Script si le classeur est totalement vide, pour créer
- *  toutes les feuilles avec leurs en-têtes et un mot de passe par défaut)
+ *  INITIALISATION MANUELLE (\u{e0} ex\u{e9}cuter une fois depuis l'\u{e9}diteur
+ *  Apps Script si le classeur est totalement vide, pour cr\u{e9}er
+ *  toutes les feuilles avec leurs en-t\u{ea}tes et un mot de passe par d\u{e9}faut)
  * ============================================================ */
 function initializeSpreadsheet() {
   ensureAllSheets_();
-  SpreadsheetApp.getUi().alert('Feuilles initialisées avec succès.');
+  SpreadsheetApp.getUi().alert('Feuilles initialis\u{e9}es avec succ\u{e8}s.');
 }
+
+
+
+
+
+
+
 
 
 
